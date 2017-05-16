@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home_black_24dp"
+        title="Home" />
+
+    <tab
+        id="@+id/tab_discover"
+        icon="@drawable/ic_theaters_black_24dp"
+        title="Discover" />
+
+    <tab
+        id="@+id/tab_bookmarks"
+        icon="@drawable/ic_bookmark_black_24dp"
+        title="Bookmarks" />
+
+    <tab
+        id="@+id/tab_search"
+        icon="@drawable/ic_search_black_24dp"
+        title="Search" />
+</tabs>

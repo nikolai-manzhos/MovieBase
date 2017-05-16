@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.defaultapps.moviebase"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildTypes.each {
+        it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile "com.android.support:appcompat-v7:$rootProject.support"
+    compile "com.android.support:cardview-v7:$rootProject.support"
+    compile "com.android.support:customtabs:$rootProject.support"
+    compile "com.roughike:bottom-bar:$rootProject.bottomBar"
+    //ButterKnife
+    compile "com.jakewharton:butterknife:$rootProject.butterKnife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnife"
+    //Dagger 2
+    compile "com.google.dagger:dagger:$rootProject.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger"
+    //RxJava 2
+    compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid"
+    compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjava"
+    //Retrofit 2
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit"
+    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
+    //Firebase
+    compile "com.google.firebase:firebase-core:$rootProject.firebase"
+    compile "com.google.firebase:firebase-auth:$rootProject.firebase"
+    compile "com.firebaseui:firebase-ui-auth:$rootProject.firebaseUi"
+    compile "com.google.firebase:firebase-database:$rootProject.firebase"
+    //LeakCanary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanary"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanary"
+    //Glide
+    compile "com.squareup.picasso:picasso:$rootProject.picasso"
+
+
+
+    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
+apply plugin: 'com.google.gms.google-services'

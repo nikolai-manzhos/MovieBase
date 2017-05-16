@@ -1,0 +1,37 @@
+package com.defaultapps.moviebase.ui.base;
+
+import io.reactivex.disposables.CompositeDisposable;
+
+/**
+ * Created on 5/14/2017.
+ */
+
+public class BasePresenter<V extends BaseView> implements Presenter<V> {
+
+    private V view;
+    private CompositeDisposable compositeDisposable;
+
+    public BasePresenter(CompositeDisposable compositeDisposable) {
+        this.compositeDisposable = compositeDisposable;
+    }
+
+    @Override
+    public void onAttach(V view) {
+        this.view = view;
+    }
+
+    @Override
+    public void onDetach() {
+        compositeDisposable.clear();
+        view = null;
+    }
+
+    protected V getView() {
+        return view;
+    }
+
+    protected CompositeDisposable getCompositeDisposable() {
+        return compositeDisposable;
+    }
+
+}
