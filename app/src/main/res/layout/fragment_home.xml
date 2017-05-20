@@ -21,6 +21,13 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+            <TextView
+                android:text="@string/home_toolbar"
+                style="@style/ToolbarText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/profileButton"
                 android:text="{md-person 24dp}"

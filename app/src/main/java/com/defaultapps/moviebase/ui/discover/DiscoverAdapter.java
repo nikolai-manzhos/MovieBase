@@ -12,6 +12,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -52,7 +53,12 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
     public void onBindViewHolder(DiscoverViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
         holder.genreName.setText(genres.getGenres().get(adapterPosition).getName());
-        holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.action));
+        Picasso
+                .with(context)
+                .load(R.drawable.action)
+                .fit()
+                .centerCrop()
+                .into(holder.image);
     }
 
     @Override

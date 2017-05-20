@@ -104,7 +104,6 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private void configureNowPlayingVH(MainViewHolder vh, int position) {
         vh.rating.setText(String.valueOf(nowPlaying.getResults().get(position - 1).getVoteAverage()));
         vh.title.setText(nowPlaying.getResults().get(position - 1).getTitle());
-        vh.nowPlayingContainer.setOnClickListener(view ->  {});
         Picasso
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w1000/" + nowPlaying.getResults().get(position -1).getBackdropPath())
