@@ -34,5 +34,6 @@ ext {
     leakcanary = '1.5.1'
     okhttpVersion = '3.6.0'
     picasso = '2.5.2'
+    iconify = '2.2.2'
 
 }

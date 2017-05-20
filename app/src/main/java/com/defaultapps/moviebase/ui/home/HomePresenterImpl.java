@@ -1,8 +1,6 @@
 package com.defaultapps.moviebase.ui.home;
 
-import android.util.Log;
-
-import com.defaultapps.moviebase.data.repository.HomeRepositoryImpl;
+import com.defaultapps.moviebase.data.repository.HomeUseCaseImpl;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
@@ -10,37 +8,32 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-/**
- * Created on 5/14/2017.
- */
 @PerActivity
-public class HomePresenterImpl extends BasePresenter<HomeView> implements HomePresenter {
+public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> implements HomeContract.HomePresenter {
 
-    private HomeRepositoryImpl homeRepository;
+    private HomeUseCaseImpl homeRepository;
 
     @Inject
     public HomePresenterImpl(CompositeDisposable compositeDisposable,
-                             HomeRepositoryImpl homeRepository) {
+                             HomeUseCaseImpl homeRepository) {
         super(compositeDisposable);
         this.homeRepository = homeRepository;
     }
 
     @Override
-    public void requestMoviesData() {
+    public void requestMoviesData(boolean force) {
         if (getView() != null) {
             getView().showLoading();
         }
         getCompositeDisposable().add(
-            homeRepository.requestHomeData()
+            homeRepository.requestHomeData(force)
                 .subscribe(
                         moviesResponses -> {
                             getView().hideLoading();
                             getView().receiveResults(moviesResponses);
-                            Log.d("PRESENTER", String.valueOf(moviesResponses.get(0).getResults().size()));
                         },
                         err -> {
                             getView().hideLoading();
-                            Log.d("PRESENTER", err.toString());
                         }
                 )
         );

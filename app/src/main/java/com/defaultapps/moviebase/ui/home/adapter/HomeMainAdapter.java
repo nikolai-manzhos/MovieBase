@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.ui.home;
+package com.defaultapps.moviebase.ui.home.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.home.vh.MainViewHolder;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingViewHolder;
 import com.squareup.picasso.Picasso;
@@ -96,14 +97,17 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private void configureUpcomingVH(UpcomingViewHolder vh, int position) {
         vh.upcomingList.setAdapter(upcomingAdapter);
         vh.upcomingList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        vh.upcomingList.setNestedScrollingEnabled(false);
         upcomingAdapter.setData(upcoming);
     }
 
     private void configureNowPlayingVH(MainViewHolder vh, int position) {
         vh.rating.setText(String.valueOf(nowPlaying.getResults().get(position - 1).getVoteAverage()));
+        vh.title.setText(nowPlaying.getResults().get(position - 1).getTitle());
+        vh.nowPlayingContainer.setOnClickListener(view ->  {});
         Picasso
                 .with(context)
-                .load("https://image.tmdb.org/t/p/w500/" + nowPlaying.getResults().get(position -1).getBackdropPath())
+                .load("https://image.tmdb.org/t/p/w1000/" + nowPlaying.getResults().get(position -1).getBackdropPath())
                 .fit()
                 .centerCrop()
                 .into(vh.backdrop);

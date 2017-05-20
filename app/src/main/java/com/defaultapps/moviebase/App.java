@@ -5,10 +5,8 @@ import android.app.Application;
 import com.defaultapps.moviebase.di.component.ApplicationComponent;
 import com.defaultapps.moviebase.di.component.DaggerApplicationComponent;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
-
-/**
- * Created on 5/13/2017.
- */
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.MaterialModule;
 
 public class App extends Application {
 
@@ -18,6 +16,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         initDaggerAppComponent();
+        initIconify();
     }
 
     public ApplicationComponent getAppComponent() {
@@ -28,5 +27,10 @@ public class App extends Application {
         appComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
+    }
+
+    private void initIconify() {
+        Iconify
+                .with(new MaterialModule());
     }
 }

@@ -10,6 +10,6 @@ import io.reactivex.Observable;
  * Created on 5/14/2017.
  */
 
-public interface HomeRepository {
-    Observable<List<MoviesResponse>> requestHomeData();
+public interface HomeUseCase {
+    Observable<List<MoviesResponse>> requestHomeData(boolean force);
 }

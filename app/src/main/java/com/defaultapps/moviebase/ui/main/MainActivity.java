@@ -9,14 +9,17 @@ import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
+import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.joanzapata.iconify.widget.IconButton;
 import com.roughike.bottombar.BottomBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
@@ -100,10 +103,13 @@ public class MainActivity extends BaseActivity {
         switch (tabId) {
             case R.id.tab_home:
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.contentFrame, new HomeViewImpl())
+                        .replace(R.id.contentFrame, new HomeViewImpl())
                         .commit();
                 break;
             case R.id.tab_discover:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.contentFrame, new DiscoverViewImpl())
+                        .commit();
                 break;
             case R.id.tab_bookmarks:
                 break;

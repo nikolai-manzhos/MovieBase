@@ -1,5 +1,17 @@
 package com.defaultapps.moviebase.data.local;
 
+import android.content.Context;
+
+import com.defaultapps.moviebase.data.models.responses.genres.Genre;
+import com.defaultapps.moviebase.data.models.responses.genres.Genres;
+import com.defaultapps.moviebase.di.ApplicationContext;
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.inject.Inject;
 
 /**
@@ -8,8 +20,22 @@ import javax.inject.Inject;
 
 public class LocalService {
 
-    @Inject
-    public LocalService() {
+    private Context context; // Application context
 
+    @Inject
+    public LocalService(@ApplicationContext Context context) {
+        this.context = context;
+    }
+
+    public Genres readGenresFromResources() throws IOException{
+        String json;
+        InputStream is = context.getAssets().open("genres.json");
+        int size = is.available();
+        byte[] buffer = new byte[size];
+        is.read(buffer);
+        is.close();
+        json = new String(buffer, "UTF-8");
+
+        return new Gson().fromJson(json, Genres.class);
     }
 }

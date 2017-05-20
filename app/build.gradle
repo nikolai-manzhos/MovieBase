@@ -62,8 +62,8 @@ dependencies {
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanary"
     //Glide
     compile "com.squareup.picasso:picasso:$rootProject.picasso"
-
-
+    //Iconify
+    compile "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify"
 
     testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

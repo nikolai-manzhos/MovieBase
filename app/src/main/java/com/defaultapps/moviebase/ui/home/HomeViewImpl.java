@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,9 @@ import android.view.ViewGroup;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.main.MainActivity;
+import com.firebase.ui.auth.AuthUI;
 
 import java.util.List;
 
@@ -21,13 +22,14 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
  * Created on 5/14/2017.
  */
 
-public class HomeViewImpl extends BaseFragment implements HomeView, SwipeRefreshLayout.OnRefreshListener {
+public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.homeRecycler)
     RecyclerView homeRecycler;
@@ -58,7 +60,7 @@ public class HomeViewImpl extends BaseFragment implements HomeView, SwipeRefresh
         presenter.onAttach(this);
         initRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(this);
-        presenter.requestMoviesData();
+        presenter.requestMoviesData(false);
     }
 
     @Override
@@ -70,14 +72,12 @@ public class HomeViewImpl extends BaseFragment implements HomeView, SwipeRefresh
 
     @Override
     public void onRefresh() {
-        Log.d("VIEW", "REFRESH");
-        presenter.requestMoviesData();
+        presenter.requestMoviesData(true);
     }
 
     @Override
     public void receiveResults(List<MoviesResponse> results) {
         adapter.setData(results);
-        Log.d("VIEW", results.get(0).getResults().get(0).getOriginalTitle());
     }
 
     @Override
@@ -88,6 +88,11 @@ public class HomeViewImpl extends BaseFragment implements HomeView, SwipeRefresh
     @Override
     public void showLoading() {
         swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @OnClick(R.id.profileButton)
+    void onProfileClick() {
+        AuthUI.getInstance().signOut(getActivity());
     }
 
     private void initRecyclerView() {

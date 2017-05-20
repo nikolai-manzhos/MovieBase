@@ -18,7 +18,7 @@ import io.reactivex.processors.ReplayProcessor;
 
 
 @Singleton
-public class HomeRepositoryImpl implements HomeRepository {
+public class HomeUseCaseImpl implements HomeUseCase {
 
     private NetworkService networkService;
     private LocalService localService;
@@ -31,16 +31,20 @@ public class HomeRepositoryImpl implements HomeRepository {
     private final String API_KEY = BuildConfig.MDB_API_KEY;
 
     @Inject
-    public HomeRepositoryImpl(NetworkService networkService,
-                              LocalService localService,
-                              SchedulerProvider schedulerProvider) {
+    public HomeUseCaseImpl(NetworkService networkService,
+                           LocalService localService,
+                           SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
         this.localService = localService;
         this.schedulerProvider = schedulerProvider;
     }
 
     @Override
-    public Observable<List<MoviesResponse>> requestHomeData() {
+    public Observable<List<MoviesResponse>> requestHomeData(boolean force) {
+        if (force) {
+            memoryCache = null;
+            moviesDisposable.dispose();
+        }
         if (moviesDisposable == null || moviesDisposable.isDisposed()) {
             moviesReplayProcessor = ReplayProcessor.create();
 
