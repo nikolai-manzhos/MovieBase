@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.ui.home;
 
-import com.defaultapps.moviebase.data.repository.HomeUseCaseImpl;
+import com.defaultapps.moviebase.data.interactor.HomeUseCaseImpl;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 

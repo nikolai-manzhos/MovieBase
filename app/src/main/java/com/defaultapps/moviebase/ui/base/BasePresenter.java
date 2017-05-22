@@ -2,9 +2,6 @@ package com.defaultapps.moviebase.ui.base;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-/**
- * Created on 5/14/2017.
- */
 
 public class BasePresenter<V extends BaseView> implements Presenter<V> {
 

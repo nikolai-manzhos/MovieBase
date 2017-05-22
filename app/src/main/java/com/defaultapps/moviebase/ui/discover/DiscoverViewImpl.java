@@ -12,6 +12,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.main.MainActivity;
+import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 
 import javax.inject.Inject;
 

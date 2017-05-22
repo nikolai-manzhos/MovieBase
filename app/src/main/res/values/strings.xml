@@ -9,4 +9,10 @@
 
     <!--Discover strings-->
     <string name="discover_toolbar">Discover</string>
+
+    <!--Bookmarks strings-->
+    <string name="bookmarks_toolbar">Bookmarks</string>
+
+    <!--Search strings-->
+    <string name="search_toolbar">Search</string>
 </resources>

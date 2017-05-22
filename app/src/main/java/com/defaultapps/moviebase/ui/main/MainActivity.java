@@ -9,8 +9,10 @@ import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
+import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
+import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -94,9 +96,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initBottomBar() {
-        bottomBar.setOnTabSelectListener(tabId -> {
-            selectItem(tabId);
-        }, false);
+        bottomBar.setOnTabSelectListener(this::selectItem, false);
     }
 
     private void selectItem(int tabId) {
@@ -112,8 +112,14 @@ public class MainActivity extends BaseActivity {
                         .commit();
                 break;
             case R.id.tab_bookmarks:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.contentFrame, new BookmarksViewImpl())
+                        .commit();
                 break;
             case R.id.tab_search:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.contentFrame, new SearchViewImpl())
+                        .commit();
                 break;
             default:
                 break;

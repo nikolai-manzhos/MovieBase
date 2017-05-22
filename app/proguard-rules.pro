@@ -26,7 +26,7 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 
--keepclassmembers class com.yourcompany.data.models.** {
+-keepclassmembers class com.defaultapps.moviebase.data.models.** {
   *;
 }
 

@@ -9,9 +9,6 @@ import com.defaultapps.moviebase.di.component.ActivityComponent;
 import com.defaultapps.moviebase.di.component.DaggerActivityComponent;
 import com.defaultapps.moviebase.di.module.ActivityModule;
 
-/**
- * Created on 5/14/2017.
- */
 
 public class BaseActivity extends AppCompatActivity {
     private ActivityComponent activityComponent;

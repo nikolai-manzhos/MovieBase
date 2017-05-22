@@ -1,8 +1,8 @@
 package com.defaultapps.moviebase.di.component;
 
 import com.defaultapps.moviebase.App;
-import com.defaultapps.moviebase.data.repository.DiscoverUseCaseImpl;
-import com.defaultapps.moviebase.data.repository.HomeUseCaseImpl;
+import com.defaultapps.moviebase.data.interactor.DiscoverUseCaseImpl;
+import com.defaultapps.moviebase.data.interactor.HomeUseCaseImpl;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
 
 import javax.inject.Singleton;

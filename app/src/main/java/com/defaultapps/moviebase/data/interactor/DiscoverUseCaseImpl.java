@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.data.repository;
+package com.defaultapps.moviebase.data.interactor;
 
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.local.LocalService;
@@ -10,9 +10,6 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.processors.ReplayProcessor;
 
-/**
- * Created on 5/20/2017.
- */
 
 public class DiscoverUseCaseImpl implements DiscoverUseCase {
     private LocalService localService;

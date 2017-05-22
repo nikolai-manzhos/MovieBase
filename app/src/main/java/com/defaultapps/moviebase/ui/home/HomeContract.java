@@ -8,7 +8,6 @@ import com.defaultapps.moviebase.ui.base.Presenter;
 import java.util.List;
 
 
-
 public interface HomeContract {
 
     interface HomePresenter extends Presenter<HomeView> {

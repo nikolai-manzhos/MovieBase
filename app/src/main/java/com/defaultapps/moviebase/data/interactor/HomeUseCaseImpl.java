@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.data.repository;
+package com.defaultapps.moviebase.data.interactor;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;

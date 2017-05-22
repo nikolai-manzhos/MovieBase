@@ -14,9 +14,6 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
-/**
- * Created on 5/14/2017.
- */
 
 public class LocalService {
 
