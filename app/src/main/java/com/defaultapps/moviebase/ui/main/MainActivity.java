@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements DiscoverContract.DiscoverCallback {
+public class MainActivity extends BaseActivity {
 
     private static final int RC_SIGN_IN = 1;
 
@@ -97,14 +97,6 @@ public class MainActivity extends BaseActivity implements DiscoverContract.Disco
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
         bottomBar.removeOnTabSelectListener();
-    }
-
-    @Override
-    public void genreSelected(String genreId) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.contentFrame, new GenreViewImpl())
-                .addToBackStack(null)
-                .commit();
     }
 
     private void initBottomBar() {

@@ -14,8 +14,4 @@ public interface DiscoverContract {
     interface DiscoverView extends BaseView {
         void showData(Genres genres);
     }
-
-    interface DiscoverCallback {
-        void genreSelected(String genreId);
-    }
 }

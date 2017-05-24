@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.data.interactor;
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.local.LocalService;
+import com.defaultapps.moviebase.data.models.responses.genres.Genre;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
@@ -42,7 +43,7 @@ public class HomeUseCaseImpl implements HomeUseCase {
 
     @Override
     public Observable<List<MoviesResponse>> requestHomeData(boolean force) {
-        if (force) {
+        if (force && moviesDisposable != null) {
             memoryCache = null;
             moviesDisposable.dispose();
         }

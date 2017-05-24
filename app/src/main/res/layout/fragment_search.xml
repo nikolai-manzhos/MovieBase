@@ -16,9 +16,8 @@
             android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <LinearLayout
                 android:focusable="true"

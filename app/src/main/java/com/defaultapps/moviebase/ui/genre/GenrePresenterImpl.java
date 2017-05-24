@@ -22,13 +22,25 @@ public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> i
 
     @Override
     public void requestMovies(String genreId, boolean force) {
+        if (getView() != null) {
+            getView().showLoading();
+            getView().hideError();
+        }
         getCompositeDisposable().add(
                 genreUseCase.requestHomeData(genreId, force)
                 .subscribe(
                         moviesResponse -> {
-                            if (getView() != null) getView().showMovies(moviesResponse);
+                            if (getView() != null) {
+                                getView().hideLoading();
+                                getView().hideError();
+                                getView().showMovies(moviesResponse);
+                            }
                         },
                         err -> {
+                            if (getView() != null) {
+                                getView().hideLoading();
+                                getView().showError();
+                            }
                         }
                 )
         );

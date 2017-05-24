@@ -5,7 +5,7 @@ import com.defaultapps.moviebase.ui.base.BaseView;
 import com.defaultapps.moviebase.ui.base.Presenter;
 
 
-public class GenreContract {
+class GenreContract {
 
     interface GenrePresenter extends Presenter<GenreView> {
         void requestMovies(String genreId, boolean force);
@@ -13,5 +13,7 @@ public class GenreContract {
 
     interface GenreView extends BaseView {
         void showMovies(MoviesResponse movies);
+        void showError();
+        void hideError();
     }
 }

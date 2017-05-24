@@ -29,12 +29,12 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
 
     private OnItemClickListener listener;
 
-    public interface OnItemClickListener {
+    interface OnItemClickListener {
         void onItemClick(String genreId, String genreName);
     }
 
     @Inject
-    public DiscoverAdapter(@ActivityContext Context context) {
+    DiscoverAdapter(@ActivityContext Context context) {
         this.context = context;
     }
 
@@ -87,7 +87,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
         notifyDataSetChanged();
     }
 
-    public void setListener(OnItemClickListener listener) {
+    void setListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 }

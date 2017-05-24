@@ -2,12 +2,9 @@ package com.defaultapps.moviebase.ui.genre;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.StringBuilderPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,8 +13,6 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import javax.inject.Inject;
 
@@ -31,7 +26,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
     private MoviesResponse items;
 
     @Inject
-    public GenreAdapter(@ActivityContext Context context) {
+    GenreAdapter(@ActivityContext Context context) {
         this.context = context;
     }
 
@@ -63,7 +58,6 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + posterPath)
                 .fit()
-                .centerCrop()
                 .into(holder.poster);
     }
 

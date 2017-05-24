@@ -8,14 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.joanzapata.iconify.widget.IconButton;
 
 import javax.inject.Inject;
 
@@ -33,6 +33,15 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @BindView(R.id.genreRecycler)
     RecyclerView genreRecycler;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.errorTextView)
+    TextView errorText;
+
+    @BindView(R.id.errorButton)
+    Button errorButton;
+
     @Inject
     GenrePresenterImpl presenter;
 
@@ -40,6 +49,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     GenreAdapter adapter;
 
     private Unbinder unbinder;
+    private String genreId;
 
     @Nullable
     @Override
@@ -55,11 +65,12 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         presenter.onAttach(this);
         initRecyclerView();
         Bundle bundle = getArguments();
+        genreId = bundle.getString(AppConstants.GENRE_ID);
         toolbarText.setText(bundle.getString(AppConstants.GENRE_NAME));
         if (savedInstanceState == null) {
-            presenter.requestMovies(bundle.getString(AppConstants.GENRE_ID), true);
+            presenter.requestMovies(genreId, true);
         } else {
-            presenter.requestMovies(bundle.getString(AppConstants.GENRE_ID), false);
+            presenter.requestMovies(genreId, false);
         }
     }
 
@@ -75,6 +86,11 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         getActivity().onBackPressed();
     }
 
+    @OnClick(R.id.errorButton)
+    void onErrorClick() {
+        presenter.requestMovies(genreId, true);
+    }
+
     @Override
     public void showMovies(MoviesResponse movies) {
         adapter.setData(movies);
@@ -83,12 +99,24 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void showError() {
+        errorText.setVisibility(View.VISIBLE);
+        errorButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideError() {
+        errorText.setVisibility(View.GONE);
+        errorButton.setVisibility(View.GONE);
     }
 
     private void initRecyclerView() {

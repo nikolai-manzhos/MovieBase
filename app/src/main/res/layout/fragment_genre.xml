@@ -15,8 +15,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
             <com.joanzapata.iconify.widget.IconButton
                 android:id="@+id/backButton"
                 android:text="{md-arrow-back 24dp}"
@@ -37,7 +36,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -46,6 +45,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal" />
-    </LinearLayout>
+
+        <include layout="@layout/view_progress" />
+
+        <include layout="@layout/view_error" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

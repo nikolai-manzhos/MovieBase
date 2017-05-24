@@ -37,17 +37,6 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
     DiscoverPresenterImpl presenter;
 
     private Unbinder unbinder;
-    private MainActivity activity;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof DiscoverContract.DiscoverCallback) {
-            this.activity = ((MainActivity) context);
-        } else {
-            throw new IllegalStateException("Activity must implement DiscoverCallback!");
-        }
-    }
 
     @Nullable
     @Override
@@ -73,13 +62,7 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
         unbinder.unbind();
         presenter.onDetach();
     }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        activity = null;
-    }
-
+    
     @Override
     public void onItemClick(String genreId, String genreName) {
         Intent intent = new Intent(getActivity(), GenreActivity.class);

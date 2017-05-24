@@ -42,7 +42,6 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300/" + items.getResults().get(adapterPosition).getPosterPath())
                 .fit()
-                .centerCrop()
                 .into(holder.upcomingImage);
     }
 

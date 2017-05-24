@@ -57,7 +57,11 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
         presenter.onAttach(this);
         initRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(this);
-        presenter.requestMoviesData(false);
+        if (savedInstanceState == null) {
+            presenter.requestMoviesData(true);
+        } else {
+            presenter.requestMoviesData(false);
+        }
     }
 
     @Override
