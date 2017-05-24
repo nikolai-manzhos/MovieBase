@@ -9,13 +9,13 @@ import javax.inject.Inject;
 import io.reactivex.disposables.CompositeDisposable;
 
 @PerActivity
-public class DiscoverPresenter extends BasePresenter<DiscoverContract.DiscoverView> implements DiscoverContract.DiscoverPresenter {
+public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.DiscoverView> implements DiscoverContract.DiscoverPresenter {
 
     private DiscoverUseCaseImpl discoverUseCase;
 
     @Inject
-    public DiscoverPresenter(CompositeDisposable compositeDisposable,
-                             DiscoverUseCaseImpl discoverUseCase) {
+    public DiscoverPresenterImpl(CompositeDisposable compositeDisposable,
+                                 DiscoverUseCaseImpl discoverUseCase) {
         super(compositeDisposable);
         this.discoverUseCase = discoverUseCase;
     }

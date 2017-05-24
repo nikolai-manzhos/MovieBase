@@ -27,7 +27,24 @@ public interface Api {
             @Query("language") String lang,
             @Query("page") int page);
 
-    @GET("/search/movie")
+    @GET("discover/movie")
+    Observable<MoviesResponse> discoverMovies(
+            @Query("api_key") String apiKey,
+            @Query("language") String lang,
+            @Query("sort_by") String sort,
+            @Query("include_adult") Boolean adult,
+            @Query("page") int page,
+            @Query("with_genres") String genres);
+
+    @GET("discover/movie")
+    Observable<MoviesResponse> discoverMovies(
+            @Query("api_key") String apiKey,
+            @Query("language") String lang,
+            @Query("include_adult") Boolean adult,
+            @Query("page") int page,
+            @Query("with_genres") String genres);
+
+    @GET("search/movie")
     Observable<MoviesResponse> getSearchQuery(
             @Query("api_key") String key,
             @Query("language") String language,

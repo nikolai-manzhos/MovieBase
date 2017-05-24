@@ -34,6 +34,8 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private final int UPCOMING = 0, NOW_PLAYING = 1;
 
+    
+
     @Inject
     public HomeMainAdapter(@ActivityContext Context context,
                            UpcomingAdapter upcomingAdapter) {

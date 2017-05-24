@@ -1,5 +1,7 @@
 package com.defaultapps.moviebase.ui.discover;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,8 +13,10 @@ import android.view.ViewGroup;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.genre.GenreActivity;
+import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
 import com.defaultapps.moviebase.ui.main.MainActivity;
-import com.defaultapps.moviebase.ui.search.SearchViewImpl;
+import com.defaultapps.moviebase.utils.AppConstants;
 
 import javax.inject.Inject;
 
@@ -21,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.DiscoverView {
+public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.DiscoverView, DiscoverAdapter.OnItemClickListener {
 
     @BindView(R.id.discoveryRecycler)
     RecyclerView recyclerView;
@@ -30,9 +34,20 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
     DiscoverAdapter adapter;
 
     @Inject
-    DiscoverPresenter presenter;
+    DiscoverPresenterImpl presenter;
 
     private Unbinder unbinder;
+    private MainActivity activity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof DiscoverContract.DiscoverCallback) {
+            this.activity = ((MainActivity) context);
+        } else {
+            throw new IllegalStateException("Activity must implement DiscoverCallback!");
+        }
+    }
 
     @Nullable
     @Override
@@ -46,6 +61,7 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         ((MainActivity) getActivity()).getActivityComponent().inject(this);
+        adapter.setListener(this);
         presenter.onAttach(this);
         initRecyclerView();
         presenter.requestData();
@@ -56,6 +72,20 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
         super.onDestroyView();
         unbinder.unbind();
         presenter.onDetach();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        activity = null;
+    }
+
+    @Override
+    public void onItemClick(String genreId, String genreName) {
+        Intent intent = new Intent(getActivity(), GenreActivity.class);
+        intent.putExtra(AppConstants.GENRE_ID, genreId);
+        intent.putExtra(AppConstants.GENRE_NAME, genreName);
+        startActivity(intent);
     }
 
     @Override

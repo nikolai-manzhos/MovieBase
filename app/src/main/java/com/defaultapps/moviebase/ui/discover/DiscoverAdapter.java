@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.ui.discover;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.data.models.responses.genres.Genre;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
@@ -25,12 +27,21 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
     private Context context;
     private Genres genres;
 
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(String genreId, String genreName);
+    }
+
     @Inject
     public DiscoverAdapter(@ActivityContext Context context) {
         this.context = context;
     }
 
     static class DiscoverViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.discoverContainer)
+        CardView container;
 
         @BindView(R.id.discoverImage)
         ImageView image;
@@ -46,7 +57,12 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
 
     @Override
     public DiscoverViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new DiscoverViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discover, parent, false));
+        DiscoverViewHolder vh = new DiscoverViewHolder(LayoutInflater.from(context).inflate(R.layout.item_discover, parent, false));
+        vh.container.setOnClickListener(view -> {
+            Genre currentGenre = genres.getGenres().get(vh.getAdapterPosition());
+            listener.onItemClick(currentGenre.getId().toString(), currentGenre.getName());
+        });
+        return vh;
     }
 
     @Override
@@ -69,5 +85,9 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
     public void setData(Genres genres) {
         this.genres = genres;
         notifyDataSetChanged();
+    }
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

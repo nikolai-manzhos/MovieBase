@@ -10,7 +10,9 @@ import android.widget.Toast;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
+import com.defaultapps.moviebase.ui.discover.DiscoverContract;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
+import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.firebase.ui.auth.AuthUI;
@@ -19,11 +21,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.joanzapata.iconify.widget.IconButton;
 import com.roughike.bottombar.BottomBar;
 
+import java.util.Stack;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements DiscoverContract.DiscoverCallback {
 
     private static final int RC_SIGN_IN = 1;
 
@@ -64,8 +68,6 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState == null) {
             selectItem(R.id.tab_home);
         }
-
-        initBottomBar();
     }
 
     @Override
@@ -85,6 +87,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         firebaseAuth.addAuthStateListener(authStateListener);
+        initBottomBar();
     }
 
     @Override
@@ -93,6 +96,15 @@ public class MainActivity extends BaseActivity {
         if (authStateListener != null) {
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
+        bottomBar.removeOnTabSelectListener();
+    }
+
+    @Override
+    public void genreSelected(String genreId) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, new GenreViewImpl())
+                .addToBackStack(null)
+                .commit();
     }
 
     private void initBottomBar() {

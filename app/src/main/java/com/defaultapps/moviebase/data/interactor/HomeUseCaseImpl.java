@@ -6,6 +6,7 @@ import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.processors.ReplayProcessor;
+import io.reactivex.subjects.ReplaySubject;
 
 
 @Singleton
@@ -25,7 +26,7 @@ public class HomeUseCaseImpl implements HomeUseCase {
     private SchedulerProvider schedulerProvider;
 
     private Disposable moviesDisposable;
-    private ReplayProcessor<List<MoviesResponse>> moviesReplayProcessor;
+    private ReplaySubject<List<MoviesResponse>> moviesReplaySubject;
     private List<MoviesResponse> memoryCache;
 
     private final String API_KEY = BuildConfig.MDB_API_KEY;
@@ -46,13 +47,13 @@ public class HomeUseCaseImpl implements HomeUseCase {
             moviesDisposable.dispose();
         }
         if (moviesDisposable == null || moviesDisposable.isDisposed()) {
-            moviesReplayProcessor = ReplayProcessor.create();
+            moviesReplaySubject = ReplaySubject.create();
 
-            moviesDisposable = Observable.concat(network(), memory())
-                    .firstOrError()
-                    .subscribe(moviesReplayProcessor::onNext, moviesReplayProcessor::onError);
+            moviesDisposable = Observable.concat(memory(), network())
+                    .filter(moviesResponses -> moviesResponses.size() != 0).firstOrError()
+                    .subscribe(moviesReplaySubject::onNext, moviesReplaySubject::onError);
         }
-        return moviesReplayProcessor.toObservable();
+        return moviesReplaySubject;
     }
 
     private Observable<List<MoviesResponse>> network() {
@@ -66,7 +67,7 @@ public class HomeUseCaseImpl implements HomeUseCase {
         if (memoryCache != null) {
             return Observable.just(memoryCache);
         }
-        return Observable.error(new Exception());
+        return Observable.just(new ArrayList<>());
     }
 
     private Observable<MoviesResponse> networkUpcoming() {
