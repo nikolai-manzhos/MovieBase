@@ -1,12 +1,12 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
-import com.defaultapps.moviebase.ui.base.BaseView;
-import com.defaultapps.moviebase.ui.base.Presenter;
+import com.defaultapps.moviebase.ui.base.MvpView;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
 
 
 public interface BookmarksContract {
 
-    interface BookmarksPresenter extends Presenter<BaseView> {}
+    interface BookmarksPresenter extends MvpPresenter<MvpView> {}
 
-    interface BookmarksView extends BaseView {}
+    interface BookmarksView extends MvpView {}
 }

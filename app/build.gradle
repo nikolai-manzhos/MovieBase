@@ -18,7 +18,16 @@ android {
     }
     buildTypes {
         release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            debuggable true
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -60,7 +69,7 @@ dependencies {
     //LeakCanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanary"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanary"
-    //Glide
+    //Picasso
     compile "com.squareup.picasso:picasso:$rootProject.picasso"
     //Iconify
     compile "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify"

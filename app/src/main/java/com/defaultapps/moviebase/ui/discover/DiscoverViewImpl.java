@@ -1,6 +1,5 @@
 package com.defaultapps.moviebase.ui.discover;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
-import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 
@@ -62,7 +60,7 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
         unbinder.unbind();
         presenter.onDetach();
     }
-    
+
     @Override
     public void onItemClick(String genreId, String genreName) {
         Intent intent = new Intent(getActivity(), GenreActivity.class);

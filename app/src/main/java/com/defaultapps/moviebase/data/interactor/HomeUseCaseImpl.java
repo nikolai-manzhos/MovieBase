@@ -3,7 +3,6 @@ package com.defaultapps.moviebase.data.interactor;
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.local.LocalService;
-import com.defaultapps.moviebase.data.models.responses.genres.Genre;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 

@@ -1,31 +1,22 @@
 package com.defaultapps.moviebase.ui.main;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
-import com.defaultapps.moviebase.ui.discover.DiscoverContract;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
-import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.joanzapata.iconify.widget.IconButton;
 import com.roughike.bottombar.BottomBar;
-
-import java.util.Stack;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 

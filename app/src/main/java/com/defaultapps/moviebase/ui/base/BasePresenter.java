@@ -3,7 +3,7 @@ package com.defaultapps.moviebase.ui.base;
 import io.reactivex.disposables.CompositeDisposable;
 
 
-public class BasePresenter<V extends BaseView> implements Presenter<V> {
+public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     private V view;
     private CompositeDisposable compositeDisposable;

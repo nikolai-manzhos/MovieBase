@@ -1,20 +1,19 @@
 package com.defaultapps.moviebase.ui.home;
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.ui.base.BasePresenter;
-import com.defaultapps.moviebase.ui.base.BaseView;
-import com.defaultapps.moviebase.ui.base.Presenter;
+import com.defaultapps.moviebase.ui.base.MvpView;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
 
 import java.util.List;
 
 
 public interface HomeContract {
 
-    interface HomePresenter extends Presenter<HomeView> {
+    interface HomePresenter extends MvpPresenter<HomeView> {
         void requestMoviesData(boolean force);
     }
 
-    interface HomeView extends BaseView {
+    interface HomeView extends MvpView {
         void receiveResults(List<MoviesResponse> results);
     }
 }

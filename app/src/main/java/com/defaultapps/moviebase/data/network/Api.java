@@ -4,6 +4,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -51,4 +52,10 @@ public interface Api {
             @Query("query") String query,
             @Query("page") int page,
             @Query("include_adult") Boolean adult);
+
+    @GET("movie/{movie_id}")
+    Observable<?> getMovieInfo(
+            @Path("movie_id") int movieId,
+            @Query("language") String language,
+            @Query("append_to_response") String appendToResponse);
 }
