@@ -14,9 +14,9 @@ public class MovieActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
-        String movieId = getIntent().getStringExtra(AppConstants.MOVIE_ID);
+        int movieId = getIntent().getIntExtra(AppConstants.MOVIE_ID, 0);
         Bundle bundle = new Bundle();
-        bundle.putString(AppConstants.MOVIE_ID, movieId);
+        bundle.putInt(AppConstants.MOVIE_ID, movieId);
         MovieViewImpl fragment = new MovieViewImpl();
         fragment.setArguments(bundle);
 

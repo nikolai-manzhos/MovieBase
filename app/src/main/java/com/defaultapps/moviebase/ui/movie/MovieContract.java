@@ -6,7 +6,9 @@ import com.defaultapps.moviebase.ui.base.MvpView;
 
 public interface MovieContract {
 
-    interface MoviePresenter extends MvpPresenter<MovieView> {}
+    interface MoviePresenter extends MvpPresenter<MovieView> {
+        void requestMovieInfo(Integer movieId);
+    }
 
     interface MovieView extends MvpView {
         void hideData();

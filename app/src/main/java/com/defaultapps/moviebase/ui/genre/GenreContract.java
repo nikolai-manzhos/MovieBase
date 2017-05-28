@@ -5,7 +5,7 @@ import com.defaultapps.moviebase.ui.base.MvpView;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 
 
-class GenreContract {
+interface GenreContract {
 
     interface GenrePresenter extends MvpPresenter<GenreView> {
         void requestMovies(String genreId, boolean force);

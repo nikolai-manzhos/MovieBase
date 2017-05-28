@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.data.network;
 
+import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 
 import io.reactivex.Observable;
@@ -54,8 +55,9 @@ public interface Api {
             @Query("include_adult") Boolean adult);
 
     @GET("movie/{movie_id}")
-    Observable<?> getMovieInfo(
+    Observable<MovieInfoResponse> getMovieInfo(
             @Path("movie_id") int movieId,
+            @Query("api_key") String key,
             @Query("language") String language,
             @Query("append_to_response") String appendToResponse);
 }

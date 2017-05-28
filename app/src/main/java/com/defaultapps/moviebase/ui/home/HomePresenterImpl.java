@@ -11,13 +11,13 @@ import io.reactivex.disposables.CompositeDisposable;
 @PerActivity
 public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> implements HomeContract.HomePresenter {
 
-    private HomeUseCaseImpl homeRepository;
+    private HomeUseCaseImpl homeUseCase;
 
     @Inject
     public HomePresenterImpl(CompositeDisposable compositeDisposable,
-                             HomeUseCaseImpl homeRepository) {
+                             HomeUseCaseImpl homeUseCase) {
         super(compositeDisposable);
-        this.homeRepository = homeRepository;
+        this.homeUseCase = homeUseCase;
     }
 
     @Override
@@ -26,14 +26,18 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> impl
             getView().showLoading();
         }
         getCompositeDisposable().add(
-            homeRepository.requestHomeData(force)
+            homeUseCase.requestHomeData(force)
                 .subscribe(
                         moviesResponses -> {
-                            getView().hideLoading();
-                            getView().receiveResults(moviesResponses);
+                            if (getView() != null) {
+                                getView().hideLoading();
+                                getView().receiveResults(moviesResponses);
+                            }
                         },
                         err -> {
-                            getView().hideLoading();
+                            if (getView() != null) {
+                                getView().hideLoading();
+                            }
                         }
                 )
         );

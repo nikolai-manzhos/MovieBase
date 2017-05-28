@@ -27,7 +27,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
     private String API_KEY = BuildConfig.MDB_API_KEY;
 
     @Inject
-    public GenreUseCaseImpl(NetworkService networkService,
+    GenreUseCaseImpl(NetworkService networkService,
                             SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
         this.schedulerProvider = schedulerProvider;

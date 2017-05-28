@@ -32,7 +32,7 @@ public class HomeUseCaseImpl implements HomeUseCase {
     private final String API_KEY = BuildConfig.MDB_API_KEY;
 
     @Inject
-    public HomeUseCaseImpl(NetworkService networkService,
+    HomeUseCaseImpl(NetworkService networkService,
                            LocalService localService,
                            SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
