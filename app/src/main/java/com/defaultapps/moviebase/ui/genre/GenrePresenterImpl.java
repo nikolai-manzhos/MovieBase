@@ -15,9 +15,7 @@ public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> i
     private GenreUseCaseImpl genreUseCase;
 
     @Inject
-    GenrePresenterImpl(CompositeDisposable compositeDisposable,
-                       GenreUseCaseImpl genreUseCase) {
-        super(compositeDisposable);
+    GenrePresenterImpl(GenreUseCaseImpl genreUseCase) {
         this.genreUseCase = genreUseCase;
     }
 

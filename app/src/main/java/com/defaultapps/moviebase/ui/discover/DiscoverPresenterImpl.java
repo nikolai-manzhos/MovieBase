@@ -14,9 +14,7 @@ public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.Discov
     private DiscoverUseCaseImpl discoverUseCase;
 
     @Inject
-    public DiscoverPresenterImpl(CompositeDisposable compositeDisposable,
-                                 DiscoverUseCaseImpl discoverUseCase) {
-        super(compositeDisposable);
+    public DiscoverPresenterImpl(DiscoverUseCaseImpl discoverUseCase) {
         this.discoverUseCase = discoverUseCase;
     }
 

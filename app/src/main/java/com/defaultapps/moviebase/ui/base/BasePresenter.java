@@ -6,11 +6,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     private V view;
-    private CompositeDisposable compositeDisposable;
-
-    public BasePresenter(CompositeDisposable compositeDisposable) {
-        this.compositeDisposable = compositeDisposable;
-    }
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     public void onAttach(V view) {

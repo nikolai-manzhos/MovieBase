@@ -24,10 +24,4 @@ public class ActivityModule {
     Context provideActivityContext() {
         return activity;
     }
-
-    @PerActivity
-    @Provides
-    CompositeDisposable provideCompositeDisposable() {
-        return new CompositeDisposable();
-    }
 }

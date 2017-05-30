@@ -9,11 +9,10 @@ import io.reactivex.disposables.CompositeDisposable;
 
 
 @PerActivity
-public class SearchPresenter extends BasePresenter<SearchContract.SearchView> implements SearchContract.SearchPresenter {
+public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView> implements SearchContract.SearchPresenter {
 
     @Inject
-    public SearchPresenter(CompositeDisposable compositeDisposable) {
-        super(compositeDisposable);
+    public SearchPresenterImpl() {
     }
 
 

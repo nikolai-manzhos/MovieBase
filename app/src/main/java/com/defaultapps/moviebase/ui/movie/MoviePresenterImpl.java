@@ -15,9 +15,7 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
     private MovieUseCase movieUseCase;
 
     @Inject
-    MoviePresenterImpl(CompositeDisposable compositeDisposable,
-                              MovieUseCaseImpl movieUseCase) {
-        super(compositeDisposable);
+    MoviePresenterImpl(MovieUseCaseImpl movieUseCase) {
         this.movieUseCase = movieUseCase;
     }
 

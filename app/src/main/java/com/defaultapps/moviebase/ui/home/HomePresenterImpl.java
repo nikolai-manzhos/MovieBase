@@ -14,9 +14,7 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> impl
     private HomeUseCaseImpl homeUseCase;
 
     @Inject
-    public HomePresenterImpl(CompositeDisposable compositeDisposable,
-                             HomeUseCaseImpl homeUseCase) {
-        super(compositeDisposable);
+    public HomePresenterImpl(HomeUseCaseImpl homeUseCase) {
         this.homeUseCase = homeUseCase;
     }
 
