@@ -34,6 +34,24 @@ android {
     buildTypes.each {
         it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']
     }
+
+    sourceSets {
+        main {
+            def resPath = 'src/main/res'
+            res.srcDirs =
+                    [
+                            "${resPath}/layouts/home",
+                            "${resPath}/layouts/discover",
+                            "${resPath}/layouts/bookmarks",
+                            "${resPath}/layouts/search",
+                            "${resPath}/layouts/genre",
+                            "${resPath}/layouts/movie",
+                            "${resPath}/layouts/custom_views",
+                            "${resPath}/layouts",
+                            "${resPath}"
+                    ]
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

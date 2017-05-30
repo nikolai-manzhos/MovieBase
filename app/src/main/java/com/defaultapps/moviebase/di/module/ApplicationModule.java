@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.di.ApplicationContext;
-import com.defaultapps.moviebase.di.scope.PerActivity;
 
 import javax.inject.Singleton;
 
