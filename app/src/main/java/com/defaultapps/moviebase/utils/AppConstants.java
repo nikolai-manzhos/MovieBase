@@ -9,6 +9,6 @@ public class AppConstants {
     public static final String MOVIE_ID = "movie_id";
 
     private AppConstants() {
-        throw new AssertionError("This class should not have instance");
+        throw new AssertionError("This class cannot be instantiated.");
     }
 }

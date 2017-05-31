@@ -1,5 +1,7 @@
 package com.defaultapps.moviebase.data.interactor;
 
+import android.util.Log;
+
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.local.LocalService;
@@ -27,7 +29,6 @@ public class HomeUseCaseImpl implements HomeUseCase {
 
     private Disposable moviesDisposable;
     private ReplaySubject<List<MoviesResponse>> moviesReplaySubject;
-    private List<MoviesResponse> memoryCache;
 
     private final String API_KEY = BuildConfig.MDB_API_KEY;
 
@@ -43,13 +44,12 @@ public class HomeUseCaseImpl implements HomeUseCase {
     @Override
     public Observable<List<MoviesResponse>> requestHomeData(boolean force) {
         if (force && moviesDisposable != null) {
-            memoryCache = null;
             moviesDisposable.dispose();
         }
         if (moviesDisposable == null || moviesDisposable.isDisposed()) {
             moviesReplaySubject = ReplaySubject.create();
 
-            moviesDisposable = Observable.concat(memory(), network())
+            moviesDisposable = network()
                     .filter(moviesResponses -> moviesResponses.size() != 0).firstOrError()
                     .subscribe(moviesReplaySubject::onNext, moviesReplaySubject::onError);
         }
@@ -60,14 +60,7 @@ public class HomeUseCaseImpl implements HomeUseCase {
         return Observable.zip(
                 networkUpcoming(),
                 networkNowPLaying(),
-                (upcomingResponse, nowPlayingResponse) -> memoryCache = Arrays.asList(upcomingResponse, nowPlayingResponse));
-    }
-
-    private Observable<List<MoviesResponse>> memory() {
-        if (memoryCache != null) {
-            return Observable.just(memoryCache);
-        }
-        return Observable.just(new ArrayList<>());
+                (upcomingResponse, nowPlayingResponse) -> Arrays.asList(upcomingResponse, nowPlayingResponse));
     }
 
     private Observable<MoviesResponse> networkUpcoming() {

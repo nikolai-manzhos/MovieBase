@@ -21,6 +21,28 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
 
     @Override
     public void requestMovieInfo(Integer movieId) {
-        //TODO make request
+        if (getView() != null) {
+            getView().hideError();
+            getView().hideData();
+            getView().showLoading();
+        }
+        movieUseCase.requestMovieData(movieId)
+                .subscribe(
+                        movieInfoResponse -> {
+                            if (getView() != null) {
+                                getView().hideError();
+                                getView().hideLoading();
+                                getView().showMovieInfo(movieInfoResponse);
+                                getView().showData();
+                            }
+                        },
+                        err -> {
+                            if (getView() != null) {
+                                getView().hideLoading();
+                                getView().hideData();
+                                getView().showError();
+                            }
+                        }
+                );
     }
 }

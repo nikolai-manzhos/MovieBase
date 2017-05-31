@@ -31,10 +31,10 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context context;
     private UpcomingAdapter upcomingAdapter;
+    private OnMovieSelected listener;
 
     private final int UPCOMING = 0, NOW_PLAYING = 1;
 
-    
 
     @Inject
     public HomeMainAdapter(@ActivityContext Context context,
@@ -76,6 +76,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case NOW_PLAYING:
                 MainViewHolder mainViewHolder = (MainViewHolder) holder;
+                ((MainViewHolder) holder).nowPlayingContainer.setOnClickListener(view -> listener.onMovieClick(nowPlaying.getResults().get(adapterPosition -1).getId()));
                 configureNowPlayingVH(mainViewHolder, adapterPosition);
                 break;
             default:
@@ -118,5 +119,9 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         upcoming = data.get(0);
         nowPlaying = data.get(1);
         notifyDataSetChanged();
+    }
+
+    public void setMovieSelectedListener(OnMovieSelected listener) {
+        this.listener = listener;
     }
 }

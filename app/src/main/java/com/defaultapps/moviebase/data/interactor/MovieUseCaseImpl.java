@@ -1,6 +1,8 @@
 package com.defaultapps.moviebase.data.interactor;
 
 
+import android.util.Log;
+
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.local.LocalService;
@@ -8,11 +10,15 @@ import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.processors.PublishProcessor;
+import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
 
+@Singleton
 public class MovieUseCaseImpl implements MovieUseCase {
 
     private NetworkService networkService;
@@ -21,7 +27,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     private Disposable movieInfoDisposable;
     private ReplaySubject<MovieInfoResponse> movieInfoReplaySubject;
-    private MovieInfoResponse memoryCache;
+    private int currentId = -1;
 
     private final String API_KEY = BuildConfig.MDB_API_KEY;
 
@@ -36,10 +42,14 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     @Override
     public Observable<MovieInfoResponse> requestMovieData(int movieId) {
+        if (movieId != currentId && movieInfoDisposable != null) {
+            currentId = -1;
+            movieInfoDisposable.dispose();
+        }
         if (movieInfoDisposable == null || movieInfoDisposable.isDisposed()) {
             movieInfoReplaySubject = ReplaySubject.create();
 
-            movieInfoDisposable = Observable.concat(memory(movieId), network(movieId))
+            movieInfoDisposable = network(movieId)
                     .filter(movieInfoResponse -> movieInfoResponse.getId() != null).firstOrError()
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
         }
@@ -48,14 +58,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     private Observable<MovieInfoResponse> network(int movieId) {
         return networkService.getNetworkCall().getMovieInfo(movieId, API_KEY, "en-Us", "videos")
-                .doOnNext(movieInfoResponse -> memoryCache = movieInfoResponse)
+                .doOnNext(movieInfoResponse -> currentId = movieInfoResponse.getId())
                 .compose(schedulerProvider.applyIoSchedulers());
-    }
-
-    private Observable<MovieInfoResponse> memory(int movieId) {
-        if (memoryCache != null && memoryCache.getId() == movieId) {
-            return Observable.just(memoryCache);
-        }
-        return Observable.just(new MovieInfoResponse());
     }
 }

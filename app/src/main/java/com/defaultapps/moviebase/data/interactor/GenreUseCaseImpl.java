@@ -22,7 +22,6 @@ public class GenreUseCaseImpl implements GenreUseCase {
 
     private Disposable genreDisposable;
     private ReplaySubject<MoviesResponse> genreReplayProcessor;
-    private MoviesResponse memoryCache;
 
     private String API_KEY = BuildConfig.MDB_API_KEY;
 
@@ -36,13 +35,12 @@ public class GenreUseCaseImpl implements GenreUseCase {
     @Override
     public Observable<MoviesResponse> requestHomeData(String genreId, boolean force) {
         if (force && genreDisposable != null) {
-            memoryCache = null;
             genreDisposable.dispose();
         }
         if (genreDisposable == null || genreDisposable.isDisposed()) {
             genreReplayProcessor = ReplaySubject.create();
 
-            genreDisposable = Observable.concat(memory(), network(genreId))
+            genreDisposable = network(genreId)
                     .filter(moviesResponse -> moviesResponse.getTotalResults() != null).firstOrError()
                     .subscribe(genreReplayProcessor::onNext, genreReplayProcessor::onError);
         }
@@ -51,14 +49,6 @@ public class GenreUseCaseImpl implements GenreUseCase {
 
     private Observable<MoviesResponse> network(String genreId) {
         return networkService.getNetworkCall().discoverMovies(API_KEY, "en-US", false, 1, genreId)
-                .doOnNext(moviesResponse -> memoryCache = moviesResponse)
                 .compose(schedulerProvider.applyIoSchedulers());
-    }
-
-    private Observable<MoviesResponse> memory() {
-        if (memoryCache != null) {
-            return Observable.just(memoryCache);
-        }
-        return Observable.just(new MoviesResponse());
     }
 }

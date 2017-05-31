@@ -14,15 +14,15 @@ public class MovieActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
-        int movieId = getIntent().getIntExtra(AppConstants.MOVIE_ID, 0);
-        Bundle bundle = new Bundle();
-        bundle.putInt(AppConstants.MOVIE_ID, movieId);
-        MovieViewImpl fragment = new MovieViewImpl();
-        fragment.setArguments(bundle);
-
         if (savedInstanceState == null) {
+            int movieId = getIntent().getIntExtra(AppConstants.MOVIE_ID, 0);
+            Bundle bundle = new Bundle();
+            bundle.putInt(AppConstants.MOVIE_ID, movieId);
+            MovieViewImpl fragment = new MovieViewImpl();
+            fragment.setArguments(bundle);
+
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.contentFrame, new MovieViewImpl())
+                    .replace(R.id.contentFrame, fragment)
                     .commit();
         }
     }

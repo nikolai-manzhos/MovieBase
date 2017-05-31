@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,7 +14,11 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
+import com.defaultapps.moviebase.ui.home.adapter.OnMovieSelected;
+import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.main.MainActivity;
+import com.defaultapps.moviebase.ui.movie.MovieActivity;
+import com.defaultapps.moviebase.utils.AppConstants;
 import com.firebase.ui.auth.AuthUI;
 
 import java.util.List;
@@ -26,7 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener {
+public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieSelected {
 
     @BindView(R.id.homeRecycler)
     RecyclerView homeRecycler;
@@ -39,6 +44,9 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
 
     @Inject
     HomeMainAdapter adapter;
+
+    @Inject
+    UpcomingAdapter upcomingAdapter;
 
     private Unbinder unbinder;
 
@@ -77,8 +85,17 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     }
 
     @Override
+    public void onMovieClick(int movieId) {
+        Intent intent = new Intent(getActivity(), MovieActivity.class);
+        intent.putExtra(AppConstants.MOVIE_ID, movieId);
+        getActivity().startActivity(intent);
+    }
+
+    @Override
     public void receiveResults(List<MoviesResponse> results) {
         adapter.setData(results);
+        adapter.setMovieSelectedListener(this);
+        upcomingAdapter.setMovieSelectedListener(this);
     }
 
     @Override

@@ -19,7 +19,6 @@ public class DiscoverUseCaseImpl implements DiscoverUseCase {
 
     private Disposable genresDisposable;
     private ReplaySubject<Genres> genresReplaySubject;
-    private Genres memoryCache;
 
     @Inject
     DiscoverUseCaseImpl(LocalService localService,
@@ -33,7 +32,7 @@ public class DiscoverUseCaseImpl implements DiscoverUseCase {
         if (genresDisposable == null || genresDisposable.isDisposed()) {
             genresReplaySubject = ReplaySubject.create();
 
-            genresDisposable = Observable.concat(memory(), local())
+            genresDisposable = local()
                     .filter(genres -> genres.getGenres() != null).firstOrError()
                     .subscribe(genresReplaySubject::onNext, genresReplaySubject::onError);
         }
@@ -42,14 +41,6 @@ public class DiscoverUseCaseImpl implements DiscoverUseCase {
 
     private Observable<Genres> local() {
         return Observable.fromCallable(() -> localService.readGenresFromResources())
-                .doOnNext(genres -> memoryCache = genres)
                 .compose(schedulerProvider.applyIoSchedulers());
-    }
-
-    private Observable<Genres> memory() {
-        if (memoryCache != null) {
-            return Observable.just(memoryCache);
-        }
-        return Observable.just(new Genres());
     }
 }

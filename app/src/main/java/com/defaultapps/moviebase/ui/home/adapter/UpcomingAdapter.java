@@ -15,14 +15,12 @@ import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
-/**
- * Created on 5/17/2017.
- */
 @PerActivity
 public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder> {
 
     private MoviesResponse items;
     private Context context;
+    private OnMovieSelected listener;
 
     @Inject
     public UpcomingAdapter(@ActivityContext Context context) {
@@ -43,6 +41,9 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
                 .load("https://image.tmdb.org/t/p/w300/" + items.getResults().get(adapterPosition).getPosterPath())
                 .fit()
                 .into(holder.upcomingImage);
+        holder.upcomingContainer.setOnClickListener(view -> {
+            listener.onMovieClick(items.getResults().get(adapterPosition).getId());
+        });
     }
 
     @Override
@@ -58,5 +59,9 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
     public void setData(MoviesResponse items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public void setMovieSelectedListener(OnMovieSelected listener) {
+        this.listener = listener;
     }
 }
