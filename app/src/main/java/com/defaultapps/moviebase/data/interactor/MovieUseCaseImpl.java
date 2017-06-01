@@ -14,8 +14,6 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
@@ -42,7 +40,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     @Override
     public Observable<MovieInfoResponse> requestMovieData(int movieId) {
-        if (movieId != currentId && movieInfoDisposable != null) {
+        if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {
             currentId = -1;
             movieInfoDisposable.dispose();
         }
