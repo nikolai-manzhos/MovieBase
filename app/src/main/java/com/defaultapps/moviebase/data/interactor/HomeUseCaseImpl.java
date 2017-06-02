@@ -8,7 +8,6 @@ import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

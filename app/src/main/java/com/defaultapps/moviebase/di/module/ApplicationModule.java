@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.di.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.defaultapps.moviebase.data.AppSchedulerProvider;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.di.ApplicationContext;
 
@@ -28,6 +29,6 @@ public class ApplicationModule {
     @Singleton
     @Provides
     SchedulerProvider provideSchedulerProvider() {
-        return SchedulerProvider.DEFAULT;
+        return new AppSchedulerProvider();
     }
 }

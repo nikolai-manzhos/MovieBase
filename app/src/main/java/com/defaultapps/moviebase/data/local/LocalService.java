@@ -2,13 +2,10 @@ package com.defaultapps.moviebase.data.local;
 
 import android.content.Context;
 
-import com.defaultapps.moviebase.data.models.responses.genres.Genre;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.di.ApplicationContext;
 import com.google.gson.Gson;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 

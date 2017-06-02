@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
@@ -22,13 +23,13 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
         debug {
             debuggable true
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
     buildTypes.each {
         it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']
@@ -80,10 +81,10 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit"
     compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
     //Firebase
+    compile "com.google.android.gms:play-services-base:$rootProject.firebase"
     compile "com.google.firebase:firebase-core:$rootProject.firebase"
-    compile "com.google.firebase:firebase-auth:$rootProject.firebase"
     compile "com.firebaseui:firebase-ui-auth:$rootProject.firebaseUi"
-    compile "com.google.firebase:firebase-database:$rootProject.firebase"
+    compile "com.firebaseui:firebase-ui-database:$rootProject.firebaseUi"
     //LeakCanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanary"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanary"
@@ -93,6 +94,9 @@ dependencies {
     compile "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify"
 
     testCompile 'junit:junit:4.12'
+    testCompile "org.mockito:mockito-core:$rootProject.mockito"
+    testCompile "org.robolectric:robolectric:$rootProject.robolectric"
+    testCompile "org.robolectric:shadows-support-v4:$rootProject.robolectric"
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

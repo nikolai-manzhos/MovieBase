@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity {
                                 .setLogo(R.mipmap.ic_launcher_round)
                                 .setProviders(
                                         AuthUI.GOOGLE_PROVIDER,
-                                        AuthUI.FACEBOOK_PROVIDER,
                                         AuthUI.EMAIL_PROVIDER)
                                 .build(),
                         RC_SIGN_IN);

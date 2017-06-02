@@ -5,7 +5,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:3.1.0'
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4'
     }
 }
 
@@ -35,4 +36,7 @@ ext {
     okhttpVersion = '3.6.0'
     picasso = '2.5.2'
     iconify = '2.2.2'
+
+    mockito = '1.10.19'
+    robolectric = '3.3.2'
 }

@@ -1,8 +1,6 @@
 package com.defaultapps.moviebase.data.interactor;
 
 
-import android.util.Log;
-
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.local.LocalService;
