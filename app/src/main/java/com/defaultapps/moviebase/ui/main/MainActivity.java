@@ -2,6 +2,8 @@ package com.defaultapps.moviebase.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
@@ -18,45 +20,48 @@ import com.roughike.bottombar.BottomBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements FirebaseAuth.AuthStateListener {
 
     private static final int RC_SIGN_IN = 1;
+    private boolean firstTimeLaunch;
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
 
     private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        firstTimeLaunch = savedInstanceState == null;
 
         firebaseAuth = FirebaseAuth.getInstance();
-        authStateListener = firebaseAuthState -> {
-            FirebaseUser user = firebaseAuthState.getCurrentUser();
-            if (user != null) {
-                //Signed In Get User Details
-            } else {
-                startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setIsSmartLockEnabled(false)
-                                .setTheme(R.style.DarkTheme)
-                                .setLogo(R.mipmap.ic_launcher_round)
-                                .setProviders(
-                                        AuthUI.GOOGLE_PROVIDER,
-                                        AuthUI.EMAIL_PROVIDER)
-                                .build(),
-                        RC_SIGN_IN);
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            if (firstTimeLaunch) {
+                Log.d("MainActivity", "savedInstanceState == null");
+                selectItem(R.id.tab_home);
+                firstTimeLaunch = false;
             }
-        };
-
-
-        if (savedInstanceState == null) {
-            selectItem(R.id.tab_home);
+            //Signed In Get User Details
+        } else {
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setIsSmartLockEnabled(false)
+                            .setTheme(R.style.DarkTheme)
+                            .setLogo(R.mipmap.ic_launcher_round)
+                            .setProviders(
+                                    AuthUI.GOOGLE_PROVIDER,
+                                    AuthUI.EMAIL_PROVIDER)
+                            .build(),
+                    RC_SIGN_IN);
         }
     }
 
@@ -76,16 +81,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        firebaseAuth.addAuthStateListener(authStateListener);
+        firebaseAuth.addAuthStateListener(this);
         initBottomBar();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (authStateListener != null) {
-            firebaseAuth.removeAuthStateListener(authStateListener);
-        }
+        firebaseAuth.removeAuthStateListener(this);
         bottomBar.removeOnTabSelectListener();
     }
 

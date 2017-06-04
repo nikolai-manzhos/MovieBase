@@ -10,9 +10,6 @@ import com.defaultapps.moviebase.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created on 5/17/2017.
- */
 
 public class UpcomingItemViewHolder extends RecyclerView.ViewHolder {
 

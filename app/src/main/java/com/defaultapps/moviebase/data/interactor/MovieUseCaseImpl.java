@@ -37,13 +37,15 @@ public class MovieUseCaseImpl implements MovieUseCase {
     }
 
     @Override
-    public Observable<MovieInfoResponse> requestMovieData(int movieId) {
+    public Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force) {
+        if (force) movieInfoDisposable.dispose();
         if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {
             currentId = -1;
             movieInfoDisposable.dispose();
         }
         if (movieInfoDisposable == null || movieInfoDisposable.isDisposed()) {
             movieInfoReplaySubject = ReplaySubject.create();
+            currentId = movieId;
 
             movieInfoDisposable = network(movieId)
                     .filter(movieInfoResponse -> movieInfoResponse.getId() != null).firstOrError()
@@ -54,7 +56,6 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     private Observable<MovieInfoResponse> network(int movieId) {
         return networkService.getNetworkCall().getMovieInfo(movieId, API_KEY, "en-Us", "videos")
-                .doOnNext(movieInfoResponse -> currentId = movieInfoResponse.getId())
                 .compose(schedulerProvider.applyIoSchedulers());
     }
 }

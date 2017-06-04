@@ -8,7 +8,7 @@ import com.defaultapps.moviebase.ui.base.MvpView;
 public interface MovieContract {
 
     interface MoviePresenter extends MvpPresenter<MovieView> {
-        void requestMovieInfo(Integer movieId);
+        void requestMovieInfo(Integer movieId, boolean force);
     }
 
     interface MovieView extends MvpView {

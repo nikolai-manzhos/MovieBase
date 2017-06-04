@@ -7,8 +7,6 @@ import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
-import io.reactivex.disposables.CompositeDisposable;
-
 @PerActivity
 public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> implements MovieContract.MoviePresenter {
 
@@ -20,13 +18,13 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
     }
 
     @Override
-    public void requestMovieInfo(Integer movieId) {
+    public void requestMovieInfo(Integer movieId, boolean force) {
         if (getView() != null) {
             getView().hideError();
             getView().hideData();
             getView().showLoading();
         }
-        movieUseCase.requestMovieData(movieId)
+        movieUseCase.requestMovieData(movieId, force)
                 .subscribe(
                         movieInfoResponse -> {
                             if (getView() != null) {

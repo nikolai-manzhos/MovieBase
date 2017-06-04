@@ -58,6 +58,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + posterPath)
                 .fit()
+                .centerCrop()
                 .into(holder.poster);
     }
 

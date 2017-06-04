@@ -7,6 +7,7 @@
 
     <color name="colorPrimaryText">#FFFFFF</color>
     <color name="colorSecondaryText">#b3ffffff</color>
+    <color name="colorDisabledText">#61ffffff</color>
 
     <color name="material_gray_300">#E0E0E0</color>
     <color name="material_gray_850">#ff303030</color>

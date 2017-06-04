@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +20,9 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.widget.IconTextView;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -44,19 +47,39 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @BindView(R.id.toolbarContainer)
     AppBarLayout toolbarContainer;
 
+    @BindView(R.id.mainContent)
+    NestedScrollView nestedScrollView;
+
     @BindView(R.id.contentContainer)
     RelativeLayout contentContainer;
 
     @BindView(R.id.image)
-    ImageView image;
+    ImageView imageBackdrop;
+
+    @BindView(R.id.imagePoster)
+    ImageView imagePoster;
+
+    @BindView(R.id.movieTitle)
+    TextView movieTitle;
+
+    @BindView(R.id.releaseDate)
+    IconTextView releaseDate;
 
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.favoriteFab)
+    FloatingActionButton favoriteFab;
+
 
     @Inject
     MoviePresenterImpl presenter;
 
     private Unbinder unbinder;
+    private int movieId;
 
     @Nullable
     @Override
@@ -68,10 +91,12 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ((MovieActivity) getActivity()).getActivityComponent().inject(this);
         unbinder = ButterKnife.bind(this, view);
+        initToolbar();
+        initFAB();
 
         presenter.onAttach(this);
-        int movieId = getArguments().getInt(AppConstants.MOVIE_ID);
-        presenter.requestMovieInfo(movieId);
+        movieId = getArguments().getInt(AppConstants.MOVIE_ID);
+        presenter.requestMovieInfo(movieId, false);
     }
 
     @Override
@@ -81,14 +106,27 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         presenter.onDetach();
     }
 
+    @OnClick(R.id.errorButton)
+    void onErrorClick() {
+        presenter.requestMovieInfo(movieId, true);
+    }
+
     @Override
     public void showMovieInfo(MovieInfoResponse movieInfo) {
         Picasso
                 .with(getActivity().getApplicationContext())
-                .load("https://image.tmdb.org/t/p/w1000/" + movieInfo.getBackdropPath())
+                .load("http://image.tmdb.org/t/p//w1280" + movieInfo.getBackdropPath())
                 .fit()
                 .centerCrop()
-                .into(image);
+                .into(imageBackdrop);
+        Picasso
+                .with(getContext().getApplicationContext())
+                .load("https://image.tmdb.org/t/p/w300" + movieInfo.getPosterPath())
+                .fit()
+                .centerCrop()
+                .into(imagePoster);
+        movieTitle.setText(movieInfo.getTitle());
+        releaseDate.append(" " + movieInfo.getReleaseDate());
     }
 
     @Override
@@ -105,12 +143,14 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     public void hideData() {
         toolbarContainer.setVisibility(View.GONE);
         contentContainer.setVisibility(View.GONE);
+        favoriteFab.setVisibility(View.GONE);
     }
 
     @Override
     public void showData() {
         toolbarContainer.setVisibility(View.VISIBLE);
         contentContainer.setVisibility(View.VISIBLE);
+        favoriteFab.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -123,5 +163,32 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     public void showError() {
         errorText.setVisibility(View.VISIBLE);
         errorButton.setVisibility(View.VISIBLE);
+    }
+
+    private void initFAB() {
+        favoriteFab.setImageDrawable(
+                new IconDrawable(getContext(), MaterialIcons.md_favorite_border)
+                .colorRes(R.color.colorAccent)
+        );
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    favoriteFab.hide();
+                } else {
+                    favoriteFab.show();
+                }
+            }
+        });
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void initToolbar() {
+        MovieActivity activity = (MovieActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(view -> activity.finish());
     }
 }
