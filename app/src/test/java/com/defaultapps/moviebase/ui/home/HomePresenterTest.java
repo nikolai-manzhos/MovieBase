@@ -40,7 +40,7 @@ public class HomePresenterTest {
     }
 
     @Test
-    public void requestMoviesDataSuccess() throws Exception {
+    public void requestHomeDataSuccess() throws Exception {
         List<MoviesResponse> response = new ArrayList<>();
         Observable<List<MoviesResponse>> resultObservable = Observable.just(response).subscribeOn(testScheduler);
         when(homeUseCase.requestHomeData(anyBoolean())).thenReturn(resultObservable);
@@ -57,7 +57,7 @@ public class HomePresenterTest {
     }
 
     @Test
-    public void requestMoviesDataFailure() throws Exception {
+    public void requestHomeDataFailure() throws Exception {
         when(homeUseCase.requestHomeData(anyBoolean())).thenReturn(Observable.error(new Exception("Some error.")));
 
         presenter.onAttach(view);
