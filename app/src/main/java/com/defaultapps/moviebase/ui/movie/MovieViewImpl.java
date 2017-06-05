@@ -114,7 +114,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @Override
     public void showMovieInfo(MovieInfoResponse movieInfo) {
         Picasso
-                .with(getActivity().getApplicationContext())
+                .with(getContext().getApplicationContext())
                 .load("http://image.tmdb.org/t/p//w1280" + movieInfo.getBackdropPath())
                 .fit()
                 .centerCrop()
@@ -168,8 +168,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     private void initFAB() {
         favoriteFab.setImageDrawable(
                 new IconDrawable(getContext(), MaterialIcons.md_favorite_border)
-                .colorRes(R.color.colorAccent)
-        );
+                .colorRes(R.color.colorAccent));
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
