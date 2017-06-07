@@ -15,7 +15,6 @@ import io.reactivex.schedulers.TestScheduler;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -54,7 +53,7 @@ public class MoviePresenterTest {
         testScheduler.triggerActions();
         verify(view, times(2)).hideError(); // On requestMovieInfo() and onNext
         verify(view).hideLoading();
-        verify(view).showMovieInfo(response);
+        verify(view).displayMovieInfo(response);
         verify(view).showData();
     }
 
@@ -72,6 +71,6 @@ public class MoviePresenterTest {
         verify(view, times(2)).hideData(); // On requestMovieInfo() and onError
         verify(view).showError();
         verify(view, never()).showData();
-        verify(view, never()).showMovieInfo(any(MovieInfoResponse.class));
+        verify(view, never()).displayMovieInfo(any(MovieInfoResponse.class));
     }
 }

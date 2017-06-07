@@ -65,6 +65,9 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @BindView(R.id.releaseDate)
     IconTextView releaseDate;
 
+    @BindView(R.id.movieOverview)
+    TextView movieOverview;
+
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
 
@@ -112,7 +115,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     }
 
     @Override
-    public void showMovieInfo(MovieInfoResponse movieInfo) {
+    public void displayMovieInfo(MovieInfoResponse movieInfo) {
         Picasso
                 .with(getContext().getApplicationContext())
                 .load("http://image.tmdb.org/t/p//w1280" + movieInfo.getBackdropPath())
@@ -127,6 +130,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
                 .into(imagePoster);
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + movieInfo.getReleaseDate());
+        movieOverview.setText(movieInfo.getOverview());
     }
 
     @Override

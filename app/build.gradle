@@ -5,6 +5,11 @@ apply plugin: 'com.getkeepsafe.dexcount'
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
 
+afterEvaluate {
+    assembleDebug.dependsOn 'test'
+    assembleRelease.dependsOn 'test', 'lint'
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -23,13 +28,12 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
+        debug{
             debuggable true
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
     }
     buildTypes.each {
         it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']
@@ -55,6 +59,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        disable 'InvalidPackage'
     }
 }
 

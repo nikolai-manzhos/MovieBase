@@ -30,7 +30,7 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
                             if (getView() != null) {
                                 getView().hideError();
                                 getView().hideLoading();
-                                getView().showMovieInfo(movieInfoResponse);
+                                getView().displayMovieInfo(movieInfoResponse);
                                 getView().showData();
                             }
                         },

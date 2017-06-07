@@ -48,8 +48,9 @@
                 <RelativeLayout
                     android:id="@+id/contentContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="340dp"
-                    android:padding="10dp">
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:clipToPadding="false">
 
                     <ImageView
                         android:id="@+id/imagePoster"
@@ -75,8 +76,67 @@
                         android:layout_toEndOf="@+id/imagePoster"
                         android:layout_marginStart="10dp"
                         tools:ignore="HardcodedText" />
-                </RelativeLayout>
 
+                    <TextView
+                        style="@style/MovieSubtitle"
+                        android:id="@+id/description"
+                        android:text="@string/movie_description"
+                        android:layout_below="@id/imagePoster"/>
+
+                    <TextView
+                        android:id="@+id/movieOverview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimaryText"
+                        android:background="@color/colorPrimary"
+                        android:layout_below="@+id/description"
+                        android:padding="10dp"
+                        android:layout_marginStart="-10dp"
+                        android:layout_marginEnd="-10dp"/>
+
+                    <TextView
+                        style="@style/MovieSubtitle"
+                        android:id="@+id/videos"
+                        android:text="@string/movie_videos"
+                        android:layout_below="@+id/movieOverview"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        style="@style/MovieRecyclerView"
+                        android:id="@+id/videoRecyclerView"
+                        android:layout_below="@+id/videos" />
+
+                    <TextView
+                        style="@style/MovieSubtitle"
+                        android:id="@+id/cast"
+                        android:text="@string/movie_cast"
+                        android:layout_below="@+id/videoRecyclerView"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        style="@style/MovieRecyclerView"
+                        android:id="@+id/castRecyclerView"
+                        android:layout_below="@+id/cast"/>
+
+                    <TextView
+                        style="@style/MovieSubtitle"
+                        android:id="@+id/crew"
+                        android:text="@string/movie_crew"
+                        android:layout_below="@+id/castRecyclerView"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        style="@style/MovieRecyclerView"
+                        android:id="@+id/crewRecyclerView"
+                        android:layout_below="@+id/crew"/>
+
+                    <TextView
+                        style="@style/MovieSubtitle"
+                        android:id="@+id/similar"
+                        android:text="@string/movie_similar"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        style="@style/MovieRecyclerView"
+                        android:id="@+id/similarRecyclerView"
+                        android:layout_below="@id/similar"/>
+                </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
 
     <include layout="@layout/view_progress" />

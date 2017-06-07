@@ -16,7 +16,7 @@ public interface MovieContract {
         void showData();
         void hideError();
         void showError();
-        void showMovieInfo(MovieInfoResponse movieInfo);
+        void displayMovieInfo(MovieInfoResponse movieInfo);
     }
 
 }

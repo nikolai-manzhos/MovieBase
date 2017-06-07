@@ -3,7 +3,6 @@ package com.defaultapps.moviebase.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
@@ -45,7 +44,6 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             if (firstTimeLaunch) {
-                Log.d("MainActivity", "savedInstanceState == null");
                 selectItem(R.id.tab_home);
                 firstTimeLaunch = false;
             }
