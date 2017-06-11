@@ -20,6 +20,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
@@ -129,7 +130,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
                 .centerCrop()
                 .into(imagePoster);
         movieTitle.setText(movieInfo.getTitle());
-        releaseDate.append(" " + movieInfo.getReleaseDate());
+        releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
         movieOverview.setText(movieInfo.getOverview());
     }
 

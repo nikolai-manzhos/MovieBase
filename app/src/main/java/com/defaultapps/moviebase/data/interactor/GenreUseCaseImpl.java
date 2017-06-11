@@ -33,7 +33,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
     }
 
     @Override
-    public Observable<MoviesResponse> requestHomeData(String genreId, boolean force) {
+    public Observable<MoviesResponse> requestGenreData(String genreId, boolean force) {
         if (force && genreDisposable != null) {
             genreDisposable.dispose();
         }

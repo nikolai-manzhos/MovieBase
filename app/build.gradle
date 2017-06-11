@@ -7,7 +7,7 @@ keystoreProperties.load(new FileInputStream(rootProject.file("keystore.propertie
 
 afterEvaluate {
     assembleDebug.dependsOn 'test'
-    assembleRelease.dependsOn 'test', 'lint'
+//    assembleRelease.dependsOn 'test', 'lint'
 }
 
 android {

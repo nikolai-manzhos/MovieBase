@@ -25,7 +25,7 @@ public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> i
             getView().hideError();
         }
         getCompositeDisposable().add(
-                genreUseCase.requestHomeData(genreId, force)
+                genreUseCase.requestGenreData(genreId, force)
                 .subscribe(
                         moviesResponse -> {
                             if (getView() != null) {

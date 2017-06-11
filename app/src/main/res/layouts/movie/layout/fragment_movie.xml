@@ -130,7 +130,8 @@
                     <TextView
                         style="@style/MovieSubtitle"
                         android:id="@+id/similar"
-                        android:text="@string/movie_similar"/>
+                        android:text="@string/movie_similar"
+                        android:layout_below="@+id/crewRecyclerView"/>
 
                     <android.support.v7.widget.RecyclerView
                         style="@style/MovieRecyclerView"

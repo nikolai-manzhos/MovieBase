@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingItemViewHolder;
+import com.defaultapps.moviebase.utils.OnMovieSelected;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -42,7 +43,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
                 .fit()
                 .into(holder.upcomingImage);
         holder.upcomingContainer.setOnClickListener(view -> {
-            listener.onMovieClick(items.getResults().get(adapterPosition).getId());
+            listener.onSelect(items.getResults().get(adapterPosition).getId());
         });
     }
 

@@ -11,9 +11,9 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
-import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.home.vh.MainViewHolder;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingViewHolder;
+import com.defaultapps.moviebase.utils.OnMovieSelected;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -76,7 +76,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case NOW_PLAYING:
                 MainViewHolder mainViewHolder = (MainViewHolder) holder;
-                ((MainViewHolder) holder).nowPlayingContainer.setOnClickListener(view -> listener.onMovieClick(nowPlaying.getResults().get(adapterPosition -1).getId()));
+                ((MainViewHolder) holder).nowPlayingContainer.setOnClickListener(view -> listener.onSelect(nowPlaying.getResults().get(adapterPosition -1).getId()));
                 configureNowPlayingVH(mainViewHolder, adapterPosition);
                 break;
             default:

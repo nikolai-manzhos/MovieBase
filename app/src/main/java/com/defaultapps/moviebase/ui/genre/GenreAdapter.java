@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.utils.OnMovieSelected;
+import com.defaultapps.moviebase.utils.Utils;
+import com.joanzapata.iconify.widget.IconTextView;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -24,6 +28,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
 
     private Context context;
     private MoviesResponse items;
+    private OnMovieSelected listener;
 
     @Inject
     GenreAdapter(@ActivityContext Context context) {
@@ -32,11 +37,17 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
 
     static class GenreViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.genreContainer)
+        RelativeLayout container;
+
         @BindView(R.id.moviePoster)
         ImageView poster;
 
         @BindView(R.id.movieTitle)
         TextView title;
+
+        @BindView(R.id.movieDate)
+        IconTextView movieDate;
 
         GenreViewHolder(View v) {
             super(v);
@@ -52,14 +63,17 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
     @Override
     public void onBindViewHolder(GenreViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
+        String icon = "{md-today}";
         String posterPath = items.getResults().get(adapterPosition).getPosterPath();
         holder.title.setText(items.getResults().get(adapterPosition).getTitle());
+        holder.movieDate.setText(String.format(("%1$s" + Utils.convertDate(items.getResults().get(adapterPosition).getReleaseDate())), icon));
         Picasso
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + posterPath)
                 .fit()
                 .centerCrop()
                 .into(holder.poster);
+        holder.container.setOnClickListener(view -> listener.onSelect(items.getResults().get(adapterPosition).getId()));
     }
 
     @Override
@@ -70,5 +84,9 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
     public void setData(MoviesResponse items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public void setOnMovieSelectedListener(OnMovieSelected listener) {
+        this.listener = listener;
     }
 }

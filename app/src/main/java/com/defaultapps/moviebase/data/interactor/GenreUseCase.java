@@ -6,5 +6,5 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import io.reactivex.Observable;
 
 public interface GenreUseCase {
-    Observable<MoviesResponse> requestHomeData(String genreId, boolean force);
+    Observable<MoviesResponse> requestGenreData(String genreId, boolean force);
 }

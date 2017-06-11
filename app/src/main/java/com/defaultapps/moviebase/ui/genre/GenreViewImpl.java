@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.ui.genre;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.OnMovieSelected;
 
 import javax.inject.Inject;
 
@@ -25,7 +28,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView {
+public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieSelected {
 
     @BindView(R.id.toolbarText)
     TextView toolbarText;
@@ -72,6 +75,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         } else {
             presenter.requestMovies(genreId, false);
         }
+        adapter.setOnMovieSelectedListener(this);
     }
 
     @Override
@@ -79,6 +83,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         super.onDestroyView();
         unbinder.unbind();
         presenter.onDetach();
+        adapter.setOnMovieSelectedListener(null);
     }
 
     @OnClick(R.id.backButton)
@@ -89,6 +94,13 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @OnClick(R.id.errorButton)
     void onErrorClick() {
         presenter.requestMovies(genreId, true);
+    }
+
+    @Override
+    public void onSelect(int movieId) {
+        Intent intent = new Intent(getActivity(), MovieActivity.class);
+        intent.putExtra(AppConstants.MOVIE_ID, movieId);
+        getActivity().startActivity(intent);
     }
 
     @Override

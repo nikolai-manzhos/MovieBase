@@ -14,7 +14,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
-import com.defaultapps.moviebase.ui.home.adapter.OnMovieSelected;
+import com.defaultapps.moviebase.utils.OnMovieSelected;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
@@ -85,7 +85,7 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     }
 
     @Override
-    public void onMovieClick(int movieId) {
+    public void onSelect(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
         intent.putExtra(AppConstants.MOVIE_ID, movieId);
         getActivity().startActivity(intent);
