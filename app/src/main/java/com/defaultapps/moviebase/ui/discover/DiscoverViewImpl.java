@@ -42,7 +42,6 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
         return inflater.inflate(R.layout.fragment_discover, container, false);
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

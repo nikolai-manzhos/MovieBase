@@ -102,14 +102,14 @@
 
                     <android.support.v7.widget.RecyclerView
                         style="@style/MovieRecyclerView"
-                        android:id="@+id/videoRecyclerView"
+                        android:id="@+id/videosRecyclerView"
                         android:layout_below="@+id/videos" />
 
                     <TextView
                         style="@style/MovieSubtitle"
                         android:id="@+id/cast"
                         android:text="@string/movie_cast"
-                        android:layout_below="@+id/videoRecyclerView"/>
+                        android:layout_below="@+id/videosRecyclerView"/>
 
                     <android.support.v7.widget.RecyclerView
                         style="@style/MovieRecyclerView"

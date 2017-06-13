@@ -1,3 +1,4 @@
+
 package com.defaultapps.moviebase.data.models.responses.movie;
 
 import com.google.gson.annotations.Expose;

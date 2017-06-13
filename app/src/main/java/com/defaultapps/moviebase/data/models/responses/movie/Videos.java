@@ -1,3 +1,4 @@
+
 package com.defaultapps.moviebase.data.models.responses.movie;
 
 import java.util.List;
@@ -8,13 +9,14 @@ public class Videos {
 
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<VideoResult> videoResults = null;
 
-    public List<Result> getResults() {
-        return results;
+    public List<VideoResult> getVideoResults() {
+        return videoResults;
     }
 
-    public void setResults(List<Result> results) {
-        this.results = results;
+    public void setVideoResults(List<VideoResult> videoResults) {
+        this.videoResults = videoResults;
     }
+
 }

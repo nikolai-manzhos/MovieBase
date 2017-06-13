@@ -12,7 +12,7 @@ afterEvaluate {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         minSdkVersion 17
@@ -37,6 +37,7 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']
+        it.buildConfigField 'String', 'YOUTUBE_API_KEY', keystoreProperties['YoutubeSecretKey']
     }
 
     sourceSets {
@@ -67,7 +68,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile "com.android.support:appcompat-v7:$rootProject.support"
     compile "com.android.support:cardview-v7:$rootProject.support"
     compile "com.android.support:customtabs:$rootProject.support"

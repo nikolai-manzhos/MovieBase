@@ -1,8 +1,7 @@
 package com.defaultapps.moviebase.ui.movie.adapter;
 
-/**
- * Created on 6/6/2017.
- */
+import android.support.v7.widget.RecyclerView;
+
 
 public class CrewAdapter {
 }

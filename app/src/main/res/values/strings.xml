@@ -19,6 +19,7 @@
     <!--Movie strings-->
     <string name="movie_image_backdrop">Backdrop image</string>
     <string name="movie_image_poster">Poster image</string>
+    <string name="movie_image_video">Video thumbnail</string>
     <string name="movie_description">Description</string>
     <string name="movie_videos">Videos</string>
     <string name="movie_crew">Crew</string>

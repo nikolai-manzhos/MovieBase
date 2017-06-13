@@ -55,7 +55,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
     }
 
     private Observable<MovieInfoResponse> network(int movieId) {
-        return networkService.getNetworkCall().getMovieInfo(movieId, API_KEY, "en-Us", "videos")
+        return networkService.getNetworkCall().getMovieInfo(movieId, API_KEY, "en-Us", "videos,credits,similar")
                 .compose(schedulerProvider.applyIoSchedulers());
     }
 }

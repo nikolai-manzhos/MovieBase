@@ -1,8 +1,10 @@
+
 package com.defaultapps.moviebase.data.models.responses.movie;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 public class MovieInfoResponse {
 
     @SerializedName("adult")
@@ -13,7 +15,7 @@ public class MovieInfoResponse {
     private String backdropPath;
     @SerializedName("belongs_to_collection")
     @Expose
-    private BelongsToCollection belongsToCollection;
+    private Object belongsToCollection;
     @SerializedName("budget")
     @Expose
     private Integer budget;
@@ -65,9 +67,6 @@ public class MovieInfoResponse {
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("tagline")
-    @Expose
-    private String tagline;
     @SerializedName("title")
     @Expose
     private String title;
@@ -83,6 +82,12 @@ public class MovieInfoResponse {
     @SerializedName("videos")
     @Expose
     private Videos videos;
+    @SerializedName("credits")
+    @Expose
+    private Credits credits;
+    @SerializedName("similar")
+    @Expose
+    private Similar similar;
 
     public Boolean getAdult() {
         return adult;
@@ -100,11 +105,11 @@ public class MovieInfoResponse {
         this.backdropPath = backdropPath;
     }
 
-    public BelongsToCollection getBelongsToCollection() {
+    public Object getBelongsToCollection() {
         return belongsToCollection;
     }
 
-    public void setBelongsToCollection(BelongsToCollection belongsToCollection) {
+    public void setBelongsToCollection(Object belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
     }
 
@@ -244,14 +249,6 @@ public class MovieInfoResponse {
         this.status = status;
     }
 
-    public String getTagline() {
-        return tagline;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -290,6 +287,22 @@ public class MovieInfoResponse {
 
     public void setVideos(Videos videos) {
         this.videos = videos;
+    }
+
+    public Credits getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Credits credits) {
+        this.credits = credits;
+    }
+
+    public Similar getSimilar() {
+        return similar;
+    }
+
+    public void setSimilar(Similar similar) {
+        this.similar = similar;
     }
 
 }

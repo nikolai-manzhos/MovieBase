@@ -1,5 +1,5 @@
-package com.defaultapps.moviebase.data.models.responses.movie;
 
+package com.defaultapps.moviebase.data.models.responses.movie;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

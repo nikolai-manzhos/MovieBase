@@ -6,6 +6,9 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
@@ -78,9 +82,23 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @BindView(R.id.favoriteFab)
     FloatingActionButton favoriteFab;
 
+    @BindView(R.id.videosRecyclerView)
+    RecyclerView videosRecyclerView;
+
+    @BindView(R.id.castRecyclerView)
+    RecyclerView castRecyclerView;
+
+    @BindView(R.id.crewRecyclerView)
+    RecyclerView crewRecyclerView;
+
+    @BindView(R.id.similarRecyclerView)
+    RecyclerView simillarRecyclerView;
 
     @Inject
     MoviePresenterImpl presenter;
+
+    @Inject
+    VideosAdapter videosAdapter;
 
     private Unbinder unbinder;
     private int movieId;
@@ -97,6 +115,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         unbinder = ButterKnife.bind(this, view);
         initToolbar();
         initFAB();
+        initRecyclerViews();
 
         presenter.onAttach(this);
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
@@ -132,6 +151,8 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
         movieOverview.setText(movieInfo.getOverview());
+        videosAdapter.setData(movieInfo.getVideos().getVideoResults());
+
     }
 
     @Override
@@ -194,5 +215,13 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setNavigationOnClickListener(view -> activity.finish());
+    }
+
+    private void initRecyclerViews() {
+        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
+        videosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        videosRecyclerView.setAdapter(videosAdapter);
+        videosRecyclerView.addItemDecoration(divider);
+        //TODO: Cast, crew, similar recycler views
     }
 }
