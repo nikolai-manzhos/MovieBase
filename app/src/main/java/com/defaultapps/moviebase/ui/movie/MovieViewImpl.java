@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.Utils;
@@ -99,6 +100,9 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     @Inject
     VideosAdapter videosAdapter;
+
+    @Inject
+    CastAdapter castAdapter;
 
     private Unbinder unbinder;
     private int movieId;
@@ -219,9 +223,13 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     private void initRecyclerViews() {
         DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
+        divider.setDrawable(getResources().getDrawable(R.drawable.decorator_drawable));
         videosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         videosRecyclerView.setAdapter(videosAdapter);
         videosRecyclerView.addItemDecoration(divider);
-        //TODO: Cast, crew, similar recycler views
+
+        castRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        castRecyclerView.setAdapter(castAdapter);
+        castRecyclerView.addItemDecoration(divider);
     }
 }

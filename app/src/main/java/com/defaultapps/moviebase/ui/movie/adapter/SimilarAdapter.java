@@ -1,8 +1,25 @@
 package com.defaultapps.moviebase.ui.movie.adapter;
 
-/**
- * Created on 6/6/2017.
- */
 
-public class SimilarAdapter {
+import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
+
+import com.defaultapps.moviebase.ui.movie.vh.SimilarViewHolder;
+
+public class SimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder> {
+
+    @Override
+    public SimilarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(SimilarViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
 }

@@ -11,7 +11,7 @@ import com.defaultapps.moviebase.di.module.ActivityModule;
 
 
 public class BaseActivity extends AppCompatActivity {
-    private ActivityComponent activityComponent;
+    protected ActivityComponent activityComponent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
