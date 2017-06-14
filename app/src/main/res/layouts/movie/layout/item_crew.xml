@@ -4,13 +4,13 @@
     android:orientation="vertical"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
-    android:layout_width="120dp"
+    android:layout_width="110dp"
     android:layout_height="match_parent">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/crewPortrait"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/colorPrimaryText"/>
 
@@ -20,7 +20,6 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:maxLines="1"
-        android:ellipsize="end"
         android:maxLength="16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +30,7 @@
         android:textColor="@color/colorPrimaryText"
         android:textSize="12sp"
         android:maxLines="1"
-        android:ellipsize="end"
+        android:maxLength="18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"/>

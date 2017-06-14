@@ -2,7 +2,6 @@ package com.defaultapps.moviebase.ui.movie.vh;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.textservice.TextInfo;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;

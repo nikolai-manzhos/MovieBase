@@ -2,6 +2,8 @@
 package com.defaultapps.moviebase.data.models.responses.movie;
 
 import java.util.List;
+
+import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -87,7 +89,7 @@ public class MovieInfoResponse {
     private Credits credits;
     @SerializedName("similar")
     @Expose
-    private Similar similar;
+    private MoviesResponse similar;
 
     public Boolean getAdult() {
         return adult;
@@ -297,11 +299,11 @@ public class MovieInfoResponse {
         this.credits = credits;
     }
 
-    public Similar getSimilar() {
+    public MoviesResponse getSimilar() {
         return similar;
     }
 
-    public void setSimilar(Similar similar) {
+    public void setSimilar(MoviesResponse similar) {
         this.similar = similar;
     }
 

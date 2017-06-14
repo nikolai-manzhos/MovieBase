@@ -6,7 +6,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,8 +23,10 @@ import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
+import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -108,6 +109,9 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @Inject
     CrewAdapter crewAdapter;
 
+    @Inject
+    SimilarAdapter similarAdapter;
+
     private Unbinder unbinder;
     private int movieId;
 
@@ -162,6 +166,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         videosAdapter.setData(movieInfo.getVideos().getVideoResults());
         castAdapter.setData(movieInfo.getCredits().getCast());
         crewAdapter.setData(movieInfo.getCredits().getCrew());
+        similarAdapter.setData(movieInfo.getSimilar().getResults());
     }
 
     @Override
@@ -227,22 +232,26 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     }
 
     private void initRecyclerViews() {
-        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
+        SimpleItemDecorator horizontalDivider = new SimpleItemDecorator(30, true);
         //noinspection deprecation
-        divider.setDrawable(getResources().getDrawable(R.drawable.decorator_drawable));
         videosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         videosRecyclerView.setAdapter(videosAdapter);
-        videosRecyclerView.addItemDecoration(divider);
+        videosRecyclerView.addItemDecoration(horizontalDivider);
         videosRecyclerView.setNestedScrollingEnabled(false);
 
         castRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         castRecyclerView.setAdapter(castAdapter);
-        castRecyclerView.addItemDecoration(divider);
+        castRecyclerView.addItemDecoration(horizontalDivider);
         castRecyclerView.setNestedScrollingEnabled(false);
 
         crewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         crewRecyclerView.setAdapter(crewAdapter);
-        crewRecyclerView.addItemDecoration(divider);
+        crewRecyclerView.addItemDecoration(horizontalDivider);
         crewRecyclerView.setNestedScrollingEnabled(false);
+
+        similarRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        similarRecyclerView.setAdapter(similarAdapter);
+        similarRecyclerView.addItemDecoration(horizontalDivider);
+        similarRecyclerView.setNestedScrollingEnabled(false);
     }
 }

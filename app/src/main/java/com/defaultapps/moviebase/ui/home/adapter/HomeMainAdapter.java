@@ -37,7 +37,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     @Inject
-    public HomeMainAdapter(@ActivityContext Context context,
+    HomeMainAdapter(@ActivityContext Context context,
                            UpcomingAdapter upcomingAdapter) {
         this.context = context;
         this.upcomingAdapter = upcomingAdapter;
@@ -97,6 +97,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    @SuppressWarnings("unused")
     private void configureUpcomingVH(UpcomingViewHolder vh, int position) {
         vh.upcomingList.setAdapter(upcomingAdapter);
         vh.upcomingList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));

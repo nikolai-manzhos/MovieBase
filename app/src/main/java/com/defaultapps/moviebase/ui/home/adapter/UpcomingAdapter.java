@@ -42,9 +42,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
                 .load("https://image.tmdb.org/t/p/w300/" + items.getResults().get(adapterPosition).getPosterPath())
                 .fit()
                 .into(holder.upcomingImage);
-        holder.upcomingContainer.setOnClickListener(view -> {
-            listener.onSelect(items.getResults().get(adapterPosition).getId());
-        });
+        holder.upcomingContainer.setOnClickListener(view -> listener.onSelect(items.getResults().get(adapterPosition).getId()));
     }
 
     @Override
