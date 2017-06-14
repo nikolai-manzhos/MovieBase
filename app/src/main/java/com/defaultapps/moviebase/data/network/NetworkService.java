@@ -1,5 +1,7 @@
 package com.defaultapps.moviebase.data.network;
 
+import com.defaultapps.moviebase.BuildConfig;
+
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -36,7 +38,11 @@ public class NetworkService {
 
     private OkHttpClient provideOkHttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        if (BuildConfig.DEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .connectTimeout(10, TimeUnit.SECONDS)

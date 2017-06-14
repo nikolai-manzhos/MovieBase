@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.movie.vh.SimilarViewHolder;
+import com.defaultapps.moviebase.utils.OnMovieSelected;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder> {
 
     private Context context;
     private List<Result> similarMovies;
+    private OnMovieSelected listener;
 
     @Inject
     public SimilarAdapter(@ActivityContext Context context) {
@@ -43,6 +45,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder> {
                 .load("https://image.tmdb.org/t/p/w300/" + similarMovies.get(adapterPosition).getPosterPath())
                 .fit()
                 .into(holder.moviePoster);
+        holder.moviePoster.setOnClickListener(view -> listener.onSelect(similarMovies.get(adapterPosition).getId()));
     }
 
     @Override
@@ -54,5 +57,9 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder> {
         this.similarMovies.clear();
         this.similarMovies.addAll(similarMovies);
         notifyDataSetChanged();
+    }
+
+    public void setOnMovieSelectedListener(OnMovieSelected listener) {
+        this.listener = listener;
     }
 }

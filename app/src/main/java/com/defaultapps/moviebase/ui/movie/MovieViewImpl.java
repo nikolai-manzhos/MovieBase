@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.ui.movie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -26,6 +27,7 @@ import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.OnMovieSelected;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
@@ -41,7 +43,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView {
+public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieSelected {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -139,11 +141,18 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         super.onDestroyView();
         unbinder.unbind();
         presenter.onDetach();
+        similarAdapter.setOnMovieSelectedListener(null);
     }
 
     @OnClick(R.id.errorButton)
     void onErrorClick() {
         presenter.requestMovieInfo(movieId, true);
+    }
+
+    @Override
+    public void onSelect(int movieId) {
+        Intent intent = new Intent(getActivity(), MovieActivity.class).putExtra(AppConstants.MOVIE_ID, movieId);
+        startActivity(intent);
     }
 
     @Override
@@ -253,5 +262,6 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         similarRecyclerView.setAdapter(similarAdapter);
         similarRecyclerView.addItemDecoration(horizontalDivider);
         similarRecyclerView.setNestedScrollingEnabled(false);
+        similarAdapter.setOnMovieSelectedListener(this);
     }
 }
