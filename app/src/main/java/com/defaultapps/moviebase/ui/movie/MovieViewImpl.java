@@ -23,6 +23,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
+import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.Utils;
@@ -93,7 +94,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     RecyclerView crewRecyclerView;
 
     @BindView(R.id.similarRecyclerView)
-    RecyclerView simillarRecyclerView;
+    RecyclerView similarRecyclerView;
 
     @Inject
     MoviePresenterImpl presenter;
@@ -103,6 +104,9 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     @Inject
     CastAdapter castAdapter;
+
+    @Inject
+    CrewAdapter crewAdapter;
 
     private Unbinder unbinder;
     private int movieId;
@@ -157,6 +161,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         movieOverview.setText(movieInfo.getOverview());
         videosAdapter.setData(movieInfo.getVideos().getVideoResults());
         castAdapter.setData(movieInfo.getCredits().getCast());
+        crewAdapter.setData(movieInfo.getCredits().getCrew());
     }
 
     @Override
@@ -223,13 +228,21 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     private void initRecyclerViews() {
         DividerItemDecoration divider = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
+        //noinspection deprecation
         divider.setDrawable(getResources().getDrawable(R.drawable.decorator_drawable));
         videosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         videosRecyclerView.setAdapter(videosAdapter);
         videosRecyclerView.addItemDecoration(divider);
+        videosRecyclerView.setNestedScrollingEnabled(false);
 
         castRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         castRecyclerView.setAdapter(castAdapter);
         castRecyclerView.addItemDecoration(divider);
+        castRecyclerView.setNestedScrollingEnabled(false);
+
+        crewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        crewRecyclerView.setAdapter(crewAdapter);
+        crewRecyclerView.addItemDecoration(divider);
+        crewRecyclerView.setNestedScrollingEnabled(false);
     }
 }

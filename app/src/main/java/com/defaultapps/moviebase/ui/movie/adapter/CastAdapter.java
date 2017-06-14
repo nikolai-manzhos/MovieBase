@@ -9,7 +9,6 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.Cast;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.movie.vh.CastViewHolder;
-import com.defaultapps.moviebase.utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

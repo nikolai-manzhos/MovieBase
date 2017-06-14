@@ -24,7 +24,7 @@ public class LocalService {
 
     public Genres readGenresFromResources() throws IOException{
         String json;
-        InputStream is = Resources.getSystem().getAssets().open("genres.json");
+        InputStream is = context.getAssets().open("genres.json");
         int size = is.available();
         byte[] buffer = new byte[size];
         //noinspection ResultOfMethodCallIgnored
