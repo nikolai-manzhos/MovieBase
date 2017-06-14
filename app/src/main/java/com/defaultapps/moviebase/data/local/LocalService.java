@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.data.local;
 
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.di.ApplicationContext;
@@ -23,7 +24,7 @@ public class LocalService {
 
     public Genres readGenresFromResources() throws IOException{
         String json;
-        InputStream is = context.getAssets().open("genres.json");
+        InputStream is = Resources.getSystem().getAssets().open("genres.json");
         int size = is.available();
         byte[] buffer = new byte[size];
         //noinspection ResultOfMethodCallIgnored

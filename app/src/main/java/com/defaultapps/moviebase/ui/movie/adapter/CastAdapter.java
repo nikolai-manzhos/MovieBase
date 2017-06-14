@@ -9,6 +9,8 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.Cast;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.movie.vh.CastViewHolder;
+import com.defaultapps.moviebase.utils.CircleTransform;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,14 @@ public class CastAdapter extends RecyclerView.Adapter<CastViewHolder> {
 
     @Override
     public void onBindViewHolder(CastViewHolder holder, int position) {
-
+        int adapterPosition = holder.getAdapterPosition();
+        Picasso
+                .with(context)
+                .load("https://image.tmdb.org/t/p/w300" + cast.get(adapterPosition).getProfilePath())
+                .placeholder(R.drawable.placeholder_human)
+                .into(holder.castPortrait);
+        holder.castName.setText(cast.get(adapterPosition).getName());
+        holder.castCharacter.setText(cast.get(adapterPosition).getCharacter());
     }
 
     @Override

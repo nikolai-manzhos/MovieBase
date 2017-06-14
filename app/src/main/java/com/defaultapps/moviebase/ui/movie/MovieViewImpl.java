@@ -156,7 +156,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
         movieOverview.setText(movieInfo.getOverview());
         videosAdapter.setData(movieInfo.getVideos().getVideoResults());
-
+        castAdapter.setData(movieInfo.getCredits().getCast());
     }
 
     @Override
