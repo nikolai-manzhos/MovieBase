@@ -18,7 +18,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.OnMovieSelected;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 
 import javax.inject.Inject;
 
@@ -28,7 +28,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieSelected {
+public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieClickListener {
 
     @BindView(R.id.toolbarText)
     TextView toolbarText;
@@ -97,7 +97,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     }
 
     @Override
-    public void onSelect(int movieId) {
+    public void onMovieClick(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
         intent.putExtra(AppConstants.MOVIE_ID, movieId);
         getActivity().startActivity(intent);

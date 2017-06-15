@@ -14,7 +14,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
-import com.defaultapps.moviebase.utils.OnMovieSelected;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
@@ -31,7 +31,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieSelected {
+public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
 
     @BindView(R.id.homeRecycler)
     RecyclerView homeRecycler;
@@ -85,7 +85,7 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     }
 
     @Override
-    public void onSelect(int movieId) {
+    public void onMovieClick(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
         intent.putExtra(AppConstants.MOVIE_ID, movieId);
         getActivity().startActivity(intent);
@@ -94,8 +94,8 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     @Override
     public void receiveResults(List<MoviesResponse> results) {
         adapter.setData(results);
-        adapter.setMovieSelectedListener(this);
-        upcomingAdapter.setMovieSelectedListener(this);
+        adapter.setMovieClickListener(this);
+        upcomingAdapter.setMovieClickListener(this);
     }
 
     @Override

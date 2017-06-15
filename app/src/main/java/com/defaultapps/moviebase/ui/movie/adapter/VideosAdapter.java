@@ -23,9 +23,10 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosViewHolder> {
 
     private List<VideoResult> videos;
     private Context context;
+    private OnVideoClickListener listener;
 
     @Inject
-    public VideosAdapter(@ActivityContext Context context) {
+    VideosAdapter(@ActivityContext Context context) {
         this.context = context;
         videos = new ArrayList<>();
     }
@@ -42,6 +43,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosViewHolder> {
                 .with(context)
                 .load("http://img.youtube.com/vi/"+ videos.get(adapterPosition).getKey() + "/maxresdefault.jpg")
                 .into(holder.thumbnail);
+        holder.thumbnail.setOnClickListener(view -> listener.onVideoClick(videos.get(adapterPosition).getKey()));
     }
 
     @Override
@@ -53,5 +55,13 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosViewHolder> {
         this.videos.clear();
         this.videos.addAll(videos);
         notifyDataSetChanged();
+    }
+
+    public void setOnVideoClickListener(OnVideoClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnVideoClickListener {
+        void onVideoClick(String videoPath);
     }
 }

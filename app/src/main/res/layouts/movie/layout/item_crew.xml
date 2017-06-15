@@ -11,6 +11,8 @@
         android:id="@+id/crewPortrait"
         android:layout_width="110dp"
         android:layout_height="110dp"
+        android:foreground="@drawable/circle_custom_selector"
+        android:clickable="true"
         app:civ_border_width="2dp"
         app:civ_border_color="@color/colorPrimaryText"/>
 

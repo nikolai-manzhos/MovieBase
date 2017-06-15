@@ -13,16 +13,14 @@ import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.home.vh.MainViewHolder;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingViewHolder;
-import com.defaultapps.moviebase.utils.OnMovieSelected;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-/**
- * Created on 5/14/2017.
- */
+
 @PerActivity
 public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -31,7 +29,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context context;
     private UpcomingAdapter upcomingAdapter;
-    private OnMovieSelected listener;
+    private OnMovieClickListener listener;
 
     private final int UPCOMING = 0, NOW_PLAYING = 1;
 
@@ -76,7 +74,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case NOW_PLAYING:
                 MainViewHolder mainViewHolder = (MainViewHolder) holder;
-                ((MainViewHolder) holder).nowPlayingContainer.setOnClickListener(view -> listener.onSelect(nowPlaying.getResults().get(adapterPosition -1).getId()));
+                ((MainViewHolder) holder).nowPlayingContainer.setOnClickListener(view -> listener.onMovieClick(nowPlaying.getResults().get(adapterPosition -1).getId()));
                 configureNowPlayingVH(mainViewHolder, adapterPosition);
                 break;
             default:
@@ -122,7 +120,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
-    public void setMovieSelectedListener(OnMovieSelected listener) {
+    public void setMovieClickListener(OnMovieClickListener listener) {
         this.listener = listener;
     }
 }

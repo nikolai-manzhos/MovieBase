@@ -11,7 +11,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingItemViewHolder;
-import com.defaultapps.moviebase.utils.OnMovieSelected;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -21,7 +21,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
 
     private MoviesResponse items;
     private Context context;
-    private OnMovieSelected listener;
+    private OnMovieClickListener listener;
 
     @Inject
     public UpcomingAdapter(@ActivityContext Context context) {
@@ -42,7 +42,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
                 .load("https://image.tmdb.org/t/p/w300/" + items.getResults().get(adapterPosition).getPosterPath())
                 .fit()
                 .into(holder.upcomingImage);
-        holder.upcomingContainer.setOnClickListener(view -> listener.onSelect(items.getResults().get(adapterPosition).getId()));
+        holder.upcomingContainer.setOnClickListener(view -> listener.onMovieClick(items.getResults().get(adapterPosition).getId()));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
         notifyDataSetChanged();
     }
 
-    public void setMovieSelectedListener(OnMovieSelected listener) {
+    public void setMovieClickListener(OnMovieClickListener listener) {
         this.listener = listener;
     }
 }

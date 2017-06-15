@@ -13,7 +13,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
-import com.defaultapps.moviebase.utils.OnMovieSelected;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.squareup.picasso.Picasso;
@@ -28,7 +28,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
 
     private Context context;
     private MoviesResponse items;
-    private OnMovieSelected listener;
+    private OnMovieClickListener listener;
 
     @Inject
     GenreAdapter(@ActivityContext Context context) {
@@ -73,7 +73,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
                 .fit()
                 .centerCrop()
                 .into(holder.poster);
-        holder.container.setOnClickListener(view -> listener.onSelect(items.getResults().get(adapterPosition).getId()));
+        holder.container.setOnClickListener(view -> listener.onMovieClick(items.getResults().get(adapterPosition).getId()));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
         notifyDataSetChanged();
     }
 
-    public void setOnMovieSelectedListener(OnMovieSelected listener) {
+    public void setOnMovieSelectedListener(OnMovieClickListener listener) {
         this.listener = listener;
     }
 }

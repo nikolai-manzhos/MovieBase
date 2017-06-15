@@ -27,13 +27,15 @@ import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.OnMovieSelected;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.squareup.picasso.Picasso;
+import com.thefinestartist.ytpa.YouTubePlayerActivity;
+import com.thefinestartist.ytpa.enums.Orientation;
 
 import javax.inject.Inject;
 
@@ -43,7 +45,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieSelected {
+public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieClickListener, VideosAdapter.OnVideoClickListener {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -141,7 +143,8 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         super.onDestroyView();
         unbinder.unbind();
         presenter.onDetach();
-        similarAdapter.setOnMovieSelectedListener(null);
+        similarAdapter.setOnMovieClickListener(null);
+        videosAdapter.setOnVideoClickListener(null);
     }
 
     @OnClick(R.id.errorButton)
@@ -150,8 +153,17 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     }
 
     @Override
-    public void onSelect(int movieId) {
+    public void onMovieClick(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class).putExtra(AppConstants.MOVIE_ID, movieId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onVideoClick(String videoPath) {
+        Intent intent = new Intent(getActivity(), YouTubePlayerActivity.class);
+        intent.putExtra(YouTubePlayerActivity.EXTRA_VIDEO_ID, videoPath);
+        intent.putExtra(YouTubePlayerActivity.EXTRA_ORIENTATION, Orientation.ONLY_LANDSCAPE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -247,6 +259,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         videosRecyclerView.setAdapter(videosAdapter);
         videosRecyclerView.addItemDecoration(horizontalDivider);
         videosRecyclerView.setNestedScrollingEnabled(false);
+        videosAdapter.setOnVideoClickListener(this);
 
         castRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         castRecyclerView.setAdapter(castAdapter);
@@ -262,6 +275,6 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         similarRecyclerView.setAdapter(similarAdapter);
         similarRecyclerView.addItemDecoration(horizontalDivider);
         similarRecyclerView.setNestedScrollingEnabled(false);
-        similarAdapter.setOnMovieSelectedListener(this);
+        similarAdapter.setOnMovieClickListener(this);
     }
 }

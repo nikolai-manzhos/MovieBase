@@ -24,7 +24,7 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewViewHolder> {
     private List<Crew> crewList;
 
     @Inject
-    public CrewAdapter(@ActivityContext Context context) {
+    CrewAdapter(@ActivityContext Context context) {
         this.context = context;
         crewList = new ArrayList<>();
     }
@@ -44,6 +44,7 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewViewHolder> {
                 .into(holder.crewPortrait);
         holder.crewName.setText(crewList.get(adapterPosition).getName());
         holder.crewJob.setText(crewList.get(adapterPosition).getJob());
+        holder.crewPortrait.setOnClickListener(view -> {});
     }
 
     @Override
