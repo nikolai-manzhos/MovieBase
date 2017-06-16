@@ -21,6 +21,7 @@
         <activity android:name=".ui.genre.GenreActivity" />
         <activity android:name=".ui.movie.MovieActivity"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".ui.user.UserActivity" />
         <activity
             android:name="com.thefinestartist.ytpa.YouTubePlayerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

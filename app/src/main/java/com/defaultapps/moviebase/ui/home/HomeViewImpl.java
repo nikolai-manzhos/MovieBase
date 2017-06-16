@@ -14,6 +14,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
+import com.defaultapps.moviebase.ui.user.UserActivity;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.main.MainActivity;
@@ -110,7 +111,9 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
 
     @OnClick(R.id.profileButton)
     void onProfileClick() {
-        AuthUI.getInstance().signOut(getActivity());
+        Intent intent = new Intent(getActivity(), UserActivity.class);
+        startActivity(intent);
+//        AuthUI.getInstance().signOut(getActivity());
     }
 
     private void initRecyclerView() {

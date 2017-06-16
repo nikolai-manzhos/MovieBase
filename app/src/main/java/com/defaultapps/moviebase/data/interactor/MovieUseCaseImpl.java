@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.data.interactor;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.firebase.FirebaseService;
 import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
@@ -19,6 +20,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     private NetworkService networkService;
     private LocalService localService;
+    private FirebaseService firebaseService;
     private SchedulerProvider schedulerProvider;
 
     private Disposable movieInfoDisposable;
@@ -30,10 +32,12 @@ public class MovieUseCaseImpl implements MovieUseCase {
     @Inject
     MovieUseCaseImpl(NetworkService networkService,
                             LocalService localService,
-                            SchedulerProvider schedulerProvider) {
+                            SchedulerProvider schedulerProvider,
+                            FirebaseService firebaseService) {
         this.networkService = networkService;
         this.localService = localService;
         this.schedulerProvider = schedulerProvider;
+        this.firebaseService = firebaseService;
     }
 
     @Override
@@ -52,6 +56,11 @@ public class MovieUseCaseImpl implements MovieUseCase {
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
         }
         return movieInfoReplaySubject;
+    }
+
+    @Override
+    public Observable<Boolean> addMovieToDatabase(int movieId, String posterPath) {
+        return firebaseService.addToFavorites(movieId, posterPath);
     }
 
     private Observable<MovieInfoResponse> network(int movieId) {

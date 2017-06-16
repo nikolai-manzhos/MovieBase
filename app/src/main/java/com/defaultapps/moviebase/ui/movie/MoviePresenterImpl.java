@@ -24,7 +24,7 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
             getView().hideData();
             getView().showLoading();
         }
-        movieUseCase.requestMovieData(movieId, force)
+        getCompositeDisposable().add(movieUseCase.requestMovieData(movieId, force)
                 .subscribe(
                         movieInfoResponse -> {
                             if (getView() != null) {
@@ -41,6 +41,25 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
                                 getView().showError();
                             }
                         }
-                );
+                )
+        );
+    }
+
+    @Override
+    public void addMovieToFavorites(int movieId, String posterPath) {
+        getCompositeDisposable().add(
+                movieUseCase.addMovieToDatabase(movieId, posterPath).subscribe(
+                    success -> {
+                        if (getView() != null) {
+                            getView().displayTransactionStatus(true);
+                        }
+                    },
+                    err -> {
+                        if (getView() != null) {
+                            getView().displayTransactionStatus(false);
+                        }
+                    }
+                )
+        );
     }
 }

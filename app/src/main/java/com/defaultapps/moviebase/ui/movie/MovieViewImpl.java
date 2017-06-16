@@ -118,6 +118,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     private Unbinder unbinder;
     private int movieId;
+    private MovieInfoResponse movieInfo;
 
     @Nullable
     @Override
@@ -152,6 +153,11 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         presenter.requestMovieInfo(movieId, true);
     }
 
+    @OnClick(R.id.favoriteFab)
+    void onFavoriteClick() {
+        presenter.addMovieToFavorites(movieInfo.getId(), movieInfo.getPosterPath());
+    }
+
     @Override
     public void onMovieClick(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class).putExtra(AppConstants.MOVIE_ID, movieId);
@@ -168,7 +174,16 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     }
 
     @Override
+    public void displayTransactionStatus(boolean status) {
+        if
+                (status) showSnackbar(nestedScrollView, getString(R.string.movie_favorite_success));
+        else
+            showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
+    }
+
+    @Override
     public void displayMovieInfo(MovieInfoResponse movieInfo) {
+        this.movieInfo = movieInfo;
         Picasso
                 .with(getContext().getApplicationContext())
                 .load("http://image.tmdb.org/t/p//w1280" + movieInfo.getBackdropPath())

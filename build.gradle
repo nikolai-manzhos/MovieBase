@@ -39,6 +39,7 @@ ext {
     iconify = '2.2.2'
     circle = '2.1.0'
     youtube = '1.2.1'
+    materialPref = '1.0.5'
 
     mockito = '1.10.19'
     robolectric = '3.3.2'

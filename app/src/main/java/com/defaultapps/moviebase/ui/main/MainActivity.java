@@ -3,9 +3,11 @@ package com.defaultapps.moviebase.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
@@ -15,6 +17,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.roughike.bottombar.BottomBar;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,12 +31,16 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
 
+    @Inject
+    LoggedUser loggedUser;
+
     private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getActivityComponent().inject(this);
         ButterKnife.bind(this);
         firstTimeLaunch = savedInstanceState == null;
 
@@ -47,8 +55,11 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
                 selectItem(R.id.tab_home);
                 firstTimeLaunch = false;
             }
+            Log.d("MainActivity", user.getUid());
+            loggedUser.setFirebaseuser(user);
             //Signed In Get User Details
         } else {
+            //noinspection deprecation
             startActivityForResult(
                     AuthUI.getInstance()
                             .createSignInIntentBuilder()
