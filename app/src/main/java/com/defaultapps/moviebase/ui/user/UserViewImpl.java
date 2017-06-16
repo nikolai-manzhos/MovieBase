@@ -6,15 +6,38 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.firebase.ui.auth.AuthUI;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.squareup.picasso.Picasso;
+import com.yarolegovich.mp.MaterialStandardPreference;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserViewImpl extends BaseFragment implements UserContract.UserView {
 
+    @BindView(R.id.contentContainer)
+    LinearLayout contentContainer;
+
+    @BindView(R.id.logout)
+    MaterialStandardPreference logoutButton;
+
+    @BindView(R.id.userAvatar)
+    CircleImageView userAvatar;
+
+    @Inject
+    LoggedUser loggedUser;
 
     private Unbinder unbinder;
 
@@ -29,6 +52,8 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
         super.onViewCreated(view, savedInstanceState);
         ((UserActivity) getActivity()).getActivityComponent().inject(this);
         unbinder = ButterKnife.bind(this, view);
+
+        setupViews();
     }
 
     @Override
@@ -37,13 +62,33 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
         unbinder.unbind();
     }
 
-    @Override
-    public void hideLoading() {
+    @OnClick(R.id.logout)
+    void onLogoutClick() {
+        if (((UserActivity) getActivity()).checkNetworkConnection()) {
+            AuthUI.getInstance().signOut(getActivity());
+            getActivity().finish();
+        } else {
+            showSnackbar(contentContainer, getString(R.string.user_logout_error));
+        }
+    }
 
+    @OnClick(R.id.backButton)
+    void onBackIconClick() {
+        getActivity().onBackPressed();
     }
 
     @Override
-    public void showLoading() {
+    public void hideLoading() {}
 
+    @Override
+    public void showLoading() {}
+
+    private void setupViews() {
+        logoutButton.setSummary(getString(R.string.user_logged_as) + " "
+                + loggedUser.getFirebaseuser().getDisplayName());
+        Picasso
+                .with(getContext())
+                .load(loggedUser.getFirebaseuser().getPhotoUrl())
+                .into(userAvatar);
     }
 }

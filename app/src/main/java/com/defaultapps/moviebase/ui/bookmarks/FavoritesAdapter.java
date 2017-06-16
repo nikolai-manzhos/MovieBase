@@ -9,6 +9,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.firebase.Favorite;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
@@ -18,15 +19,18 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@PerActivity
 public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, FavoritesAdapter.FavoritesViewHolder> {
 
     private Context context;
+    private OnMovieClickListener listener;
 
-    static class FavoritesViewHolder extends RecyclerView.ViewHolder {
+    @SuppressWarnings("WeakerAccess")
+    public static class FavoritesViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.favoritePoster)
         ImageView favoritePoster;
 
-        FavoritesViewHolder(View v) {
+        public FavoritesViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
         }
@@ -46,5 +50,10 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
                 .fit()
                 .centerCrop()
                 .into(viewHolder.favoritePoster);
+        viewHolder.favoritePoster.setOnClickListener(view -> listener.onMovieClick(model.getFavoriteMovieId()) );
+    }
+
+    void setOnMovieClickListener(OnMovieClickListener listener) {
+        this.listener = listener;
     }
 }

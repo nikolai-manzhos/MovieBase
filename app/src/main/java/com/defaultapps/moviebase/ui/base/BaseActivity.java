@@ -1,5 +1,8 @@
 package com.defaultapps.moviebase.ui.base;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,13 @@ public class BaseActivity extends AppCompatActivity {
 
     public ActivityComponent getActivityComponent() {
         return activityComponent;
+    }
+
+    public boolean checkNetworkConnection() {
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
 }

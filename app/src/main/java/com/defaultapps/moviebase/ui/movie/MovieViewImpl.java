@@ -175,8 +175,8 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     @Override
     public void displayTransactionStatus(boolean status) {
-        if
-                (status) showSnackbar(nestedScrollView, getString(R.string.movie_favorite_success));
+        if (status)
+            showSnackbar(nestedScrollView, getString(R.string.movie_favorite_success));
         else
             showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
     }

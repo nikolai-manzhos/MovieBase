@@ -34,6 +34,7 @@
 -keepclassmembers class com.defaultapps.moviebase.data.models.** {
   *;
 }
+-keep class com.defaultapps.moviebase.ui.bookmarks.** { *; }
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {

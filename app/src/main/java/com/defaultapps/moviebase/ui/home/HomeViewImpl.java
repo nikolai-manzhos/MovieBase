@@ -113,7 +113,6 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     void onProfileClick() {
         Intent intent = new Intent(getActivity(), UserActivity.class);
         startActivity(intent);
-//        AuthUI.getInstance().signOut(getActivity());
     }
 
     private void initRecyclerView() {
