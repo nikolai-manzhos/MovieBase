@@ -1,6 +1,8 @@
 package com.defaultapps.moviebase.data.firebase;
 
+
 import com.defaultapps.moviebase.data.models.firebase.Favorite;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +48,18 @@ public class FirebaseService {
         });
     }
 
-    public void removeFromFavorites() {}
+    public Observable<Boolean> removeFromFavorites(String key) {
+        checkUserNotNull();
+        return Observable.create(e -> databaseReference.child(key).getRef().removeValue()
+                .addOnCompleteListener((Task<Void> task) -> {
+                    if (task.isSuccessful())
+                        e.onNext(true);
+                    else
+                        e.onError(task.getException());
+                    e.onComplete();
+                })
+        );
+    }
 
     private void checkUserNotNull() {
         if (loggedUser.getFirebaseuser() == null) {
