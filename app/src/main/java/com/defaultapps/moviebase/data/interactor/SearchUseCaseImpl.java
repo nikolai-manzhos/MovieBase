@@ -14,4 +14,9 @@ public class SearchUseCaseImpl implements SearchUseCase {
     public SearchUseCaseImpl(NetworkService networkService) {
         this.networkService = networkService;
     }
+
+    @Override
+    public void requestSearchResults(String query) {
+
+    }
 }
