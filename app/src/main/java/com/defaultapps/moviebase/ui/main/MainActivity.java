@@ -13,6 +13,7 @@ import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
+import com.defaultapps.moviebase.utils.OnBackPressedListener;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
     LoggedUser loggedUser;
 
     private FirebaseAuth firebaseAuth;
+    private OnBackPressedListener onBackPressedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,15 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
     }
 
     @Override
+    public void onBackPressed() {
+       if (onBackPressedListener != null && onBackPressedListener.onBackPressed()) {
+           super.onBackPressed();
+       } else if (onBackPressedListener == null) {
+           super.onBackPressed();
+       }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         firebaseAuth.addAuthStateListener(this);
@@ -99,6 +110,10 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
         super.onPause();
         firebaseAuth.removeAuthStateListener(this);
         bottomBar.removeOnTabSelectListener();
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
     }
 
     private void initBottomBar() {

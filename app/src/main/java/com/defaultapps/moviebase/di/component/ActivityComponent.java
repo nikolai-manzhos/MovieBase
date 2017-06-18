@@ -9,6 +9,7 @@ import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieViewImpl;
+import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.defaultapps.moviebase.ui.user.UserViewImpl;
 
 import dagger.Component;
@@ -23,4 +24,5 @@ public interface ActivityComponent {
     void inject(GenreViewImpl genreView);
     void inject(MovieViewImpl movieView);
     void inject(UserViewImpl userView);
+    void inject(SearchViewImpl searchView);
 }

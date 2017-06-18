@@ -105,6 +105,7 @@ dependencies {
     compile "de.hdodenhof:circleimageview:$rootProject.circle"
     compile "com.thefinestartist:ytpa:$rootProject.youtube"
     compile "com.yarolegovich:mp:$rootProject.materialPref"
+    compile "com.miguelcatalan:materialsearchview:$rootProject.materialSearch"
 
 
     testCompile 'junit:junit:4.12'
