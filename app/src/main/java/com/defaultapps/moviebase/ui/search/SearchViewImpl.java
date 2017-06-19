@@ -2,22 +2,35 @@ package com.defaultapps.moviebase.ui.search;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.utils.OnBackPressedListener;
+import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,11 +39,32 @@ import butterknife.Unbinder;
 
 public class SearchViewImpl extends BaseFragment implements SearchContract.SearchView, OnBackPressedListener {
 
+    @BindView(R.id.contentContainer)
+    LinearLayout contentContainer;
+
+    @BindView(R.id.searchRecyclerView)
+    RecyclerView searchRecyclerView;
+
     @BindView(R.id.search_view)
     MaterialSearchView searchView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.errorTextView)
+    TextView errorText;
+
+    @BindView(R.id.errorButton)
+    Button errorButton;
+
+    @Inject
+    SearchPresenterImpl presenter;
+
+    @Inject
+    SearchAdapter searchAdapter;
 
     private Unbinder unbinder;
     private MainActivity activity;
@@ -54,12 +88,14 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
         activity.getActivityComponent().inject(this);
+        presenter.onAttach(this);
         activity.setOnBackPressedListener(this);
 
         activity.setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         initSearchView();
+        initRecyclerView();
     }
 
     @Override
@@ -78,6 +114,7 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         super.onDestroyView();
         activity.setSupportActionBar(null);
         activity.setOnBackPressedListener(null);
+        presenter.onDetach();
         unbinder.unbind();
     }
 
@@ -97,14 +134,47 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     }
 
     @Override
-    public void hideLoading() {}
+    public void displaySearchResults(MoviesResponse moviesResponse) {
+        searchAdapter.setData(moviesResponse.getResults());
+    }
 
     @Override
-    public void showLoading() {}
+    public void showData() {
+        contentContainer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideData() {
+        contentContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError() {
+        errorText.setVisibility(View.VISIBLE);
+        errorButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideError() {
+        errorText.setVisibility(View.GONE);
+        errorButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
     private void initSearchView() {
         searchView.setCursorDrawable(R.drawable.cursor);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable workRunnable;
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -112,8 +182,23 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                handler.removeCallbacks(workRunnable);
+                workRunnable = () -> sendQuery(newText);
+                if (TextUtils.getTrimmedLength(newText) > 0) {
+                    handler.postDelayed(workRunnable, 500);
+                }
                 return false;
             }
+
+            private void sendQuery(String newText) {
+                presenter.requestSearchResults(newText, true);
+            }
         });
+    }
+
+    private void initRecyclerView() {
+        searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        searchRecyclerView.addItemDecoration(new SimpleItemDecorator(10));
+        searchRecyclerView.setAdapter(searchAdapter);
     }
 }

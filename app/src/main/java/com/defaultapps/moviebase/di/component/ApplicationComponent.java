@@ -7,6 +7,7 @@ import com.defaultapps.moviebase.data.interactor.DiscoverUseCaseImpl;
 import com.defaultapps.moviebase.data.interactor.GenreUseCaseImpl;
 import com.defaultapps.moviebase.data.interactor.HomeUseCaseImpl;
 import com.defaultapps.moviebase.data.interactor.MovieUseCaseImpl;
+import com.defaultapps.moviebase.data.interactor.SearchUseCaseImpl;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
 import com.google.firebase.database.DatabaseReference;
 
@@ -22,6 +23,7 @@ public interface ApplicationComponent {
     BookmarksUseCaseImpl bookmarksUseCaseImpl();
     GenreUseCaseImpl genreUseCaseImpl();
     MovieUseCaseImpl movieUseCaseImpl();
+    SearchUseCaseImpl searchUseCaseImpl();
     DatabaseReference databaseReference();
     LoggedUser loggedUser();
 }
