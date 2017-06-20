@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.search;
 
 
-import com.defaultapps.moviebase.data.interactor.SearchUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
@@ -30,6 +30,7 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
                         moviesResponse -> {
                             if (getView() != null) {
                                 getView().hideLoading();
+                                getView().hideError();
                                 getView().showData();
                                 getView().displaySearchResults(moviesResponse);
                             }

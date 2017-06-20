@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.movie;
 
 
-import com.defaultapps.moviebase.data.interactor.MovieUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.MovieUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 
 import org.junit.Before;

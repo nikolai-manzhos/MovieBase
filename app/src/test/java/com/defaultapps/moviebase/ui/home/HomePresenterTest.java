@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.ui.home;
 
-import com.defaultapps.moviebase.data.interactor.HomeUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.HomeUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 
 import org.junit.Before;

@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
-import com.defaultapps.moviebase.data.interactor.BookmarksUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.BookmarksUseCaseImpl;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 

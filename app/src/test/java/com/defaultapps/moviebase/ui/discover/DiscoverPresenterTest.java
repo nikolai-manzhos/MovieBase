@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.discover;
 
 
-import com.defaultapps.moviebase.data.interactor.DiscoverUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.DiscoverUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 
 import org.junit.Before;

@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.ui.genre;
 
-import com.defaultapps.moviebase.data.interactor.GenreUseCaseImpl;
-import com.defaultapps.moviebase.data.models.responses.genres.Genres;
+import com.defaultapps.moviebase.data.usecase.GenreUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 
 import org.junit.Before;

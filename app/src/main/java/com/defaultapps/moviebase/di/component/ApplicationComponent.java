@@ -1,13 +1,12 @@
 package com.defaultapps.moviebase.di.component;
 
-import com.defaultapps.moviebase.data.firebase.FirebaseService;
 import com.defaultapps.moviebase.data.firebase.LoggedUser;
-import com.defaultapps.moviebase.data.interactor.BookmarksUseCaseImpl;
-import com.defaultapps.moviebase.data.interactor.DiscoverUseCaseImpl;
-import com.defaultapps.moviebase.data.interactor.GenreUseCaseImpl;
-import com.defaultapps.moviebase.data.interactor.HomeUseCaseImpl;
-import com.defaultapps.moviebase.data.interactor.MovieUseCaseImpl;
-import com.defaultapps.moviebase.data.interactor.SearchUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.BookmarksUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.DiscoverUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.GenreUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.HomeUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.MovieUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
 import com.google.firebase.database.DatabaseReference;
 

@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.data.interactor;
+package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.data.TestSchedulerProvider;
 import com.defaultapps.moviebase.data.local.LocalService;
@@ -16,7 +16,7 @@ import io.reactivex.subjects.ReplaySubject;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-public class    GenreUseCaseTest {
+public class DiscoverUseCaseTest {
 
     @Mock
     LocalService localService;

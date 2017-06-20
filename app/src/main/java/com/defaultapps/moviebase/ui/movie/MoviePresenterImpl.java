@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.movie;
 
-import com.defaultapps.moviebase.data.interactor.MovieUseCase;
-import com.defaultapps.moviebase.data.interactor.MovieUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.MovieUseCase;
+import com.defaultapps.moviebase.data.usecase.MovieUseCaseImpl;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 

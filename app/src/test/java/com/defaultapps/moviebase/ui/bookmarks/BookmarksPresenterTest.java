@@ -1,9 +1,6 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
-import com.defaultapps.moviebase.data.interactor.BookmarksUseCaseImpl;
-import com.defaultapps.moviebase.data.models.firebase.Favorite;
-import com.defaultapps.moviebase.ui.bookmarks.BookmarksContract;
-import com.defaultapps.moviebase.ui.bookmarks.BookmarksPresenterImpl;
+import com.defaultapps.moviebase.data.usecase.BookmarksUseCaseImpl;
 
 import org.junit.Before;
 import org.junit.Test;

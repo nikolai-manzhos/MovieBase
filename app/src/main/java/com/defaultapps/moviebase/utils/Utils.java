@@ -19,7 +19,9 @@ public class Utils {
             Date date = inputFormat.parse(dateString);
             DateFormat outputFormat = new SimpleDateFormat(" MMMM-dd, yyyy", Locale.ENGLISH);
             finalString = outputFormat.format(date);
-        } catch (ParseException ex) {}
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
         return finalString;
     }
 }

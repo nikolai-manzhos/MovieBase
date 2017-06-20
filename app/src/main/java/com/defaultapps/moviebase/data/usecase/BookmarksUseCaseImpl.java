@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.data.interactor;
+package com.defaultapps.moviebase.data.usecase;
 
 
 import com.defaultapps.moviebase.data.firebase.FirebaseService;

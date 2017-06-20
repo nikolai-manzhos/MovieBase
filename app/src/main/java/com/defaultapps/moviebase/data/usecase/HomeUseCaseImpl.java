@@ -1,10 +1,7 @@
-package com.defaultapps.moviebase.data.interactor;
-
-import android.util.Log;
+package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
-import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
@@ -23,7 +20,6 @@ import io.reactivex.subjects.ReplaySubject;
 public class HomeUseCaseImpl implements HomeUseCase {
 
     private NetworkService networkService;
-    private LocalService localService;
     private SchedulerProvider schedulerProvider;
 
     private Disposable moviesDisposable;
@@ -33,10 +29,8 @@ public class HomeUseCaseImpl implements HomeUseCase {
 
     @Inject
     HomeUseCaseImpl(NetworkService networkService,
-                           LocalService localService,
                            SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
-        this.localService = localService;
         this.schedulerProvider = schedulerProvider;
     }
 

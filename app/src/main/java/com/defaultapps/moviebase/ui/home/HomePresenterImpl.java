@@ -1,12 +1,10 @@
 package com.defaultapps.moviebase.ui.home;
 
-import com.defaultapps.moviebase.data.interactor.HomeUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.HomeUseCaseImpl;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.CompositeDisposable;
 
 @PerActivity
 public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> implements HomeContract.HomePresenter {

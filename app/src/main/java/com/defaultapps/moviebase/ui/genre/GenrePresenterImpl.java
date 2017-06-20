@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.genre;
 
 
-import com.defaultapps.moviebase.data.interactor.GenreUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.GenreUseCaseImpl;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
