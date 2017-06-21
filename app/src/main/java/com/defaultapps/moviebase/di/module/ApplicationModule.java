@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.di.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import com.defaultapps.moviebase.data.AppSchedulerProvider;
 import com.defaultapps.moviebase.data.SchedulerProvider;
@@ -28,6 +29,12 @@ public class ApplicationModule {
     @Provides
     Context provideApplicationContext() {
         return application;
+    }
+
+    @Singleton
+    @Provides
+    AssetManager provideAssetManager() {
+        return application.getAssets();
     }
 
     @Singleton

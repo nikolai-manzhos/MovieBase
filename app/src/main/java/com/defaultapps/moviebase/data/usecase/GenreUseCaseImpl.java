@@ -41,7 +41,6 @@ public class GenreUseCaseImpl implements GenreUseCase {
             genreReplayProcessor = ReplaySubject.create();
 
             genreDisposable = network(genreId)
-                    .filter(moviesResponse -> moviesResponse.getTotalResults() != null).firstOrError()
                     .subscribe(genreReplayProcessor::onNext, genreReplayProcessor::onError);
         }
         return genreReplayProcessor;

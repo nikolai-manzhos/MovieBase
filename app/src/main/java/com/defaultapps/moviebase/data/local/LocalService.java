@@ -1,10 +1,8 @@
 package com.defaultapps.moviebase.data.local;
 
-import android.content.Context;
-import android.content.res.Resources;
+import android.content.res.AssetManager;
 
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
-import com.defaultapps.moviebase.di.ApplicationContext;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -15,16 +13,16 @@ import javax.inject.Inject;
 
 public class LocalService {
 
-    private Context context; // Application context
+    private AssetManager assetManager;
 
     @Inject
-    public LocalService(@ApplicationContext Context context) {
-        this.context = context;
+    public LocalService(AssetManager assetManager) {
+        this.assetManager = assetManager;
     }
 
     public Genres readGenresFromResources() throws IOException{
         String json;
-        InputStream is = context.getAssets().open("genres.json");
+        InputStream is = assetManager.open("genres.json");
         int size = is.available();
         byte[] buffer = new byte[size];
         //noinspection ResultOfMethodCallIgnored
