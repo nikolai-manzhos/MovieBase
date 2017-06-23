@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
@@ -23,7 +22,6 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     private NetworkService networkService;
     private LocalService localService;
-    private FirebaseService firebaseService;
     private FavoritesManager favoritesManager;
     private SchedulerProvider schedulerProvider;
 
@@ -37,18 +35,16 @@ public class MovieUseCaseImpl implements MovieUseCase {
     MovieUseCaseImpl(NetworkService networkService,
                             LocalService localService,
                             SchedulerProvider schedulerProvider,
-                            FirebaseService firebaseService,
                             FavoritesManager favoritesManager) {
         this.networkService = networkService;
         this.localService = localService;
         this.schedulerProvider = schedulerProvider;
-        this.firebaseService = firebaseService;
         this.favoritesManager = favoritesManager;
     }
 
     @Override
     public Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force) {
-        favoritesManager.fetchAllFavs().subscribe();
+        favoritesManager.fetchAllFavs().subscribe(); // check for database changes
         if (force) movieInfoDisposable.dispose();
         if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {
             currentId = -1;

@@ -43,5 +43,6 @@ ext {
     materialSearch = '1.4.0'
 
     mockito = '1.10.19'
+    powerMockito = '1.6.6'
     robolectric = '3.3.2'
 }

@@ -4,7 +4,6 @@ package com.defaultapps.moviebase.ui.bookmarks;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
-import com.google.firebase.database.DatabaseReference;
 
 import javax.inject.Inject;
 
@@ -27,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener, FavoritesAdapter.OnMovieLongClickListener {
+public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
@@ -36,10 +34,9 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     RecyclerView favoriteRecyclerView;
 
     @Inject
-    DatabaseReference dbReference;
+    FavoritesAdapter favoritesAdapter;
 
     private Unbinder unbinder;
-    private FavoritesAdapter favoritesAdapter;
 
     @Nullable
     @Override
@@ -61,7 +58,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
         super.onDestroyView();
         unbinder.unbind();
         favoritesAdapter.setOnMovieClickListener(null);
-        favoritesAdapter.setLongClickListener(null);
         favoritesAdapter.cleanup();
     }
 
@@ -70,18 +66,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
         Intent intent = new Intent(getActivity(), MovieActivity.class);
         intent.putExtra(AppConstants.MOVIE_ID, movieId);
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onLongClick(String key) {
-        showAlertDialog(getString(R.string.bookmarks_alert_title), null,
-                (alertDialog, which) -> {
-                    if (which == AlertDialog.BUTTON_POSITIVE) {
-                    } else if (which == AlertDialog.BUTTON_NEGATIVE) {
-                        alertDialog.dismiss();
-                    }
-                });
-        return true;
     }
 
     @Override
@@ -96,11 +80,10 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     public void showLoading() {}
 
     private void initRecyclerView() {
-        favoritesAdapter = new FavoritesAdapter(dbReference, getContext());
         favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(10,true));
+        favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(2,true));
         favoriteRecyclerView.setAdapter(favoritesAdapter);
+        favoritesAdapter.notifyDataSetChanged();
         favoritesAdapter.setOnMovieClickListener(this);
-        favoritesAdapter.setLongClickListener(this);
     }
 }

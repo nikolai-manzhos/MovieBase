@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.ui.movie;
 
 import com.defaultapps.moviebase.data.usecase.MovieUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.utils.ResponseOrError;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import io.reactivex.schedulers.TestScheduler;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,6 +32,8 @@ public class MoviePresenterTest {
 
     private MovieContract.MoviePresenter presenter;
     private TestScheduler testScheduler;
+    private final int MOCK_MOVIE_ID = 283995;
+    private final String POSTER_PATH = "/aJn9XeesqsrSLKcHfHP4u5985hn.jpg";
 
     @Before
     public void setUp() throws Exception {
@@ -62,7 +66,7 @@ public class MoviePresenterTest {
         Observable<MovieInfoResponse> observable = Observable.error(new Exception("Some error"));
         when(movieUseCase.requestMovieData(anyInt(), anyBoolean())).thenReturn(observable);
 
-        presenter.requestMovieInfo(1, false);
+        presenter.requestMovieInfo(MOCK_MOVIE_ID, false);
         verify(view).hideError();
         verify(view).showLoading();
 
@@ -72,27 +76,36 @@ public class MoviePresenterTest {
         verify(view, never()).showData();
         verify(view, never()).displayMovieInfo(any(MovieInfoResponse.class));
     }
-// TODO: redo test for for favorite
-//    @Test
-//    public void addToFavSuccess() throws Exception {
-//        Observable<Boolean> single = Observable.just(true).subscribeOn(testScheduler);
-//        when(movieUseCase.addOrRemoveFromDatabase(anyInt(), anyString())).thenReturn();
-//
-//        presenter.addOrRemoveFromFavorites(283995, "/aJn9XeesqsrSLKcHfHP4u5985hn.jpg");
-//        testScheduler.triggerActions();
-//
-//        verify(view).displayTransactionError(true);
-//        verify(view, never()).displayTransactionError(false);
-//    }
-//
-//    @Test
-//    public void addToFavFailure() throws Exception {
-//        Single<Boolean> single = Single.error(new Exception("Error while accessing database"));
-//        when(movieUseCase.addOrRemoveFromDatabase(anyInt(), anyString())).thenReturn(single);
-//
-//        presenter.addOrRemoveFromFavorites(283995, "/aJn9XeesqsrSLKcHfHP4u5985hn.jpg");
-//
-//        verify(view).displayTransactionError(false);
-//        verify(view, never()).displayTransactionError(true);
-//    }
+
+    @Test
+    public void addToFavSuccess() throws Exception {
+        Observable<ResponseOrError<Boolean>> observable = Observable.just(ResponseOrError.fromData(true)).subscribeOn(testScheduler);
+        when(movieUseCase.addOrRemoveFromDatabase(anyInt(), anyString())).thenReturn(observable);
+
+        presenter.addOrRemoveFromFavorites(MOCK_MOVIE_ID, POSTER_PATH);
+        testScheduler.triggerActions();
+
+        verify(view, never()).displayTransactionError();
+    }
+
+    @Test
+    public void addToFavFailure() throws Exception {
+        Observable<ResponseOrError<Boolean>> single = Observable.just(ResponseOrError.fromError("Network error."));
+        when(movieUseCase.addOrRemoveFromDatabase(anyInt(), anyString())).thenReturn(single);
+
+        presenter.addOrRemoveFromFavorites(MOCK_MOVIE_ID, POSTER_PATH);
+
+        verify(view).displayTransactionError();
+    }
+
+    @Test
+    public void requestFavoriteStatusSuccess() throws Exception {
+        Observable<Boolean> observable = Observable.just(true).subscribeOn(testScheduler);
+        when(movieUseCase.getCurrentState(anyInt())).thenReturn(observable);
+
+        presenter.requestFavoriteStatus(MOCK_MOVIE_ID);
+        testScheduler.triggerActions();
+
+        verify(view).setFabStatus(anyBoolean());
+    }
 }

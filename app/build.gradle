@@ -52,6 +52,7 @@ android {
                             "${resPath}/layouts/movie",
                             "${resPath}/layouts/custom_views",
                             "${resPath}/layouts/user",
+                            "${resPath}/layouts/staff",
                             "${resPath}/layouts",
                             "${resPath}"
                     ]
@@ -111,6 +112,8 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-core:$rootProject.mockito"
+    testCompile "org.powermock:powermock-module-junit4:$rootProject.powerMockito"
+    testCompile "org.powermock:powermock-api-mockito2:$rootProject.powerMockito"
     testCompile "org.robolectric:robolectric:$rootProject.robolectric"
     testCompile "org.robolectric:shadows-support-v4:$rootProject.robolectric"
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
