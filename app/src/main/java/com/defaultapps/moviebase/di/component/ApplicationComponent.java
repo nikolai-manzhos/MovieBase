@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.di.component;
 
 import com.defaultapps.moviebase.data.firebase.LoggedUser;
-import com.defaultapps.moviebase.data.usecase.BookmarksUseCaseImpl;
 import com.defaultapps.moviebase.data.usecase.DiscoverUseCaseImpl;
 import com.defaultapps.moviebase.data.usecase.GenreUseCaseImpl;
 import com.defaultapps.moviebase.data.usecase.HomeUseCaseImpl;
@@ -19,7 +18,6 @@ import dagger.Component;
 public interface ApplicationComponent {
     HomeUseCaseImpl homeUseCaseImpl();
     DiscoverUseCaseImpl discoverUseCaseImpl();
-    BookmarksUseCaseImpl bookmarksUseCaseImpl();
     GenreUseCaseImpl genreUseCaseImpl();
     MovieUseCaseImpl movieUseCaseImpl();
     SearchUseCaseImpl searchUseCaseImpl();

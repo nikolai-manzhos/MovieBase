@@ -42,7 +42,7 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
     @Override
     protected void populateViewHolder(FavoritesViewHolder viewHolder, Favorite model, int position) {
         int aPosition = viewHolder.getAdapterPosition();
-        String key = getRef(aPosition).getKey();
+        DatabaseReference reference = getRef(aPosition).getRef();
         Picasso
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + model.getPosterPath())
@@ -51,7 +51,8 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
                 .into(viewHolder.favoritePoster);
         viewHolder.favoritePoster.setOnClickListener(view -> listener.onMovieClick(model.getFavoriteMovieId()));
         viewHolder.favoritePoster.setOnLongClickListener(view -> {
-            longClickListener.onLongClick(key);
+//            longClickListener.onLongClick(key);
+            reference.removeValue();
             return true;
         });
     }
@@ -65,6 +66,6 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
     }
 
     interface OnMovieLongClickListener {
-        void onLongClick(String key);
+        boolean onLongClick(String key);
     }
 }

@@ -38,9 +38,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     @Inject
     DatabaseReference dbReference;
 
-    @Inject
-    BookmarksPresenterImpl presenter;
-
     private Unbinder unbinder;
     private FavoritesAdapter favoritesAdapter;
 
@@ -55,7 +52,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity) getActivity()).getActivityComponent().inject(this);
         unbinder = ButterKnife.bind(this, view);
-        presenter.onAttach(this);
 
         initRecyclerView();
     }
@@ -64,7 +60,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        presenter.onDetach();
         favoritesAdapter.setOnMovieClickListener(null);
         favoritesAdapter.setLongClickListener(null);
         favoritesAdapter.cleanup();
@@ -78,15 +73,15 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     }
 
     @Override
-    public void onLongClick(String key) {
+    public boolean onLongClick(String key) {
         showAlertDialog(getString(R.string.bookmarks_alert_title), null,
                 (alertDialog, which) -> {
                     if (which == AlertDialog.BUTTON_POSITIVE) {
-                        presenter.removeItemFromFavorites(key);
                     } else if (which == AlertDialog.BUTTON_NEGATIVE) {
                         alertDialog.dismiss();
                     }
                 });
+        return true;
     }
 
     @Override

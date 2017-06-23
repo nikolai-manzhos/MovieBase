@@ -5,10 +5,11 @@ import android.content.res.AssetManager;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 
 public class LocalService {
@@ -20,16 +21,17 @@ public class LocalService {
         this.assetManager = assetManager;
     }
 
-    public Genres readGenresFromResources() throws IOException{
-        String json;
-        InputStream is = assetManager.open("genres.json");
-        int size = is.available();
-        byte[] buffer = new byte[size];
-        //noinspection ResultOfMethodCallIgnored
-        is.read(buffer);
-        is.close();
-        json = new String(buffer, "UTF-8");
-
-        return new Gson().fromJson(json, Genres.class);
+    public Observable<Genres> readGenresFromResources(){
+        return Observable.fromCallable(() -> {
+            String json;
+            InputStream is = assetManager.open("genres.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            //noinspection ResultOfMethodCallIgnored
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+            return new Gson().fromJson(json, Genres.class);
+        });
     }
 }

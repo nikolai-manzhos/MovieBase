@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
@@ -137,6 +138,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         presenter.onAttach(this);
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
         presenter.requestMovieInfo(movieId, false);
+        presenter.requestFavoriteStatus(movieId);
     }
 
     @Override
@@ -155,7 +157,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     @OnClick(R.id.favoriteFab)
     void onFavoriteClick() {
-        presenter.addMovieToFavorites(movieInfo.getId(), movieInfo.getPosterPath());
+        presenter.addOrRemoveFromFavorites(movieInfo.getId(), movieInfo.getPosterPath());
     }
 
     @Override
@@ -174,11 +176,8 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     }
 
     @Override
-    public void displayTransactionStatus(boolean status) {
-        if (status)
-            showSnackbar(nestedScrollView, getString(R.string.movie_favorite_success));
-        else
-            showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
+    public void displayTransactionError() {
+        showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
     }
 
     @Override
@@ -239,6 +238,14 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     public void showError() {
         errorText.setVisibility(View.VISIBLE);
         errorButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setFabStatus(boolean isActive) {
+        favoriteFab.setImageDrawable(new IconDrawable(getContext(),
+                (isActive ? MaterialIcons.md_favorite : MaterialIcons.md_favorite_border))
+                .colorRes(R.color.colorAccent)
+        );
     }
 
     private void initFAB() {

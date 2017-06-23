@@ -33,14 +33,13 @@ public class DiscoverUseCaseImpl implements DiscoverUseCase {
             genresReplaySubject = ReplaySubject.create();
 
             genresDisposable = local()
-                    .filter(genres -> genres.getGenres() != null).firstOrError()
                     .subscribe(genresReplaySubject::onNext, genresReplaySubject::onError);
         }
         return genresReplaySubject;
     }
 
     private Observable<Genres> local() {
-        return Observable.fromCallable(() -> localService.readGenresFromResources())
+        return localService.readGenresFromResources()
                 .compose(schedulerProvider.applyIoSchedulers());
     }
 }

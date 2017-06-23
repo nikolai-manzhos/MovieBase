@@ -9,7 +9,8 @@ public interface MovieContract {
 
     interface MoviePresenter extends MvpPresenter<MovieView> {
         void requestMovieInfo(Integer movieId, boolean force);
-        void addMovieToFavorites(int movieId, String posterPath);
+        void requestFavoriteStatus(int movieId);
+        void addOrRemoveFromFavorites(int movieId, String posterPath);
     }
 
     interface MovieView extends MvpView {
@@ -18,7 +19,8 @@ public interface MovieContract {
         void hideError();
         void showError();
         void displayMovieInfo(MovieInfoResponse movieInfo);
-        void displayTransactionStatus(boolean status);
+        void displayTransactionError();
+        void setFabStatus(boolean isActive);
     }
 
 }
