@@ -23,6 +23,7 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
         if (getView() != null) {
             getView().hideData();
             getView().hideError();
+            getView().hideEmpty();
             getView().showLoading();
         }
         getCompositeDisposable().add(
@@ -32,6 +33,7 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
                                 getView().hideLoading();
                                 getView().hideError();
                                 getView().showData();
+                                if (moviesResponse.getTotalResults() == 0) getView().showEmpty();
                                 getView().displaySearchResults(moviesResponse);
                             }
                         },
@@ -39,6 +41,7 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
                             if (getView() != null) {
                                 getView().hideLoading();
                                 getView().hideData();
+                                getView().hideEmpty();
                                 getView().showError();
                             }
                         }

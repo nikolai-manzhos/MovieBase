@@ -28,6 +28,9 @@ public class SearchPresenterTest {
     @Mock
     SearchUseCaseImpl useCase;
 
+    @Mock
+    MoviesResponse response;
+
     private SearchPresenterImpl presenter;
     private TestScheduler testScheduler;
     private final String QUERY = "Titanic";
@@ -42,15 +45,16 @@ public class SearchPresenterTest {
 
     @Test
     public void requestSearchResultsSuccess() throws Exception {
-        MoviesResponse response = new MoviesResponse();
         Observable<MoviesResponse> observable = Observable.just(response).subscribeOn(testScheduler);
         when(useCase.requestSearchResults(anyString(), anyBoolean())).thenReturn(observable);
 
         presenter.requestSearchResults(QUERY, true);
 
         verify(view).hideData();
+        verify(view).hideEmpty();
         verify(view).showLoading();
 
+        when(response.getTotalResults()).thenReturn(0);
         testScheduler.triggerActions();
 
         verify(view, times(2)).hideError();
@@ -67,6 +71,7 @@ public class SearchPresenterTest {
 
         presenter.requestSearchResults(QUERY, true);
         verify(view).hideError();
+        verify(view, times(2)).hideEmpty();
         verify(view).showLoading();
 
         verify(view).hideLoading();

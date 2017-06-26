@@ -14,13 +14,12 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
-import com.defaultapps.moviebase.ui.user.UserActivity;
-import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
+import com.defaultapps.moviebase.ui.user.UserActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.firebase.ui.auth.AuthUI;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 
 import java.util.List;
 

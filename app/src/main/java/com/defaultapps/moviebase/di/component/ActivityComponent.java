@@ -4,7 +4,6 @@ import com.defaultapps.moviebase.di.module.ActivityModule;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
-import com.defaultapps.moviebase.ui.genre.GenrePresenterImpl;
 import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.main.MainActivity;

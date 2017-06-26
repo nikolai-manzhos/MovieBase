@@ -8,7 +8,6 @@ import com.defaultapps.moviebase.di.scope.PerActivity;
 
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.disposables.CompositeDisposable;
 
 @Module
 public class ActivityModule {

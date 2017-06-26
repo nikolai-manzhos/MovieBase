@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

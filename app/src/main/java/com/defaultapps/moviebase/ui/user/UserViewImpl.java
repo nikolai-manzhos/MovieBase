@@ -12,8 +12,6 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.firebase.ui.auth.AuthUI;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.mp.MaterialStandardPreference;
 
@@ -89,6 +87,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
         Picasso
                 .with(getContext())
                 .load(loggedUser.getFirebaseuser().getPhotoUrl())
+                .placeholder(R.drawable.placeholder_human)
                 .into(userAvatar);
     }
 }

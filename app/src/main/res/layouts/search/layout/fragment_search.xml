@@ -10,17 +10,22 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/searchRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <include layout="@layout/view_progress" />
 
     <include layout="@layout/view_error" />
+
+    <include layout="@layout/view_start" />
+
+    <include layout="@layout/view_search_empty" />
     
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

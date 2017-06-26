@@ -1,8 +1,8 @@
 package com.defaultapps.moviebase.ui.genre;
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.ui.base.MvpView;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.MvpView;
 
 
 interface GenreContract {

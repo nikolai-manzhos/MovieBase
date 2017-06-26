@@ -60,6 +60,12 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     @BindView(R.id.errorButton)
     Button errorButton;
 
+    @BindView(R.id.searchStartView)
+    LinearLayout searchStartView;
+
+    @BindView(R.id.searchEmptyView)
+    LinearLayout searchViewEmpty;
+
     @Inject
     SearchPresenterImpl presenter;
 
@@ -170,8 +176,32 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         progressBar.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void hideEmpty() {
+        searchViewEmpty.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmpty() {
+        searchViewEmpty.setVisibility(View.VISIBLE);
+    }
+
     private void initSearchView() {
         searchView.setCursorDrawable(R.drawable.cursor);
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                searchStartView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                searchStartView.setVisibility(View.VISIBLE);
+                hideError();
+                hideData();
+                hideEmpty();
+            }
+        });
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             Handler handler = new Handler(Looper.getMainLooper());
             Runnable workRunnable;

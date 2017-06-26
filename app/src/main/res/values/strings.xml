@@ -14,9 +14,14 @@
 
     <!--Bookmarks strings-->
     <string name="bookmarks_toolbar">Bookmarks</string>
+    <string name="bookmarks_movie_poster">Movie poster</string>
+    <string name="bookmarks_alert_title">Remove this movie?</string>
+    <string name="bookmarks_favorites_empty">Seems like you don\'t have any favorite movies yet.</string>
 
     <!--Search strings-->
     <string name="search_toolbar">Search</string>
+    <string name="search_start_hint">Tap {md-search} and type movie</string>
+    <string name="search_empty">No movies were found</string>
 
     <!--Movie strings-->
     <string name="movie_image_backdrop">Backdrop image</string>
@@ -36,10 +41,6 @@
     <string name="user_delete_error">Error while deleting item. Please try again.</string>
     <string name="user_logout">Logout</string>
     <string name="user_logout_error">Cannot establish internet connection :(</string>
-    
-    <!--Bookmarks strings-->
-    <string name="bookmarks_movie_poster">Movie poster</string>
-    <string name="bookmarks_alert_title">Remove this movie?</string>
 
     <!--Error-->
     <string name="error_message">Oops, something went wrong</string>

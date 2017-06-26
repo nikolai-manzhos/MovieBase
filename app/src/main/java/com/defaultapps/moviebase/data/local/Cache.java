@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.data.local;
 
 import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.Map;
 

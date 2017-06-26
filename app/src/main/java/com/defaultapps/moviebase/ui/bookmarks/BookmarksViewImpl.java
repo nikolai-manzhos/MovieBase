@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
@@ -25,13 +26,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener {
+public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener, FavoritesAdapter.FavoritesItemCountListener {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
 
     @BindView(R.id.favoriteRecyclerView)
     RecyclerView favoriteRecyclerView;
+
+    @BindView(R.id.favoritesEmpty)
+    FrameLayout favoritesEmpty;
 
     @Inject
     FavoritesAdapter favoritesAdapter;
@@ -74,6 +78,17 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     }
 
     @Override
+    public void onItemCountChange(int count) {
+        if (count > 0) {
+            favoritesEmpty.setVisibility(View.GONE);
+            favoriteRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            favoritesEmpty.setVisibility(View.VISIBLE);
+            favoriteRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void hideLoading() {}
 
     @Override
@@ -85,5 +100,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
         favoriteRecyclerView.setAdapter(favoritesAdapter);
         favoritesAdapter.notifyDataSetChanged();
         favoritesAdapter.setOnMovieClickListener(this);
+        favoritesAdapter.setFavoritesItemCountListener(this);
     }
 }

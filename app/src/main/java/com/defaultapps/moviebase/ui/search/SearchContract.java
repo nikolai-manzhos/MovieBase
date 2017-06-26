@@ -1,8 +1,8 @@
 package com.defaultapps.moviebase.ui.search;
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.ui.base.MvpView;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.MvpView;
 
 public interface SearchContract {
 
@@ -15,6 +15,8 @@ public interface SearchContract {
         void showData();
         void hideError();
         void showError();
+        void hideEmpty();
+        void showEmpty();
         void displaySearchResults(MoviesResponse moviesResponse);
     }
 }

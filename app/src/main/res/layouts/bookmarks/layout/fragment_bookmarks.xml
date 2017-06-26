@@ -41,4 +41,6 @@
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
+
+    <include layout="@layout/view_favorites_empty" />
 </android.support.design.widget.CoordinatorLayout>

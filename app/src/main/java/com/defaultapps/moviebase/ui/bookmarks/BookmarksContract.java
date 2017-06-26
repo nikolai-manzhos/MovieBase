@@ -1,8 +1,7 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
-import com.defaultapps.moviebase.data.models.firebase.Favorite;
-import com.defaultapps.moviebase.ui.base.MvpView;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.MvpView;
 
 
 public interface BookmarksContract {
