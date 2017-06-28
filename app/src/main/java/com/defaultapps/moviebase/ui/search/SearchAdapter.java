@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.Utils;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +30,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     private List<Result> movies;
     private Context context;
+    private OnMovieClickListener listener;
 
     @Inject
     public SearchAdapter(@ActivityContext Context context) {
@@ -36,6 +39,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     }
 
     static class SearchViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.searchContainer)
+        RelativeLayout searchContainer;
 
         @BindView(R.id.moviePoster)
         ImageView moviePoster;
@@ -70,7 +76,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 .into(holder.moviePoster);
         holder.movieTitle.setText(movies.get(adapterPosition).getTitle());
         holder.movieDate.setText(String.format(("%1$s" + Utils.convertDate(movies.get(adapterPosition).getReleaseDate())), icon));
-
+        holder.searchContainer.setOnClickListener(view -> listener.onMovieClick(movies.get(adapterPosition).getId()));
     }
 
     @Override
@@ -82,5 +88,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         this.movies.clear();
         this.movies.addAll(movies);
         notifyDataSetChanged();
+    }
+
+    void setOnMovieClickListener(OnMovieClickListener listener) {
+        this.listener = listener;
     }
 }

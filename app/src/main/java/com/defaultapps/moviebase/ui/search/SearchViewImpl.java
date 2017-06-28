@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.ui.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,7 +25,10 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.main.MainActivity;
+import com.defaultapps.moviebase.ui.movie.MovieActivity;
+import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnBackPressedListener;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -37,7 +41,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class SearchViewImpl extends BaseFragment implements SearchContract.SearchView, OnBackPressedListener {
+public class SearchViewImpl extends BaseFragment implements SearchContract.SearchView, OnBackPressedListener, OnMovieClickListener {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
@@ -140,6 +144,13 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     }
 
     @Override
+    public void onMovieClick(int movieId) {
+        Intent intent = new Intent(getActivity(), MovieActivity.class);
+        intent.putExtra(AppConstants.MOVIE_ID, movieId);
+        startActivity(intent);
+    }
+
+    @Override
     public void displaySearchResults(MoviesResponse moviesResponse) {
         searchAdapter.setData(moviesResponse.getResults());
     }
@@ -230,5 +241,6 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         searchRecyclerView.addItemDecoration(new SimpleItemDecorator(10));
         searchRecyclerView.setAdapter(searchAdapter);
+        searchAdapter.setOnMovieClickListener(this);
     }
 }
