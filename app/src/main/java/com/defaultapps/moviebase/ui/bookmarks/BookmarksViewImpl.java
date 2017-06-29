@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener, FavoritesAdapter.FavoritesItemCountListener {
+public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
@@ -78,17 +78,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     }
 
     @Override
-    public void onItemCountChange(int count) {
-        if (count > 0) {
-            favoritesEmpty.setVisibility(View.GONE);
-            favoriteRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            favoritesEmpty.setVisibility(View.VISIBLE);
-            favoriteRecyclerView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
     public void hideLoading() {}
 
     @Override
@@ -100,6 +89,5 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
         favoriteRecyclerView.setAdapter(favoritesAdapter);
         favoritesAdapter.notifyDataSetChanged();
         favoritesAdapter.setOnMovieClickListener(this);
-        favoritesAdapter.setFavoritesItemCountListener(this);
     }
 }

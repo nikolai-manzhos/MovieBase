@@ -99,6 +99,8 @@ dependencies {
     //LeakCanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanary"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanary"
+    //Prefs
+    compile "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs"
     //Picasso
     compile "com.squareup.picasso:picasso:$rootProject.picasso"
     //Iconify
@@ -110,13 +112,13 @@ dependencies {
     compile "com.miguelcatalan:materialsearchview:$rootProject.materialSearch"
 
 
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:$rootProject.junit"
     testCompile "org.mockito:mockito-core:$rootProject.mockito"
     testCompile "org.powermock:powermock-module-junit4:$rootProject.powerMockito"
     testCompile "org.powermock:powermock-api-mockito2:$rootProject.powerMockito"
     testCompile "org.robolectric:robolectric:$rootProject.robolectric"
     testCompile "org.robolectric:shadows-support-v4:$rootProject.robolectric"
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestCompile "org.mockito:mockito-core:$rootProject.mockito"

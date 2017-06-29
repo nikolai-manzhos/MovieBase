@@ -6,12 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.utils.AppConstants;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,10 +28,20 @@ public class StaffViewImpl extends BaseFragment implements StaffContract.StaffVi
     @BindView(R.id.errorTextView)
     TextView errorText;
 
+    @BindView(R.id.staffBiography)
+    TextView staffBiographyView;
+
+    @BindView(R.id.contentContainer)
+    LinearLayout contentContainer;
+
     @BindView(R.id.errorButton)
     Button errorButton;
 
+    @Inject
+    StaffPresenterImpl presenter;
+
     private Unbinder unbinder;
+
 
     public static StaffViewImpl createInstance(int staffKind, int staffId) {
         StaffViewImpl staffView = new StaffViewImpl();
@@ -49,12 +62,30 @@ public class StaffViewImpl extends BaseFragment implements StaffContract.StaffVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
         ((StaffActivity) getActivity()).getActivityComponent().inject(this);
+        presenter.onAttach(this);
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        presenter.onDetach();
+    }
+
+    @Override
+    public void displayStaffInfo() {
+
+    }
+
+    @Override
+    public void hideData() {
+        contentContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showData() {
+        contentContainer.setVisibility(View.VISIBLE);
     }
 
     @Override

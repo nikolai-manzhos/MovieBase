@@ -208,6 +208,7 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
             @Override
             public void onSearchViewClosed() {
                 searchStartView.setVisibility(View.VISIBLE);
+                hideLoading();
                 hideError();
                 hideData();
                 hideEmpty();

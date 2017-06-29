@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 
 import com.defaultapps.moviebase.data.TestSchedulerProvider;
+import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.Api;
 import com.defaultapps.moviebase.data.network.NetworkService;
@@ -29,6 +30,9 @@ public class SearchUseCaseTest {
     @Mock
     Api api;
 
+    @Mock
+    AppPreferencesManager preferencesManager;
+
     private SearchUseCase searchUseCase;
     private TestScheduler testScheduler;
 
@@ -40,7 +44,8 @@ public class SearchUseCaseTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        searchUseCase = new SearchUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler));
+        searchUseCase = new SearchUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler), preferencesManager);
+        when(preferencesManager.getAdultStatus()).thenReturn(false);
     }
 
     @Test

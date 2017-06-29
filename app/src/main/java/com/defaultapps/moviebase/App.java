@@ -5,6 +5,7 @@ import android.app.Application;
 import com.defaultapps.moviebase.di.component.ApplicationComponent;
 import com.defaultapps.moviebase.di.component.DaggerApplicationComponent;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
+import com.defaultapps.preferenceshelper.PreferencesHelper;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
 import com.joanzapata.iconify.Iconify;
@@ -18,6 +19,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initPrefs();
         initDaggerAppComponent();
         initIconify();
         initFirebase();
@@ -41,5 +43,10 @@ public class App extends Application {
     private void initFirebase() {
         FirebaseApp.initializeApp(this);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+    }
+
+    private void initPrefs() {
+        new PreferencesHelper.Builder(this)
+                .build();
     }
 }

@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
@@ -16,6 +17,7 @@ import io.reactivex.subjects.ReplaySubject;
 public class SearchUseCaseImpl implements SearchUseCase {
 
     private NetworkService networkService;
+    private AppPreferencesManager preferencesManager;
     private SchedulerProvider schedulerProvider;
     private Disposable disposable;
     private ReplaySubject<MoviesResponse> replaySubject;
@@ -24,9 +26,11 @@ public class SearchUseCaseImpl implements SearchUseCase {
 
     @Inject
     SearchUseCaseImpl(NetworkService networkService,
-                             SchedulerProvider schedulerProvider) {
+                             SchedulerProvider schedulerProvider,
+                             AppPreferencesManager preferencesManager) {
         this.networkService = networkService;
         this.schedulerProvider = schedulerProvider;
+        this.preferencesManager = preferencesManager;
     }
 
     @Override
@@ -35,7 +39,7 @@ public class SearchUseCaseImpl implements SearchUseCase {
         if (disposable == null || disposable.isDisposed()) {
             replaySubject = ReplaySubject.create();
 
-            disposable = networkService.getNetworkCall().getSearchQuery(API_KEY, "en-Us", query, 1, false)
+            disposable = networkService.getNetworkCall().getSearchQuery(API_KEY, "en-Us", query, 1, preferencesManager.getAdultStatus())
                     .compose(schedulerProvider.applyIoSchedulers())
                     .subscribe(replaySubject::onNext, replaySubject::onError);
         }

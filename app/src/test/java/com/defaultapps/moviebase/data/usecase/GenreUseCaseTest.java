@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.data.TestSchedulerProvider;
+import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.Api;
@@ -32,6 +33,9 @@ public class GenreUseCaseTest {
     @Mock
     Api api;
 
+    @Mock
+    AppPreferencesManager preferencesManager;
+
     private GenreUseCase genreUseCase;
     private TestScheduler testScheduler;
 
@@ -43,7 +47,8 @@ public class GenreUseCaseTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        genreUseCase = new GenreUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler));
+        genreUseCase = new GenreUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler), preferencesManager);
+        when(preferencesManager.getAdultStatus()).thenReturn(false);
     }
 
     @Test

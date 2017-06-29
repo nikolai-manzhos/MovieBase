@@ -78,7 +78,7 @@
                         tools:ignore="HardcodedText" />
 
                     <TextView
-                        style="@style/MovieSubtitle"
+                        style="@style/Subtitle"
                         android:id="@+id/description"
                         android:text="@string/movie_description"
                         android:layout_below="@id/imagePoster"/>
@@ -95,7 +95,7 @@
                         android:layout_marginEnd="-10dp"/>
 
                     <TextView
-                        style="@style/MovieSubtitle"
+                        style="@style/Subtitle"
                         android:id="@+id/videos"
                         android:text="@string/movie_videos"
                         android:layout_below="@+id/movieOverview"/>
@@ -106,7 +106,7 @@
                         android:layout_below="@+id/videos" />
 
                     <TextView
-                        style="@style/MovieSubtitle"
+                        style="@style/Subtitle"
                         android:id="@+id/cast"
                         android:text="@string/movie_cast"
                         android:layout_below="@+id/videosRecyclerView"/>
@@ -117,7 +117,7 @@
                         android:layout_below="@+id/cast"/>
 
                     <TextView
-                        style="@style/MovieSubtitle"
+                        style="@style/Subtitle"
                         android:id="@+id/crew"
                         android:text="@string/movie_crew"
                         android:layout_below="@+id/castRecyclerView"/>
@@ -128,7 +128,7 @@
                         android:layout_below="@+id/crew"/>
 
                     <TextView
-                        style="@style/MovieSubtitle"
+                        style="@style/Subtitle"
                         android:id="@+id/similar"
                         android:text="@string/movie_similar"
                         android:layout_below="@+id/crewRecyclerView"/>

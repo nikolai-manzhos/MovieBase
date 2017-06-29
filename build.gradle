@@ -14,7 +14,8 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
-        maven { url "https://maven.google.com" }
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -41,7 +42,10 @@ ext {
     youtube = '1.2.1'
     materialPref = '1.0.5'
     materialSearch = '1.4.0'
+    prefs = "1.1"
 
+    junit = '4.12'
+    espresso = '2.2.2'
     mockito = '1.10.19'
     powerMockito = '1.6.6'
     robolectric = '3.3.2'

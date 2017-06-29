@@ -25,7 +25,6 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
 
     private Context context;
     private OnMovieClickListener listener;
-    private FavoritesItemCountListener itemCountListener;
 
     @SuppressWarnings("WeakerAccess")
     public static class FavoritesViewHolder extends RecyclerView.ViewHolder {
@@ -77,16 +76,8 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
         this.listener = listener;
     }
 
-    void setFavoritesItemCountListener(FavoritesItemCountListener itemCountListener) {
-        this.itemCountListener = itemCountListener;
-    }
-
-    public interface FavoritesItemCountListener {
-        void onItemCountChange(int count);
-    }
-
     @SuppressWarnings("deprecation")
-    protected void showAlertDialog(String title, @Nullable String  message,
+    private void showAlertDialog(String title, @Nullable String  message,
                                    DialogInterface.OnClickListener listener) {
         AlertDialog alertDialog = new AlertDialog.Builder(context, R.style.AlertDialogTheme)
                 .setTitle(title)

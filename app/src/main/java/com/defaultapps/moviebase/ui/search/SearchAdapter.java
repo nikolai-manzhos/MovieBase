@@ -33,7 +33,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     private OnMovieClickListener listener;
 
     @Inject
-    public SearchAdapter(@ActivityContext Context context) {
+    SearchAdapter(@ActivityContext Context context) {
         this.context = context;
         movies = new ArrayList<>();
     }

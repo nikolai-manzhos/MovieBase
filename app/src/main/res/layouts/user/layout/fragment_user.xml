@@ -57,6 +57,16 @@
             app:civ_border_color="@color/colorPrimaryText"
             app:civ_border_width="2dp"/>
 
+        <com.yarolegovich.mp.MaterialSwitchPreference
+            android:id="@+id/adultSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:theme="@style/UserTheme"
+            app:mp_key="adult"
+            app:mp_default_value="false"
+            app:mp_title="@string/user_adult_title"
+            app:mp_summary="@string/user_adult_summary"/>
+
         <com.yarolegovich.mp.MaterialStandardPreference
             android:id="@+id/logout"
             android:layout_width="match_parent"

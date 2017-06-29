@@ -10,5 +10,8 @@ public interface StaffContract {
     interface StaffView extends MvpView {
         void hideError();
         void showError();
+        void hideData();
+        void showData();
+        void displayStaffInfo();
     }
 }

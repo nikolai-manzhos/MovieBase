@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
@@ -18,6 +19,7 @@ import io.reactivex.subjects.ReplaySubject;
 public class GenreUseCaseImpl implements GenreUseCase {
 
     private NetworkService networkService;
+    private AppPreferencesManager preferencesManager;
     private SchedulerProvider schedulerProvider;
 
     private Disposable genreDisposable;
@@ -27,9 +29,11 @@ public class GenreUseCaseImpl implements GenreUseCase {
 
     @Inject
     GenreUseCaseImpl(NetworkService networkService,
-                            SchedulerProvider schedulerProvider) {
+                     SchedulerProvider schedulerProvider,
+                     AppPreferencesManager preferencesManager) {
         this.networkService = networkService;
         this.schedulerProvider = schedulerProvider;
+        this.preferencesManager = preferencesManager;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
     }
 
     private Observable<MoviesResponse> network(String genreId) {
-        return networkService.getNetworkCall().discoverMovies(API_KEY, "en-US", false, 1, genreId)
+        return networkService.getNetworkCall().discoverMovies(API_KEY, "en-US", preferencesManager.getAdultStatus(), 1, genreId)
                 .compose(schedulerProvider.applyIoSchedulers());
     }
 }

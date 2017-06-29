@@ -1,12 +1,17 @@
 package com.defaultapps.moviebase.ui.user;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.firebase.LoggedUser;
@@ -14,6 +19,8 @@ import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.mp.MaterialStandardPreference;
+import com.yarolegovich.mp.MaterialSwitchPreference;
+import com.yarolegovich.mp.io.SharedPreferenceStorageModule;
 
 import javax.inject.Inject;
 
@@ -30,6 +37,9 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @BindView(R.id.logout)
     MaterialStandardPreference logoutButton;
+
+    @BindView(R.id.adultSwitch)
+    MaterialSwitchPreference adultSwitch;
 
     @BindView(R.id.userAvatar)
     CircleImageView userAvatar;
