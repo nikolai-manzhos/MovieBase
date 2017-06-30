@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.ui.staff;
+package com.defaultapps.moviebase.ui.person;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,16 +11,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class StaffViewImpl extends BaseFragment implements StaffContract.StaffView {
+public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -28,8 +32,14 @@ public class StaffViewImpl extends BaseFragment implements StaffContract.StaffVi
     @BindView(R.id.errorTextView)
     TextView errorText;
 
-    @BindView(R.id.staffBiography)
+    @BindView(R.id.personPortrait)
+    CircleImageView circleImageView;
+
+    @BindView(R.id.personBiography)
     TextView staffBiographyView;
+
+    @BindView(R.id.toolbarTitle)
+    TextView toolbarTitleView;
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
@@ -38,16 +48,15 @@ public class StaffViewImpl extends BaseFragment implements StaffContract.StaffVi
     Button errorButton;
 
     @Inject
-    StaffPresenterImpl presenter;
+    PersonPresenterImpl presenter;
 
     private Unbinder unbinder;
 
 
-    public static StaffViewImpl createInstance(int staffKind, int staffId) {
-        StaffViewImpl staffView = new StaffViewImpl();
+    public static PersonViewImpl createInstance(int staffId) {
+        PersonViewImpl staffView = new PersonViewImpl();
         Bundle bundle = new Bundle();
-        bundle.putInt(AppConstants.CREW_OR_CAST, staffKind);
-        bundle.putInt(AppConstants.STAFF_ID, staffId);
+        bundle.putInt(AppConstants.PERSON_ID, staffId);
         staffView.setArguments(bundle);
         return staffView;
     }
@@ -55,15 +64,20 @@ public class StaffViewImpl extends BaseFragment implements StaffContract.StaffVi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_staff, container, false);
+        return inflater.inflate(R.layout.fragment_person, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
-        ((StaffActivity) getActivity()).getActivityComponent().inject(this);
+        ((PersonActivity) getActivity()).getActivityComponent().inject(this);
         presenter.onAttach(this);
-
+        int personId = getArguments().getInt(AppConstants.PERSON_ID);
+        if (savedInstanceState == null) {
+            presenter.requestPersonInfo(personId, true);
+        } else {
+            presenter.requestPersonInfo(personId, false);
+        }
     }
 
     @Override
@@ -73,9 +87,22 @@ public class StaffViewImpl extends BaseFragment implements StaffContract.StaffVi
         presenter.onDetach();
     }
 
-    @Override
-    public void displayStaffInfo() {
+    @OnClick(R.id.backButton)
+    void onBackClick() {
+        getActivity().onBackPressed();
+    }
 
+    @Override
+    public void displayStaffInfo(PersonInfo personInfo) {
+        Picasso
+                .with(getContext())
+                .load("https://image.tmdb.org/t/p/w300" + personInfo.getProfilePath())
+                .placeholder(R.drawable.placeholder_human)
+                .into(circleImageView);
+        String biography = personInfo.getBiography() != null ?
+                personInfo.getBiography() : getString(R.string.person_biography_empty);
+        staffBiographyView.setText(biography);
+        toolbarTitleView.setText(personInfo.getName());
     }
 
     @Override

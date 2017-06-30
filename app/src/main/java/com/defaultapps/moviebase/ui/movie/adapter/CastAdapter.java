@@ -9,6 +9,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.Cast;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.movie.vh.CastViewHolder;
+import com.defaultapps.moviebase.utils.OnPersonClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastViewHolder> {
 
     private List<Cast> cast;
     private Context context;
+    private OnPersonClickListener listener;
 
     @Inject
     CastAdapter(@ActivityContext Context context) {
@@ -43,11 +45,16 @@ public class CastAdapter extends RecyclerView.Adapter<CastViewHolder> {
                 .into(holder.castPortrait);
         holder.castName.setText(cast.get(adapterPosition).getName());
         holder.castCharacter.setText(cast.get(adapterPosition).getCharacter());
+        holder.castPortrait.setOnClickListener(view -> listener.onPersonClick(cast.get(adapterPosition).getId()));
     }
 
     @Override
     public int getItemCount() {
         return cast.size();
+    }
+
+    public void setOnPersonClickListener(OnPersonClickListener listener) {
+        this.listener = listener;
     }
 
     public void setData(List<Cast> cast) {

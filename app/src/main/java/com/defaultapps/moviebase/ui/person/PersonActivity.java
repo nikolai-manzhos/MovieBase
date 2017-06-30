@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.ui.staff;
+package com.defaultapps.moviebase.ui.person;
 
 
 import android.os.Bundle;
@@ -8,17 +8,16 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 
-public class StaffActivity extends BaseActivity {
+public class PersonActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_staff);
+        setContentView(R.layout.activity_person);
 
         if (savedInstanceState == null) {
-            int staffMode = getIntent().getIntExtra(AppConstants.CREW_OR_CAST, 0);
-            int staffId = getIntent().getIntExtra(AppConstants.STAFF_ID, -1);
-            StaffViewImpl staffView = StaffViewImpl.createInstance(staffMode, staffId);
+            int staffId = getIntent().getIntExtra(AppConstants.PERSON_ID, -1);
+            PersonViewImpl staffView = PersonViewImpl.createInstance(staffId);
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.contentFrame, staffView)

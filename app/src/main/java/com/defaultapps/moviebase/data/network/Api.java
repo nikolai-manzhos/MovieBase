@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.network;
 
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -58,6 +59,13 @@ public interface Api {
     Observable<MovieInfoResponse> getMovieInfo(
             @Path("movie_id") int movieId,
             @Query("api_key") String key,
+            @Query("language") String language,
+            @Query("append_to_response") String appendToResponse);
+
+    @GET("person/{person_id}")
+    Observable<PersonInfo> getPersonInfo(
+            @Path("person_id") int personId,
+            @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("append_to_response") String appendToResponse);
 }

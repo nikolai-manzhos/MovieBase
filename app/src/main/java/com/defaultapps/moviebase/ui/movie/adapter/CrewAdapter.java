@@ -10,6 +10,7 @@ import com.defaultapps.moviebase.data.models.responses.movie.Crew;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.movie.vh.CrewViewHolder;
+import com.defaultapps.moviebase.utils.OnPersonClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewViewHolder> {
 
     private Context context;
     private List<Crew> crewList;
+    private OnPersonClickListener listener;
 
     @Inject
     CrewAdapter(@ActivityContext Context context) {
@@ -44,12 +46,16 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewViewHolder> {
                 .into(holder.crewPortrait);
         holder.crewName.setText(crewList.get(adapterPosition).getName());
         holder.crewJob.setText(crewList.get(adapterPosition).getJob());
-        holder.crewPortrait.setOnClickListener(view -> {});
+        holder.crewPortrait.setOnClickListener(view -> listener.onPersonClick(crewList.get(adapterPosition).getId()));
     }
 
     @Override
     public int getItemCount() {
         return crewList.size();
+    }
+
+    public void setOnPersonClickListener(OnPersonClickListener listener) {
+        this.listener = listener;
     }
 
     public void setData(List<Crew> crewList) {

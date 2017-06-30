@@ -26,8 +26,10 @@ import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
+import com.defaultapps.moviebase.ui.person.PersonActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.OnPersonClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
@@ -45,7 +47,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieClickListener, VideosAdapter.OnVideoClickListener {
+public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieClickListener, VideosAdapter.OnVideoClickListener, OnPersonClickListener {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -175,6 +177,13 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     }
 
     @Override
+    public void onPersonClick(int personId) {
+        Intent intent = new Intent(getContext(), PersonActivity.class);
+        intent.putExtra(AppConstants.PERSON_ID, personId);
+        startActivity(intent);
+    }
+
+    @Override
     public void displayTransactionError() {
         showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
     }
@@ -286,11 +295,13 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         castRecyclerView.setAdapter(castAdapter);
         castRecyclerView.addItemDecoration(horizontalDivider);
         castRecyclerView.setNestedScrollingEnabled(false);
+        castAdapter.setOnPersonClickListener(this);
 
         crewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         crewRecyclerView.setAdapter(crewAdapter);
         crewRecyclerView.addItemDecoration(horizontalDivider);
         crewRecyclerView.setNestedScrollingEnabled(false);
+        crewAdapter.setOnPersonClickListener(this);
 
         similarRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         similarRecyclerView.setAdapter(similarAdapter);

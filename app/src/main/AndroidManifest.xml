@@ -28,6 +28,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".ui.person.PersonActivity" />
         <meta-data
             android:name="com.thefinestartist.ytpa.YouTubePlayerActivity.ApiKey"
             android:value="@string/YOUTUBE_API_KEY" />
