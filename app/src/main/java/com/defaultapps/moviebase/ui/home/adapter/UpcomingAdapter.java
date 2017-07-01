@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingItemViewHolder;
+import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +40,7 @@ public class UpcomingAdapter extends RecyclerView.Adapter<UpcomingItemViewHolder
         int adapterPosition = holder.getAdapterPosition();
         Picasso
                 .with(context)
-                .load("https://image.tmdb.org/t/p/w300/" + items.getResults().get(adapterPosition).getPosterPath())
+                .load(AppConstants.POSTER_BASE_URL + items.getResults().get(adapterPosition).getPosterPath())
                 .fit()
                 .into(holder.upcomingImage);
         holder.upcomingContainer.setOnClickListener(view -> listener.onMovieClick(items.getResults().get(adapterPosition).getId()));

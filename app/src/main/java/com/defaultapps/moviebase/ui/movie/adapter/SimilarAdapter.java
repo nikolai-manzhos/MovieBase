@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.movie.vh.SimilarViewHolder;
+import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
@@ -42,7 +43,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder> {
         int adapterPosition = holder.getAdapterPosition();
         Picasso
                 .with(context)
-                .load("https://image.tmdb.org/t/p/w300/" + similarMovies.get(adapterPosition).getPosterPath())
+                .load(AppConstants.POSTER_BASE_URL + similarMovies.get(adapterPosition).getPosterPath())
                 .fit()
                 .into(holder.moviePoster);
         holder.moviePoster.setOnClickListener(view -> listener.onMovieClick(similarMovies.get(adapterPosition).getId()));

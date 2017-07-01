@@ -101,7 +101,7 @@
                         android:layout_below="@+id/movieOverview"/>
 
                     <android.support.v7.widget.RecyclerView
-                        style="@style/MovieRecyclerView"
+                        style="@style/RecyclerView"
                         android:id="@+id/videosRecyclerView"
                         android:layout_below="@+id/videos" />
 
@@ -112,7 +112,7 @@
                         android:layout_below="@+id/videosRecyclerView"/>
 
                     <android.support.v7.widget.RecyclerView
-                        style="@style/MovieRecyclerView"
+                        style="@style/RecyclerView"
                         android:id="@+id/castRecyclerView"
                         android:layout_below="@+id/cast"/>
 
@@ -123,7 +123,7 @@
                         android:layout_below="@+id/castRecyclerView"/>
 
                     <android.support.v7.widget.RecyclerView
-                        style="@style/MovieRecyclerView"
+                        style="@style/RecyclerView"
                         android:id="@+id/crewRecyclerView"
                         android:layout_below="@+id/crew"/>
 
@@ -134,7 +134,7 @@
                         android:layout_below="@+id/crewRecyclerView"/>
 
                     <android.support.v7.widget.RecyclerView
-                        style="@style/MovieRecyclerView"
+                        style="@style/RecyclerView"
                         android:id="@+id/similarRecyclerView"
                         android:layout_below="@id/similar"/>
                 </RelativeLayout>

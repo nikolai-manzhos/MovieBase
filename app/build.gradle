@@ -52,7 +52,7 @@ android {
                             "${resPath}/layouts/movie",
                             "${resPath}/layouts/custom_views",
                             "${resPath}/layouts/user",
-                            "${resPath}/layouts/staff",
+                            "${resPath}/layouts/person",
                             "${resPath}/layouts",
                             "${resPath}"
                     ]

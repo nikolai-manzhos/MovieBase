@@ -41,6 +41,22 @@
                 android:layout_marginStart="-10dp"
                 android:layout_marginEnd="-10dp"/>
 
+            <TextView
+                android:text="@string/person_cast_credits"
+                style="@style/Subtitle" />
+
+            <android.support.v7.widget.RecyclerView
+                style="@style/RecyclerView"
+                android:id="@+id/castCreditsRecyclerView"/>
+
+            <TextView
+                android:text="@string/person_crew_credits"
+                style="@style/Subtitle" />
+
+            <android.support.v7.widget.RecyclerView
+                style="@style/RecyclerView"
+                android:id="@+id/crewCreditsRecyclerView"/>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

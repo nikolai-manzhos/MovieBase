@@ -2,6 +2,8 @@ package com.defaultapps.moviebase.ui.person;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,10 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.person.adapter.CreditsCastAdapter;
+import com.defaultapps.moviebase.ui.person.adapter.CreditsCrewAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -44,11 +49,23 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
 
+    @BindView(R.id.castCreditsRecyclerView)
+    RecyclerView castRecyclerView;
+
+    @BindView(R.id.crewCreditsRecyclerView)
+    RecyclerView crewRecyclerView;
+
     @BindView(R.id.errorButton)
     Button errorButton;
 
     @Inject
     PersonPresenterImpl presenter;
+
+    @Inject
+    CreditsCastAdapter castAdapter;
+
+    @Inject
+    CreditsCrewAdapter crewAdapter;
 
     private Unbinder unbinder;
 
@@ -71,7 +88,9 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         unbinder = ButterKnife.bind(this, view);
         ((PersonActivity) getActivity()).getActivityComponent().inject(this);
+        initRecyclerViews();
         presenter.onAttach(this);
+
         int personId = getArguments().getInt(AppConstants.PERSON_ID);
         if (savedInstanceState == null) {
             presenter.requestPersonInfo(personId, true);
@@ -103,6 +122,9 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
                 personInfo.getBiography() : getString(R.string.person_biography_empty);
         staffBiographyView.setText(biography);
         toolbarTitleView.setText(personInfo.getName());
+
+        castAdapter.setData(personInfo.getMovieCredits().getCast());
+        crewAdapter.setData(personInfo.getMovieCredits().getCrew());
     }
 
     @Override
@@ -135,5 +157,18 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     public void showError() {
         errorText.setVisibility(View.VISIBLE);
         errorButton.setVisibility(View.VISIBLE);
+    }
+
+    public void initRecyclerViews() {
+        SimpleItemDecorator simpleItemDecorator = new SimpleItemDecorator(30, true);
+        castRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        castRecyclerView.setAdapter(castAdapter);
+        castRecyclerView.setNestedScrollingEnabled(false);
+        castRecyclerView.addItemDecoration(simpleItemDecorator);
+
+        crewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        crewRecyclerView.setAdapter(crewAdapter);
+        crewRecyclerView.setNestedScrollingEnabled(false);
+        crewRecyclerView.addItemDecoration(simpleItemDecorator);
     }
 }
