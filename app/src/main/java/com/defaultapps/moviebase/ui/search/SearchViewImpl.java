@@ -10,12 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -37,8 +35,6 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 public class SearchViewImpl extends BaseFragment implements SearchContract.SearchView, OnBackPressedListener, OnMovieClickListener {
@@ -76,7 +72,6 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     @Inject
     SearchAdapter searchAdapter;
 
-    private Unbinder unbinder;
     private MainActivity activity;
 
     @Override
@@ -87,16 +82,13 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         }
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_search, container, false);
+    protected int provideLayout() {
+        return R.layout.fragment_search;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        unbinder = ButterKnife.bind(this, view);
         activity.getActivityComponent().inject(this);
         presenter.onAttach(this);
         activity.setOnBackPressedListener(this);
@@ -125,7 +117,6 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         activity.setSupportActionBar(null);
         activity.setOnBackPressedListener(null);
         presenter.onDetach();
-        unbinder.unbind();
     }
 
     @Override

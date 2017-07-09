@@ -34,18 +34,15 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
     @Inject
     DiscoverPresenterImpl presenter;
 
-    private Unbinder unbinder;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_discover, container, false);
+    protected int provideLayout() {
+        return R.layout.fragment_discover;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        unbinder = ButterKnife.bind(this, view);
         ((MainActivity) getActivity()).getActivityComponent().inject(this);
         adapter.setListener(this);
         presenter.onAttach(this);
@@ -56,7 +53,6 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         presenter.onDetach();
     }
 
@@ -67,12 +63,6 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
         intent.putExtra(AppConstants.GENRE_NAME, genreName);
         startActivity(intent);
     }
-
-    @Override
-    public void hideLoading() {}
-
-    @Override
-    public void showLoading() {}
 
     @Override
     public void showData(Genres genres) {

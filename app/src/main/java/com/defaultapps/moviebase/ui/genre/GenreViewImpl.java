@@ -6,9 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,9 +21,7 @@ import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 
 public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieClickListener {
@@ -51,18 +47,15 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Inject
     GenreAdapter adapter;
 
-    private Unbinder unbinder;
     private String genreId;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_genre, container, false);
+    protected int provideLayout() {
+        return R.layout.fragment_genre;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        unbinder = ButterKnife.bind(this, view);
         ((GenreActivity) getActivity()).getActivityComponent().inject(this);
 
         presenter.onAttach(this);
@@ -81,7 +74,6 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         presenter.onDetach();
         adapter.setOnMovieSelectedListener(null);
     }

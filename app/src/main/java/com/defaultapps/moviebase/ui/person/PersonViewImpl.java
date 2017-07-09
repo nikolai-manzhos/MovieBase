@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -24,9 +22,7 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView {
@@ -67,7 +63,6 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @Inject
     CreditsCrewAdapter crewAdapter;
 
-    private Unbinder unbinder;
 
 
     public static PersonViewImpl createInstance(int staffId) {
@@ -78,15 +73,13 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
         return staffView;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_person, container, false);
+    protected int provideLayout() {
+        return R.layout.fragment_person;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        unbinder = ButterKnife.bind(this, view);
         ((PersonActivity) getActivity()).getActivityComponent().inject(this);
         initRecyclerViews();
         presenter.onAttach(this);
@@ -102,7 +95,6 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         presenter.onDetach();
     }
 

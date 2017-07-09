@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -23,8 +21,6 @@ import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener {
 
@@ -40,19 +36,15 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     @Inject
     FavoritesAdapter favoritesAdapter;
 
-    private Unbinder unbinder;
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bookmarks, container, false);
+    protected int provideLayout() {
+        return R.layout.fragment_bookmarks;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity) getActivity()).getActivityComponent().inject(this);
-        unbinder = ButterKnife.bind(this, view);
 
         initRecyclerView();
     }
@@ -60,7 +52,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         favoritesAdapter.setOnMovieClickListener(null);
         favoritesAdapter.cleanup();
     }

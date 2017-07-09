@@ -10,9 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -42,9 +40,7 @@ import com.thefinestartist.ytpa.enums.Orientation;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 
 public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieClickListener, VideosAdapter.OnVideoClickListener, OnPersonClickListener {
@@ -118,20 +114,17 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @Inject
     SimilarAdapter similarAdapter;
 
-    private Unbinder unbinder;
     private int movieId;
     private MovieInfoResponse movieInfo;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie, container, false);
+    protected int provideLayout() {
+        return R.layout.fragment_movie;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         ((MovieActivity) getActivity()).getActivityComponent().inject(this);
-        unbinder = ButterKnife.bind(this, view);
         initToolbar();
         initFAB();
         initRecyclerViews();
@@ -145,7 +138,6 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
         presenter.onDetach();
         similarAdapter.setOnMovieClickListener(null);
         videosAdapter.setOnVideoClickListener(null);
