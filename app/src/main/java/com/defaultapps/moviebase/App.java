@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 
 import com.defaultapps.moviebase.di.component.ApplicationComponent;
 import com.defaultapps.moviebase.di.component.DaggerApplicationComponent;
@@ -20,7 +21,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         initPrefs();
-        initDaggerAppComponent();
+        appComponent = initDaggerAppComponent().build();
         initIconify();
         initFirebase();
     }
@@ -29,10 +30,10 @@ public class App extends Application {
         return this.appComponent;
     }
 
-    private void initDaggerAppComponent() {
-        appComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
-                .build();
+    @NonNull
+    protected DaggerApplicationComponent.Builder initDaggerAppComponent() {
+        return DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this));
     }
 
     private void initIconify() {

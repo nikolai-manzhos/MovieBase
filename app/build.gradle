@@ -6,15 +6,26 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
 
 afterEvaluate {
-    assembleDebug.dependsOn 'test'
-//    assembleRelease.dependsOn 'test', 'lint'
+    try {
+        assembleDebug.dependsOn 'test'
+    } catch (MissingPropertyException ex) {
+        logger.warn "Release build, MissingPropertyException expected, exception message: " + ex.message
+    }
+    try {
+        assembleRelease.dependsOn 'test', 'lint', 'connectedCheck'
+    } catch (MissingPropertyException ex) {
+        logger.warn "Debug build, MissingPropertyException expected, exception message: " + ex.message
+    }
 }
+
+
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
+        testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
         minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
@@ -27,16 +38,20 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             debuggable true
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources false
+            multiDexEnabled true
+            testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
     buildTypes.each {
         it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']
         it.resValue 'string', 'YOUTUBE_API_KEY', keystoreProperties['YoutubeSecretKey']
+        it.proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
 
     sourceSets {

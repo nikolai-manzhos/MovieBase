@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.search;
 
 
-import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
@@ -11,10 +11,10 @@ import javax.inject.Inject;
 @PerActivity
 public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView> implements SearchContract.SearchPresenter {
 
-    private SearchUseCaseImpl searchUseCase;
+    private SearchUseCase searchUseCase;
 
     @Inject
-    public SearchPresenterImpl(SearchUseCaseImpl searchUseCase) {
+    public SearchPresenterImpl(SearchUseCase searchUseCase) {
         this.searchUseCase = searchUseCase;
     }
 

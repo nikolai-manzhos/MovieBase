@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.genre;
 
 
-import com.defaultapps.moviebase.data.usecase.GenreUseCaseImpl;
+import com.defaultapps.moviebase.data.usecase.GenreUseCase;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
@@ -11,10 +11,10 @@ import javax.inject.Inject;
 @PerActivity
 public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> implements GenreContract.GenrePresenter {
 
-    private GenreUseCaseImpl genreUseCase;
+    private GenreUseCase genreUseCase;
 
     @Inject
-    GenrePresenterImpl(GenreUseCaseImpl genreUseCase) {
+    GenrePresenterImpl(GenreUseCase genreUseCase) {
         this.genreUseCase = genreUseCase;
     }
 
