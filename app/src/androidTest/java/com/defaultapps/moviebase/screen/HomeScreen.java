@@ -26,4 +26,9 @@ public class HomeScreen {
         onView(withId(R.id.upcomingRecycler)).check(ViewAssertion.recyclerViewShouldHaveItem());
         return this;
     }
+
+    public HomeScreen hasNowPlayingItems() {
+        onView(withId(R.id.homeRecycler)).check(ViewAssertion.recyclerViewShouldHaveItem());
+        return this;
+    }
 }

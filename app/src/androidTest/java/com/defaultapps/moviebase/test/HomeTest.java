@@ -33,6 +33,11 @@ public class HomeTest {
     }
 
     @Test
+    public void shouldHaveNowPlayingItems() {
+        homeScreen.hasNowPlayingItems();
+    }
+
+    @Test
     public void shouldHaveUpcomingItems() {
         homeScreen.hasUpcomingItems();
     }
