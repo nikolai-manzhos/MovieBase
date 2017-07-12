@@ -4,14 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
-import io.reactivex.functions.Function;
 
-/**
- * Created on 6/22/2017.
- */
 
+@SuppressWarnings({"unchecked","unused", "FieldCanBeLocal"})
 public class ResponseOrError<T> {
     @Nullable
     private final T data;
@@ -40,11 +36,8 @@ public class ResponseOrError<T> {
     private static <T> Observable<ResponseOrError<T>> toResponseOrErrorObservable(@NonNull Observable<T> observable) {
         return observable
                 .map(ResponseOrError::fromData)
-                .onErrorResumeNext(new Function<Throwable, ObservableSource<? extends ResponseOrError<T>>>() {
-                    @Override
-                    public ObservableSource<? extends ResponseOrError<T>> apply(@io.reactivex.annotations.NonNull Throwable throwable) throws Exception {
-                        return Observable.just(ResponseOrError.fromError(throwable.getMessage()));
-                    }
+                .onErrorResumeNext(throwable -> {
+                    return Observable.just(ResponseOrError.fromError(throwable.getMessage()));
                 });
     }
 

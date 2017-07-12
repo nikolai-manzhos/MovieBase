@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.getkeepsafe.dexcount'
 
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
@@ -73,7 +72,6 @@ android {
                     ]
         }
         test.resources.srcDirs += 'src/main/assets'
-
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
