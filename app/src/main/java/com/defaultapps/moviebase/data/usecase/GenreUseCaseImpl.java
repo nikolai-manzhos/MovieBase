@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
@@ -50,7 +51,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
         return genreReplayProcessor;
     }
 
-    private Observable<MoviesResponse> network(String genreId) {
+    private Single<MoviesResponse> network(String genreId) {
         return networkService.getNetworkCall().discoverMovies(API_KEY, "en-US", preferencesManager.getAdultStatus(), 1, genreId)
                 .compose(schedulerProvider.applyIoSchedulers());
     }

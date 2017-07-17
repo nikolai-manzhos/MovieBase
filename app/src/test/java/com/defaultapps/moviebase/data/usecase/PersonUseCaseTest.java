@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
@@ -46,9 +46,9 @@ public class PersonUseCaseTest {
     @Test
     public void requestPersonDataSuccess() throws Exception {
         PersonInfo expectedResult = new PersonInfo();
-        Observable<PersonInfo> observable = Observable.just(expectedResult).subscribeOn(testScheduler);
+        Single<PersonInfo> single = Single.just(expectedResult).subscribeOn(testScheduler);
         when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getPersonInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(observable);
+        when(api.getPersonInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
 
         useCase.requestPersonData(PERSON_ID, false).subscribe(
                 personInfo -> actualResult = personInfo,
@@ -63,9 +63,9 @@ public class PersonUseCaseTest {
     @Test
     public void requestPersonDataFailure() throws Exception {
         Exception expectedError = new Exception("Network error.");
-        Observable<PersonInfo> observable = Observable.error(expectedError);
+        Single<PersonInfo> single = Single.error(expectedError);
         when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getPersonInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(observable);
+        when(api.getPersonInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
 
         useCase.requestPersonData(PERSON_ID, false).subscribe(
                 personInfo -> {},

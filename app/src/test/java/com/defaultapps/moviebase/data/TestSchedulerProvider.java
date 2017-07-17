@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.data;
 
 
-import io.reactivex.ObservableTransformer;
+import io.reactivex.SingleTransformer;
 import io.reactivex.schedulers.TestScheduler;
 
 public class TestSchedulerProvider implements SchedulerProvider {
@@ -13,7 +13,7 @@ public class TestSchedulerProvider implements SchedulerProvider {
     }
 
     @Override
-    public <T> ObservableTransformer<T, T> applyIoSchedulers() {
+    public <T> SingleTransformer<T, T> applyIoSchedulers() {
         return observable -> observable.subscribeOn(testScheduler)
                 .observeOn(testScheduler);
     }

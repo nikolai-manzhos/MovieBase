@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
@@ -38,7 +39,7 @@ public class DiscoverUseCaseImpl implements DiscoverUseCase {
         return genresReplaySubject;
     }
 
-    private Observable<Genres> local() {
+    private Single<Genres> local() {
         return localService.readGenresFromResources()
                 .compose(schedulerProvider.applyIoSchedulers());
     }

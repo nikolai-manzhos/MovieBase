@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
@@ -43,25 +44,25 @@ public class HomeUseCaseImpl implements HomeUseCase {
             moviesReplaySubject = ReplaySubject.create();
 
             moviesDisposable = network()
-                    .filter(moviesResponses -> moviesResponses.size() != 0).firstOrError()
+                    .filter(moviesResponses -> moviesResponses.size() != 0)
                     .subscribe(moviesReplaySubject::onNext, moviesReplaySubject::onError);
         }
         return moviesReplaySubject;
     }
 
-    private Observable<List<MoviesResponse>> network() {
-        return Observable.zip(
+    private Single<List<MoviesResponse>> network() {
+        return Single.zip(
                 networkUpcoming(),
                 networkNowPLaying(),
                 (upcomingResponse, nowPlayingResponse) -> Arrays.asList(upcomingResponse, nowPlayingResponse));
     }
 
-    private Observable<MoviesResponse> networkUpcoming() {
+    private Single<MoviesResponse> networkUpcoming() {
         return networkService.getNetworkCall().getUpcomingMovies(API_KEY, "en-Us", 1)
                 .compose(schedulerProvider.applyIoSchedulers());
     }
 
-    private Observable<MoviesResponse> networkNowPLaying() {
+    private Single<MoviesResponse> networkNowPLaying() {
         return networkService.getNetworkCall().getNowPlaying(API_KEY, "en-Us", 1)
                 .compose(schedulerProvider.applyIoSchedulers());
     }

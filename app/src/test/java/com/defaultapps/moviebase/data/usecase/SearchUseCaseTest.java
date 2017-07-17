@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
@@ -51,9 +51,9 @@ public class SearchUseCaseTest {
     @Test
     public void requestSearchResultsSuccess() throws Exception {
         MoviesResponse expectedResponse = new MoviesResponse();
-        Observable<MoviesResponse> observable = Observable.just(expectedResponse).subscribeOn(testScheduler);
+        Single<MoviesResponse> single = Single.just(expectedResponse).subscribeOn(testScheduler);
         when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean())).thenReturn(observable);
+        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean())).thenReturn(single);
 
         searchUseCase.requestSearchResults(QUERY, false).subscribe(
                 actualResponse -> this.actualResponse = actualResponse,
@@ -69,9 +69,9 @@ public class SearchUseCaseTest {
     @Test
     public void requestSearchResultFailure() throws Exception {
         Throwable expectedException = new Throwable("Network error.");
-        Observable<MoviesResponse> observable = Observable.error(expectedException);
+        Single<MoviesResponse> single = Single.error(expectedException);
         when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean())).thenReturn(observable);
+        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean())).thenReturn(single);
 
         searchUseCase.requestSearchResults(QUERY, false).subscribe(
                 actualResponse -> {},

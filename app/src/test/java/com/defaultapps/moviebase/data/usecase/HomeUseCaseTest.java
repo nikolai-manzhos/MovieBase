@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -50,12 +50,12 @@ public class HomeUseCaseTest {
         MoviesResponse expectedResponse1 = new MoviesResponse();
         MoviesResponse expectedResponse2 = new MoviesResponse();
 
-        Observable<MoviesResponse> observable1 = Observable.just(expectedResponse1);
-        Observable<MoviesResponse> observable2 = Observable.just(expectedResponse2);
+        Single<MoviesResponse> single1 = Single.just(expectedResponse1);
+        Single<MoviesResponse> single2 = Single.just(expectedResponse2);
 
         when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getUpcomingMovies(anyString(), anyString(), anyInt())).thenReturn(observable1);
-        when(api.getNowPlaying(anyString(), anyString(), anyInt())).thenReturn(observable2);
+        when(api.getUpcomingMovies(anyString(), anyString(), anyInt())).thenReturn(single1);
+        when(api.getNowPlaying(anyString(), anyString(), anyInt())).thenReturn(single2);
 
         discoverUseCase.requestHomeData(true).subscribe(moviesResponses -> {
             actualResponse1 = moviesResponses.get(0);
@@ -73,10 +73,10 @@ public class HomeUseCaseTest {
     @Test
     public void fetchHomePageDataFailure() throws Exception {
         Exception exception = new Exception("Network error.");
-        Observable<MoviesResponse> observable = Observable.error(exception);
+        Single<MoviesResponse> single = Single.error(exception);
         when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getUpcomingMovies(anyString(), anyString(), anyInt())).thenReturn(observable);
-        when(api.getNowPlaying(anyString(), anyString(), anyInt())).thenReturn(observable);
+        when(api.getUpcomingMovies(anyString(), anyString(), anyInt())).thenReturn(single);
+        when(api.getNowPlaying(anyString(), anyString(), anyInt())).thenReturn(single);
 
         discoverUseCase.requestHomeData(true).subscribe(moviesResponses -> {}, err -> expectedThrowable = err);
 

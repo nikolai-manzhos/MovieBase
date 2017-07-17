@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 
 public class LocalService {
@@ -21,8 +21,8 @@ public class LocalService {
         this.assetManager = assetManager;
     }
 
-    public Observable<Genres> readGenresFromResources(){
-        return Observable.fromCallable(() -> {
+    public Single<Genres> readGenresFromResources(){
+        return Single.fromCallable(() -> {
             String json;
             InputStream is = assetManager.open("genres.json");
             int size = is.available();

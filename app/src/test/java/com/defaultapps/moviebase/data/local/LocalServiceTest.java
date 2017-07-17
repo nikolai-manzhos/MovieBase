@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertNotNull;
@@ -36,9 +36,9 @@ public class LocalServiceTest {
     public void readGenresFromResourcesSuccess() throws Exception {
         String file = "genres.json";
         when(assetManager.open("genres.json")).thenReturn(getClass().getClassLoader().getResourceAsStream(file));
-        Observable<Genres> observable = localService.readGenresFromResources().subscribeOn(testScheduler);
+        Single<Genres> single = localService.readGenresFromResources().subscribeOn(testScheduler);
 
-        observable.subscribe(
+        single.subscribe(
                 genres -> result = genres,
                 err -> {}
         );

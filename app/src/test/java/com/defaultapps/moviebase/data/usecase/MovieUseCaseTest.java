@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
@@ -64,9 +65,9 @@ public class MovieUseCaseTest {
     public void requestMovieDataSuccess() throws Exception {
         MovieInfoResponse expectedResponse = new MovieInfoResponse();
         expectedResponse.setId(MOVIE_ID);
-        Observable<MovieInfoResponse> observable = Observable.just(expectedResponse).subscribeOn(testScheduler);
+        Single<MovieInfoResponse> single = Single.just(expectedResponse).subscribeOn(testScheduler);
         when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getMovieInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(observable);
+        when(api.getMovieInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
         when(favoritesManager.fetchAllFavs()).thenReturn(Observable.just(new ArrayList<>()));
 
         movieUseCase.requestMovieData(MOVIE_ID, false).subscribe(

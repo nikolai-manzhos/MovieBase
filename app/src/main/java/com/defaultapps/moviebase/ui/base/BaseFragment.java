@@ -32,9 +32,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
+        unbinder.unbind();
     }
 
     @LayoutRes

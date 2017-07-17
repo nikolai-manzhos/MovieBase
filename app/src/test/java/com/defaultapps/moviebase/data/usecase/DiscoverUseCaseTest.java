@@ -9,13 +9,11 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
-import io.reactivex.subjects.ReplaySubject;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 public class DiscoverUseCaseTest {
@@ -37,8 +35,8 @@ public class DiscoverUseCaseTest {
     @Test
     public void testGenresDiskProviderSuccess() throws Exception {
         Genres expectedResponse = new Genres();
-        Observable<Genres> observable = Observable.just(expectedResponse);
-        when(localService.readGenresFromResources()).thenReturn(observable);
+        Single<Genres> single = Single.just(expectedResponse);
+        when(localService.readGenresFromResources()).thenReturn(single);
 
         discoverUseCase.provideGenresList().subscribe(
                 genres -> actualResponse = genres,

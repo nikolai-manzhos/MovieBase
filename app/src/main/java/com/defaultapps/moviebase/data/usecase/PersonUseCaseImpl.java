@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
@@ -44,7 +45,7 @@ public class PersonUseCaseImpl implements PersonUseCase {
         return personReplaySubject;
     }
 
-    private Observable<PersonInfo> network(int personId) {
+    private Single<PersonInfo> network(int personId) {
         return networkService.getNetworkCall().getPersonInfo(personId, API_KEY, "en-Us", "movie_credits")
                 .compose(schedulerProvider.applyIoSchedulers());
     }

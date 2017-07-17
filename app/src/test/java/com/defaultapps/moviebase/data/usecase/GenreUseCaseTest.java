@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
@@ -54,11 +55,11 @@ public class GenreUseCaseTest {
     @Test
     public void requestGenreDataSuccess() throws Exception {
         MoviesResponse expectedResponse = new MoviesResponse();
-        Observable<MoviesResponse> observable = Observable.just(expectedResponse);
+        Single<MoviesResponse> single = Single.just(expectedResponse);
 
         when(networkService.getNetworkCall()).thenReturn(api);
         when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
-                .thenReturn(observable);
+                .thenReturn(single);
 
         genreUseCase.requestGenreData(GENRE_ID, true).subscribe(moviesResponse -> actualResponse = moviesResponse);
 
@@ -71,11 +72,11 @@ public class GenreUseCaseTest {
     @Test
     public void requestGenreDataFailure() throws Exception {
         Exception expectedException = new Exception("Network exception.");
-        Observable<MoviesResponse> observable = Observable.error(expectedException);
+        Single<MoviesResponse> single = Single.error(expectedException);
 
         when(networkService.getNetworkCall()).thenReturn(api);
         when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
-                .thenReturn(observable);
+                .thenReturn(single);
 
         genreUseCase.requestGenreData(GENRE_ID, true).subscribe(
                 moviesResponse -> {},
