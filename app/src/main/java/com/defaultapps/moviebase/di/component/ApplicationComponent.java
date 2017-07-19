@@ -15,6 +15,7 @@ import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
 import com.defaultapps.moviebase.di.module.UseCaseModule;
+import com.defaultapps.moviebase.utils.RxBus;
 import com.google.firebase.database.DatabaseReference;
 
 import javax.inject.Singleton;
@@ -32,4 +33,5 @@ public interface ApplicationComponent {
     PersonUseCase personUseCaseImpl();
     DatabaseReference databaseReference();
     LoggedUser loggedUser();
+    RxBus rxBus();
 }

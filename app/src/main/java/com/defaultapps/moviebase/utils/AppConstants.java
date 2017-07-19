@@ -3,6 +3,8 @@ package com.defaultapps.moviebase.utils;
 
 public class AppConstants {
 
+    public static final String HOME_INSTANT_CACHE = "home_instant_cache";
+
     public static final String POSTER_BASE_URL = "https://image.tmdb.org/t/p/w300/";
 
     public static final String GENRE_ID = "genre_id";

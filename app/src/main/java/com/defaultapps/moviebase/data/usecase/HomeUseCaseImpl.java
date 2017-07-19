@@ -4,6 +4,8 @@ import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.RxBus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,22 +23,32 @@ import io.reactivex.subjects.ReplaySubject;
 public class HomeUseCaseImpl implements HomeUseCase {
 
     private NetworkService networkService;
+    private RxBus rxBus;
     private SchedulerProvider schedulerProvider;
 
     private Disposable moviesDisposable;
     private ReplaySubject<List<MoviesResponse>> moviesReplaySubject;
+    private List<MoviesResponse> cache;
 
     private final String API_KEY = BuildConfig.MDB_API_KEY;
 
     @Inject
     HomeUseCaseImpl(NetworkService networkService,
+                           RxBus rxBus,
                            SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
+        this.rxBus = rxBus;
         this.schedulerProvider = schedulerProvider;
     }
 
     @Override
     public Observable<List<MoviesResponse>> requestHomeData(boolean force) {
+        if (cache != null
+                && moviesReplaySubject != null
+                && !moviesReplaySubject.hasValue()
+                && !moviesReplaySubject.hasThrowable()) {
+            rxBus.publish(AppConstants.HOME_INSTANT_CACHE, cache);
+        }
         if (force && moviesDisposable != null) {
             moviesDisposable.dispose();
         }
@@ -44,7 +56,7 @@ public class HomeUseCaseImpl implements HomeUseCase {
             moviesReplaySubject = ReplaySubject.create();
 
             moviesDisposable = network()
-                    .filter(moviesResponses -> moviesResponses.size() != 0)
+                    .doOnSuccess(moviesList -> cache = moviesList)
                     .subscribe(moviesReplaySubject::onNext, moviesReplaySubject::onError);
         }
         return moviesReplaySubject;

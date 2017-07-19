@@ -5,6 +5,7 @@ import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.Api;
 import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.utils.RxBus;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,9 @@ public class HomeUseCaseTest {
     @Mock
     Api api;
 
+    @Mock
+    RxBus rxBus;
+
     private HomeUseCase discoverUseCase;
     private TestScheduler testScheduler;
 
@@ -42,7 +46,9 @@ public class HomeUseCaseTest {
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        discoverUseCase = new HomeUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler));
+        discoverUseCase = new HomeUseCaseImpl(networkService,
+                rxBus,
+                new TestSchedulerProvider(testScheduler));
     }
 
     @Test
