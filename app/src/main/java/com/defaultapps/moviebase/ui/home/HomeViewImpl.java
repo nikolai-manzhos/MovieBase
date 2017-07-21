@@ -90,7 +90,7 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     public void onMovieClick(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
         intent.putExtra(AppConstants.MOVIE_ID, movieId);
-        getActivity().startActivity(intent);
+        startActivity(intent);
     }
 
     @Override
