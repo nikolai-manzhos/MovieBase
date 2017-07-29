@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase;
+package com.defaultapps.moviebase.utils;
 
 import android.util.Log;
 

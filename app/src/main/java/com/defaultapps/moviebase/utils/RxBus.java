@@ -1,12 +1,13 @@
 package com.defaultapps.moviebase.utils;
 
+import com.defaultapps.moviebase.utils.rx.ThreadScheduler;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -19,8 +20,12 @@ public class RxBus {
     private Map<String, PublishProcessor<Object>> processorMap = new HashMap<>();
     private Map<Object, CompositeDisposable> subscriptionsMap = new HashMap<>();
 
+    private ThreadScheduler scheduler;
+
     @Inject
-    public RxBus() {}
+    public RxBus(ThreadScheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
     public void subscribe(String processor,
                           @NonNull Object lifecycle,
@@ -46,7 +51,7 @@ public class RxBus {
         PublishProcessor<Object> processor = processorMap.get(processorKey);
         if (processor == null) {
             processor = PublishProcessor.create();
-            processor.subscribeOn(AndroidSchedulers.mainThread());
+            processor.subscribeOn(scheduler.getScheduler());
             processorMap.put(processorKey, processor);
         }
         return processor;

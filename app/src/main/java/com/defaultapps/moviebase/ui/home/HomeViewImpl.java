@@ -18,7 +18,6 @@ import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.user.UserActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
-import com.defaultapps.moviebase.utils.RxBus;
 
 import java.util.List;
 
@@ -45,9 +44,6 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     @Inject
     UpcomingAdapter upcomingAdapter;
 
-    @Inject
-    RxBus rxBus;
-
     @Override
     protected int provideLayout() {
         return R.layout.fragment_home;
@@ -61,12 +57,6 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
         presenter.onAttach(this);
         initRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(this);
-        rxBus.subscribe(AppConstants.HOME_INSTANT_CACHE,
-                this,
-                cache -> {
-                    //noinspection unchecked
-                    receiveResults((List<MoviesResponse>) cache);
-                });
         if (savedInstanceState == null) {
             presenter.requestMoviesData(true);
         } else {
@@ -77,7 +67,6 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        rxBus.unsubscribe(this);
         presenter.onDetach();
     }
 
