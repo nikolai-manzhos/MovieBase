@@ -20,6 +20,7 @@ import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -79,5 +80,15 @@ public class HomePresenterTest {
         rxBus.publish(AppConstants.HOME_INSTANT_CACHE, responses);
 
         verify(view).receiveResults(responses);
+    }
+
+    @Test
+    public void unsubscribeOnDetach() throws Exception {
+        rxBus = mock(RxBus.class);
+        presenter = new HomePresenterImpl(homeUseCase, rxBus);
+
+        presenter.onDetach();
+
+        verify(rxBus).unsubscribe(presenter);
     }
 }
