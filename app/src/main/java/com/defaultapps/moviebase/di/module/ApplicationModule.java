@@ -8,8 +8,8 @@ import com.defaultapps.moviebase.data.AppSchedulerProvider;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.di.ApplicationContext;
-import com.defaultapps.moviebase.utils.rx.MainThreadScheduler;
-import com.defaultapps.moviebase.utils.rx.ThreadScheduler;
+import com.defaultapps.moviebase.utils.rx.MainBusThreadScheduler;
+import com.defaultapps.moviebase.utils.rx.BusThreadScheduler;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -46,8 +46,8 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    ThreadScheduler provideThreadScheduler() {
-        return new MainThreadScheduler();
+    BusThreadScheduler provideThreadScheduler() {
+        return new MainBusThreadScheduler();
     }
 
     @Singleton

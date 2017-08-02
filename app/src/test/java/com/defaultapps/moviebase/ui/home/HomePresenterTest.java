@@ -4,7 +4,7 @@ import com.defaultapps.moviebase.data.usecase.HomeUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.RxBus;
-import com.defaultapps.moviebase.utils.TrampolineThreadScheduler;
+import com.defaultapps.moviebase.utils.TrampolineBusThreadScheduler;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class HomePresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        rxBus = new RxBus(new TrampolineThreadScheduler());
+        rxBus = new RxBus(new TrampolineBusThreadScheduler());
         presenter = new HomePresenterImpl(homeUseCase, rxBus);
         presenter.onAttach(view);
         testScheduler = new TestScheduler();

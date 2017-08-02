@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.utils;
 
-import com.defaultapps.moviebase.utils.rx.ThreadScheduler;
+import com.defaultapps.moviebase.utils.rx.BusThreadScheduler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,10 +20,10 @@ public class RxBus {
     private Map<String, PublishProcessor<Object>> processorMap = new HashMap<>();
     private Map<Object, CompositeDisposable> subscriptionsMap = new HashMap<>();
 
-    private ThreadScheduler scheduler;
+    private BusThreadScheduler scheduler;
 
     @Inject
-    public RxBus(ThreadScheduler scheduler) {
+    public RxBus(BusThreadScheduler scheduler) {
         this.scheduler = scheduler;
     }
 

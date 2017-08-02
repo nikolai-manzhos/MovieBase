@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.di.component.DaggerFragmentComponent;
 import com.defaultapps.moviebase.di.component.FragmentComponent;
 
 import butterknife.ButterKnife;
@@ -49,9 +48,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(provideLayout(), container, false);
-        fragmentComponent = DaggerFragmentComponent.builder()
-                .activityComponent(componentActivity.getActivityComponent())
-                .build();
+        fragmentComponent = componentActivity.getActivityComponent().plusFragmentComponent();
         unbinder = ButterKnife.bind(this, v);
         return v;
     }

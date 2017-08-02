@@ -1,11 +1,11 @@
 package com.defaultapps.moviebase.utils;
 
-import com.defaultapps.moviebase.utils.rx.ThreadScheduler;
+import com.defaultapps.moviebase.utils.rx.BusThreadScheduler;
 
 import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
-public class TrampolineThreadScheduler implements ThreadScheduler {
+public class TrampolineBusThreadScheduler implements BusThreadScheduler {
 
     @Override
     public Scheduler getScheduler() {

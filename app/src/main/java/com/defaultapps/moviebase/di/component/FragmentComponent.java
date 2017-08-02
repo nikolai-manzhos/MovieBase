@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.di.component;
 
 import com.defaultapps.moviebase.di.module.FragmentModule;
-import com.defaultapps.moviebase.di.module.UseCaseModule;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
@@ -12,10 +11,10 @@ import com.defaultapps.moviebase.ui.person.PersonViewImpl;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.defaultapps.moviebase.ui.user.UserViewImpl;
 
-import dagger.Component;
+import dagger.Subcomponent;
 
 @PerFragment
-@Component(dependencies = {ActivityComponent.class}, modules = FragmentModule.class)
+@Subcomponent(modules = FragmentModule.class)
 public interface FragmentComponent {
     void inject(HomeViewImpl homeView);
     void inject(DiscoverViewImpl discoverView);
