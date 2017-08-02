@@ -51,9 +51,14 @@ public class HomeUseCaseImpl implements HomeUseCase {
         }
         if (force && moviesDisposable != null) {
             moviesDisposable.dispose();
+        } else if (!force
+                && moviesReplaySubject != null
+                && moviesReplaySubject.hasThrowable()) {
+            rxBus.publish(AppConstants.HOME_INSTANT_CACHE, cache);
+            moviesReplaySubject.onComplete();
         }
         if (moviesDisposable == null || moviesDisposable.isDisposed()) {
-            moviesReplaySubject = ReplaySubject.create();
+            moviesReplaySubject = ReplaySubject.create(1);
 
             moviesDisposable = network()
                     .doOnSuccess(moviesList -> cache = moviesList)
