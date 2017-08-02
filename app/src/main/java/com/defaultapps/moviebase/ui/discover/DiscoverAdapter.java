@@ -14,6 +14,7 @@ import com.defaultapps.moviebase.data.models.responses.genres.Genre;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@PerActivity
+@PerFragment
 public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.DiscoverViewHolder> {
 
     private Context context;

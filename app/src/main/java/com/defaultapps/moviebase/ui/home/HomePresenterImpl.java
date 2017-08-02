@@ -1,12 +1,12 @@
 package com.defaultapps.moviebase.ui.home;
 
 import com.defaultapps.moviebase.data.usecase.HomeUseCase;
-import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
-@PerActivity
+@PerFragment
 public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> implements HomeContract.HomePresenter {
 
     private HomeUseCase homeUseCase;

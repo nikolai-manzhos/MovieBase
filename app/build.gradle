@@ -5,16 +5,16 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
 
 afterEvaluate {
-    try {
-        assembleDebug.dependsOn 'test'
-    } catch (MissingPropertyException ex) {
-        logger.warn "Release build, MissingPropertyException expected, exception message: " + ex.message
-    }
-    try {
-        assembleRelease.dependsOn 'test', 'lint', 'connectedCheck'
-    } catch (MissingPropertyException ex) {
-        logger.warn "Debug build, MissingPropertyException expected, exception message: " + ex.message
-    }
+//    try {
+//        assembleDebug.dependsOn 'test'
+//    } catch (MissingPropertyException ex) {
+//        logger.warn "Release build, MissingPropertyException expected, exception message: " + ex.message
+//    }
+//    try {
+//        assembleRelease.dependsOn 'test', 'lint', 'connectedCheck'
+//    } catch (MissingPropertyException ex) {
+//        logger.warn "Debug build, MissingPropertyException expected, exception message: " + ex.message
+//    }
 }
 
 

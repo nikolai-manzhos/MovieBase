@@ -80,7 +80,7 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ((PersonActivity) getActivity()).getActivityComponent().inject(this);
+        getFragmentComponent().inject(this);
         initRecyclerViews();
         presenter.onAttach(this);
 

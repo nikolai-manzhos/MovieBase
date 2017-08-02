@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.home.vh.MainViewHolder;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingViewHolder;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
@@ -21,7 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-@PerActivity
+@PerFragment
 public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private MoviesResponse upcoming;

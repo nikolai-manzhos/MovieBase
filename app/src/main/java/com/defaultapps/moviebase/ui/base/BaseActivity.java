@@ -13,7 +13,7 @@ import com.defaultapps.moviebase.di.component.DaggerActivityComponent;
 import com.defaultapps.moviebase.di.module.ActivityModule;
 
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements ComponentActivity {
     protected ActivityComponent activityComponent;
 
     @Override

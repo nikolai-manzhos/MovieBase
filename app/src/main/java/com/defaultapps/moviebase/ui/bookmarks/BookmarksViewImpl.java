@@ -43,9 +43,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).getActivityComponent().inject(this);
-
+        getFragmentComponent().inject(this);
         initRecyclerView();
     }
 

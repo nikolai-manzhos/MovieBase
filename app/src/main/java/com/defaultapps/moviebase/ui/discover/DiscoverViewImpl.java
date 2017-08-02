@@ -38,8 +38,7 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).getActivityComponent().inject(this);
+        getFragmentComponent().inject(this);
         adapter.setListener(this);
         presenter.onAttach(this);
         initRecyclerView();

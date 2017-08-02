@@ -10,6 +10,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.movie.vh.SimilarViewHolder;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@PerActivity
+@PerFragment
 public class SimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder> {
 
     private Context context;
