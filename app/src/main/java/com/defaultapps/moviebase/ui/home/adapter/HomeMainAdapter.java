@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.ActivityContext;
-import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.home.vh.MainViewHolder;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingViewHolder;

@@ -11,7 +11,6 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
-import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 
 import javax.inject.Inject;

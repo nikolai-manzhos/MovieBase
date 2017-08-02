@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.Crew;
 import com.defaultapps.moviebase.di.ActivityContext;
-import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.movie.vh.CrewViewHolder;
 import com.defaultapps.moviebase.utils.OnPersonClickListener;

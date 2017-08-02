@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.VideoResult;
 import com.defaultapps.moviebase.di.ActivityContext;
-import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.movie.vh.VideosViewHolder;
 import com.squareup.picasso.Picasso;

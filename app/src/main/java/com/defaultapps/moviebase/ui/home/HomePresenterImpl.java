@@ -1,7 +1,5 @@
 package com.defaultapps.moviebase.ui.home;
 
-import android.util.Log;
-
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.usecase.HomeUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;

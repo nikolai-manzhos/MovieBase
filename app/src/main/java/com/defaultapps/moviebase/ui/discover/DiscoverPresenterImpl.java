@@ -1,9 +1,7 @@
 package com.defaultapps.moviebase.ui.discover;
 
-import android.util.Log;
 
 import com.defaultapps.moviebase.data.usecase.DiscoverUseCase;
-import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
@@ -18,7 +16,6 @@ public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.Discov
     @Inject
     public DiscoverPresenterImpl(DiscoverUseCase discoverUseCase) {
         this.discoverUseCase = discoverUseCase;
-        Log.d("DiscoverPresenter", this.toString());
     }
 
     @Override
