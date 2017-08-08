@@ -14,6 +14,7 @@ import com.defaultapps.moviebase.data.usecase.PersonUseCaseImpl;
 import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
+import com.defaultapps.moviebase.di.module.SchedulersModule;
 import com.defaultapps.moviebase.di.module.UseCaseModule;
 import com.defaultapps.moviebase.utils.RxBus;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +24,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {ApplicationModule.class, UseCaseModule.class})
+@Component(modules = {ApplicationModule.class, UseCaseModule.class, SchedulersModule.class})
 public interface ApplicationComponent {
     HomeUseCase homeUseCaseImpl();
     DiscoverUseCase discoverUseCaseImpl();

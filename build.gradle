@@ -23,7 +23,7 @@ task clean(type: Delete) {
 }
 
 ext {
-    support = '26.0.0-beta2' //25.3.0 previous stable working
+    support = '26.0.0' //25.3.0 previous stable working
     constraintLayout = '1.0.0-beta3'
     bottomBar = '2.3.1'
     butterKnife = '8.5.1'
@@ -44,7 +44,7 @@ ext {
     prefs = "1.1"
 
     junit = '4.12'
-    espresso = '2.2.2'
+    espresso = '3.0.0'
     mockito = '1.10.19'
     powerMockito = '1.6.6'
     robolectric = '3.3.2'

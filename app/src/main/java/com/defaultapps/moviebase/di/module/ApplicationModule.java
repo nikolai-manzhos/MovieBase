@@ -38,17 +38,7 @@ public class ApplicationModule {
         return application.getAssets();
     }
 
-    @Singleton
-    @Provides
-    SchedulerProvider provideSchedulerProvider() {
-        return new AppSchedulerProvider();
-    }
 
-    @Singleton
-    @Provides
-    ThreadScheduler provideThreadScheduler() {
-        return new MainThreadScheduler();
-    }
 
     @Singleton
     @Provides
