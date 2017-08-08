@@ -1,13 +1,14 @@
 package com.defaultapps.moviebase.ui.discover;
 
+
 import com.defaultapps.moviebase.data.usecase.DiscoverUseCase;
-import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
 
-@PerActivity
+@PerFragment
 public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.DiscoverView> implements DiscoverContract.DiscoverPresenter {
 
     private DiscoverUseCase discoverUseCase;

@@ -124,7 +124,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ((MovieActivity) getActivity()).getActivityComponent().inject(this);
+        getFragmentComponent().inject(this);
         initToolbar();
         initFAB();
         initRecyclerViews();

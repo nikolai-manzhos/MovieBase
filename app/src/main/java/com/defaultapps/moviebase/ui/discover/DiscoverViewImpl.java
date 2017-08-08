@@ -11,7 +11,6 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
-import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 
 import javax.inject.Inject;
@@ -38,8 +37,7 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).getActivityComponent().inject(this);
+        getFragmentComponent().inject(this);
         adapter.setListener(this);
         presenter.onAttach(this);
         initRecyclerView();

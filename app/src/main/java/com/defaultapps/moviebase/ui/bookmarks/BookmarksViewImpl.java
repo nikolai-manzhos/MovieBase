@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
@@ -43,9 +42,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).getActivityComponent().inject(this);
-
+        getFragmentComponent().inject(this);
         initRecyclerView();
     }
 

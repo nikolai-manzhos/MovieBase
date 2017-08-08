@@ -13,7 +13,6 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
-import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.user.UserActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
@@ -51,9 +50,7 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).getActivityComponent().inject(this);
-
+        getFragmentComponent().inject(this);
         presenter.onAttach(this);
         initRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(this);

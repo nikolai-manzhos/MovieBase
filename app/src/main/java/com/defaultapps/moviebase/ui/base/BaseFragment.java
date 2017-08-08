@@ -1,7 +1,9 @@
 package com.defaultapps.moviebase.ui.base;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.di.component.FragmentComponent;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -20,11 +23,32 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends Fragment implements MvpView {
 
     private Unbinder unbinder;
+    private ComponentActivity componentActivity;
+    private FragmentComponent fragmentComponent;
+
+    @CallSuper
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ComponentActivity) {
+            componentActivity = (ComponentActivity) context;
+        } else {
+            throw new IllegalStateException("This activity need to be inherited from BaseActivity");
+        }
+    }
+
+    @CallSuper
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        componentActivity = null;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(provideLayout(), container, false);
+        fragmentComponent = componentActivity.getActivityComponent().plusFragmentComponent();
         unbinder = ButterKnife.bind(this, v);
         return v;
     }
@@ -60,12 +84,12 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     }
 
     @Override
-    public void showLoading() {
-
-    }
+    public void showLoading() {}
 
     @Override
-    public void hideLoading() {
+    public void hideLoading() {}
 
+    protected FragmentComponent getFragmentComponent() {
+        return fragmentComponent;
     }
 }

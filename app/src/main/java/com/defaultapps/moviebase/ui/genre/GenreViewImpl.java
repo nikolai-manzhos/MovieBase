@@ -56,8 +56,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ((GenreActivity) getActivity()).getActivityComponent().inject(this);
-
+        getFragmentComponent().inject(this);
         presenter.onAttach(this);
         initRecyclerView();
         Bundle bundle = getArguments();

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.Cast;
 import com.defaultapps.moviebase.di.ActivityContext;
+import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.movie.vh.CastViewHolder;
 import com.defaultapps.moviebase.utils.OnPersonClickListener;
 import com.squareup.picasso.Picasso;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-
+@PerFragment
 public class CastAdapter extends RecyclerView.Adapter<CastViewHolder> {
 
     private List<Cast> cast;

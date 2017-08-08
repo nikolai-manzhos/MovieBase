@@ -45,9 +45,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ((UserActivity) getActivity()).getActivityComponent().inject(this);
-
+        getFragmentComponent().inject(this);
         setupViews();
     }
 

@@ -90,7 +90,7 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        activity.getActivityComponent().inject(this);
+        getFragmentComponent().inject(this);
         presenter.onAttach(this);
         activity.setOnBackPressedListener(this);
 

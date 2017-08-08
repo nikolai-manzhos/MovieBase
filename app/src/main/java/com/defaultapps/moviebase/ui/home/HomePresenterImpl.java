@@ -1,10 +1,8 @@
 package com.defaultapps.moviebase.ui.home;
 
-import android.util.Log;
-
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.usecase.HomeUseCase;
-import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.RxBus;
@@ -13,7 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@PerActivity
+@PerFragment
 public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> implements HomeContract.HomePresenter {
 
     private HomeUseCase homeUseCase;
