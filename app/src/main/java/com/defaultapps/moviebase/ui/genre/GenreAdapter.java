@@ -58,6 +58,9 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @BindView(R.id.movieDate)
         IconTextView movieDate;
 
+        @BindView(R.id.movieRating)
+        IconTextView movieRating;
+
         GenreViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
@@ -133,10 +136,12 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void configureGenreViewHolder(GenreViewHolder vh, int aPosition) {
-        final String ICON = "{md-today}";
+        final String ICON = "{md-today 24dp}";
+        final String ICON_VOTE = resolveRatingIcon(items.get(aPosition).getVoteAverage());
         String posterPath = items.get(aPosition).getPosterPath();
         vh.title.setText(items.get(aPosition).getTitle());
-        vh.movieDate.setText(String.format(("%1$s" + Utils.convertDate(items.get(aPosition).getReleaseDate())), ICON));
+        vh.movieDate.setText(String.format(("%1$s" + " " + Utils.convertDate(items.get(aPosition).getReleaseDate())), ICON));
+        vh.movieRating.setText(String.format(("%1$s" + " " + items.get(aPosition).getVoteAverage()), ICON_VOTE));
         Picasso
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + posterPath)
@@ -147,5 +152,13 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private LoadingViewHolder createLoadingViewHolder(View view) {
         return new LoadingViewHolder(view);
+    }
+
+    private String resolveRatingIcon(double rating) {
+        if (rating <= 5.0) {
+            return "{md-thumbs-up-down 24dp #17BD52}";
+        } else {
+            return "{md-thumb-up 24dp #17BD52}";
+        }
     }
 }

@@ -11,11 +11,12 @@
         android:id="@+id/moviePoster"
         android:contentDescription="@string/movie_image_poster"
         android:layout_width="120dp"
-        android:layout_height="160dp" />
+        android:layout_height="175dp" />
 
     <TextView
         android:id="@+id/movieTitle"
         android:textColor="@color/colorPrimaryText"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/moviePoster"
@@ -23,11 +24,22 @@
 
     <com.joanzapata.iconify.widget.IconTextView
         android:id="@+id/movieDate"
+        android:textSize="16sp"
         android:textColor="@color/colorPrimaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/moviePoster"
         android:layout_below="@+id/movieTitle"
-        android:layout_marginStart="5dp"/>
+        android:layout_margin="5dp"/>
+    
+    <com.joanzapata.iconify.widget.IconTextView
+        android:id="@+id/movieRating"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_toEndOf="@+id/moviePoster"
+        android:layout_below="@+id/movieDate"/>
 
 </RelativeLayout>
