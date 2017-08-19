@@ -16,6 +16,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.EndlessRecyclerViewScrollListener;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 
 import javax.inject.Inject;
@@ -96,8 +97,14 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @Override
     public void showMovies(MoviesResponse movies) {
-        adapter.setData(movies);
+        adapter.setData(movies.getResults());
         Log.d("GenreView", String.valueOf(movies.getResults().size()));
+    }
+
+    @Override
+    public void showMoreMovies(MoviesResponse movies) {
+        adapter.addData(movies.getResults());
+        genreRecycler.post(() -> adapter.notifyDataSetChanged()); // fix IllegalStateException
     }
 
     @Override
@@ -124,6 +131,18 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     private void initRecyclerView() {
         genreRecycler.setAdapter(adapter);
-        genreRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        genreRecycler.setLayoutManager(layoutManager);
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener() {
+
+            @Override
+            public void onLoadMore() {
+                presenter.requestMoreMovies(genreId);
+                Log.d("GenreRecycler", "load more items");
+            }
+
+        };
+        genreRecycler.addOnScrollListener(scrollListener);
+
     }
 }

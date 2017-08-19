@@ -7,4 +7,5 @@ import io.reactivex.Observable;
 
 public interface GenreUseCase {
     Observable<MoviesResponse> requestGenreData(String genreId, boolean force);
+    Observable<MoviesResponse> requestMoreGenreData(String genreId);
 }

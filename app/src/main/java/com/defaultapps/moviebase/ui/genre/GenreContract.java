@@ -9,10 +9,12 @@ interface GenreContract {
 
     interface GenrePresenter extends MvpPresenter<GenreView> {
         void requestMovies(String genreId, boolean force);
+        void requestMoreMovies(String genreId);
     }
 
     interface GenreView extends MvpView {
         void showMovies(MoviesResponse movies);
+        void showMoreMovies(MoviesResponse movies);
         void showError();
         void hideError();
     }

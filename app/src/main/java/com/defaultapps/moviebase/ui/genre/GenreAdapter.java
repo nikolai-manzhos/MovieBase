@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
@@ -18,21 +18,28 @@ import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Handler;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @PerFragment
-public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHolder> {
+public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private MoviesResponse items;
+    private List<Result> items;
     private OnMovieClickListener listener;
+
+    private final int GENRE = 0, LOADING = 1;
 
     @Inject
     GenreAdapter(@ActivityContext Context context) {
         this.context = context;
+        items = new ArrayList<>();
     }
 
     static class GenreViewHolder extends RecyclerView.ViewHolder {
@@ -55,38 +62,92 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
         }
     }
 
-    @Override
-    public GenreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new GenreViewHolder(LayoutInflater.from(context).inflate(R.layout.item_genre, parent, false));
+    static class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        LoadingViewHolder(View v) {
+            super(v);
+        }
     }
 
     @Override
-    public void onBindViewHolder(GenreViewHolder holder, int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder = null;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        switch (viewType) {
+            case GENRE:
+                View vGenre = inflater.inflate(R.layout.item_genre, parent, false);
+                viewHolder = createGenreViewHolder(vGenre);
+                break;
+            case LOADING:
+                View vLoading = inflater.inflate(R.layout.item_loading, parent, false);
+                viewHolder = createLoadingViewHolder(vLoading);
+                break;
+        }
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
-        String icon = "{md-today}";
-        String posterPath = items.getResults().get(adapterPosition).getPosterPath();
-        holder.title.setText(items.getResults().get(adapterPosition).getTitle());
-        holder.movieDate.setText(String.format(("%1$s" + Utils.convertDate(items.getResults().get(adapterPosition).getReleaseDate())), icon));
+        switch (holder.getItemViewType()) {
+            case GENRE:
+                configureGenreViewHolder((GenreViewHolder) holder, adapterPosition);
+                break;
+            case LOADING:
+                break;
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == items.size()) {
+            return LOADING;
+        } else {
+            return GENRE;
+        }
+    }
+
+    public void setData(List<Result> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void addData(List<Result> items) {
+        this.items.clear();
+        this.items.addAll(items);
+    }
+
+    public void setOnMovieSelectedListener(OnMovieClickListener listener) {
+        this.listener = listener;
+    }
+
+    private GenreViewHolder createGenreViewHolder(View view) {
+        GenreViewHolder vh = new GenreViewHolder(view);
+        vh.container.setOnClickListener(it -> listener.onMovieClick(items.get(vh.getAdapterPosition()).getId()));
+        return vh;
+    }
+
+    private void configureGenreViewHolder(GenreViewHolder vh, int aPosition) {
+        final String ICON = "{md-today}";
+        String posterPath = items.get(aPosition).getPosterPath();
+        vh.title.setText(items.get(aPosition).getTitle());
+        vh.movieDate.setText(String.format(("%1$s" + Utils.convertDate(items.get(aPosition).getReleaseDate())), ICON));
         Picasso
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + posterPath)
                 .fit()
                 .centerCrop()
-                .into(holder.poster);
-        holder.container.setOnClickListener(view -> listener.onMovieClick(items.getResults().get(adapterPosition).getId()));
+                .into(vh.poster);
     }
 
-    @Override
-    public int getItemCount() {
-        return items != null ? items.getResults().size() : 0;
-    }
-
-    public void setData(MoviesResponse items) {
-        this.items = items;
-        notifyDataSetChanged();
-    }
-
-    public void setOnMovieSelectedListener(OnMovieClickListener listener) {
-        this.listener = listener;
+    private LoadingViewHolder createLoadingViewHolder(View view) {
+        return new LoadingViewHolder(view);
     }
 }
