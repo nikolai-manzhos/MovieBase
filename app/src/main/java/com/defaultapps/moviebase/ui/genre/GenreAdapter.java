@@ -36,6 +36,8 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private final int GENRE = 0, LOADING = 1;
 
+    private boolean isLoadingAdded = false;
+
     @Inject
     GenreAdapter(@ActivityContext Context context) {
         this.context = context;
@@ -101,16 +103,12 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return items.size() + 1;
+        return items.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == items.size()) {
-            return LOADING;
-        } else {
-            return GENRE;
-        }
+        return (position == items.size() - 1 && isLoadingAdded) ? LOADING : GENRE;
     }
 
     public void setData(List<Result> items) {

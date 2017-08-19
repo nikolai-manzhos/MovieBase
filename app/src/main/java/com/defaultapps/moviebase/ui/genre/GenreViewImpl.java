@@ -16,7 +16,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.EndlessRecyclerViewScrollListener;
+import com.defaultapps.moviebase.utils.PaginationScrollListener;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 
 import javax.inject.Inject;
@@ -49,6 +49,9 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     GenreAdapter adapter;
 
     private String genreId;
+    private final int TOTAL_PAGES = 100;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
 
     @Override
     protected int provideLayout() {
@@ -105,6 +108,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     public void showMoreMovies(MoviesResponse movies) {
         adapter.addData(movies.getResults());
         genreRecycler.post(() -> adapter.notifyDataSetChanged()); // fix IllegalStateException
+        isLoading = false;
     }
 
     @Override
@@ -133,14 +137,28 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         genreRecycler.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         genreRecycler.setLayoutManager(layoutManager);
-        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener() {
+        PaginationScrollListener scrollListener = new PaginationScrollListener(layoutManager) {
 
             @Override
-            public void onLoadMore() {
+            protected void loadMoreItems() {
+                isLoading = true;
                 presenter.requestMoreMovies(genreId);
-                Log.d("GenreRecycler", "load more items");
             }
 
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
         };
         genreRecycler.addOnScrollListener(scrollListener);
 
