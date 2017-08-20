@@ -44,7 +44,7 @@ public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> i
                 genreUseCase.requestMoreGenreData(genreId)
                 .subscribe(
                         moviesResponse -> getView().showMoreMovies(moviesResponse),
-                        err -> {}
+                        err -> getView().showLoadMoreError()
                 )
         );
     }

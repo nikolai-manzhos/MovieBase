@@ -57,8 +57,7 @@ public class MovieUseCaseTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        movieUseCase = new MovieUseCaseImpl(networkService, localService,
-                new TestSchedulerProvider(testScheduler), favoritesManager);
+        movieUseCase = new MovieUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler), favoritesManager);
     }
 
     @Test

@@ -16,6 +16,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.PaginationAdapterCallback;
 import com.defaultapps.moviebase.utils.PaginationScrollListener;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 
@@ -25,7 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieClickListener {
+public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieClickListener, PaginationAdapterCallback {
 
     @BindView(R.id.toolbarText)
     TextView toolbarText;
@@ -72,6 +73,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
             presenter.requestMovies(genreId, false);
         }
         adapter.setOnMovieSelectedListener(this);
+        adapter.setPaginationCallback(this);
     }
 
     @Override
@@ -102,13 +104,27 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     public void showMovies(MoviesResponse movies) {
         adapter.setData(movies.getResults());
         Log.d("GenreView", String.valueOf(movies.getResults().size()));
+
+        if (movies.getPage() <= TOTAL_PAGES) adapter.addLoadingFooter();
+        else isLastPage = true;
     }
 
     @Override
     public void showMoreMovies(MoviesResponse movies) {
         adapter.addData(movies.getResults());
-        genreRecycler.post(() -> adapter.notifyDataSetChanged()); // fix IllegalStateException
+        genreRecycler.post(() -> adapter.notifyDataSetChanged()); // hack to fix IllegalStateException
+        adapter.removeLoadingFooter();
         isLoading = false;
+
+        if (movies.getPage() <= TOTAL_PAGES) adapter.addLoadingFooter();
+        else isLastPage = true;
+
+
+    }
+
+    @Override
+    public void showLoadMoreError() {
+        adapter.showRetry(true);
     }
 
     @Override
@@ -131,6 +147,11 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     public void hideError() {
         errorText.setVisibility(View.GONE);
         errorButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void retryPageLoad() {
+        presenter.requestMoreMovies(genreId);
     }
 
     private void initRecyclerView() {
@@ -161,6 +182,5 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
             }
         };
         genreRecycler.addOnScrollListener(scrollListener);
-
     }
 }

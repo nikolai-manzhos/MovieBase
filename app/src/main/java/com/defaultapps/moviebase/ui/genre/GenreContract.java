@@ -15,6 +15,7 @@ interface GenreContract {
     interface GenreView extends MvpView {
         void showMovies(MoviesResponse movies);
         void showMoreMovies(MoviesResponse movies);
+        void showLoadMoreError();
         void showError();
         void hideError();
     }

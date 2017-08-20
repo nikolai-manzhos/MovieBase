@@ -59,6 +59,9 @@ public class GenreUseCaseImpl implements GenreUseCase {
 
     @Override
     public Observable<MoviesResponse> requestMoreGenreData(String genreId) {
+        if (genrePaginationDisposable != null && !genrePaginationDisposable.isDisposed()) {
+            genrePaginationDisposable.dispose();
+        }
         MoviesResponse previousResults = genreReplayProcessor.getValue();
         PublishSubject<MoviesResponse> publishSubject = PublishSubject.create();
         genrePaginationDisposable = network(genreId, genreReplayProcessor.getValue().getPage() + 1)
