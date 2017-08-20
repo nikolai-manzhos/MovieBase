@@ -33,6 +33,7 @@ import com.defaultapps.moviebase.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 import com.thefinestartist.ytpa.YouTubePlayerActivity;
 import com.thefinestartist.ytpa.enums.Orientation;
@@ -76,7 +77,7 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     IconTextView releaseDate;
 
     @BindView(R.id.movieOverview)
-    TextView movieOverview;
+    ExpandableTextView movieOverview;
 
     @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;

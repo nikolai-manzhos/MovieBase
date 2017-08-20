@@ -122,6 +122,8 @@ dependencies {
     compile "com.thefinestartist:ytpa:$rootProject.youtube"
     compile "com.yarolegovich:mp:$rootProject.materialPref"
     compile "com.miguelcatalan:materialsearchview:$rootProject.materialSearch"
+    compile "com.ms-square:expandableTextView:$expTextView"
+
 
 
     testCompile "junit:junit:$rootProject.junit"

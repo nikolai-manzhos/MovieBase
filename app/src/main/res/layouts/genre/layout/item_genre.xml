@@ -25,7 +25,7 @@
     <com.joanzapata.iconify.widget.IconTextView
         android:id="@+id/movieDate"
         android:textSize="16sp"
-        android:textColor="@color/colorPrimaryText"
+        android:textColor="@color/colorSecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/moviePoster"
