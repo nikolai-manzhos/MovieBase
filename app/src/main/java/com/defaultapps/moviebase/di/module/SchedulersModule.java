@@ -2,8 +2,8 @@ package com.defaultapps.moviebase.di.module;
 
 import com.defaultapps.moviebase.data.AppSchedulerProvider;
 import com.defaultapps.moviebase.data.SchedulerProvider;
-import com.defaultapps.moviebase.utils.rx.MainThreadScheduler;
-import com.defaultapps.moviebase.utils.rx.ThreadScheduler;
+import com.defaultapps.moviebase.utils.rx.BusThreadScheduler;
+import com.defaultapps.moviebase.utils.rx.MainBusThreadScheduler;
 
 import javax.inject.Singleton;
 
@@ -21,7 +21,7 @@ public class SchedulersModule {
 
     @Singleton
     @Provides
-    ThreadScheduler provideThreadScheduler() {
-        return new MainThreadScheduler();
+    BusThreadScheduler provideThreadScheduler() {
+        return new MainBusThreadScheduler();
     }
 }

@@ -23,9 +23,7 @@ public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.Discov
         getCompositeDisposable().add(
                 discoverUseCase.provideGenresList()
                 .subscribe(
-                        genres -> {
-                            if (getView() != null) getView().showData(genres);
-                        },
+                        genres -> getView().showData(genres),
                         err -> {}
                 )
         );

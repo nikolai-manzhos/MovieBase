@@ -110,20 +110,31 @@
         <item name="colorPrimaryDark">@color/material_gray_900</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
-        <item name="android:colorBackground">@color/material_gray_850</item>
-        <item name="android:colorForeground">@android:color/white</item>
-        <item name="android:textColor">@color/text_default_material_dark_primary</item>
-        <item name="android:textColorPrimary">@color/text_default_material_dark_primary</item>
-        <item name="android:textColorPrimaryInverse">@color/text_default_material_light_primary</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="android:colorForeground">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorPrimaryInverse">@color/colorPrimaryText</item>
         <item name="android:textColorSecondary">@color/text_default_material_dark_primary</item>
-        <item name="android:textColorSecondaryInverse">@color/text_default_material_light_secondary</item>
+        <item name="android:textColorSecondaryInverse">@color/colorPrimaryText</item>
+        <item name="android:textColorTertiary">@color/colorPrimaryText</item>
         <item name="android:windowBackground">@color/material_gray_850</item>
     </style>
 
-    <style name="FirebaseUI.Text">
+    <style name="FirebaseUI.EditText">
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingTop">14dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryText</item>
+        <item name="colorControlHighlight">@color/colorPrimaryText</item>
+        <item name="android:textColorHint">@color/colorPrimaryText</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
+
+    <style name="FirebaseUI.Text.TextInputLayout" parent="@style/FirebaseUI.EditText" />
+
+    <style name="FirebaseUI.Text.HintText" parent="@style/FirebaseUI.EditText" />
+
 </resources>

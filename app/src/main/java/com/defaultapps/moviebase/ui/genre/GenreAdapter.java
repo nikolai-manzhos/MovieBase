@@ -5,88 +5,184 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
+import com.defaultapps.moviebase.ui.genre.vh.GenreViewHolder;
+import com.defaultapps.moviebase.ui.genre.vh.LoadingViewHolder;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.PaginationAdapterCallback;
 import com.defaultapps.moviebase.utils.Utils;
-import com.joanzapata.iconify.widget.IconTextView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 @PerFragment
-public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHolder> {
+public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private MoviesResponse items;
+    private List<Result> items;
     private OnMovieClickListener listener;
+
+    private final int GENRE = 0, LOADING = 1;
+
+    private boolean isLoadingAdded = false;
+    private boolean retryPageLoad = false;
+
+    private PaginationAdapterCallback callback;
 
     @Inject
     GenreAdapter(@ActivityContext Context context) {
         this.context = context;
+        items = new ArrayList<>();
     }
 
-    static class GenreViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder = null;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        switch (viewType) {
+            case GENRE:
+                View vGenre = inflater.inflate(R.layout.item_genre, parent, false);
+                viewHolder = createGenreViewHolder(vGenre);
+                break;
+            case LOADING:
+                View vLoading = inflater.inflate(R.layout.item_loading, parent, false);
+                viewHolder = createLoadingViewHolder(vLoading);
+                break;
+        }
+        return viewHolder;
+    }
 
-        @BindView(R.id.genreContainer)
-        RelativeLayout container;
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        int adapterPosition = holder.getAdapterPosition();
+        switch (holder.getItemViewType()) {
+            case GENRE:
+                bindGenreViewHolder((GenreViewHolder) holder, adapterPosition);
+                break;
+            case LOADING:
+                bindLoadingViewHolder((LoadingViewHolder) holder);
+                break;
+        }
 
-        @BindView(R.id.moviePoster)
-        ImageView poster;
+    }
 
-        @BindView(R.id.movieTitle)
-        TextView title;
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
 
-        @BindView(R.id.movieDate)
-        IconTextView movieDate;
+    @Override
+    public int getItemViewType(int position) {
+        return (position == items.size() - 1 && isLoadingAdded) ? LOADING : GENRE;
+    }
 
-        GenreViewHolder(View v) {
-            super(v);
-            ButterKnife.bind(this, v);
+    public void setData(List<Result> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    void addData(List<Result> items) {
+        this.items.clear();
+        this.items.addAll(items);
+    }
+
+    public void add(Result result) {
+        this.items.add(result);
+        notifyItemInserted(items.size() - 1);
+    }
+
+    void addLoadingFooter() {
+        isLoadingAdded = true;
+        add(new Result());
+    }
+
+    void removeLoadingFooter() {
+        isLoadingAdded = false;
+
+        int position = items.size() - 1;
+        Result result = getItem(position);
+
+        if (result != null) {
+            items.remove(position);
+            notifyItemRemoved(position);
         }
     }
 
-    @Override
-    public GenreViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new GenreViewHolder(LayoutInflater.from(context).inflate(R.layout.item_genre, parent, false));
+    void showRetry(boolean show) {
+        retryPageLoad = show;
+        notifyItemChanged(items.size() - 1);
     }
 
-    @Override
-    public void onBindViewHolder(GenreViewHolder holder, int position) {
-        int adapterPosition = holder.getAdapterPosition();
-        String icon = "{md-today}";
-        String posterPath = items.getResults().get(adapterPosition).getPosterPath();
-        holder.title.setText(items.getResults().get(adapterPosition).getTitle());
-        holder.movieDate.setText(String.format(("%1$s" + Utils.convertDate(items.getResults().get(adapterPosition).getReleaseDate())), icon));
+    private Result getItem(int position) {
+        return items.get(position);
+    }
+
+    void setOnMovieSelectedListener(OnMovieClickListener listener) {
+        this.listener = listener;
+    }
+
+    void setPaginationCallback(PaginationAdapterCallback callback) {
+        this.callback = callback;
+    }
+
+    private GenreViewHolder createGenreViewHolder(View view) {
+        GenreViewHolder vh = new GenreViewHolder(view);
+        vh.container.setOnClickListener(it -> listener.onMovieClick(items.get(vh.getAdapterPosition()).getId()));
+        return vh;
+    }
+
+    private void bindGenreViewHolder(GenreViewHolder vh, int aPosition) {
+        final String ICON = "{md-today 24dp}";
+        final String ICON_VOTE = resolveRatingIcon(items.get(aPosition).getVoteAverage());
+        String posterPath = items.get(aPosition).getPosterPath();
+        vh.title.setText(items.get(aPosition).getTitle());
+        vh.movieDate.setText(String.format(("%1$s" + " " + Utils.convertDate(items.get(aPosition).getReleaseDate())), ICON));
+        vh.movieRating.setText(String.format(("%1$s" + " " + items.get(aPosition).getVoteAverage()), ICON_VOTE));
         Picasso
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + posterPath)
                 .fit()
                 .centerCrop()
-                .into(holder.poster);
-        holder.container.setOnClickListener(view -> listener.onMovieClick(items.getResults().get(adapterPosition).getId()));
+                .into(vh.poster);
     }
 
-    @Override
-    public int getItemCount() {
-        return items != null ? items.getResults().size() : 0;
+    private LoadingViewHolder createLoadingViewHolder(View view) {
+        LoadingViewHolder vh = new LoadingViewHolder(view);
+        vh.retryButton.setOnClickListener(it -> {
+            showRetry(false);
+            callback.retryPageLoad();
+        });
+        vh.errorLayout.setOnClickListener(it -> {
+            showRetry(false);
+            callback.retryPageLoad();
+        });
+        return vh;
     }
 
-    public void setData(MoviesResponse items) {
-        this.items = items;
-        notifyDataSetChanged();
+    private void bindLoadingViewHolder(LoadingViewHolder vh) {
+        if (retryPageLoad) {
+            vh.errorLayout.setVisibility(View.VISIBLE);
+            vh.progressBar.setVisibility(View.GONE);
+
+        } else {
+            vh.errorLayout.setVisibility(View.GONE);
+            vh.progressBar.setVisibility(View.VISIBLE);
+        }
     }
 
-    public void setOnMovieSelectedListener(OnMovieClickListener listener) {
-        this.listener = listener;
+    private String resolveRatingIcon(double rating) {
+        if (rating <= 5.0) {
+            return "{md-thumbs-up-down 24dp #17BD52}";
+        } else {
+            return "{md-thumb-up 24dp #17BD52}";
+        }
     }
 }

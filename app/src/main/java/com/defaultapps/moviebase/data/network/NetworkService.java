@@ -45,7 +45,7 @@ public class NetworkService {
         }
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
     }
 }

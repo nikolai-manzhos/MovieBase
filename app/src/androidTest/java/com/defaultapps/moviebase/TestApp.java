@@ -2,17 +2,11 @@ package com.defaultapps.moviebase;
 
 import android.support.annotation.NonNull;
 
-import com.defaultapps.moviebase.DebugApp;
-
-import com.defaultapps.moviebase.data.AppSchedulerProvider;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.di.component.DaggerApplicationComponent;
 import com.defaultapps.moviebase.di.module.SchedulersModule;
-import com.defaultapps.moviebase.di.module.UseCaseModule;
 import com.defaultapps.moviebase.espresso.LogLevel;
 import com.defaultapps.moviebase.espresso.RxEspresso;
-import com.defaultapps.moviebase.utils.rx.MainThreadScheduler;
-import com.defaultapps.moviebase.utils.rx.ThreadScheduler;
 
 import javax.inject.Singleton;
 
@@ -50,10 +44,10 @@ public class TestApp extends DebugApp {
                         };
                     }
 
-                    @Singleton
-                    @Provides
-                    ThreadScheduler provideThreadScheduler() {
-                        return new MainThreadScheduler();
-                    }
+//                    @Singleton
+//                    @Provides
+//                    ThreadScheduler provideThreadScheduler() {
+//                        return new MainThreadScheduler();
+//                    }
                 });}
 }

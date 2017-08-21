@@ -45,7 +45,6 @@ public class HomeUseCaseImpl implements HomeUseCase {
 
     @Override
     public Observable<List<MoviesResponse>> requestHomeData(boolean force) {
-        if (moviesDisposable != null) Log.d("HomeUseCase", String.valueOf(moviesDisposable.isDisposed()));
         if (cache != null
                 && moviesReplaySubject != null
                 && !moviesReplaySubject.hasValue()

@@ -42,23 +42,18 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> impl
 
     @Override
     public void requestMoviesData(boolean force) {
-        if (getView() != null) {
-            getView().showLoading();
-        }
+        getView().showLoading();
         getCompositeDisposable().add(
             homeUseCase.requestHomeData(force)
                 .subscribe(
                         moviesResponses -> {
-                            if (getView() != null) {
-                                getView().hideLoading();
-                                getView().receiveResults(moviesResponses);
-                            }
+                            getView().hideLoading();
+                            getView().receiveResults(moviesResponses);
+
                         },
                         err -> {
-                            if (getView() != null) {
-                                getView().hideLoading();
-                                //TODO: Show error message
-                            }
+                            getView().hideLoading();
+                            //TODO: Show error message
                         }
                 )
         );

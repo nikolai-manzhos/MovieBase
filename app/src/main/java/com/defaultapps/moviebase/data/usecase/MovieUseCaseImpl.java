@@ -1,10 +1,11 @@
 package com.defaultapps.moviebase.data.usecase;
 
 
+import android.util.Log;
+
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
-import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 import com.defaultapps.moviebase.utils.ResponseOrError;
@@ -21,7 +22,6 @@ import io.reactivex.subjects.ReplaySubject;
 public class MovieUseCaseImpl implements MovieUseCase {
 
     private NetworkService networkService;
-    private LocalService localService;
     private FavoritesManager favoritesManager;
     private SchedulerProvider schedulerProvider;
 
@@ -33,11 +33,9 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
     @Inject
     MovieUseCaseImpl(NetworkService networkService,
-                            LocalService localService,
                             SchedulerProvider schedulerProvider,
                             FavoritesManager favoritesManager) {
         this.networkService = networkService;
-        this.localService = localService;
         this.schedulerProvider = schedulerProvider;
         this.favoritesManager = favoritesManager;
     }
@@ -45,9 +43,13 @@ public class MovieUseCaseImpl implements MovieUseCase {
     @Override
     public Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force) {
         favoritesManager.fetchAllFavs().subscribe(); // check for database changes
-        if (force) movieInfoDisposable.dispose();
+        if (force) {
+            Log.d("MovieUseCase", "force");
+            movieInfoDisposable.dispose();
+        }
         if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {
             currentId = -1;
+            Log.d("MovieUseCase", "new id");
             movieInfoDisposable.dispose();
         }
         if (movieInfoDisposable == null || movieInfoDisposable.isDisposed()) {
@@ -55,7 +57,6 @@ public class MovieUseCaseImpl implements MovieUseCase {
             currentId = movieId;
 
             movieInfoDisposable = network(movieId)
-                    .filter(movieInfoResponse -> movieInfoResponse.getId() != null)
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
         }
         return movieInfoReplaySubject;

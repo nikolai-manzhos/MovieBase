@@ -42,6 +42,7 @@ ext {
     materialPref = '1.0.5'
     materialSearch = '1.4.0'
     prefs = "1.1"
+    expTextView = '0.1.4'
 
     junit = '4.12'
     espresso = '3.0.0'

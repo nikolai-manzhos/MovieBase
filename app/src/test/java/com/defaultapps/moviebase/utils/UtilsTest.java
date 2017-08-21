@@ -2,8 +2,6 @@ package com.defaultapps.moviebase.utils;
 
 import android.util.Log;
 
-import com.defaultapps.moviebase.utils.Utils;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

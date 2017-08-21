@@ -83,16 +83,46 @@
                         android:text="@string/movie_description"
                         android:layout_below="@id/imagePoster"/>
 
-                    <TextView
+                    <com.ms.square.android.expandabletextview.ExpandableTextView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/movieOverview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimaryText"
                         android:background="@color/colorPrimary"
                         android:layout_below="@+id/description"
                         android:padding="10dp"
                         android:layout_marginStart="-10dp"
-                        android:layout_marginEnd="-10dp"/>
+                        android:layout_marginEnd="-10dp"
+                        expandableTextView:maxCollapsedLines="4"
+                        expandableTextView:animDuration="200">
+                        <TextView
+                            android:id="@id/expandable_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="16sp"
+                            android:textColor="@color/colorSecondaryText" />
+                        <ImageButton
+                            android:id="@id/expand_collapse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@android:color/transparent"/>
+                    </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/movieOverview"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:textColor="@color/colorPrimaryText"-->
+                        <!--android:background="@color/colorPrimary"-->
+                        <!--android:layout_below="@+id/description"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:layout_marginStart="-10dp"-->
+                        <!--android:layout_marginEnd="-10dp"/>-->
 
                     <TextView
                         style="@style/Subtitle"

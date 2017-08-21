@@ -16,6 +16,8 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.PaginationAdapterCallback;
+import com.defaultapps.moviebase.utils.PaginationScrollListener;
 import com.defaultapps.moviebase.utils.OnMovieClickListener;
 
 import javax.inject.Inject;
@@ -24,7 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieClickListener {
+public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieClickListener, PaginationAdapterCallback {
 
     @BindView(R.id.toolbarText)
     TextView toolbarText;
@@ -48,6 +50,9 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     GenreAdapter adapter;
 
     private String genreId;
+    private final int TOTAL_PAGES = 100;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
 
     @Override
     protected int provideLayout() {
@@ -68,6 +73,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
             presenter.requestMovies(genreId, false);
         }
         adapter.setOnMovieSelectedListener(this);
+        adapter.setPaginationCallback(this);
     }
 
     @Override
@@ -96,8 +102,29 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @Override
     public void showMovies(MoviesResponse movies) {
-        adapter.setData(movies);
+        adapter.setData(movies.getResults());
         Log.d("GenreView", String.valueOf(movies.getResults().size()));
+
+        if (movies.getPage() <= TOTAL_PAGES) adapter.addLoadingFooter();
+        else isLastPage = true;
+    }
+
+    @Override
+    public void showMoreMovies(MoviesResponse movies) {
+        adapter.addData(movies.getResults());
+        genreRecycler.post(() -> adapter.notifyDataSetChanged()); // hack to fix IllegalStateException
+        adapter.removeLoadingFooter();
+        isLoading = false;
+
+        if (movies.getPage() <= TOTAL_PAGES) adapter.addLoadingFooter();
+        else isLastPage = true;
+
+
+    }
+
+    @Override
+    public void showLoadMoreError() {
+        adapter.showRetry(true);
     }
 
     @Override
@@ -122,8 +149,38 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         errorButton.setVisibility(View.GONE);
     }
 
+    @Override
+    public void retryPageLoad() {
+        presenter.requestMoreMovies(genreId);
+    }
+
     private void initRecyclerView() {
         genreRecycler.setAdapter(adapter);
-        genreRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        genreRecycler.setLayoutManager(layoutManager);
+        PaginationScrollListener scrollListener = new PaginationScrollListener(layoutManager) {
+
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                presenter.requestMoreMovies(genreId);
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
+        };
+        genreRecycler.addOnScrollListener(scrollListener);
     }
 }

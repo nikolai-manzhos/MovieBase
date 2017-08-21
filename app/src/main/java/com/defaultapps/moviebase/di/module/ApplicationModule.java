@@ -40,12 +40,6 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    BusThreadScheduler provideThreadScheduler() {
-        return new MainBusThreadScheduler();
-    }
-
-    @Singleton
-    @Provides
     DatabaseReference provideFirebaseReference(LoggedUser loggedUser) {
         return FirebaseDatabase.getInstance().getReference().child("users").child(loggedUser.getUserId());
     }

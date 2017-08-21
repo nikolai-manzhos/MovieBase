@@ -13,39 +13,35 @@ import com.defaultapps.moviebase.data.usecase.PersonUseCaseImpl;
 import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 
+import javax.inject.Singleton;
+
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 
 @Module
-public class UseCaseModule {
+public abstract class UseCaseModule {
 
-    @Provides
-    public HomeUseCase provideHomeUseCase(HomeUseCaseImpl homeUseCase) {
-        return homeUseCase;
-    }
+    @Binds
+    @Singleton
+    abstract HomeUseCase provideHomeUseCase(HomeUseCaseImpl homeUseCase);
 
-    @Provides
-    public DiscoverUseCase provideDiscoverUseCase(DiscoverUseCaseImpl discoverUseCase) {
-        return discoverUseCase;
-    }
+    @Binds
+    @Singleton
+    abstract DiscoverUseCase provideDiscoverUseCase(DiscoverUseCaseImpl discoverUseCase);
 
-    @Provides
-    public GenreUseCase provideGenreUseCase(GenreUseCaseImpl genreUseCase) {
-        return genreUseCase;
-    }
+    @Binds
+    @Singleton
+    abstract GenreUseCase provideGenreUseCase(GenreUseCaseImpl genreUseCase);
 
-    @Provides
-    public MovieUseCase provideMovieUseCase(MovieUseCaseImpl movieUseCase) {
-        return movieUseCase;
-    }
+    @Binds
+    @Singleton
+    abstract MovieUseCase provideMovieUseCase(MovieUseCaseImpl movieUseCase);
 
-    @Provides
-    public SearchUseCase provideSearchUseCase(SearchUseCaseImpl searchUseCase) {
-        return searchUseCase;
-    }
+    @Binds
+    @Singleton
+    abstract SearchUseCase provideSearchUseCase(SearchUseCaseImpl searchUseCase);
 
-    @Provides
-    public PersonUseCase providePersonUseCase(PersonUseCaseImpl personUseCase) {
-        return personUseCase;
-    }
+    @Binds
+    @Singleton
+    abstract PersonUseCase providePersonUseCase(PersonUseCaseImpl personUseCase);
 }

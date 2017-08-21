@@ -54,4 +54,5 @@
     <!--Error-->
     <string name="error_message">Oops, something went wrong</string>
     <string name="error_button">Try again</string>
+    <string name="error_load_more">Unable to load more items</string>
 </resources>

@@ -20,30 +20,24 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
 
     @Override
     public void requestSearchResults(String query, boolean force) {
-        if (getView() != null) {
-            getView().hideData();
-            getView().hideError();
-            getView().hideEmpty();
-            getView().showLoading();
-        }
+        getView().hideData();
+        getView().hideError();
+        getView().hideEmpty();
+        getView().showLoading();
         getCompositeDisposable().add(
                 searchUseCase.requestSearchResults(query, force).subscribe(
                         moviesResponse -> {
-                            if (getView() != null) {
-                                getView().hideLoading();
-                                getView().hideError();
-                                getView().showData();
-                                if (moviesResponse.getTotalResults() == 0) getView().showEmpty();
-                                getView().displaySearchResults(moviesResponse);
-                            }
+                            getView().hideLoading();
+                            getView().hideError();
+                            getView().showData();
+                            if (moviesResponse.getTotalResults() == 0) getView().showEmpty();
+                            getView().displaySearchResults(moviesResponse);
                         },
                         err -> {
-                            if (getView() != null) {
-                                getView().hideLoading();
-                                getView().hideData();
-                                getView().hideEmpty();
-                                getView().showError();
-                            }
+                            getView().hideLoading();
+                            getView().hideData();
+                            getView().hideEmpty();
+                            getView().showError();
                         }
                 )
         );
