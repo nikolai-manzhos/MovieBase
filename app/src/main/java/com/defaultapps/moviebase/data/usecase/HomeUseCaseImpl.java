@@ -5,7 +5,7 @@ import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.RxBus;
+import com.defaultapps.moviebase.utils.rx.RxBus;
 
 import java.util.Arrays;
 import java.util.List;

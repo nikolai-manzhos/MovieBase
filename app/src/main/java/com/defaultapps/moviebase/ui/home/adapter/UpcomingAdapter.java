@@ -12,7 +12,7 @@ import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingItemViewHolder;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;

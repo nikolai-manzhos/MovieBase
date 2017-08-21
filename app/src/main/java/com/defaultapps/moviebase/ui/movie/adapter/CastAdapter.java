@@ -10,7 +10,7 @@ import com.defaultapps.moviebase.data.models.responses.movie.Cast;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.movie.vh.CastViewHolder;
-import com.defaultapps.moviebase.utils.OnPersonClickListener;
+import com.defaultapps.moviebase.utils.listener.OnPersonClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

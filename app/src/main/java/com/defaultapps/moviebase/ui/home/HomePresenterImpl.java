@@ -5,7 +5,7 @@ import com.defaultapps.moviebase.data.usecase.HomeUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.RxBus;
+import com.defaultapps.moviebase.utils.rx.RxBus;
 
 import java.util.List;
 

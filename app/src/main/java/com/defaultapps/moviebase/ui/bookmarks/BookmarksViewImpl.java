@@ -14,7 +14,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 
 import javax.inject.Inject;

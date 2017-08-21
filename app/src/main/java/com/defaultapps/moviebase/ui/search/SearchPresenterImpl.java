@@ -14,7 +14,7 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
     private SearchUseCase searchUseCase;
 
     @Inject
-    public SearchPresenterImpl(SearchUseCase searchUseCase) {
+    SearchPresenterImpl(SearchUseCase searchUseCase) {
         this.searchUseCase = searchUseCase;
     }
 

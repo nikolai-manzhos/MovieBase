@@ -13,7 +13,7 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
-import com.defaultapps.moviebase.utils.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.Utils;
 import com.squareup.picasso.Picasso;
 

@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.utils;
+package com.defaultapps.moviebase.utils.rx;
 
 import com.defaultapps.moviebase.utils.rx.BusThreadScheduler;
 

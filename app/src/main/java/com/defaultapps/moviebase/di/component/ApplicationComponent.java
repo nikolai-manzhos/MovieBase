@@ -10,7 +10,7 @@ import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
 import com.defaultapps.moviebase.di.module.SchedulersModule;
 import com.defaultapps.moviebase.di.module.UseCaseModule;
-import com.defaultapps.moviebase.utils.RxBus;
+import com.defaultapps.moviebase.utils.rx.RxBus;
 import com.google.firebase.database.DatabaseReference;
 
 import javax.inject.Singleton;

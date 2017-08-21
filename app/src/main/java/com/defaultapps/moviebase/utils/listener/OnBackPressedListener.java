@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.utils;
+package com.defaultapps.moviebase.utils.listener;
 
 
 public interface OnBackPressedListener {

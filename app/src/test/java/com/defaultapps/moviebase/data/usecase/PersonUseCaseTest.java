@@ -50,7 +50,10 @@ public class PersonUseCaseTest {
         when(networkService.getNetworkCall()).thenReturn(api);
         when(api.getPersonInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
 
-        useCase.requestPersonData(PERSON_ID, false).subscribe(
+        useCase.requestPersonData(PERSON_ID, false).subscribe();
+
+        //If previous call still ongoing it should be disposed and new one fired.
+        useCase.requestPersonData(PERSON_ID, true).subscribe(
                 personInfo -> actualResult = personInfo,
                 err ->{}
         );

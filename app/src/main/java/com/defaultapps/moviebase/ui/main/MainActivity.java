@@ -13,7 +13,7 @@ import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
-import com.defaultapps.moviebase.utils.OnBackPressedListener;
+import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

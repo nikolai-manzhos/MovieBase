@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.firebase.Favorite;
 import com.defaultapps.moviebase.di.ActivityContext;
-import com.defaultapps.moviebase.utils.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;

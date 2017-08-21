@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.utils;
+package com.defaultapps.moviebase.utils.listener;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

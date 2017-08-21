@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.utils;
+package com.defaultapps.moviebase.utils.listener;
 
 /**
  * Created on 8/20/2017.
