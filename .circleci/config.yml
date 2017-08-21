@@ -16,9 +16,6 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - run:
-          name: Create keystore.properties
-          command: environmentSetup.sh && copyEnvVarsToGradleProperties
       - save_cache:
           paths:
             - ~/.gradle

@@ -5,7 +5,13 @@ apply plugin: 'jacoco'
 apply from: "$rootDir/jacoco.gradle"
 
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+def file = rootProject.file("keystore.properties");
+if (!file.exists()) {
+    keystoreProperties.setProperty "MovieDbSecretKey", System.getenv("MovieDbSecretKey")
+    keystoreProperties.setProperty "YoutubeSecretKey", System.getenv("YoutubeSecretKey")
+} else {
+    keystoreProperties.load(new FileInputStream(file))
+}
 
 def isDebug = false;
 

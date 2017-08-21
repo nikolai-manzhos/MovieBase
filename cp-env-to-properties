@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-#
-# Copy env variables to app module gradle properties file
-#
-printenv | tr ' ' '\n' > keystore.properties
