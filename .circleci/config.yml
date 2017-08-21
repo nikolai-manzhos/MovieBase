@@ -16,13 +16,13 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+      - run:
+          name: Create keystore.properties
+          command: ./cp-env-to-properties.sh
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Create keystore.properties
-          command: .circleci/cp-env-to-properties.sh
       - run:
           name: Run Tests
           command: ./gradlew lint test
