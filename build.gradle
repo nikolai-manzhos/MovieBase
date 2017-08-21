@@ -46,6 +46,7 @@ ext {
     expTextView = '0.1.4'
 
     junit = '4.12'
+    random_beans = '3.7.0'
     espresso = '3.0.0'
     mockito = '1.10.19'
     powerMockito = '1.6.6'

@@ -16,9 +16,9 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.PaginationAdapterCallback;
 import com.defaultapps.moviebase.utils.PaginationScrollListener;
-import com.defaultapps.moviebase.utils.OnMovieClickListener;
 
 import javax.inject.Inject;
 

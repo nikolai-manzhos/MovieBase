@@ -4,12 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.defaultapps.moviebase.data.AppSchedulerProvider;
-import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.di.ApplicationContext;
-import com.defaultapps.moviebase.utils.rx.MainBusThreadScheduler;
-import com.defaultapps.moviebase.utils.rx.BusThreadScheduler;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

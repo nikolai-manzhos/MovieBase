@@ -14,8 +14,11 @@ import org.mockito.MockitoAnnotations;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.TestScheduler;
 
+import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.anyBoolean;
@@ -87,5 +90,67 @@ public class GenreUseCaseTest {
 
         assertNotNull(actualException);
         assertEquals(expectedException, actualException);
+    }
+
+    @Test
+    public void requestMoreGenreDataSuccess() {
+        MoviesResponse response = provideRandomMoviesResponse();
+        fakeInitialLoad(response);
+
+        MoviesResponse loadMoreResponse = provideRandomMoviesResponse();
+        Single<MoviesResponse> single = Single.just(loadMoreResponse);
+
+        when(networkService.getNetworkCall()).thenReturn(api);
+        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+                .thenReturn(single);
+
+        genreUseCase.requestMoreGenreData(GENRE_ID)
+                .subscribe(
+                        moviesResponse -> assertEquals(moviesResponse.getPage(), loadMoreResponse.getPage()),
+                        err -> {}
+                );
+
+        //If previous call still ongoing it should be disposed and new one fired.
+        genreUseCase.requestMoreGenreData(GENRE_ID)
+                .subscribe();
+
+        testScheduler.triggerActions();
+    }
+
+    @Test
+    public void requestMoreGenreDataFailure() {
+        MoviesResponse response = provideRandomMoviesResponse();
+        fakeInitialLoad(response);
+
+        Throwable throwable = new Throwable("Exception");
+        Single<MoviesResponse> single = Single.error(throwable);
+        when(networkService.getNetworkCall()).thenReturn(api);
+        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+                .thenReturn(single);
+
+        genreUseCase.requestMoreGenreData(GENRE_ID)
+                .subscribe(
+                        moviesResponse -> {},
+                        err -> assertEquals(throwable, err)
+                );
+
+        testScheduler.triggerActions();
+
+    }
+
+    private void fakeInitialLoad(MoviesResponse response) {
+        Single<MoviesResponse> single = Single.just(response);
+        when(networkService.getNetworkCall()).thenReturn(api);
+        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+                .thenReturn(single);
+
+        genreUseCase.requestGenreData(GENRE_ID, true)
+                .subscribe();
+
+        testScheduler.triggerActions();
+    }
+
+    private MoviesResponse provideRandomMoviesResponse() {
+        return random(MoviesResponse.class);
     }
 }

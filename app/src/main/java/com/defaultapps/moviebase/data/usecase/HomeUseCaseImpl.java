@@ -1,7 +1,5 @@
 package com.defaultapps.moviebase.data.usecase;
 
-import android.util.Log;
-
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;

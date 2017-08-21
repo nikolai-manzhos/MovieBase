@@ -1,8 +1,6 @@
 package com.defaultapps.moviebase.data.usecase;
 
 
-import android.util.Log;
-
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
@@ -44,12 +42,10 @@ public class MovieUseCaseImpl implements MovieUseCase {
     public Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force) {
         favoritesManager.fetchAllFavs().subscribe(); // check for database changes
         if (force) {
-            Log.d("MovieUseCase", "force");
             movieInfoDisposable.dispose();
         }
         if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {
             currentId = -1;
-            Log.d("MovieUseCase", "new id");
             movieInfoDisposable.dispose();
         }
         if (movieInfoDisposable == null || movieInfoDisposable.isDisposed()) {
