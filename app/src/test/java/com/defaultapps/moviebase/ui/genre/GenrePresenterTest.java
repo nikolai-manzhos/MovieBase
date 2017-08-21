@@ -11,8 +11,10 @@ import org.mockito.MockitoAnnotations;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -69,5 +71,29 @@ public class GenrePresenterTest {
 
         verify(view).hideLoading();
         verify(view).showError();
+    }
+
+    @Test
+    public void requestMoreMoviesSuccess() throws Exception {
+        MoviesResponse response = new MoviesResponse();
+        Observable<MoviesResponse> observable = Observable.just(response).subscribeOn(testScheduler);
+        when(useCase.requestMoreGenreData(anyString())).thenReturn(observable);
+
+        presenter.requestMoreMovies(FAKE_MOVIE_ID);
+        testScheduler.triggerActions();
+
+        verify(view).showMoreMovies(response);
+        verify(view, never()).showLoadMoreError();
+    }
+
+    @Test
+    public void requestMoreMoviesFailure() throws Exception {
+        Observable<MoviesResponse> observable = Observable.error(new Exception("Some error."));
+        when(useCase.requestMoreGenreData(anyString())).thenReturn(observable);
+
+        presenter.requestMoreMovies(FAKE_MOVIE_ID);
+
+        verify(view).showLoadMoreError();
+        verify(view, never()).showMoreMovies(any(MoviesResponse.class));
     }
 }

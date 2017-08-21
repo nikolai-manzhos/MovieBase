@@ -18,27 +18,21 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
 
     @Override
     public void requestMovieInfo(Integer movieId, boolean force) {
-        if (getView() != null) {
-            getView().hideError();
-            getView().hideData();
-            getView().showLoading();
-        }
+        getView().hideError();
+        getView().hideData();
+        getView().showLoading();
         getCompositeDisposable().add(movieUseCase.requestMovieData(movieId, force)
                 .subscribe(
                         movieInfoResponse -> {
-                            if (getView() != null) {
-                                getView().hideError();
-                                getView().hideLoading();
-                                getView().displayMovieInfo(movieInfoResponse);
-                                getView().showData();
-                            }
+                            getView().hideError();
+                            getView().hideLoading();
+                            getView().displayMovieInfo(movieInfoResponse);
+                            getView().showData();
                         },
                         err -> {
-                            if (getView() != null) {
-                                getView().hideLoading();
-                                getView().hideData();
-                                getView().showError();
-                            }
+                            getView().hideLoading();
+                            getView().hideData();
+                            getView().showError();
                         }
                 )
         );
@@ -48,11 +42,7 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
     public void requestFavoriteStatus(int movieId) {
         getCompositeDisposable().add(
                 movieUseCase.getCurrentState(movieId).subscribe(
-                        isFavorite -> {
-                            if (getView() != null) {
-                                getView().setFabStatus(isFavorite);
-                            }
-                        }
+                        isFavorite -> getView().setFabStatus(isFavorite)
                 )
         );
     }
@@ -62,10 +52,8 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
         getCompositeDisposable().add(
                 movieUseCase.addOrRemoveFromDatabase(movieId, posterPath).subscribe(
                     responseOrError -> {
-                        if (getView() != null) {
-                            if (responseOrError.isError()) {
-                                getView().displayTransactionError();
-                            }
+                        if (responseOrError.isError()) {
+                            getView().displayTransactionError();
                         }
                     }
                 )
