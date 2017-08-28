@@ -1,10 +1,10 @@
 package com.defaultapps.moviebase.ui.home;
 
-import com.defaultapps.moviebase.data.usecase.HomeUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.data.usecase.HomeUseCaseImpl;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.rx.RxBus;
 import com.defaultapps.moviebase.utils.TrampolineBusThreadScheduler;
+import com.defaultapps.moviebase.utils.rx.RxBus;
 
 import org.junit.Before;
 import org.junit.Test;

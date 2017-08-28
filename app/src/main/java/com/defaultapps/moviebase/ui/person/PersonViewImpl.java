@@ -11,13 +11,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.data.models.responses.person.Cast;
+import com.defaultapps.moviebase.data.models.responses.person.Crew;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCastAdapter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCrewAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -37,7 +42,7 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     CircleImageView circleImageView;
 
     @BindView(R.id.personBiography)
-    TextView staffBiographyView;
+    ExpandableTextView staffBiographyView;
 
     @BindView(R.id.toolbarTitle)
     TextView toolbarTitleView;
@@ -53,6 +58,12 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
 
     @BindView(R.id.errorButton)
     Button errorButton;
+
+    @BindView(R.id.castSubtitle)
+    TextView castSubtitle;
+
+    @BindView(R.id.crewSubtitle)
+    TextView crewSubtitle;
 
     @Inject
     PersonPresenterImpl presenter;
@@ -115,8 +126,14 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
         staffBiographyView.setText(biography);
         toolbarTitleView.setText(personInfo.getName());
 
+        List<Cast> castList = personInfo.getMovieCredits().getCast();
+        List<Crew> crewList = personInfo.getMovieCredits().getCrew();
+        int castVisibility = castList.size() == 0 ? View.GONE : View.VISIBLE;
+        int crewVisibility = crewList.size() == 0 ? View.GONE : View.VISIBLE;
         castAdapter.setData(personInfo.getMovieCredits().getCast());
         crewAdapter.setData(personInfo.getMovieCredits().getCrew());
+        castSubtitle.setVisibility(castVisibility);
+        crewSubtitle.setVisibility(crewVisibility);
     }
 
     @Override

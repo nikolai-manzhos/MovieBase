@@ -1,8 +1,8 @@
 package com.defaultapps.moviebase.ui.search;
 
 
-import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -12,10 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.TestScheduler;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;

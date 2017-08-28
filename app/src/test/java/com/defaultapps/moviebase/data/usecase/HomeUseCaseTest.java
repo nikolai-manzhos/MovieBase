@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.anyInt;
