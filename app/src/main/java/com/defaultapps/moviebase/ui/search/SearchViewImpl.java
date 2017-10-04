@@ -155,6 +155,9 @@ public class SearchViewImpl extends BaseFragment implements
     public void displaySearchResults(MoviesResponse moviesResponse) {
         searchAdapter.setData(moviesResponse.getResults());
         TOTAL_PAGES = moviesResponse.getTotalPages();
+
+        if (moviesResponse.getPage() <= TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        else isLastPage = true;
     }
 
     @Override
