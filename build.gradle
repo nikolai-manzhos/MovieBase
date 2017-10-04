@@ -24,8 +24,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    support = '26.0.0' //25.3.0 previous stable working
-    constraintLayout = '1.0.0-beta3'
+    support = '26.0.1' //25.3.0 previous stable working
+    constraintLayout = '1.0.2'
     bottomBar = '2.3.1'
     butterKnife = '8.5.1'
     dagger = '2.9'
@@ -42,8 +42,9 @@ ext {
     youtube = '1.2.1'
     materialPref = '1.0.5'
     materialSearch = '1.4.0'
-    prefs = "1.1"
+    prefs = "2.0"
     expTextView = '0.1.4'
+    timber = '4.5.1'
 
     junit = '4.12'
     random_beans = '3.7.0'

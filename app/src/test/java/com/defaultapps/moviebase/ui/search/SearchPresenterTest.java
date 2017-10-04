@@ -80,4 +80,22 @@ public class SearchPresenterTest {
         verify(view, never()).showData();
         verify(view, never()).displaySearchResults(anyObject());
     }
+
+    @Test
+    public void verifyOnSearchViewClose() {
+        presenter.onSearchViewClose();
+
+        verify(view).showSearchStart();
+        verify(view).hideLoading();
+        verify(view).hideError();
+        verify(view).hideData();
+        verify(view).hideEmpty();
+    }
+
+    @Test
+    public void verifyOnSearchViewOpen() {
+        presenter.onSearchViewOpen();
+
+        verify(view).hideSearchStart();
+    }
 }

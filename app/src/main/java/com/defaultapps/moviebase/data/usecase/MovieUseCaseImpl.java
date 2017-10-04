@@ -41,7 +41,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
     @Override
     public Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force) {
         favoritesManager.fetchAllFavs().subscribe(); // check for database changes
-        if (force) {
+        if (force && movieInfoDisposable != null) {
             movieInfoDisposable.dispose();
         }
         if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {

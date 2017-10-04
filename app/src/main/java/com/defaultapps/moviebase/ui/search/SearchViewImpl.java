@@ -28,6 +28,8 @@ import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.listener.PaginationAdapterCallback;
+import com.defaultapps.moviebase.utils.listener.PaginationScrollListener;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -37,7 +39,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 
 
-public class SearchViewImpl extends BaseFragment implements SearchContract.SearchView, OnBackPressedListener, OnMovieClickListener {
+public class SearchViewImpl extends BaseFragment implements
+        SearchContract.SearchView, OnBackPressedListener,
+        OnMovieClickListener, PaginationAdapterCallback {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
@@ -73,6 +77,11 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     SearchAdapter searchAdapter;
 
     private MainActivity activity;
+
+    private int TOTAL_PAGES = 1;
+    private boolean isLoading;
+    private boolean isLastPage;
+    private String currentQuery;
 
     @Override
     public void onAttach(Context context) {
@@ -145,11 +154,43 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     @Override
     public void displaySearchResults(MoviesResponse moviesResponse) {
         searchAdapter.setData(moviesResponse.getResults());
+        TOTAL_PAGES = moviesResponse.getTotalPages();
+    }
+
+    @Override
+    public void displayMoreSearchResults(MoviesResponse moviesResponse) {
+        searchAdapter.addData(moviesResponse.getResults());
+        searchRecyclerView.post(() -> searchAdapter.notifyDataSetChanged());
+        searchAdapter.removeLoadingFooter();
+        isLoading = false;
+
+        if (moviesResponse.getPage() <= TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        else isLastPage = true;
     }
 
     @Override
     public void showData() {
         contentContainer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadMoreError() {
+        searchAdapter.showRetry(true);
+    }
+
+    @Override
+    public void showLoadMoreError() {
+        searchAdapter.showRetry(false);
+    }
+
+    @Override
+    public void hideSearchStart() {
+        searchStartView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showSearchStart() {
+        searchStartView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -189,21 +230,23 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         searchViewEmpty.setVisibility(View.VISIBLE);
     }
 
+
+    @Override
+    public void retryPageLoad() {
+        presenter.requestMoreSearchResults(currentQuery);
+    }
+
     private void initSearchView() {
         searchView.setCursorDrawable(R.drawable.cursor);
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                searchStartView.setVisibility(View.GONE);
+                presenter.onSearchViewOpen();
             }
 
             @Override
             public void onSearchViewClosed() {
-                searchStartView.setVisibility(View.VISIBLE);
-                hideLoading();
-                hideError();
-                hideData();
-                hideEmpty();
+                presenter.onSearchViewClose();
             }
         });
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -218,10 +261,11 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
             public boolean onQueryTextChange(String newText) {
                 handler.removeCallbacks(workRunnable);
                 workRunnable = () -> sendQuery(newText);
+                currentQuery = newText;
                 if (TextUtils.getTrimmedLength(newText) > 0) {
                     handler.postDelayed(workRunnable, 500);
                 }
-                return false;
+                return true;
             }
 
             private void sendQuery(String newText) {
@@ -231,9 +275,33 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     }
 
     private void initRecyclerView() {
-        searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        searchRecyclerView.setLayoutManager(layoutManager);
         searchRecyclerView.addItemDecoration(new SimpleItemDecorator(10));
         searchRecyclerView.setAdapter(searchAdapter);
+        searchRecyclerView.addOnScrollListener(new PaginationScrollListener(layoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                presenter.requestMoreSearchResults(currentQuery);
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
         searchAdapter.setOnMovieClickListener(this);
+        searchAdapter.setPaginationCallback(this);
     }
 }

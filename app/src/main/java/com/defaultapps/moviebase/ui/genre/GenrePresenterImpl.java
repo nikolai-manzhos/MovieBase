@@ -7,6 +7,8 @@ import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 
 @PerFragment
 public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> implements GenreContract.GenrePresenter {
@@ -31,6 +33,7 @@ public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> i
                             getView().showMovies(moviesResponse);
                         },
                         err -> {
+                            Timber.d(err);
                             getView().hideLoading();
                             getView().showError();
                         }
