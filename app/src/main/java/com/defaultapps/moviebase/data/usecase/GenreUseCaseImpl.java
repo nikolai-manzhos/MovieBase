@@ -26,9 +26,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
 
     private Disposable genreDisposable;
     private Disposable genrePaginationDisposable;
-    private BehaviorSubject<MoviesResponse> genreReplayProcessor;
-
-    private String API_KEY = BuildConfig.MDB_API_KEY;
+    private BehaviorSubject<MoviesResponse> genreBehaviorSubject;
 
     @Inject
     GenreUseCaseImpl(NetworkService networkService,
@@ -45,12 +43,12 @@ public class GenreUseCaseImpl implements GenreUseCase {
             genreDisposable.dispose();
         }
         if (genreDisposable == null || genreDisposable.isDisposed()) {
-            genreReplayProcessor = BehaviorSubject.create();
+            genreBehaviorSubject = BehaviorSubject.create();
 
             genreDisposable = network(genreId, 1)
-                    .subscribe(genreReplayProcessor::onNext, genreReplayProcessor::onError);
+                    .subscribe(genreBehaviorSubject::onNext, genreBehaviorSubject::onError);
         }
-        return genreReplayProcessor;
+        return genreBehaviorSubject;
     }
 
     @Override
@@ -58,9 +56,9 @@ public class GenreUseCaseImpl implements GenreUseCase {
         if (genrePaginationDisposable != null && !genrePaginationDisposable.isDisposed()) {
             genrePaginationDisposable.dispose();
         }
-        MoviesResponse previousResults = genreReplayProcessor.getValue();
+        MoviesResponse previousResults = genreBehaviorSubject.getValue();
         PublishSubject<MoviesResponse> publishSubject = PublishSubject.create();
-        genrePaginationDisposable = network(genreId, genreReplayProcessor.getValue().getPage() + 1)
+        genrePaginationDisposable = network(genreId, genreBehaviorSubject.getValue().getPage() + 1)
                 .map(moviesResponse -> {
                     previousResults.getResults().addAll(moviesResponse.getResults());
                     previousResults.setPage(moviesResponse.getPage());
@@ -68,12 +66,13 @@ public class GenreUseCaseImpl implements GenreUseCase {
                 })
                 .subscribe(moviesResponse -> {
                     publishSubject.onNext(moviesResponse);
-                    genreReplayProcessor.onNext(moviesResponse);
+                    genreBehaviorSubject.onNext(moviesResponse);
                 }, publishSubject::onError);
         return publishSubject;
     }
 
     private Single<MoviesResponse> network(String genreId, int page) {
+        String API_KEY = BuildConfig.MDB_API_KEY;
         return networkService.getNetworkCall().discoverMovies(API_KEY, "en-US", preferencesManager.getAdultStatus(), page, genreId)
                 .compose(schedulerProvider.applyIoSchedulers());
     }

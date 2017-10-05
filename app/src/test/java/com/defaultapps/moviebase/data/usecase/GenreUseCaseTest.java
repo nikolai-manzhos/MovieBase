@@ -12,8 +12,11 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.Field;
+
 import io.reactivex.Single;
 import io.reactivex.schedulers.TestScheduler;
+import io.reactivex.subjects.BehaviorSubject;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static junit.framework.Assert.assertEquals;
@@ -90,9 +93,9 @@ public class GenreUseCaseTest {
     }
 
     @Test
-    public void requestMoreGenreDataSuccess() {
+    public void requestMoreGenreDataSuccess() throws Exception {
         MoviesResponse response = provideRandomMoviesResponse();
-        fakeInitialLoad(response);
+        changeBehaviorSubject(response);
 
         MoviesResponse loadMoreResponse = provideRandomMoviesResponse();
         Single<MoviesResponse> single = Single.just(loadMoreResponse);
@@ -115,12 +118,13 @@ public class GenreUseCaseTest {
     }
 
     @Test
-    public void requestMoreGenreDataFailure() {
+    public void requestMoreGenreDataFailure() throws Exception {
         MoviesResponse response = provideRandomMoviesResponse();
-        fakeInitialLoad(response);
+        changeBehaviorSubject(response);
 
         Throwable throwable = new Throwable("Exception");
         Single<MoviesResponse> single = Single.error(throwable);
+
         when(networkService.getNetworkCall()).thenReturn(api);
         when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
                 .thenReturn(single);
@@ -132,19 +136,14 @@ public class GenreUseCaseTest {
                 );
 
         testScheduler.triggerActions();
-
     }
 
-    private void fakeInitialLoad(MoviesResponse response) {
-        Single<MoviesResponse> single = Single.just(response);
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
-                .thenReturn(single);
-
-        genreUseCase.requestGenreData(GENRE_ID, true)
-                .subscribe();
-
-        testScheduler.triggerActions();
+    private void changeBehaviorSubject(MoviesResponse response) throws Exception {
+        Field field = GenreUseCaseImpl.class.getDeclaredField("genreBehaviorSubject");
+        field.setAccessible(true);
+        field.set(genreUseCase, BehaviorSubject.create());
+        //noinspection unchecked
+        ((BehaviorSubject<MoviesResponse>)field.get(genreUseCase)).onNext(response);
     }
 
     private MoviesResponse provideRandomMoviesResponse() {
