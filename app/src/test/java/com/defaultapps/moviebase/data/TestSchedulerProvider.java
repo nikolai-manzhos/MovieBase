@@ -3,7 +3,6 @@ package com.defaultapps.moviebase.data;
 
 import io.reactivex.Scheduler;
 import io.reactivex.SingleTransformer;
-import io.reactivex.schedulers.TestScheduler;
 
 public class TestSchedulerProvider implements SchedulerProvider {
 

@@ -69,12 +69,6 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
         getActivity().onBackPressed();
     }
 
-    @Override
-    public void hideLoading() {}
-
-    @Override
-    public void showLoading() {}
-
     private void setupViews() {
         logoutButton.setSummary(getString(R.string.user_logged_as) + " "
                 + loggedUser.getFirebaseuser().getDisplayName());

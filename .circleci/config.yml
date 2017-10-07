@@ -22,7 +22,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew clean assembleDebug lint test
+          command: ./gradlew clean assembleDebug assembleRelease
       - run:
           name: Run Coverage
           command: |

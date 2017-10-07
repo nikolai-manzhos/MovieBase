@@ -150,8 +150,6 @@ dependencies {
     testCompile "junit:junit:$junit"
     testCompile "org.mockito:mockito-core:$mockito"
     testCompile "io.github.benas:random-beans:$random_beans"
-    testCompile "org.powermock:powermock-module-junit4:$powerMockito"
-    testCompile "org.powermock:powermock-api-mockito2:$powerMockito"
     testCompile "org.robolectric:robolectric:$robolectric"
     testCompile "org.robolectric:shadows-support-v4:$robolectric"
     androidTestCompile "com.android.support:appcompat-v7:$support"

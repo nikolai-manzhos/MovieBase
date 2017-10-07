@@ -12,7 +12,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 @PerFragment
-public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> implements HomeContract.HomePresenter {
+public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView>
+        implements HomeContract.HomePresenter {
 
     private HomeUseCase homeUseCase;
     private RxBus rxBus;
@@ -49,11 +50,15 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> impl
                         moviesResponses -> {
                             getView().hideLoading();
                             getView().receiveResults(moviesResponses);
-
                         },
                         err -> {
                             getView().hideLoading();
-                            //TODO: Show error message
+                            getView().displayErrorMessage();
+                        },
+                        () -> {
+                            if (getView().isRefreshing()) {
+                                getView().hideLoading();
+                            }
                         }
                 )
         );

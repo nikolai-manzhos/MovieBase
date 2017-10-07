@@ -1,29 +1,16 @@
 package com.defaultapps.moviebase.utils;
 
-import android.util.Log;
-
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class UtilsTest {
 
-    @Before
-    public void setUp() throws Exception {
-        PowerMockito.mockStatic(Log.class);
-    }
-
     @SuppressWarnings("unchecked")
-    @Test(expected = AssertionError.class )
+    @Test(expected = InvocationTargetException.class)
     public void privateConstructorTest() throws Exception {
         Constructor<Utils> constructor= (Constructor<Utils>) Utils.class.getDeclaredConstructors()[0];
         constructor.setAccessible(true);

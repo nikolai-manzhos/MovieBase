@@ -1,7 +1,5 @@
 package com.defaultapps.moviebase.utils.rx;
 
-import com.defaultapps.moviebase.utils.rx.BusThreadScheduler;
-
 import java.util.HashMap;
 import java.util.Map;
 

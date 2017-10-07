@@ -8,6 +8,8 @@ import com.defaultapps.moviebase.utils.rx.RxBus;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -19,12 +21,11 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 public class HomePresenterTest {
 
@@ -63,6 +64,7 @@ public class HomePresenterTest {
         verify(view).receiveResults(response);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void requestHomeDataFailure() throws Exception {
         when(homeUseCase.requestHomeData(anyBoolean())).thenReturn(Observable.error(new Exception("Some error.")));
@@ -71,7 +73,7 @@ public class HomePresenterTest {
 
         verify(view).showLoading();
         verify(view).hideLoading();
-        verify(view, never()).receiveResults(anyListOf(MoviesResponse.class));
+        verify(view, never()).receiveResults(ArgumentMatchers.anyListOf(MoviesResponse.class));
     }
 
     @Test
@@ -80,6 +82,20 @@ public class HomePresenterTest {
         rxBus.publish(AppConstants.HOME_INSTANT_CACHE, responses);
 
         verify(view).receiveResults(responses);
+    }
+
+    @Test
+    public void shouldCallOnComplete() throws Exception {
+        InOrder orderVerifier = inOrder(view);
+        when(view.isRefreshing())
+                .thenReturn(true);
+        when(homeUseCase.requestHomeData(false))
+                .thenReturn(Observable.empty());
+
+        presenter.requestMoviesData(false);
+
+        orderVerifier.verify(view).showLoading();
+        orderVerifier.verify(view).hideLoading();
     }
 
     @Test
