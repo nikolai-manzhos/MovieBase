@@ -9,7 +9,6 @@ import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.rx.RxBus;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -138,7 +137,6 @@ public class HomeUseCaseTest {
     }
 
     @Test
-    @Ignore
     public void shouldReturnInstantCacheOnError() throws Exception {
         Field cache = HomeUseCaseImpl.class.getDeclaredField("cache");
         Field behaviorSubject = HomeUseCaseImpl.class.getDeclaredField("moviesBehaviorSubject");
@@ -154,11 +152,11 @@ public class HomeUseCaseTest {
 
         setupEmptyNetworkCalls();
 
-        homeUseCase.requestHomeData(false);
+        homeUseCase.requestHomeData(false)
+                .test()
+                .assertComplete();
 
         verify(rxBus).publish(AppConstants.HOME_INSTANT_CACHE, fakeCache);
-        //noinspection unchecked
-        assertEquals(true, ((BehaviorSubject<List<MoviesResponse>>) behaviorSubject.get(homeUseCase)).hasComplete());
     }
 
     private void setupEmptyNetworkCalls() {

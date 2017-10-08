@@ -15,6 +15,7 @@ import org.mockito.MockitoAnnotations;
 import java.lang.reflect.Field;
 
 import io.reactivex.Single;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.TestScheduler;
 import io.reactivex.subjects.BehaviorSubject;
 
@@ -24,6 +25,8 @@ import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class GenreUseCaseTest {
@@ -138,6 +141,20 @@ public class GenreUseCaseTest {
         testScheduler.triggerActions();
     }
 
+    @Test
+    public void shouldDisposeOnForce() throws Exception {
+        Field disposableField = GenreUseCaseImpl.class.getDeclaredField("genreDisposable");
+        disposableField.setAccessible(true);
+
+        Disposable disposable = mock(Disposable.class);
+        disposableField.set(genreUseCase, disposable);
+        setupEmptyResponse();
+
+        genreUseCase.requestGenreData(GENRE_ID, true);
+
+        verify(disposable).dispose();
+    }
+
     private void changeBehaviorSubject(MoviesResponse response) throws Exception {
         Field field = GenreUseCaseImpl.class.getDeclaredField("genreBehaviorSubject");
         field.setAccessible(true);
@@ -148,5 +165,13 @@ public class GenreUseCaseTest {
 
     private MoviesResponse provideRandomMoviesResponse() {
         return random(MoviesResponse.class);
+    }
+
+    private void setupEmptyResponse() {
+        Single<MoviesResponse> single = Single.just(new MoviesResponse());
+
+        when(networkService.getNetworkCall()).thenReturn(api);
+        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+                .thenReturn(single);
     }
 }
