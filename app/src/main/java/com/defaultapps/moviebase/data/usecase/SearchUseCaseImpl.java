@@ -10,7 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
@@ -20,9 +22,8 @@ public class SearchUseCaseImpl implements SearchUseCase {
     private AppPreferencesManager preferencesManager;
     private SchedulerProvider schedulerProvider;
     private Disposable disposable;
+    private Disposable paginationDisposable;
     private ReplaySubject<MoviesResponse> replaySubject;
-
-    private final String API_KEY = BuildConfig.MDB_API_KEY;
 
     @Inject
     SearchUseCaseImpl(NetworkService networkService,
@@ -39,10 +40,39 @@ public class SearchUseCaseImpl implements SearchUseCase {
         if (disposable == null || disposable.isDisposed()) {
             replaySubject = ReplaySubject.create();
 
-            disposable = networkService.getNetworkCall().getSearchQuery(API_KEY, "en-Us", query, 1, preferencesManager.getAdultStatus())
+            disposable = network(query, 1)
                     .compose(schedulerProvider.applyIoSchedulers())
                     .subscribe(replaySubject::onNext, replaySubject::onError);
         }
         return replaySubject;
+    }
+
+    @Override
+    public Observable<MoviesResponse> requestMoreSearchResults(String query) {
+        if (paginationDisposable != null && !paginationDisposable.isDisposed()) {
+            paginationDisposable.dispose();
+        }
+        MoviesResponse previousResult = replaySubject.getValue();
+        PublishSubject<MoviesResponse> paginationResult = PublishSubject.create();
+        paginationDisposable = network(query, previousResult.getPage() + 1)
+                .map(moviesResponse -> {
+                    previousResult.getResults().addAll(moviesResponse.getResults());
+                    previousResult.setPage(moviesResponse.getPage());
+                    return previousResult;
+                })
+                .compose(schedulerProvider.applyIoSchedulers())
+                .subscribe(
+                        response -> {
+                            paginationResult.onNext(response);
+                            replaySubject.onNext(response);
+                        },
+                        paginationResult::onError
+                );
+        return paginationResult;
+    }
+
+    private Single<MoviesResponse> network(String query, int page) {
+        String API_KEY = BuildConfig.MDB_API_KEY;
+        return networkService.getNetworkCall().getSearchQuery(API_KEY, "en-Us", query, page, preferencesManager.getAdultStatus());
     }
 }

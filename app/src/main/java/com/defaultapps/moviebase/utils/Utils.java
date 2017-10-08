@@ -1,13 +1,14 @@
 package com.defaultapps.moviebase.utils;
 
 
-import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 public class Utils {
     private Utils() {
@@ -22,7 +23,7 @@ public class Utils {
             DateFormat outputFormat = new SimpleDateFormat(" MMMM-dd, yyyy", Locale.ENGLISH);
             finalString = outputFormat.format(date);
         } catch (ParseException ex) {
-            Log.e("Utils", ex.getMessage());
+            Timber.e(ex.getMessage());
         }
         return finalString;
     }

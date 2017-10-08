@@ -51,8 +51,8 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     private String genreId;
     private final int TOTAL_PAGES = 100;
-    private boolean isLoading = false;
-    private boolean isLastPage = false;
+    private boolean isLoading;
+    private boolean isLastPage;
 
     @Override
     protected int provideLayout() {
@@ -63,17 +63,15 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getFragmentComponent().inject(this);
         presenter.onAttach(this);
-        initRecyclerView();
         Bundle bundle = getArguments();
         genreId = bundle.getString(AppConstants.GENRE_ID);
         toolbarText.setText(bundle.getString(AppConstants.GENRE_NAME));
+        initRecyclerView();
         if (savedInstanceState == null) {
             presenter.requestMovies(genreId, true);
         } else {
             presenter.requestMovies(genreId, false);
         }
-        adapter.setOnMovieSelectedListener(this);
-        adapter.setPaginationCallback(this);
     }
 
     @Override
@@ -118,8 +116,6 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
         if (movies.getPage() <= TOTAL_PAGES) adapter.addLoadingFooter();
         else isLastPage = true;
-
-
     }
 
     @Override
@@ -182,5 +178,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
             }
         };
         genreRecycler.addOnScrollListener(scrollListener);
+        adapter.setOnMovieSelectedListener(this);
+        adapter.setPaginationCallback(this);
     }
 }

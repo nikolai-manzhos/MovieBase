@@ -12,6 +12,8 @@ import org.mockito.MockitoAnnotations;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
 
+import static io.github.benas.randombeans.api.EnhancedRandom.random;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -28,17 +30,17 @@ public class SearchPresenterTest {
     @Mock
     SearchUseCaseImpl useCase;
 
-    @Mock
-    MoviesResponse response;
 
     private SearchPresenterImpl presenter;
     private TestScheduler testScheduler;
+    private MoviesResponse response;
     private final String QUERY = "Titanic";
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         presenter = new SearchPresenterImpl(useCase);
+        response = random(MoviesResponse.class);
         testScheduler = new TestScheduler();
         presenter.onAttach(view);
     }
@@ -54,7 +56,6 @@ public class SearchPresenterTest {
         verify(view).hideEmpty();
         verify(view).showLoading();
 
-        when(response.getTotalResults()).thenReturn(0);
         testScheduler.triggerActions();
 
         verify(view, times(2)).hideError();
@@ -79,5 +80,45 @@ public class SearchPresenterTest {
         verify(view).showError();
         verify(view, never()).showData();
         verify(view, never()).displaySearchResults(anyObject());
+    }
+
+    @Test
+    public void requestMoreSearchResultsSuccess() {
+        when(useCase.requestMoreSearchResults(QUERY)).thenReturn(Observable.just(response).subscribeOn(testScheduler));
+
+        presenter.requestMoreSearchResults(QUERY);
+
+        testScheduler.triggerActions();
+
+        verify(view).displayMoreSearchResults(response);
+        verify(view, never()).showLoadMoreError();
+    }
+
+    @Test
+    public void requestMoreSearchResultsFailure() {
+        when(useCase.requestMoreSearchResults(QUERY)).thenReturn(Observable.error(new Exception("Network error.")));
+
+        presenter.requestMoreSearchResults(QUERY);
+
+        verify(view).showLoadMoreError();
+        verify(view, never()).displayMoreSearchResults(any(MoviesResponse.class));
+    }
+
+    @Test
+    public void verifyOnSearchViewClose() {
+        presenter.onSearchViewClose();
+
+        verify(view).showSearchStart();
+        verify(view).hideLoading();
+        verify(view).hideError();
+        verify(view).hideData();
+        verify(view).hideEmpty();
+    }
+
+    @Test
+    public void verifyOnSearchViewOpen() {
+        presenter.onSearchViewOpen();
+
+        verify(view).hideSearchStart();
     }
 }

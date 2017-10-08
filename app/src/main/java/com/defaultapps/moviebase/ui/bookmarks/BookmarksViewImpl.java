@@ -14,8 +14,8 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 
 import javax.inject.Inject;
 
@@ -64,12 +64,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     public void displayErrorMessage() {
         showSnackbar(contentContainer, getString(R.string.user_delete_error));
     }
-
-    @Override
-    public void hideLoading() {}
-
-    @Override
-    public void showLoading() {}
 
     private void initRecyclerView() {
         favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));

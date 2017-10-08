@@ -17,6 +17,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/di/*',
             '**/data/models/*',
             '**/dagger/*',
+            '**/utils/listener/*',
+            '**/utils/rx/*',
             '**/*AutoValue_*.*'
     ]
 

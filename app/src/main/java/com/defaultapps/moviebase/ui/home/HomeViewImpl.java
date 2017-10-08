@@ -92,6 +92,16 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
         swipeRefreshLayout.setRefreshing(true);
     }
 
+    @Override
+    public void displayErrorMessage() {
+        showSnackbar(swipeRefreshLayout, "Error");
+    }
+
+    @Override
+    public boolean isRefreshing() {
+        return swipeRefreshLayout.isRefreshing();
+    }
+
     @OnClick(R.id.profileButton)
     void onProfileClick() {
         Intent intent = new Intent(getActivity(), UserActivity.class);

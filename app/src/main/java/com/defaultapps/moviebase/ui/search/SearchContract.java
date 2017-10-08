@@ -8,9 +8,16 @@ public interface SearchContract {
 
     interface SearchPresenter extends MvpPresenter<SearchView> {
         void requestSearchResults(String query, boolean force);
+        void requestMoreSearchResults(String query);
+        void onSearchViewClose();
+        void onSearchViewOpen();
     }
 
     interface SearchView extends MvpView {
+        void hideLoadMoreError();
+        void showLoadMoreError();
+        void hideSearchStart();
+        void showSearchStart();
         void hideData();
         void showData();
         void hideError();
@@ -18,5 +25,6 @@ public interface SearchContract {
         void hideEmpty();
         void showEmpty();
         void displaySearchResults(MoviesResponse moviesResponse);
+        void displayMoreSearchResults(MoviesResponse moviesResponse);
     }
 }

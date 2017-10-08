@@ -26,10 +26,10 @@ import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
 import com.defaultapps.moviebase.ui.person.PersonActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
-import com.defaultapps.moviebase.utils.listener.OnPersonClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.listener.OnPersonClickListener;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
@@ -44,7 +44,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieClickListener, VideosAdapter.OnVideoClickListener, OnPersonClickListener {
+public class MovieViewImpl extends BaseFragment
+        implements MovieContract.MovieView, OnMovieClickListener,
+        VideosAdapter.OnVideoClickListener, OnPersonClickListener {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -184,18 +186,8 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @Override
     public void displayMovieInfo(MovieInfoResponse movieInfo) {
         this.movieInfo = movieInfo;
-        Picasso
-                .with(getContext().getApplicationContext())
-                .load("http://image.tmdb.org/t/p//w1280" + movieInfo.getBackdropPath())
-                .fit()
-                .centerCrop()
-                .into(imageBackdrop);
-        Picasso
-                .with(getContext().getApplicationContext())
-                .load("https://image.tmdb.org/t/p/w300" + movieInfo.getPosterPath())
-                .fit()
-                .centerCrop()
-                .into(imagePoster);
+        loadImage(movieInfo.getBackdropPath(),imageBackdrop);
+        loadImage(movieInfo.getPosterPath(), imagePoster);
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
         movieOverview.setText(movieInfo.getOverview());
@@ -301,5 +293,14 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         similarRecyclerView.addItemDecoration(horizontalDivider);
         similarRecyclerView.setNestedScrollingEnabled(false);
         similarAdapter.setOnMovieClickListener(this);
+    }
+
+    private void loadImage(String uri, ImageView iv) {
+        Picasso
+                .with(getContext().getApplicationContext())
+                .load("http://image.tmdb.org/t/p//w1280" + uri)
+                .fit()
+                .centerCrop()
+                .into(iv);
     }
 }

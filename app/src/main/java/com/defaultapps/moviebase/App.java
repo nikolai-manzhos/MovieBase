@@ -47,7 +47,7 @@ public class App extends Application {
     }
 
     private void initPrefs() {
-        new PreferencesHelper.Builder(this)
+        PreferencesHelper.builder(this)
                 .build();
     }
 }

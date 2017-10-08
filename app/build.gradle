@@ -19,19 +19,19 @@ afterEvaluate {
     if (isDebug)  {
         assembleDebug.dependsOn 'test'
     } else  {
-        assembleRelease.dependsOn 'test', 'lint', 'connectedCheck'
+        assembleRelease.dependsOn 'test', 'lint'
     }
 }
 
 configurations.getByName("androidTestCompile") {
     resolutionStrategy {
-        force "com.android.support:appcompat-v7:$rootProject.support"
+        force "com.android.support:appcompat-v7:$support"
     }
 }
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
@@ -102,34 +102,36 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$rootProject.support"
-    compile "com.android.support:preference-v7:$rootProject.support"
-    compile "com.android.support:design:$rootProject.support"
-    compile "com.android.support:cardview-v7:$rootProject.support"
-    compile "com.android.support:customtabs:$rootProject.support"
+    compile "com.android.support:appcompat-v7:$support"
+    compile "com.android.support:preference-v7:$support"
+    compile "com.android.support:design:$support"
+    compile "com.android.support:cardview-v7:$support"
+    compile "com.android.support:customtabs:$support"
     compile "com.android.support.constraint:constraint-layout:$constraintLayout"
-    compile "com.roughike:bottom-bar:$rootProject.bottomBar"
+    compile "com.roughike:bottom-bar:$bottomBar"
     //ButterKnife
-    compile "com.jakewharton:butterknife:$rootProject.butterKnife"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnife"
+    compile "com.jakewharton:butterknife:$butterKnife"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
     //Dagger 2
-    compile "com.google.dagger:dagger:$rootProject.dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger"
+    compile "com.google.dagger:dagger:$dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
     //RxJava 2
-    compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid"
-    compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjava"
+    compile "io.reactivex.rxjava2:rxandroid:$rxandroid"
+    compile "io.reactivex.rxjava2:rxjava:$rxjava"
     //Retrofit 2
-    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
-    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofit"
-    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
+    compile "com.squareup.retrofit2:retrofit:$retrofit"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
     //Firebase
-    compile "com.google.firebase:firebase-core:$rootProject.firebase"
-    compile "com.firebaseui:firebase-ui-auth:$rootProject.firebaseUi"
-    compile "com.firebaseui:firebase-ui-database:$rootProject.firebaseUi"
+    compile "com.google.firebase:firebase-core:$firebase"
+    compile "com.firebaseui:firebase-ui-auth:$firebaseUi"
+    compile "com.firebaseui:firebase-ui-database:$firebaseUi"
     //LeakCanary
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakcanary"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakcanary"
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
+    //Timber
+    compile "com.jakewharton.timber:timber:$timber"
     //Prefs
     compile "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs"
     //Picasso
@@ -137,28 +139,26 @@ dependencies {
     //Iconify
     compile "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify"
     //Custom UI libraries
-    compile "de.hdodenhof:circleimageview:$rootProject.circle"
-    compile "com.thefinestartist:ytpa:$rootProject.youtube"
-    compile "com.yarolegovich:mp:$rootProject.materialPref"
-    compile "com.miguelcatalan:materialsearchview:$rootProject.materialSearch"
+    compile "de.hdodenhof:circleimageview:$circle"
+    compile "com.thefinestartist:ytpa:$youtube"
+    compile "com.yarolegovich:mp:$materialPref"
+    compile "com.miguelcatalan:materialsearchview:$materialSearch"
     compile "com.ms-square:expandableTextView:$expTextView"
 
 
 
-    testCompile "junit:junit:$rootProject.junit"
-    testCompile "org.mockito:mockito-core:$rootProject.mockito"
+    testCompile "junit:junit:$junit"
+    testCompile "org.mockito:mockito-core:$mockito"
     testCompile "io.github.benas:random-beans:$random_beans"
-    testCompile "org.powermock:powermock-module-junit4:$rootProject.powerMockito"
-    testCompile "org.powermock:powermock-api-mockito2:$rootProject.powerMockito"
-    testCompile "org.robolectric:robolectric:$rootProject.robolectric"
-    testCompile "org.robolectric:shadows-support-v4:$rootProject.robolectric"
-    androidTestCompile "com.android.support:appcompat-v7:$rootProject.support"
-    androidTestCompile "com.android.support:design:$rootProject.support"
-    androidTestCompile "com.android.support:cardview-v7:$rootProject.support"
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espresso", {
+    testCompile "org.robolectric:robolectric:$robolectric"
+    testCompile "org.robolectric:shadows-support-v4:$robolectric"
+    androidTestCompile "com.android.support:appcompat-v7:$support"
+    androidTestCompile "com.android.support:design:$support"
+    androidTestCompile "com.android.support:cardview-v7:$support"
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espresso"
-    androidTestCompile "org.mockito:mockito-core:$rootProject.mockito"
+    androidTestCompile "org.mockito:mockito-core:$mockito"
 }
 apply plugin: 'com.google.gms.google-services'

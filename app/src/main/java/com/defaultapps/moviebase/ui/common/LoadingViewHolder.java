@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.ui.genre.vh;
+package com.defaultapps.moviebase.ui.common;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

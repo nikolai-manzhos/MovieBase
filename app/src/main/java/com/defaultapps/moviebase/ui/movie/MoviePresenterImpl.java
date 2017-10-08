@@ -6,6 +6,8 @@ import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 @PerFragment
 public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> implements MovieContract.MoviePresenter {
 
@@ -30,6 +32,7 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
                             getView().showData();
                         },
                         err -> {
+                            Timber.d(err);
                             getView().hideLoading();
                             getView().hideData();
                             getView().showError();
