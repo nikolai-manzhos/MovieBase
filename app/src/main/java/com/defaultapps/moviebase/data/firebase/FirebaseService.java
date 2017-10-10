@@ -1,9 +1,10 @@
 package com.defaultapps.moviebase.data.firebase;
 
 
-import android.util.Log;
+import android.support.annotation.Nullable;
 
 import com.defaultapps.moviebase.data.models.firebase.Favorite;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,10 +24,10 @@ import io.reactivex.Observable;
 public class FirebaseService {
 
     private DatabaseReference databaseReference;
-    private LoggedUser loggedUser;
+    private FirebaseUser loggedUser;
 
     @Inject
-    FirebaseService(DatabaseReference databaseReference, LoggedUser loggedUser) {
+    FirebaseService(@Nullable DatabaseReference databaseReference, @Nullable FirebaseUser loggedUser) {
         this.databaseReference = databaseReference;
         this.loggedUser = loggedUser;
     }
@@ -59,19 +60,13 @@ public class FirebaseService {
                 }
 
                 @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
                 @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
+                public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
                 @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -102,7 +97,6 @@ public class FirebaseService {
                                 );
                     } else {
                         e.onComplete();
-                        Log.d("FETCHEED SIZE", "ERROR");
                     }
                     e.onComplete();
                 }
@@ -116,7 +110,7 @@ public class FirebaseService {
     }
 
     private void checkUserNotNull() {
-        if (loggedUser.getFirebaseuser() == null) {
+        if (loggedUser == null) {
             throw new UnknownUserException("No user data provided, please supply LoggedUser instance before working with db.");
         }
     }

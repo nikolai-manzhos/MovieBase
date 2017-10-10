@@ -13,7 +13,7 @@ import com.defaultapps.moviebase.di.component.DaggerActivityComponent;
 import com.defaultapps.moviebase.di.module.ActivityModule;
 
 
-public class BaseActivity extends AppCompatActivity implements ComponentActivity {
+public class BaseActivity extends AppCompatActivity implements ComponentActivity, MvpView {
     protected ActivityComponent activityComponent;
 
     @Override
@@ -36,4 +36,9 @@ public class BaseActivity extends AppCompatActivity implements ComponentActivity
         return networkInfo != null && networkInfo.isConnected();
     }
 
+    @Override
+    public void hideLoading() {}
+
+    @Override
+    public void showLoading() {}
 }

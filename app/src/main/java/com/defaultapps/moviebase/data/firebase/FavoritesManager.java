@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
+import timber.log.Timber;
 
 @Singleton
 public class FavoritesManager {
@@ -53,9 +54,9 @@ public class FavoritesManager {
                         }));
     }
 
-    public Observable<List<Integer>> fetchAllFavs() {
-        return firebaseService.fetchAllFavorites()
-                .doOnNext(this::updateFavoritesCache);
+    public void fetchAllFavs() {
+        firebaseService.fetchAllFavorites()
+                .subscribe(this::updateFavoritesCache, Timber::e);
     }
 
     public Observable<Boolean> getIsFavoriteObservable(final @NonNull Integer id) {

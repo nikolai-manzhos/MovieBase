@@ -16,11 +16,12 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**Constructed with dagger.
+ * See: {@link com.defaultapps.moviebase.di.module.FragmentModule}
+ */
 public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, FavoritesAdapter.FavoritesViewHolder> {
 
     private Context context;
@@ -36,8 +37,8 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
             ButterKnife.bind(this, v);
         }
     }
-    @Inject
-    FavoritesAdapter(DatabaseReference dbReference, @ActivityContext Context context) {
+
+    public FavoritesAdapter(@Nullable DatabaseReference dbReference, @ActivityContext Context context) {
         super(Favorite.class, R.layout.item_favorite, FavoritesViewHolder.class, dbReference);
         this.context = context;
     }
@@ -65,11 +66,6 @@ public class FavoritesAdapter extends FirebaseRecyclerAdapter<Favorite, Favorite
                     });
             return true;
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return super.getItemCount();
     }
 
     void setOnMovieClickListener(OnMovieClickListener listener) {

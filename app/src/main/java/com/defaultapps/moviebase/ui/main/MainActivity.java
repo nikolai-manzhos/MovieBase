@@ -2,21 +2,18 @@ package com.defaultapps.moviebase.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
+import com.defaultapps.moviebase.ui.login.LoginActivity;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
+import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.roughike.bottombar.BottomBar;
 
 import javax.inject.Inject;
@@ -24,18 +21,17 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements FirebaseAuth.AuthStateListener {
+public class MainActivity extends BaseActivity implements MainContract.MainView {
 
-    private static final int RC_SIGN_IN = 1;
-    private boolean firstTimeLaunch;
+    public static final int RC_SIGN_IN = 1;
+    public static final int RC_LOGIN = 2;
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
 
     @Inject
-    LoggedUser loggedUser;
+    MainPresenterImpl presenter;
 
-    private FirebaseAuth firebaseAuth;
     private OnBackPressedListener onBackPressedListener;
 
     @Override
@@ -44,35 +40,10 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
         setContentView(R.layout.activity_main);
         getActivityComponent().inject(this);
         ButterKnife.bind(this);
-        firstTimeLaunch = savedInstanceState == null;
-
-        firebaseAuth = FirebaseAuth.getInstance();
-    }
-
-    @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            if (firstTimeLaunch) {
-                selectItem(R.id.tab_home);
-                firstTimeLaunch = false;
-            }
-            Log.d("MainActivity", user.getUid());
-            loggedUser.setFirebaseuser(user);
-            //Signed In Get User Details
-        } else {
-            //noinspection deprecation
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setIsSmartLockEnabled(false)
-                            .setTheme(R.style.DarkTheme)
-                            .setLogo(R.mipmap.ic_launcher_round)
-                            .setProviders(
-                                    AuthUI.GOOGLE_PROVIDER,
-                                    AuthUI.EMAIL_PROVIDER)
-                            .build(),
-                    RC_SIGN_IN);
+        presenter.onAttach(this);
+        presenter.checkFirstTimeUser();
+        if (savedInstanceState == null) {
+            selectItem(R.id.tab_home);
         }
     }
 
@@ -81,10 +52,22 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
+                selectItem(bottomBar.getCurrentTabId());
                 Toast.makeText(getApplicationContext(), "You're signed in!", Toast.LENGTH_SHORT).show();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "Sign in canceled", Toast.LENGTH_SHORT).show();
-                finish();
+            }
+        } else if (requestCode == RC_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                //redirect to login activity
+                startActivityForResult(
+                        AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setTheme(R.style.DarkTheme)
+                                .setLogo(R.mipmap.ic_launcher_round)
+                                .setProviders(Utils.getProvidersList())
+                                .build(),
+                        RC_SIGN_IN);
             }
         }
     }
@@ -101,19 +84,23 @@ public class MainActivity extends BaseActivity implements FirebaseAuth.AuthState
     @Override
     protected void onResume() {
         super.onResume();
-        firebaseAuth.addAuthStateListener(this);
         initBottomBar();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        firebaseAuth.removeAuthStateListener(this);
         bottomBar.removeOnTabSelectListener();
     }
 
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
         this.onBackPressedListener = onBackPressedListener;
+    }
+
+    @Override
+    public void displayLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, RC_LOGIN);
     }
 
     private void initBottomBar() {

@@ -17,6 +17,8 @@
     <string name="bookmarks_movie_poster">Movie poster</string>
     <string name="bookmarks_alert_title">Remove this movie?</string>
     <string name="bookmarks_favorites_empty">Seems like you don\'t have any favorite movies yet.</string>
+    <string name="bookmarks_no_user">Please login to synchronize and watch your bookmarks</string>
+    <string name="bookmarks_sign_in">Sign In</string>
 
     <!--Search strings-->
     <string name="search_toolbar">Search</string>

@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.mp.MaterialStandardPreference;
 import com.yarolegovich.mp.MaterialSwitchPreference;
@@ -36,7 +36,8 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     CircleImageView userAvatar;
 
     @Inject
-    LoggedUser loggedUser;
+    @Nullable
+    FirebaseUser loggedUser;
 
     @Override
     protected int provideLayout() {
@@ -71,10 +72,10 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     private void setupViews() {
         logoutButton.setSummary(getString(R.string.user_logged_as) + " "
-                + loggedUser.getFirebaseuser().getDisplayName());
+                + loggedUser.getDisplayName());
         Picasso
                 .with(getContext())
-                .load(loggedUser.getFirebaseuser().getPhotoUrl())
+                .load(loggedUser.getPhotoUrl())
                 .placeholder(R.drawable.placeholder_human)
                 .into(userAvatar);
     }

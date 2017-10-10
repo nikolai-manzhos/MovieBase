@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -69,7 +68,6 @@ public class MovieUseCaseTest {
         Single<MovieInfoResponse> single = Single.just(expectedResponse).subscribeOn(testScheduler);
         when(networkService.getNetworkCall()).thenReturn(api);
         when(api.getMovieInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
-        when(favoritesManager.fetchAllFavs()).thenReturn(Observable.just(new ArrayList<>()));
 
         movieUseCase.requestMovieData(MOVIE_ID, false).subscribe(
                 movieInfoResponse -> actualResponse = movieInfoResponse,
@@ -77,6 +75,7 @@ public class MovieUseCaseTest {
         );
         testScheduler.triggerActions();
 
+        verify(favoritesManager).fetchAllFavs();
         assertNotNull(actualResponse);
         assertEquals(expectedResponse, actualResponse);
     }
@@ -146,6 +145,5 @@ public class MovieUseCaseTest {
         Single<MovieInfoResponse> single = Single.just(new MovieInfoResponse());
         when(networkService.getNetworkCall()).thenReturn(api);
         when(api.getMovieInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
-        when(favoritesManager.fetchAllFavs()).thenReturn(Observable.just(new ArrayList<>()));
     }
 }

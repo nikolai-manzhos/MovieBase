@@ -1,6 +1,8 @@
 package com.defaultapps.moviebase.di.component;
 
-import com.defaultapps.moviebase.data.firebase.LoggedUser;
+import android.support.annotation.Nullable;
+
+import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.usecase.DiscoverUseCase;
 import com.defaultapps.moviebase.data.usecase.GenreUseCase;
 import com.defaultapps.moviebase.data.usecase.HomeUseCase;
@@ -11,6 +13,7 @@ import com.defaultapps.moviebase.di.module.ApplicationModule;
 import com.defaultapps.moviebase.di.module.SchedulersModule;
 import com.defaultapps.moviebase.di.module.UseCaseModule;
 import com.defaultapps.moviebase.utils.rx.RxBus;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import javax.inject.Singleton;
@@ -26,7 +29,10 @@ public interface ApplicationComponent {
     MovieUseCase movieUseCaseImpl();
     SearchUseCase searchUseCaseImpl();
     PersonUseCase personUseCaseImpl();
-    DatabaseReference databaseReference();
-    LoggedUser loggedUser();
+    AppPreferencesManager appPreferencesManager();
     RxBus rxBus();
+
+    //Null in case of no user
+    @Nullable FirebaseUser firebaseUser();
+    @Nullable DatabaseReference databaseReference();
 }
