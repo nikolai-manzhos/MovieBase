@@ -11,8 +11,7 @@ public class BookmarksPresenterImpl extends BasePresenter<BookmarksContract.Book
         implements BookmarksContract.BookmarksPresenter {
 
     @Inject
-    public BookmarksPresenterImpl() {}
-
+    BookmarksPresenterImpl() {}
 
     @Override
     public void displayNoUserView() {

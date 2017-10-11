@@ -12,7 +12,7 @@ public class PersonPresenterImpl extends BasePresenter<PersonContract.PersonView
     private PersonUseCase personUseCase;
 
     @Inject
-    public PersonPresenterImpl(PersonUseCase personUseCase) {
+    PersonPresenterImpl(PersonUseCase personUseCase) {
         this.personUseCase = personUseCase;
     }
 
