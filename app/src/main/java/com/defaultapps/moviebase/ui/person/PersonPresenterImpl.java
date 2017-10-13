@@ -9,7 +9,7 @@ import javax.inject.Inject;
 @PerFragment
 public class PersonPresenterImpl extends BasePresenter<PersonContract.PersonView> implements PersonContract.PersonPresenter {
 
-    private PersonUseCase personUseCase;
+    private final PersonUseCase personUseCase;
 
     @Inject
     PersonPresenterImpl(PersonUseCase personUseCase) {
@@ -34,7 +34,6 @@ public class PersonPresenterImpl extends BasePresenter<PersonContract.PersonView
                             getView().hideData();
                             getView().showError();
                         }
-
                 )
         );
     }

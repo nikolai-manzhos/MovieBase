@@ -29,7 +29,6 @@ public class LoginViewImpl extends BaseFragment {
     void onSkipClick() {
         Intent returnIntent = new Intent();
         getActivity().setResult(Activity.RESULT_CANCELED, returnIntent);
-        FirebaseAuth auth = FirebaseAuth.getInstance();
         getActivity().finish();
     }
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.common.NavigationView;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
@@ -26,7 +27,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
+public class HomeViewImpl extends BaseFragment
+        implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
 
     @BindView(R.id.homeRecycler)
     RecyclerView homeRecycler;
@@ -98,14 +100,19 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
     }
 
     @Override
+    public void displayProfileScreen() {
+        Intent intent = new Intent(getActivity(), UserActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean isRefreshing() {
         return swipeRefreshLayout.isRefreshing();
     }
 
     @OnClick(R.id.profileButton)
     void onProfileClick() {
-        Intent intent = new Intent(getActivity(), UserActivity.class);
-        startActivity(intent);
+        presenter.openProfileScreen();
     }
 
     private void initRecyclerView() {

@@ -15,8 +15,8 @@ import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
 public class DiscoverUseCaseImpl implements DiscoverUseCase {
-    private LocalService localService;
-    private SchedulerProvider schedulerProvider;
+    private final LocalService localService;
+    private final SchedulerProvider schedulerProvider;
 
     private Disposable genresDisposable;
     private ReplaySubject<Genres> genresReplaySubject;

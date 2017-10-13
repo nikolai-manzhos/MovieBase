@@ -11,10 +11,10 @@ import javax.inject.Inject;
 @PerFragment
 public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.DiscoverView> implements DiscoverContract.DiscoverPresenter {
 
-    private DiscoverUseCase discoverUseCase;
+    private final DiscoverUseCase discoverUseCase;
 
     @Inject
-    public DiscoverPresenterImpl(DiscoverUseCase discoverUseCase) {
+    DiscoverPresenterImpl(DiscoverUseCase discoverUseCase) {
         this.discoverUseCase = discoverUseCase;
     }
 

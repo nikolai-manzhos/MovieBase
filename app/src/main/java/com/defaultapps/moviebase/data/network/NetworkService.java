@@ -15,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkService {
 
-    private final String BASE_URL = "https://api.themoviedb.org/3/";
     private Retrofit retrofit;
 
     @Inject
@@ -28,6 +27,7 @@ public class NetworkService {
     }
 
     private Retrofit provideRetrofit() {
+        final String BASE_URL = "https://api.themoviedb.org/3/";
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -43,9 +43,10 @@ public class NetworkService {
         } else {
             logging.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
+        final int TIMEOUT = 20;
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
-                .connectTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .build();
     }
 }

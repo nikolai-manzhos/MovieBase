@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.data.usecase;
 
+
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
@@ -22,9 +23,9 @@ import io.reactivex.subjects.BehaviorSubject;
 @Singleton
 public class HomeUseCaseImpl implements HomeUseCase {
 
-    private NetworkService networkService;
-    private RxBus rxBus;
-    private SchedulerProvider schedulerProvider;
+    private final NetworkService networkService;
+    private final RxBus rxBus;
+    private final SchedulerProvider schedulerProvider;
 
     private Disposable moviesDisposable;
     private BehaviorSubject<List<MoviesResponse>> moviesBehaviorSubject;
@@ -34,8 +35,8 @@ public class HomeUseCaseImpl implements HomeUseCase {
 
     @Inject
     HomeUseCaseImpl(NetworkService networkService,
-                           RxBus rxBus,
-                           SchedulerProvider schedulerProvider) {
+                    RxBus rxBus,
+                    SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
         this.rxBus = rxBus;
         this.schedulerProvider = schedulerProvider;

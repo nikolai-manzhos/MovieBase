@@ -11,11 +11,13 @@ public interface HomeContract {
 
     interface HomePresenter extends MvpPresenter<HomeView> {
         void requestMoviesData(boolean force);
+        void openProfileScreen();
     }
 
     interface HomeView extends MvpView {
         void receiveResults(List<MoviesResponse> results);
         void displayErrorMessage();
+        void displayProfileScreen();
         boolean isRefreshing();
     }
 }

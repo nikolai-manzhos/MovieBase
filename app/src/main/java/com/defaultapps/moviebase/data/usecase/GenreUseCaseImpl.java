@@ -20,9 +20,9 @@ import io.reactivex.subjects.PublishSubject;
 @Singleton
 public class GenreUseCaseImpl implements GenreUseCase {
 
-    private NetworkService networkService;
-    private AppPreferencesManager preferencesManager;
-    private SchedulerProvider schedulerProvider;
+    private final NetworkService networkService;
+    private final AppPreferencesManager preferencesManager;
+    private final SchedulerProvider schedulerProvider;
 
     private Disposable genreDisposable;
     private Disposable genrePaginationDisposable;

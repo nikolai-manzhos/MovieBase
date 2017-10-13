@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.common.NavigationView;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
@@ -239,6 +240,14 @@ public class MovieViewImpl extends BaseFragment
                 (isActive ? MaterialIcons.md_favorite : MaterialIcons.md_favorite_border))
                 .colorRes(R.color.colorAccent)
         );
+    }
+
+    @Override
+    public void displayLoginScreen() {
+        if (!(getActivity() instanceof NavigationView)) {
+            throw new AssertionError("Activity must implement MainView interface");
+        }
+        ((NavigationView) getActivity()).displayLoginActivity();
     }
 
     private void initFAB() {

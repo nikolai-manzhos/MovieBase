@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
+import com.defaultapps.moviebase.ui.common.NavigationView;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.login.LoginActivity;
@@ -21,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements MainContract.MainView {
+public class MainActivity extends BaseActivity implements NavigationView {
 
     public static final int RC_SIGN_IN = 1;
     public static final int RC_LOGIN = 2;

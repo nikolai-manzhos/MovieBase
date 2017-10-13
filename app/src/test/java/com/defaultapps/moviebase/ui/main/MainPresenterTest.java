@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.ui.main;
 
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
+import com.defaultapps.moviebase.ui.common.NavigationView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import static org.mockito.Mockito.when;
 public class MainPresenterTest {
 
     @Mock
-    private MainContract.MainView view;
+    private NavigationView view;
 
     @Mock
     private AppPreferencesManager preferencesManager;

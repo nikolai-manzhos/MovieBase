@@ -13,7 +13,7 @@ import timber.log.Timber;
 @PerFragment
 public class GenrePresenterImpl extends BasePresenter<GenreContract.GenreView> implements GenreContract.GenrePresenter {
 
-    private GenreUseCase genreUseCase;
+    private final GenreUseCase genreUseCase;
 
     @Inject
     GenrePresenterImpl(GenreUseCase genreUseCase) {

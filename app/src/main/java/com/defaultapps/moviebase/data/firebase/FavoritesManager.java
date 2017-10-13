@@ -63,4 +63,8 @@ public class FavoritesManager {
         return favoritesCache.get(id);
     }
 
+    public void invalidate() {
+        favoritesCache.invalidate();
+    }
+
 }

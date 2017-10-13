@@ -18,9 +18,10 @@ import io.reactivex.subjects.ReplaySubject;
 @Singleton
 public class SearchUseCaseImpl implements SearchUseCase {
 
-    private NetworkService networkService;
-    private AppPreferencesManager preferencesManager;
-    private SchedulerProvider schedulerProvider;
+    private final NetworkService networkService;
+    private final AppPreferencesManager preferencesManager;
+    private final SchedulerProvider schedulerProvider;
+
     private Disposable disposable;
     private Disposable paginationDisposable;
     private ReplaySubject<MoviesResponse> replaySubject;

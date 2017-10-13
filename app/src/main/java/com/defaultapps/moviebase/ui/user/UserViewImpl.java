@@ -36,6 +36,9 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     CircleImageView userAvatar;
 
     @Inject
+    UserPresenterImpl presenter;
+
+    @Inject
     @Nullable
     FirebaseUser loggedUser;
 
@@ -47,7 +50,8 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getFragmentComponent().inject(this);
-        setupViews();
+        presenter.onAttach(this);
+        if (loggedUser != null) setupViews();
     }
 
     @Override
@@ -57,12 +61,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @OnClick(R.id.logout)
     void onLogoutClick() {
-        if (((UserActivity) getActivity()).checkNetworkConnection()) {
-            AuthUI.getInstance().signOut(getActivity());
-            getActivity().finish();
-        } else {
-            showSnackbar(contentContainer, getString(R.string.user_logout_error));
-        }
+        presenter.logout();
     }
 
     @OnClick(R.id.backButton)
@@ -78,5 +77,16 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
                 .load(loggedUser.getPhotoUrl())
                 .placeholder(R.drawable.placeholder_human)
                 .into(userAvatar);
+    }
+
+    @Override
+    public void logoutFromAccount() {
+        AuthUI.getInstance().signOut(getActivity());
+        getActivity().finish();
+    }
+
+    @Override
+    public void displayLogoutError() {
+        showSnackbar(contentContainer, getString(R.string.user_logout_error));
     }
 }

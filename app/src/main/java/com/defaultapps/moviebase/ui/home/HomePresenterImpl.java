@@ -15,8 +15,8 @@ import javax.inject.Inject;
 public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView>
         implements HomeContract.HomePresenter {
 
-    private HomeUseCase homeUseCase;
-    private RxBus rxBus;
+    private final HomeUseCase homeUseCase;
+    private final RxBus rxBus;
 
     @Inject
     public HomePresenterImpl(HomeUseCase homeUseCase, RxBus rxBus) {
@@ -62,5 +62,10 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView>
                         }
                 )
         );
+    }
+
+    @Override
+    public void openProfileScreen() {
+        getView().displayProfileScreen();
     }
 }
