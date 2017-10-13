@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.OnClick;
 

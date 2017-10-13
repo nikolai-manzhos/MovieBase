@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.ui.main;
 
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
-import com.defaultapps.moviebase.ui.base.MvpView;
 import com.defaultapps.moviebase.ui.common.NavigationView;
 
 
