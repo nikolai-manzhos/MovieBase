@@ -11,7 +11,6 @@ import com.defaultapps.moviebase.utils.ResponseOrError;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -34,7 +33,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Ignore
 public class MovieUseCaseTest {
 
     @Mock
@@ -76,10 +74,12 @@ public class MovieUseCaseTest {
     @Test
     public void requestMovieDataSuccess() throws Exception {
         MovieInfoResponse expectedResponse = new MovieInfoResponse();
+        FirebaseUser fakeUser = mock(FirebaseUser.class);
         expectedResponse.setId(MOVIE_ID);
         Single<MovieInfoResponse> single = Single.just(expectedResponse).subscribeOn(testScheduler);
         when(networkService.getNetworkCall()).thenReturn(api);
         when(api.getMovieInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
+        when(firebaseUserProvider.get()).thenReturn(fakeUser);
 
         movieUseCase.requestMovieData(MOVIE_ID, false).subscribe(
                 movieInfoResponse -> actualResponse = movieInfoResponse,
@@ -154,6 +154,8 @@ public class MovieUseCaseTest {
 
     @Test
     public void shouldReturnUserStatus() {
+        FirebaseUser fakeUser = mock(FirebaseUser.class);
+        when(firebaseUserProvider.get()).thenReturn(fakeUser);
         assertTrue(movieUseCase.getUserState());
     }
 
