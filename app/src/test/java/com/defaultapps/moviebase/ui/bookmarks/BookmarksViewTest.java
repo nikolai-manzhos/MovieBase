@@ -26,6 +26,7 @@ import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManage
 import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -122,12 +123,20 @@ public class BookmarksViewTest extends BaseViewTest {
 
     @Test
     public void shouldPerformCleanUpOnDestroyView() {
-        bookmarksView.favoritesAdapter = favoritesAdapter;
         removeFragmentFromFragmentManager(bookmarksView, activity);
 
         verify(presenter).onDetach();
         verify(favoritesAdapter).setOnMovieClickListener(null);
         verify(favoritesAdapter).cleanup();
+    }
+
+    @Test
+    public void shouldNotCleanAdapteOnNullReference() {
+        bookmarksView.favoritesAdapter = null;
+
+        verify(presenter).onDetach();
+        verify(favoritesAdapter, never()).setOnMovieClickListener(null);
+        verify(favoritesAdapter, never()).cleanup();
     }
 
     @Test

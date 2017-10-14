@@ -15,18 +15,18 @@ jobs:
           command: chmod +x gradlew
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: ./gradlew --no-daemon androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew clean assembleDebug assembleRelease
+          command: ./gradlew --no-daemon clean assembleDebug assembleRelease
       - run:
           name: Run Coverage
           command: |
-                   ./gradlew jacocoTestReport
+                   ./gradlew --no-daemon jacocoTestReport
                    bash <(curl -s https://codecov.io/bash)
       - store_artifacts:
           path: app/build/reports
