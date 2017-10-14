@@ -17,9 +17,9 @@ def isDebug = false;
 
 afterEvaluate {
     if (isDebug)  {
-        assembleDebug.dependsOn 'test'
+        assembleDebug.dependsOn 'testDebugUnitTest'
     } else  {
-        assembleRelease.dependsOn 'test', 'lint'
+        assembleRelease.dependsOn 'testDebugUnitTest', 'lintRelease'
     }
 }
 

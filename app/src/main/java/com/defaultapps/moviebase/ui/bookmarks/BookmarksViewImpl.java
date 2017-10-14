@@ -62,6 +62,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        presenter.onDetach();
         if (favoritesAdapter != null) {
             favoritesAdapter.setOnMovieClickListener(null);
             favoritesAdapter.cleanup();
@@ -110,7 +111,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
         favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(2,true));
         favoriteRecyclerView.setAdapter(favoritesAdapter);
-        favoritesAdapter.notifyDataSetChanged();
         favoritesAdapter.setOnMovieClickListener(this);
     }
 }
