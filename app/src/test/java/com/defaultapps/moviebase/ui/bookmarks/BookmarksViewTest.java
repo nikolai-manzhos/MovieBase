@@ -131,8 +131,9 @@ public class BookmarksViewTest extends BaseViewTest {
     }
 
     @Test
-    public void shouldNotCleanAdapteOnNullReference() {
+    public void shouldNotCleanAdapterOnNullReference() {
         bookmarksView.favoritesAdapter = null;
+        removeFragmentFromFragmentManager(bookmarksView, activity);
 
         verify(presenter).onDetach();
         verify(favoritesAdapter, never()).setOnMovieClickListener(null);
