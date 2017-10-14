@@ -152,6 +152,7 @@ dependencies {
     testCompile "io.github.benas:random-beans:$random_beans"
     testCompile "org.robolectric:robolectric:$robolectric"
     testCompile "org.robolectric:shadows-support-v4:$robolectric"
+    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
     androidTestCompile "com.android.support:appcompat-v7:$support"
     androidTestCompile "com.android.support:design:$support"
     androidTestCompile "com.android.support:cardview-v7:$support"

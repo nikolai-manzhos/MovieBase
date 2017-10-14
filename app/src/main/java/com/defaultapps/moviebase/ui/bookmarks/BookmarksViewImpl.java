@@ -18,6 +18,7 @@ import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.firebase.ui.auth.AuthUI;
 
@@ -42,6 +43,9 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
 
     @Inject
     BookmarksPresenterImpl presenter;
+
+    @Inject
+    ViewUtils viewUtils;
 
     @Inject
     @Nullable
@@ -90,7 +94,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
 
     @Override
     public void displayErrorMessage() {
-        showSnackbar(contentContainer, getString(R.string.user_delete_error));
+        viewUtils.showSnackbar(contentContainer, getString(R.string.bookmarks_delete_error));
     }
 
     @Override

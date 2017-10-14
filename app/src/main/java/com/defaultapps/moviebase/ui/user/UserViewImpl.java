@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -41,6 +42,9 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @Inject
     @Nullable
     FirebaseUser loggedUser;
+
+    @Inject
+    ViewUtils viewUtils;
 
     @Override
     protected int provideLayout() {
@@ -87,6 +91,6 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @Override
     public void displayLogoutError() {
-        showSnackbar(contentContainer, getString(R.string.user_logout_error));
+        viewUtils.showSnackbar(contentContainer, getString(R.string.user_logout_error));
     }
 }

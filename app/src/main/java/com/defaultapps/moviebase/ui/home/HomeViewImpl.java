@@ -16,6 +16,7 @@ import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.user.UserActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 
 import java.util.List;
@@ -43,6 +44,9 @@ public class HomeViewImpl extends BaseFragment
 
     @Inject
     UpcomingAdapter upcomingAdapter;
+
+    @Inject
+    ViewUtils viewUtils;
 
     @Override
     protected int provideLayout() {
@@ -95,7 +99,7 @@ public class HomeViewImpl extends BaseFragment
 
     @Override
     public void displayErrorMessage() {
-        showSnackbar(swipeRefreshLayout, "Error");
+        viewUtils.showSnackbar(swipeRefreshLayout, "Error");
     }
 
     @Override

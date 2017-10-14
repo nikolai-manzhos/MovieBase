@@ -29,6 +29,7 @@ import com.defaultapps.moviebase.ui.person.PersonActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.listener.OnPersonClickListener;
 import com.joanzapata.iconify.IconDrawable;
@@ -118,6 +119,9 @@ public class MovieViewImpl extends BaseFragment
     @Inject
     SimilarAdapter similarAdapter;
 
+    @Inject
+    ViewUtils viewUtils;
+
     private int movieId;
     private MovieInfoResponse movieInfo;
 
@@ -181,7 +185,7 @@ public class MovieViewImpl extends BaseFragment
 
     @Override
     public void displayTransactionError() {
-        showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
+        viewUtils.showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
     }
 
     @Override
