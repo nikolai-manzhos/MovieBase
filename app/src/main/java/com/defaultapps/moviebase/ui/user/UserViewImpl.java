@@ -60,6 +60,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        presenter.onDetach();
     }
 
     @OnClick(R.id.accountBtn)
