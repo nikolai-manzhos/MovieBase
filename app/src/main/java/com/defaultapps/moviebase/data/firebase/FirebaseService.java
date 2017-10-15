@@ -1,8 +1,6 @@
 package com.defaultapps.moviebase.data.firebase;
 
 
-import android.util.Log;
-
 import com.defaultapps.moviebase.data.models.firebase.Favorite;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -14,6 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
@@ -22,31 +21,31 @@ import io.reactivex.Observable;
 @Singleton
 public class FirebaseService {
 
-    private DatabaseReference databaseReference;
-    private LoggedUser loggedUser;
+    private final Provider<DatabaseReference> databaseProvider;
 
     @Inject
-    FirebaseService(DatabaseReference databaseReference, LoggedUser loggedUser) {
-        this.databaseReference = databaseReference;
-        this.loggedUser = loggedUser;
+    FirebaseService(Provider<DatabaseReference> databaseProvider) {
+        this.databaseProvider = databaseProvider;
     }
 
     public Observable<Boolean> addToFavorites(int movieId, String posterPath) {
-        checkUserNotNull();
-        return Observable.create(e -> databaseReference.push().setValue(new Favorite(movieId, posterPath)).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                e.onNext(true);
-            } else {
-                e.onError(task.getException());
-            }
-            e.onComplete();
-        }));
+        final DatabaseReference dbReference = checkDbNotNull();
+        return Observable.create(e -> dbReference.push().setValue(new Favorite(movieId, posterPath))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        e.onNext(true);
+                    } else {
+                        e.onError(task.getException());
+                    }
+                    e.onComplete();
+                })
+        );
     }
 
     public Observable<Boolean> removeFromFavorites(int movieId) throws Exception {
-        checkUserNotNull();
+        final DatabaseReference dbReference = checkDbNotNull();
         return Observable.create(e ->  {
-            Query query = databaseReference.orderByChild("favoriteMovieId").equalTo(movieId);
+            Query query = dbReference.orderByChild("favoriteMovieId").equalTo(movieId);
             query.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -59,19 +58,13 @@ public class FirebaseService {
                 }
 
                 @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
                 @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
+                public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
                 @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -84,8 +77,9 @@ public class FirebaseService {
     }
 
     public Observable<List<Integer>> fetchAllFavorites() {
+        final DatabaseReference dbReference = checkDbNotNull();
         return Observable.create(e -> {
-            Query query = databaseReference.orderByKey();
+            Query query = dbReference.orderByKey();
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,7 +96,6 @@ public class FirebaseService {
                                 );
                     } else {
                         e.onComplete();
-                        Log.d("FETCHEED SIZE", "ERROR");
                     }
                     e.onComplete();
                 }
@@ -115,10 +108,12 @@ public class FirebaseService {
         });
     }
 
-    private void checkUserNotNull() {
-        if (loggedUser.getFirebaseuser() == null) {
-            throw new UnknownUserException("No user data provided, please supply LoggedUser instance before working with db.");
+    private DatabaseReference checkDbNotNull() {
+        DatabaseReference dbReference = databaseProvider.get();
+        if (dbReference == null) {
+            throw new UnknownUserException("Database reference is NULL, check db initialization.");
         }
+        return dbReference;
     }
 
     private class UnknownUserException extends RuntimeException {

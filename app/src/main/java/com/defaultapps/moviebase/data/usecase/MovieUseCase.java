@@ -9,4 +9,5 @@ public interface MovieUseCase {
     Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force);
     Observable<ResponseOrError<Boolean>> addOrRemoveFromDatabase(int movieId, String posterPath);
     Observable<Boolean> getCurrentState(int movieId);
+    boolean getUserState();
 }

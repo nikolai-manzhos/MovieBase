@@ -16,6 +16,7 @@ import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.user.UserActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 
 import java.util.List;
@@ -25,8 +26,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 
-public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
+
+public class HomeViewImpl extends BaseFragment
+        implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
 
     @BindView(R.id.homeRecycler)
     RecyclerView homeRecycler;
@@ -42,6 +46,9 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
 
     @Inject
     UpcomingAdapter upcomingAdapter;
+
+    @Inject
+    ViewUtils viewUtils;
 
     @Override
     protected int provideLayout() {
@@ -94,7 +101,13 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
 
     @Override
     public void displayErrorMessage() {
-        showSnackbar(swipeRefreshLayout, "Error");
+        viewUtils.showSnackbar(swipeRefreshLayout, "Error");
+    }
+
+    @Override
+    public void displayProfileScreen() {
+        Intent intent = new Intent(getActivity(), UserActivity.class);
+        getActivity().startActivityForResult(intent, RC_LOGIN);
     }
 
     @Override
@@ -104,8 +117,7 @@ public class HomeViewImpl extends BaseFragment implements HomeContract.HomeView,
 
     @OnClick(R.id.profileButton)
     void onProfileClick() {
-        Intent intent = new Intent(getActivity(), UserActivity.class);
-        startActivity(intent);
+        presenter.openProfileScreen();
     }
 
     private void initRecyclerView() {

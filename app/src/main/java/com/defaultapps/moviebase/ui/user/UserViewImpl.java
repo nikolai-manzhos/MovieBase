@@ -2,15 +2,19 @@ package com.defaultapps.moviebase.ui.user;
 
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.mp.MaterialStandardPreference;
 import com.yarolegovich.mp.MaterialSwitchPreference;
@@ -26,8 +30,8 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
 
-    @BindView(R.id.logout)
-    MaterialStandardPreference logoutButton;
+    @BindView(R.id.accountBtn)
+    MaterialStandardPreference accountButton;
 
     @BindView(R.id.adultSwitch)
     MaterialSwitchPreference adultSwitch;
@@ -36,7 +40,10 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     CircleImageView userAvatar;
 
     @Inject
-    LoggedUser loggedUser;
+    UserPresenterImpl presenter;
+
+    @Inject
+    ViewUtils viewUtils;
 
     @Override
     protected int provideLayout() {
@@ -46,22 +53,19 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getFragmentComponent().inject(this);
-        setupViews();
+        presenter.onAttach(this);
+        presenter.checkUserStatus();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        presenter.onDetach();
     }
 
-    @OnClick(R.id.logout)
+    @OnClick(R.id.accountBtn)
     void onLogoutClick() {
-        if (((UserActivity) getActivity()).checkNetworkConnection()) {
-            AuthUI.getInstance().signOut(getActivity());
-            getActivity().finish();
-        } else {
-            showSnackbar(contentContainer, getString(R.string.user_logout_error));
-        }
+        presenter.performActionWithAccount();
     }
 
     @OnClick(R.id.backButton)
@@ -69,13 +73,41 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
         getActivity().onBackPressed();
     }
 
-    private void setupViews() {
-        logoutButton.setSummary(getString(R.string.user_logged_as) + " "
-                + loggedUser.getFirebaseuser().getDisplayName());
+    @Override
+    public void logoutFromAccount() {
+        AuthUI.getInstance().signOut(getActivity());
+        getActivity().finish();
+    }
+
+    @Override
+    public void displayError(@StringRes int stringId) {
+        viewUtils.showSnackbar(contentContainer, getString(stringId));
+    }
+
+    @Override
+    public void displayNoUserView() {
+        accountButton.setTitle(getString(R.string.user_login));
         Picasso
                 .with(getContext())
-                .load(loggedUser.getFirebaseuser().getPhotoUrl())
+                .load(R.drawable.placeholder_human)
+                .into(userAvatar);
+    }
+
+    @Override
+    public void displayUserInfoView(FirebaseUser firebaseUser) {
+        accountButton.setSummary(getString(R.string.user_logged_as) + " "
+                + firebaseUser.getDisplayName());
+        Picasso
+                .with(getContext())
+                .load(firebaseUser.getPhotoUrl())
                 .placeholder(R.drawable.placeholder_human)
                 .into(userAvatar);
+    }
+
+    @Override
+    public void redirectToAuth() {
+        Intent returnIntent = new Intent();
+        getActivity().setResult(Activity.RESULT_OK, returnIntent);
+        getActivity().finish();
     }
 }

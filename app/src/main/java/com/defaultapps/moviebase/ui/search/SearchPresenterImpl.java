@@ -11,7 +11,7 @@ import javax.inject.Inject;
 @PerFragment
 public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView> implements SearchContract.SearchPresenter {
 
-    private SearchUseCase searchUseCase;
+    private final SearchUseCase searchUseCase;
 
     @Inject
     SearchPresenterImpl(SearchUseCase searchUseCase) {

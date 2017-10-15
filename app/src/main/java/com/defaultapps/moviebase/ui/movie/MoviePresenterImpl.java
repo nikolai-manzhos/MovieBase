@@ -11,7 +11,7 @@ import timber.log.Timber;
 @PerFragment
 public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> implements MovieContract.MoviePresenter {
 
-    private MovieUseCase movieUseCase;
+    private final MovieUseCase movieUseCase;
 
     @Inject
     MoviePresenterImpl(MovieUseCase movieUseCase) {
@@ -52,14 +52,19 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
 
     @Override
     public void addOrRemoveFromFavorites(int movieId, String posterPath) {
-        getCompositeDisposable().add(
-                movieUseCase.addOrRemoveFromDatabase(movieId, posterPath).subscribe(
-                    responseOrError -> {
-                        if (responseOrError.isError()) {
-                            getView().displayTransactionError();
-                        }
-                    }
-                )
-        );
+        if (movieUseCase.getUserState()) {
+            getCompositeDisposable().add(
+                    movieUseCase.addOrRemoveFromDatabase(movieId, posterPath).subscribe(
+                            responseOrError -> {
+                                if (responseOrError.isError()) {
+                                    getView().displayTransactionError();
+                                }
+                            }
+                    )
+            );
+        } else {
+            getView().displayLoginScreen();
+        }
+
     }
 }

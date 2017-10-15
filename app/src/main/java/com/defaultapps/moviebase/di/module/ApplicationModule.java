@@ -3,9 +3,11 @@ package com.defaultapps.moviebase.di.module;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.support.annotation.Nullable;
 
-import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.di.ApplicationContext;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,6 +25,7 @@ public class ApplicationModule {
     }
 
     @ApplicationContext
+    @Singleton
     @Provides
     Context provideApplicationContext() {
         return application;
@@ -34,9 +37,18 @@ public class ApplicationModule {
         return application.getAssets();
     }
 
-    @Singleton
     @Provides
-    DatabaseReference provideFirebaseReference(LoggedUser loggedUser) {
-        return FirebaseDatabase.getInstance().getReference().child("users").child(loggedUser.getUserId());
+    @Nullable
+    FirebaseUser provideFirebaseUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    @Provides
+    @Nullable
+    DatabaseReference provideFirebaseReference(@Nullable FirebaseUser loggedUser) {
+        if (loggedUser == null) {
+            return null;
+        }
+        return FirebaseDatabase.getInstance().getReference().child("users").child(loggedUser.getUid());
     }
 }

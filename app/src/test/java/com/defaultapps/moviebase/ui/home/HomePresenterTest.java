@@ -107,4 +107,11 @@ public class HomePresenterTest {
 
         verify(rxBus).unsubscribe(presenter);
     }
+
+    @Test
+    public void shouldOpenLoginScreenOnNoUser() {
+        presenter.openProfileScreen();
+
+        verify(view).displayProfileScreen();
+    }
 }

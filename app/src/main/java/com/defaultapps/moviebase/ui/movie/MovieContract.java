@@ -21,6 +21,7 @@ public interface MovieContract {
         void displayMovieInfo(MovieInfoResponse movieInfo);
         void displayTransactionError();
         void setFabStatus(boolean isActive);
+        void displayLoginScreen();
     }
 
 }
