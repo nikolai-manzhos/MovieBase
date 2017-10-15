@@ -26,6 +26,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
+
 
 public class HomeViewImpl extends BaseFragment
         implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
@@ -105,7 +107,7 @@ public class HomeViewImpl extends BaseFragment
     @Override
     public void displayProfileScreen() {
         Intent intent = new Intent(getActivity(), UserActivity.class);
-        startActivity(intent);
+        getActivity().startActivityForResult(intent, RC_LOGIN);
     }
 
     @Override

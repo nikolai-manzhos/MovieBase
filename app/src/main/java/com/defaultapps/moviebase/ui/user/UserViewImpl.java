@@ -2,8 +2,11 @@ package com.defaultapps.moviebase.ui.user;
 
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -27,8 +30,8 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
 
-    @BindView(R.id.logout)
-    MaterialStandardPreference logoutButton;
+    @BindView(R.id.accountBtn)
+    MaterialStandardPreference accountButton;
 
     @BindView(R.id.adultSwitch)
     MaterialSwitchPreference adultSwitch;
@@ -38,10 +41,6 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @Inject
     UserPresenterImpl presenter;
-
-    @Inject
-    @Nullable
-    FirebaseUser loggedUser;
 
     @Inject
     ViewUtils viewUtils;
@@ -55,7 +54,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getFragmentComponent().inject(this);
         presenter.onAttach(this);
-        if (loggedUser != null) setupViews();
+        presenter.checkUserStatus();
     }
 
     @Override
@@ -63,24 +62,14 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
         super.onDestroyView();
     }
 
-    @OnClick(R.id.logout)
+    @OnClick(R.id.accountBtn)
     void onLogoutClick() {
-        presenter.logout();
+        presenter.performActionWithAccount();
     }
 
     @OnClick(R.id.backButton)
     void onBackIconClick() {
         getActivity().onBackPressed();
-    }
-
-    private void setupViews() {
-        logoutButton.setSummary(getString(R.string.user_logged_as) + " "
-                + loggedUser.getDisplayName());
-        Picasso
-                .with(getContext())
-                .load(loggedUser.getPhotoUrl())
-                .placeholder(R.drawable.placeholder_human)
-                .into(userAvatar);
     }
 
     @Override
@@ -90,7 +79,34 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     }
 
     @Override
-    public void displayLogoutError() {
-        viewUtils.showSnackbar(contentContainer, getString(R.string.user_logout_error));
+    public void displayError(@StringRes int stringId) {
+        viewUtils.showSnackbar(contentContainer, getString(stringId));
+    }
+
+    @Override
+    public void displayNoUserView() {
+        accountButton.setTitle(getString(R.string.user_login));
+        Picasso
+                .with(getContext())
+                .load(R.drawable.placeholder_human)
+                .into(userAvatar);
+    }
+
+    @Override
+    public void displayUserInfoView(FirebaseUser firebaseUser) {
+        accountButton.setSummary(getString(R.string.user_logged_as) + " "
+                + firebaseUser.getDisplayName());
+        Picasso
+                .with(getContext())
+                .load(firebaseUser.getPhotoUrl())
+                .placeholder(R.drawable.placeholder_human)
+                .into(userAvatar);
+    }
+
+    @Override
+    public void redirectToAuth() {
+        Intent returnIntent = new Intent();
+        getActivity().setResult(Activity.RESULT_OK, returnIntent);
+        getActivity().finish();
     }
 }

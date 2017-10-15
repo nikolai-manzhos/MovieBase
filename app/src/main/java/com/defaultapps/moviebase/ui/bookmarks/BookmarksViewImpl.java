@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
@@ -26,6 +25,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
+
 
 public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener {
 
@@ -82,7 +84,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
                         .setLogo(R.mipmap.ic_launcher_round)
                         .setProviders(Utils.getProvidersList())
                         .build(),
-                MainActivity.RC_SIGN_IN);
+                RC_SIGN_IN);
     }
 
     @Override

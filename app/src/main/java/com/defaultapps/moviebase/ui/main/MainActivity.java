@@ -22,10 +22,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements NavigationView {
+import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
+import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
-    public static final int RC_SIGN_IN = 1;
-    public static final int RC_LOGIN = 2;
+public class MainActivity extends BaseActivity implements NavigationView {
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
