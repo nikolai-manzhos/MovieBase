@@ -29,7 +29,6 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
     @Inject
     DiscoverPresenterImpl presenter;
 
-
     @Override
     protected int provideLayout() {
         return R.layout.fragment_discover;

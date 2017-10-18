@@ -91,7 +91,8 @@ public class BookmarksViewTest extends BaseViewTest {
         assert bookmarksView.getView() != null;
         bookmarksView.getView().findViewById(R.id.bookmarks_login_btn).performClick();
 
-        assertThat(shadowActivity.peekNextStartedActivityForResult().intent.getComponent()).isEqualTo(new ComponentName(activity, KickoffActivity.class));
+        assertThat(shadowActivity.peekNextStartedActivityForResult().intent.getComponent())
+                .isEqualTo(new ComponentName(activity, KickoffActivity.class));
     }
 
     @Test
@@ -100,7 +101,8 @@ public class BookmarksViewTest extends BaseViewTest {
         ShadowActivity shadowActivity = shadowOf(activity);
         bookmarksView.onMovieClick(FAKE_MOVIE_ID);
 
-        assertThat(shadowActivity.peekNextStartedActivity().getComponent()).isEqualTo(new ComponentName(activity, MovieActivity.class));
+        assertThat(shadowActivity.peekNextStartedActivity().getComponent())
+                .isEqualTo(new ComponentName(activity, MovieActivity.class));
     }
 
     @Test
