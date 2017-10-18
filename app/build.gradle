@@ -5,21 +5,41 @@ apply plugin: 'jacoco'
 apply from: "$rootDir/jacoco.gradle"
 
 def keystoreProperties = new Properties()
-def file = rootProject.file("keystore.properties");
-if (!file.exists()) {
+def keyFile = rootProject.file("keystore.properties")
+if (!keyFile.exists()) {
     keystoreProperties.setProperty "MovieDbSecretKey", System.getenv("MovieDbSecretKey")
     keystoreProperties.setProperty "YoutubeSecretKey", System.getenv("YoutubeSecretKey")
 } else {
-    keystoreProperties.load(new FileInputStream(file))
+    keystoreProperties.load(new FileInputStream(keyFile))
 }
 
-def isDebug = false;
+def isDebug = false
+def isSigned = false
 
 afterEvaluate {
     if (isDebug)  {
         assembleDebug.dependsOn 'testDebugUnitTest'
     } else  {
         assembleRelease.dependsOn 'testDebugUnitTest', 'lintRelease'
+    }
+
+    /*
+        Verifies if sign.properties is exists
+        If it does then set's signingConfig properties
+     */
+    def name = 'release'
+    def signProperties = new Properties()
+    def signFile = rootProject.file("sign.properties")
+    def signingConfig = android.signingConfigs[name]
+    if (signFile.exists()) {
+        isSigned = true
+        signProperties.load(new FileInputStream(signFile))
+        signingConfig.keyAlias = signProperties['KeyAlias']
+        signingConfig.keyPassword = signProperties['KeyPassword']
+        signingConfig.storeFile = file(signProperties['StoreFile'])
+        signingConfig.storePassword = signProperties['StorePassword']
+
+        android.buildTypes.release.signingConfig = signingConfig
     }
 }
 
@@ -30,8 +50,17 @@ configurations.getByName("androidTestCompile") {
 }
 
 android {
+    signingConfigs {
+        def mock = "mb" //fake property, will be replaced at runtime
+        release {
+            storeFile file(mock)
+            keyAlias mock
+            storePassword mock
+            keyPassword mock
+        }
+    }
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
@@ -45,6 +74,7 @@ android {
             debuggable false
             minifyEnabled true
             shrinkResources true
+            signingConfig null // will produce unsigned apk if no sign.properties present
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
