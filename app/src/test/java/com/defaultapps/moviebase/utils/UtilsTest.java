@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class UtilsTest {
@@ -27,6 +28,11 @@ public class UtilsTest {
     @Test
     public void convertDateFailure() throws Exception {
         assertThat(Utils.convertDate("March 2017")).isEqualTo("NaN");
+    }
+
+    @Test
+    public void shouldSupplyProvidersList() {
+        assertEquals(Utils.getProvidersList().size(), 2);
     }
 
 }

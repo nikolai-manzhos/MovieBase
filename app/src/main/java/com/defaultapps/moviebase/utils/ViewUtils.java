@@ -20,7 +20,6 @@ public class ViewUtils {
     private final Context context;
     private final Resources resources;
 
-
     @Inject
     public ViewUtils(@ApplicationContext Context context) {
         this.context = context;
