@@ -26,6 +26,7 @@ import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.listener.PaginationAdapterCallback;
@@ -37,7 +38,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-
+import timber.log.Timber;
 
 public class SearchViewImpl extends BaseFragment implements
         SearchContract.SearchView, OnBackPressedListener,
@@ -76,12 +77,17 @@ public class SearchViewImpl extends BaseFragment implements
     @Inject
     SearchAdapter searchAdapter;
 
+    @Inject
+    ViewUtils viewUtils;
+
     private MainActivity activity;
 
     private int TOTAL_PAGES = 1;
     private boolean isLoading;
     private boolean isLastPage;
     private String currentQuery;
+
+    private boolean isRestored;
 
     @Override
     public void onAttach(Context context) {
@@ -102,9 +108,10 @@ public class SearchViewImpl extends BaseFragment implements
         getFragmentComponent().inject(this);
         presenter.onAttach(this);
         activity.setOnBackPressedListener(this);
+        isRestored = savedInstanceState != null;
 
         activity.setSupportActionBar(toolbar);
-        //noinspection ConstantConditions
+        assert activity.getSupportActionBar() != null;
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         initSearchView();
         initRecyclerView();
@@ -153,21 +160,24 @@ public class SearchViewImpl extends BaseFragment implements
 
     @Override
     public void displaySearchResults(MoviesResponse moviesResponse) {
+        Timber.e("displaySearch");
         searchAdapter.setData(moviesResponse.getResults());
         TOTAL_PAGES = moviesResponse.getTotalPages();
+        isLastPage = false;
 
-        if (moviesResponse.getPage() <= TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        if (moviesResponse.getPage() < TOTAL_PAGES) searchAdapter.addLoadingFooter();
         else isLastPage = true;
     }
 
     @Override
     public void displayMoreSearchResults(MoviesResponse moviesResponse) {
+        Timber.e("Display more search");
         searchAdapter.addData(moviesResponse.getResults());
         searchRecyclerView.post(() -> searchAdapter.notifyDataSetChanged());
         searchAdapter.removeLoadingFooter();
         isLoading = false;
 
-        if (moviesResponse.getPage() <= TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        if (moviesResponse.getPage() < TOTAL_PAGES) searchAdapter.addLoadingFooter();
         else isLastPage = true;
     }
 
@@ -233,7 +243,6 @@ public class SearchViewImpl extends BaseFragment implements
         searchViewEmpty.setVisibility(View.VISIBLE);
     }
 
-
     @Override
     public void retryPageLoad() {
         presenter.requestMoreSearchResults(currentQuery);
@@ -257,7 +266,8 @@ public class SearchViewImpl extends BaseFragment implements
             Runnable workRunnable;
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                viewUtils.hideSoftKeyboard(searchView);
+                return true;
             }
 
             @Override
@@ -272,7 +282,12 @@ public class SearchViewImpl extends BaseFragment implements
             }
 
             private void sendQuery(String newText) {
-                presenter.requestSearchResults(newText, true);
+                if (isRestored) {
+                    presenter.requestSearchResults(newText, false);
+                    isRestored = false;
+                } else {
+                    presenter.requestSearchResults(newText, true);
+                }
             }
         });
     }

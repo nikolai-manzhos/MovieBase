@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.ReplaySubject;
+import io.reactivex.subjects.BehaviorSubject;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static junit.framework.Assert.assertEquals;
@@ -119,10 +119,10 @@ public class SearchUseCaseTest {
     }
 
     private void changeReplaySubject(MoviesResponse response) throws Exception {
-        Field field = SearchUseCaseImpl.class.getDeclaredField("replaySubject");
+        Field field = SearchUseCaseImpl.class.getDeclaredField("behaviorSubject");
         field.setAccessible(true);
-        field.set(searchUseCase, ReplaySubject.create(1));
+        field.set(searchUseCase, BehaviorSubject.create());
         //noinspection unchecked
-        ((ReplaySubject<MoviesResponse> ) field.get(searchUseCase)).onNext(response);
+        ((BehaviorSubject<MoviesResponse> ) field.get(searchUseCase)).onNext(response);
     }
 }

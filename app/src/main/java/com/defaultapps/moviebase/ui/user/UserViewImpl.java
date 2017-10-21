@@ -70,7 +70,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @OnClick(R.id.backButton)
     void onBackIconClick() {
-        getActivity().onBackPressed();
+        getActivity().finish();
     }
 
     @Override

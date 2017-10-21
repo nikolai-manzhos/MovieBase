@@ -12,8 +12,8 @@ import javax.inject.Singleton;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
 public class SearchUseCaseImpl implements SearchUseCase {
@@ -24,7 +24,7 @@ public class SearchUseCaseImpl implements SearchUseCase {
 
     private Disposable disposable;
     private Disposable paginationDisposable;
-    private ReplaySubject<MoviesResponse> replaySubject;
+    private BehaviorSubject<MoviesResponse> behaviorSubject;
 
     @Inject
     SearchUseCaseImpl(NetworkService networkService,
@@ -39,13 +39,13 @@ public class SearchUseCaseImpl implements SearchUseCase {
     public Observable<MoviesResponse> requestSearchResults(String query, boolean force) {
         if (force && disposable != null) disposable.dispose();
         if (disposable == null || disposable.isDisposed()) {
-            replaySubject = ReplaySubject.create();
+            behaviorSubject = BehaviorSubject.create();
 
             disposable = network(query, 1)
                     .compose(schedulerProvider.applyIoSchedulers())
-                    .subscribe(replaySubject::onNext, replaySubject::onError);
+                    .subscribe(behaviorSubject::onNext, behaviorSubject::onError);
         }
-        return replaySubject;
+        return behaviorSubject;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class SearchUseCaseImpl implements SearchUseCase {
         if (paginationDisposable != null && !paginationDisposable.isDisposed()) {
             paginationDisposable.dispose();
         }
-        MoviesResponse previousResult = replaySubject.getValue();
+        MoviesResponse previousResult = behaviorSubject.getValue();
         PublishSubject<MoviesResponse> paginationResult = PublishSubject.create();
         paginationDisposable = network(query, previousResult.getPage() + 1)
                 .map(moviesResponse -> {
@@ -65,7 +65,8 @@ public class SearchUseCaseImpl implements SearchUseCase {
                 .subscribe(
                         response -> {
                             paginationResult.onNext(response);
-                            replaySubject.onNext(response);
+                            behaviorSubject = BehaviorSubject.create();
+                            behaviorSubject.onNext(response);
                         },
                         paginationResult::onError
                 );
@@ -73,7 +74,8 @@ public class SearchUseCaseImpl implements SearchUseCase {
     }
 
     private Single<MoviesResponse> network(String query, int page) {
-        String API_KEY = BuildConfig.MDB_API_KEY;
-        return networkService.getNetworkCall().getSearchQuery(API_KEY, "en-Us", query, page, preferencesManager.getAdultStatus());
+        final String API_KEY = BuildConfig.MDB_API_KEY;
+        return networkService.getNetworkCall()
+                .getSearchQuery(API_KEY, "en-Us", query, page, preferencesManager.getAdultStatus());
     }
 }
