@@ -38,7 +38,6 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import timber.log.Timber;
 
 public class SearchViewImpl extends BaseFragment implements
         SearchContract.SearchView, OnBackPressedListener,
@@ -160,7 +159,6 @@ public class SearchViewImpl extends BaseFragment implements
 
     @Override
     public void displaySearchResults(MoviesResponse moviesResponse) {
-        Timber.e("displaySearch");
         searchAdapter.setData(moviesResponse.getResults());
         TOTAL_PAGES = moviesResponse.getTotalPages();
         isLastPage = false;
@@ -171,7 +169,6 @@ public class SearchViewImpl extends BaseFragment implements
 
     @Override
     public void displayMoreSearchResults(MoviesResponse moviesResponse) {
-        Timber.e("Display more search");
         searchAdapter.addData(moviesResponse.getResults());
         searchRecyclerView.post(() -> searchAdapter.notifyDataSetChanged());
         searchAdapter.removeLoadingFooter();

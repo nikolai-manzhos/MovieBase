@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -26,7 +25,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView, OnMovieClickListener, PaginationAdapterCallback {
+public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView,
+        OnMovieClickListener, PaginationAdapterCallback {
 
     @BindView(R.id.toolbarText)
     TextView toolbarText;
@@ -50,7 +50,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     GenreAdapter adapter;
 
     private String genreId;
-    private final int TOTAL_PAGES = 100;
+    private int TOTAL_PAGES = 1;
     private boolean isLoading;
     private boolean isLastPage;
 
@@ -83,7 +83,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @OnClick(R.id.backButton)
     void onBackIconClick() {
-        getActivity().onBackPressed();
+        getActivity().finish();
     }
 
     @OnClick(R.id.errorButton)
@@ -95,15 +95,16 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     public void onMovieClick(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class);
         intent.putExtra(AppConstants.MOVIE_ID, movieId);
-        getActivity().startActivity(intent);
+        startActivity(intent);
     }
 
     @Override
     public void showMovies(MoviesResponse movies) {
         adapter.setData(movies.getResults());
-        Log.d("GenreView", String.valueOf(movies.getResults().size()));
+        TOTAL_PAGES = movies.getTotalPages();
+        isLastPage = false;
 
-        if (movies.getPage() <= TOTAL_PAGES) adapter.addLoadingFooter();
+        if (movies.getPage() < TOTAL_PAGES) adapter.addLoadingFooter();
         else isLastPage = true;
     }
 
@@ -114,7 +115,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         adapter.removeLoadingFooter();
         isLoading = false;
 
-        if (movies.getPage() <= TOTAL_PAGES) adapter.addLoadingFooter();
+        if (movies.getPage() < TOTAL_PAGES) adapter.addLoadingFooter();
         else isLastPage = true;
     }
 

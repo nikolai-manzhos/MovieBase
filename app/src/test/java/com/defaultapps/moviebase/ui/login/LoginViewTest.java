@@ -21,18 +21,6 @@ public class LoginViewTest extends BaseViewTest {
 
     private LoginViewImpl loginView;
 
-    @NonNull
-    @Override
-    protected Class provideActivityClass() {
-        return BaseActivity.class;
-    }
-
-    @Nullable
-    @Override
-    protected Intent provideActivityIntent() {
-        return null;
-    }
-
     @Override
     protected Integer provideLayoutId() {
         return R.layout.activity_main;

@@ -38,9 +38,8 @@ public abstract class BaseViewTest {
     public void setup() throws NoSuchFieldException, IllegalAccessException {
         @SuppressWarnings("unchecked")
         ActivityController<BaseActivity> controller = Robolectric.buildActivity(
-                provideActivityClass(),
-                provideActivityIntent()
-        );
+                BaseActivity.class,
+                null);
         activity = controller.get();
         activityComponent = mock(ActivityComponent.class);
         fragmentComponent = mock(FragmentComponent.class);
@@ -57,12 +56,6 @@ public abstract class BaseViewTest {
         activityComponentField.set(activity, activityComponent);
         when(activityComponent.plusFragmentComponent()).thenReturn(fragmentComponent);
     }
-
-    @NonNull
-    protected abstract Class provideActivityClass();
-
-    @Nullable
-    protected abstract Intent provideActivityIntent();
 
     @LayoutRes
     protected abstract Integer provideLayoutId();
