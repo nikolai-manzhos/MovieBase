@@ -1,14 +1,11 @@
 package com.defaultapps.moviebase.ui.discover;
 
 import android.content.ComponentName;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.BaseViewTest;
-import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
 
 import org.junit.Test;
@@ -31,18 +28,6 @@ public class DiscoverViewTest extends BaseViewTest {
     private DiscoverPresenterImpl discoverPresenter;
 
     private DiscoverViewImpl discoverView;
-
-    @NonNull
-    @Override
-    protected Class provideActivityClass() {
-        return BaseActivity.class;
-    }
-
-    @Nullable
-    @Override
-    protected Intent provideActivityIntent() {
-        return null;
-    }
 
     @Override
     protected Integer provideLayoutId() {

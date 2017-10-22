@@ -39,18 +39,6 @@ public class UserViewTest extends BaseViewTest {
         addFragmentToFragmentManager(userView, activity, R.id.contentFrame);
     }
 
-    @NonNull
-    @Override
-    protected Class provideActivityClass() {
-        return BaseActivity.class;
-    }
-
-    @Nullable
-    @Override
-    protected Intent provideActivityIntent() {
-        return null;
-    }
-
     @Override
     protected Integer provideLayoutId() {
         return R.layout.activity_main;

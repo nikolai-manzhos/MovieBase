@@ -42,18 +42,6 @@ public class BookmarksViewTest extends BaseViewTest {
     private BookmarksViewImpl bookmarksView;
     @IdRes private static final int container = R.id.contentFrame;
 
-    @NonNull
-    @Override
-    protected Class provideActivityClass() {
-        return BaseActivity.class;
-    }
-
-    @Nullable
-    @Override
-    protected Intent provideActivityIntent() {
-        return null;
-    }
-
     @Override
     protected Integer provideLayoutId() {
         return R.layout.activity_main;
