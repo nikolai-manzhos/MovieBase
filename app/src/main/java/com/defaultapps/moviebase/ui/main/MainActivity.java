@@ -50,7 +50,6 @@ public class MainActivity extends BaseActivity implements NavigationView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 selectItem(bottomBar.getCurrentTabId());
@@ -60,7 +59,6 @@ public class MainActivity extends BaseActivity implements NavigationView {
             }
         } else if (requestCode == RC_LOGIN) {
             if (resultCode == RESULT_OK) {
-                //redirect to login activity
                 startActivityForResult(
                         AuthUI.getInstance()
                                 .createSignInIntentBuilder()
@@ -85,7 +83,7 @@ public class MainActivity extends BaseActivity implements NavigationView {
     @Override
     protected void onResume() {
         super.onResume();
-        initBottomBar();
+        bottomBar.setOnTabSelectListener(this::selectItem, false);
     }
 
     @Override
@@ -102,10 +100,6 @@ public class MainActivity extends BaseActivity implements NavigationView {
     public void displayLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RC_LOGIN);
-    }
-
-    private void initBottomBar() {
-        bottomBar.setOnTabSelectListener(this::selectItem, false);
     }
 
     private void selectItem(int tabId) {
