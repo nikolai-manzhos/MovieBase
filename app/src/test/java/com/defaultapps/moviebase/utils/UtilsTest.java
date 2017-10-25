@@ -6,7 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class UtilsTest {
 
@@ -22,12 +21,12 @@ public class UtilsTest {
     public void convertDateTestSuccess() throws Exception {
         final String RAW_DATE = "2017-01-21";
         final String EXPECTED_RESULT = " January-21, 2017";
-        assertThat(Utils.convertDate(RAW_DATE)).isEqualTo(EXPECTED_RESULT);
+        assertEquals(Utils.convertDate(RAW_DATE), EXPECTED_RESULT);
     }
 
     @Test
     public void convertDateFailure() throws Exception {
-        assertThat(Utils.convertDate("March 2017")).isEqualTo("NaN");
+        assertEquals(Utils.convertDate("March 2017"), "NaN");
     }
 
     @Test

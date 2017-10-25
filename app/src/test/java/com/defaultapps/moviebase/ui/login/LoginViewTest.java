@@ -1,13 +1,9 @@
 package com.defaultapps.moviebase.ui.login;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseViewTest;
-import com.defaultapps.moviebase.ui.base.BaseActivity;
 
 import org.junit.Test;
 import org.robolectric.shadows.ShadowActivity;

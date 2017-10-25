@@ -2,7 +2,6 @@ package com.defaultapps.moviebase.ui.discover;
 
 import android.content.ComponentName;
 
-
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.BaseViewTest;
@@ -15,7 +14,7 @@ import org.robolectric.shadows.ShadowActivity;
 
 import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -60,8 +59,8 @@ public class DiscoverViewTest extends BaseViewTest {
         final String FAKE_GENRE_NAME = "Movie";
         discoverView.onItemClick(FAKE_GENRE_ID, FAKE_GENRE_NAME);
 
-        assertThat(shadowActivity.peekNextStartedActivity().getComponent())
-                .isEqualTo(new ComponentName(activity, GenreActivity.class));
+        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
+                new ComponentName(activity, GenreActivity.class));
     }
 
     @Test

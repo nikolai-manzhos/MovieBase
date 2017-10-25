@@ -17,7 +17,6 @@ import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManage
 import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
@@ -83,8 +82,8 @@ public class GenreViewTest extends BaseViewTest {
         assertEquals(shadowActivity.peekNextStartedActivity().getIntExtra(AppConstants.MOVIE_ID, 0),
                 FAKE_MOVIE_ID);
 
-        assertThat(shadowActivity.peekNextStartedActivity().getComponent())
-                .isEqualTo(new ComponentName(activity, MovieActivity.class));
+        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
+                new ComponentName(activity, MovieActivity.class));
     }
 
     @Test
