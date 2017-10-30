@@ -131,62 +131,79 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$support"
-    implementation "com.android.support:preference-v7:$support"
-    implementation "com.android.support:design:$support"
-    implementation "com.android.support:cardview-v7:$support"
-    implementation "com.android.support:customtabs:$support"
-    implementation "com.android.support.constraint:constraint-layout:$constraintLayout"
-    implementation "com.roughike:bottom-bar:$bottomBar"
-    //ButterKnife
-    implementation "com.jakewharton:butterknife:$butterKnife"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
-    //Dagger 2
-    implementation "com.google.dagger:dagger:$dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
-    //RxJava 2
-    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid"
-    implementation "io.reactivex.rxjava2:rxjava:$rxjava"
-    //Retrofit 2
-    implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    //Firebase
-    implementation "com.google.firebase:firebase-core:$firebase"
-    implementation "com.firebaseui:firebase-ui-auth:$firebaseUi"
-    implementation "com.firebaseui:firebase-ui-database:$firebaseUi"
-    //LeakCanary
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
-    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
-    //Timber
-    implementation "com.jakewharton.timber:timber:$timber"
-    //Prefs
-    implementation "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs"
-    //Picasso
-    implementation "com.squareup.picasso:picasso:$rootProject.picasso"
-    //Iconify
-    implementation "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify"
-    //Custom UI libraries
-    implementation "de.hdodenhof:circleimageview:$circle"
-    implementation "com.thefinestartist:ytpa:$youtube"
-    implementation "com.yarolegovich:mp:$materialPref"
-    implementation "com.miguelcatalan:materialsearchview:$materialSearch"
-    implementation "com.ms-square:expandableTextView:$expTextView"
+    implementation(
+            "com.android.support:appcompat-v7:$support",
+            "com.android.support:preference-v7:$support",
+            "com.android.support:design:$support",
+            "com.android.support:cardview-v7:$support",
+            "com.android.support:customtabs:$support",
+            "com.android.support.constraint:constraint-layout:$constraintLayout",
+            "com.roughike:bottom-bar:$bottomBar",
+            //ButterKnife
+            "com.jakewharton:butterknife:$butterKnife",
+            //Dagger 2
+            "com.google.dagger:dagger:$dagger",
+            //RxJava 2
+            "io.reactivex.rxjava2:rxandroid:$rxandroid",
+            "io.reactivex.rxjava2:rxjava:$rxjava",
+            //Retrofit 2
+            "com.squareup.retrofit2:retrofit:$retrofit",
+            "com.squareup.retrofit2:converter-gson:$retrofit",
+            "com.squareup.retrofit2:adapter-rxjava2:$retrofit",
+            "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+            //Firebase
+            "com.google.firebase:firebase-core:$firebase",
+            "com.firebaseui:firebase-ui-auth:$firebaseUi",
+            "com.firebaseui:firebase-ui-database:$firebaseUi",
+            //Timber
+            "com.jakewharton.timber:timber:$timber",
+            //Prefs
+            "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs",
+            //Picasso
+            "com.squareup.picasso:picasso:$rootProject.picasso",
+            //Iconify
+            "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify",
+            //Custom UI libraries
+            "de.hdodenhof:circleimageview:$circle",
+            "com.thefinestartist:ytpa:$youtube",
+            "com.yarolegovich:mp:$materialPref",
+            "com.miguelcatalan:materialsearchview:$materialSearch",
+            "com.ms-square:expandableTextView:$expTextView"
+    )
+}
 
+dependencies {
+    annotationProcessor(
+            "com.jakewharton:butterknife-compiler:$butterKnife",
+            "com.google.dagger:dagger-compiler:$dagger"
+    )
+}
 
-    testImplementation "junit:junit:$junit"
-    testImplementation "org.mockito:mockito-core:$mockito"
-    testImplementation "io.github.benas:random-beans:$random_beans"
-    testImplementation "org.robolectric:robolectric:$robolectric"
-    testImplementation "org.robolectric:shadows-support-v4:$robolectric_shadow"
-    androidTestImplementation "com.android.support:appcompat-v7:$support"
-    androidTestImplementation "com.android.support:design:$support"
-    androidTestImplementation "com.android.support:cardview-v7:$support"
+dependencies {
+    debugImplementation (
+            //LeakCanary
+            "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+    )
+}
+
+dependencies {
+    testImplementation (
+            "junit:junit:$junit",
+            "org.mockito:mockito-core:$mockito",
+            "io.github.benas:random-beans:$random_beans",
+            "org.robolectric:robolectric:$robolectric",
+            "org.robolectric:shadows-support-v4:$robolectric_shadow",
+            "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
+    )
+}
+
+dependencies {
+    androidTestImplementation (
+            "com.android.support.test.espresso:espresso-contrib:$espresso",
+            "org.mockito:mockito-core:$mockito"
+    )
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espresso"
-    androidTestImplementation "org.mockito:mockito-core:$mockito"
 }
 apply plugin: 'com.google.gms.google-services'
