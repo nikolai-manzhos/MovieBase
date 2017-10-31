@@ -19,20 +19,18 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView>
     private final RxBus rxBus;
 
     @Inject
-    public HomePresenterImpl(HomeUseCase homeUseCase, RxBus rxBus) {
+    HomePresenterImpl(HomeUseCase homeUseCase, RxBus rxBus) {
         this.homeUseCase = homeUseCase;
         this.rxBus = rxBus;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onAttach(HomeContract.HomeView view) {
         super.onAttach(view);
         rxBus.subscribe(AppConstants.HOME_INSTANT_CACHE,
                 this,
-                response -> {
-                    //noinspection unchecked
-                    getView().receiveResults((List<MoviesResponse>) response);
-                });
+                response -> getView().receiveResults((List<MoviesResponse>) response));
     }
 
     @Override

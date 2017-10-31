@@ -34,7 +34,6 @@ public class SimpleItemDecorator extends RecyclerView.ItemDecoration {
                 outRect.top = space;
             else
                 outRect.top = 0;
-
         }
     }
 

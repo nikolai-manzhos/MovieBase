@@ -1,25 +1,44 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 
 apply plugin: 'jacoco'
 apply from: "$rootDir/jacoco.gradle"
 
 def keystoreProperties = new Properties()
-def file = rootProject.file("keystore.properties");
-if (!file.exists()) {
+def keyFile = rootProject.file("keystore.properties")
+if (!keyFile.exists()) {
     keystoreProperties.setProperty "MovieDbSecretKey", System.getenv("MovieDbSecretKey")
     keystoreProperties.setProperty "YoutubeSecretKey", System.getenv("YoutubeSecretKey")
 } else {
-    keystoreProperties.load(new FileInputStream(file))
+    keystoreProperties.load(new FileInputStream(keyFile))
 }
 
-def isDebug = false;
+def isDebug = false
+def isSigned = false
 
 afterEvaluate {
     if (isDebug)  {
         assembleDebug.dependsOn 'testDebugUnitTest'
     } else  {
         assembleRelease.dependsOn 'testDebugUnitTest', 'lintRelease'
+    }
+
+    /*
+        Verifies if sign.properties is exists
+        If it does then set's signingConfig properties
+     */
+    def name = 'release'
+    def signProperties = new Properties()
+    def signFile = rootProject.file("sign.properties")
+    def signingConfig = android.signingConfigs[name]
+    if (signFile.exists()) {
+        isSigned = true
+        signProperties.load(new FileInputStream(signFile))
+        signingConfig.keyAlias = signProperties['KeyAlias']
+        signingConfig.keyPassword = signProperties['KeyPassword']
+        signingConfig.storeFile = file(signProperties['StoreFile'])
+        signingConfig.storePassword = signProperties['StorePassword']
+
+        android.buildTypes.release.signingConfig = signingConfig
     }
 }
 
@@ -30,8 +49,17 @@ configurations.getByName("androidTestCompile") {
 }
 
 android {
+    signingConfigs {
+        def mock = "mb" //fake property, will be replaced at runtime
+        release {
+            storeFile file(mock)
+            keyAlias mock
+            storePassword mock
+            keyPassword mock
+        }
+    }
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
@@ -45,6 +73,7 @@ android {
             debuggable false
             minifyEnabled true
             shrinkResources true
+            signingConfig null // will produce unsigned apk if no sign.properties present
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -78,6 +107,7 @@ android {
                             "${resPath}/layouts/custom_views",
                             "${resPath}/layouts/user",
                             "${resPath}/layouts/person",
+                            "${resPath}/layouts/login",
                             "${resPath}/layouts",
                             "${resPath}"
                     ]
@@ -101,65 +131,79 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:appcompat-v7:$support"
-    compile "com.android.support:preference-v7:$support"
-    compile "com.android.support:design:$support"
-    compile "com.android.support:cardview-v7:$support"
-    compile "com.android.support:customtabs:$support"
-    compile "com.android.support.constraint:constraint-layout:$constraintLayout"
-    compile "com.roughike:bottom-bar:$bottomBar"
-    //ButterKnife
-    compile "com.jakewharton:butterknife:$butterKnife"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnife"
-    //Dagger 2
-    compile "com.google.dagger:dagger:$dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
-    //RxJava 2
-    compile "io.reactivex.rxjava2:rxandroid:$rxandroid"
-    compile "io.reactivex.rxjava2:rxjava:$rxjava"
-    //Retrofit 2
-    compile "com.squareup.retrofit2:retrofit:$retrofit"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-    //Firebase
-    compile "com.google.firebase:firebase-core:$firebase"
-    compile "com.firebaseui:firebase-ui-auth:$firebaseUi"
-    compile "com.firebaseui:firebase-ui-database:$firebaseUi"
-    //LeakCanary
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
-    //Timber
-    compile "com.jakewharton.timber:timber:$timber"
-    //Prefs
-    compile "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs"
-    //Picasso
-    compile "com.squareup.picasso:picasso:$rootProject.picasso"
-    //Iconify
-    compile "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify"
-    //Custom UI libraries
-    compile "de.hdodenhof:circleimageview:$circle"
-    compile "com.thefinestartist:ytpa:$youtube"
-    compile "com.yarolegovich:mp:$materialPref"
-    compile "com.miguelcatalan:materialsearchview:$materialSearch"
-    compile "com.ms-square:expandableTextView:$expTextView"
+    implementation(
+            "com.android.support:appcompat-v7:$support",
+            "com.android.support:preference-v7:$support",
+            "com.android.support:design:$support",
+            "com.android.support:cardview-v7:$support",
+            "com.android.support:customtabs:$support",
+            "com.android.support.constraint:constraint-layout:$constraintLayout",
+            "com.roughike:bottom-bar:$bottomBar",
+            //ButterKnife
+            "com.jakewharton:butterknife:$butterKnife",
+            //Dagger 2
+            "com.google.dagger:dagger:$dagger",
+            //RxJava 2
+            "io.reactivex.rxjava2:rxandroid:$rxandroid",
+            "io.reactivex.rxjava2:rxjava:$rxjava",
+            //Retrofit 2
+            "com.squareup.retrofit2:retrofit:$retrofit",
+            "com.squareup.retrofit2:converter-gson:$retrofit",
+            "com.squareup.retrofit2:adapter-rxjava2:$retrofit",
+            "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+            //Firebase
+            "com.google.firebase:firebase-core:$firebase",
+            "com.firebaseui:firebase-ui-auth:$firebaseUi",
+            "com.firebaseui:firebase-ui-database:$firebaseUi",
+            //Timber
+            "com.jakewharton.timber:timber:$timber",
+            //Prefs
+            "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs",
+            //Picasso
+            "com.squareup.picasso:picasso:$rootProject.picasso",
+            //Iconify
+            "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify",
+            //Custom UI libraries
+            "de.hdodenhof:circleimageview:$circle",
+            "com.thefinestartist:ytpa:$youtube",
+            "com.yarolegovich:mp:$materialPref",
+            "com.miguelcatalan:materialsearchview:$materialSearch",
+            "com.ms-square:expandableTextView:$expTextView"
+    )
+}
 
+dependencies {
+    annotationProcessor(
+            "com.jakewharton:butterknife-compiler:$butterKnife",
+            "com.google.dagger:dagger-compiler:$dagger"
+    )
+}
 
+dependencies {
+    debugImplementation (
+            //LeakCanary
+            "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+    )
+}
 
-    testCompile "junit:junit:$junit"
-    testCompile "org.mockito:mockito-core:$mockito"
-    testCompile "io.github.benas:random-beans:$random_beans"
-    testCompile "org.robolectric:robolectric:$robolectric"
-    testCompile "org.robolectric:shadows-support-v4:$robolectric"
-    testCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
-    androidTestCompile "com.android.support:appcompat-v7:$support"
-    androidTestCompile "com.android.support:design:$support"
-    androidTestCompile "com.android.support:cardview-v7:$support"
-    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso", {
+dependencies {
+    testImplementation (
+            "junit:junit:$junit",
+            "org.mockito:mockito-core:$mockito",
+            "io.github.benas:random-beans:$random_beans",
+            "org.robolectric:robolectric:$robolectric",
+            "org.robolectric:shadows-support-v4:$robolectric_shadow",
+            "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
+    )
+}
+
+dependencies {
+    androidTestImplementation (
+            "com.android.support.test.espresso:espresso-contrib:$espresso",
+            "org.mockito:mockito-core:$mockito"
+    )
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espresso"
-    androidTestCompile "org.mockito:mockito-core:$mockito"
 }
 apply plugin: 'com.google.gms.google-services'

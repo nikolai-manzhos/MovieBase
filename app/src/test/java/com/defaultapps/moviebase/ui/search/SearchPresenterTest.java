@@ -15,7 +15,6 @@ import io.reactivex.schedulers.TestScheduler;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -79,7 +78,7 @@ public class SearchPresenterTest {
         verify(view, times(2)).hideData();
         verify(view).showError();
         verify(view, never()).showData();
-        verify(view, never()).displaySearchResults(anyObject());
+        verify(view, never()).displaySearchResults(any(MoviesResponse.class));
     }
 
     @Test

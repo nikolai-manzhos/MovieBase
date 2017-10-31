@@ -75,7 +75,6 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     CreditsCrewAdapter crewAdapter;
 
 
-
     public static PersonViewImpl createInstance(int staffId) {
         PersonViewImpl staffView = new PersonViewImpl();
         Bundle bundle = new Bundle();

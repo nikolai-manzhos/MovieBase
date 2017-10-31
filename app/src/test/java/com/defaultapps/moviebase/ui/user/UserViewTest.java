@@ -1,20 +1,21 @@
 package com.defaultapps.moviebase.ui.user;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.app.Activity;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseViewTest;
-import com.defaultapps.moviebase.ui.base.BaseActivity;
 
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.shadows.ShadowActivity;
 
 import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
+import static org.robolectric.Shadows.shadowOf;
 
 
 public class UserViewTest extends BaseViewTest {
@@ -34,18 +35,6 @@ public class UserViewTest extends BaseViewTest {
         addFragmentToFragmentManager(userView, activity, R.id.contentFrame);
     }
 
-    @NonNull
-    @Override
-    protected Class provideActivityClass() {
-        return BaseActivity.class;
-    }
-
-    @Nullable
-    @Override
-    protected Intent provideActivityIntent() {
-        return null;
-    }
-
     @Override
     protected Integer provideLayoutId() {
         return R.layout.activity_main;
@@ -63,5 +52,23 @@ public class UserViewTest extends BaseViewTest {
         removeFragmentFromFragmentManager(userView, activity);
 
         verify(presenter).onDetach();
+    }
+
+    @Test
+    public void shouldRedirectToAuth() {
+        ShadowActivity shadowActivity = shadowOf(activity);
+        userView.redirectToAuth();
+
+        assertEquals(Activity.RESULT_OK, shadowActivity.getResultCode());
+        assertTrue(shadowActivity.isFinishing());
+    }
+
+    @Test
+    public void shouldCloseActivityOnBackClick() {
+        ShadowActivity shadowActivity = shadowOf(activity);
+        assert userView.getView() != null;
+        userView.getView().findViewById(R.id.backButton).performClick();
+
+        assertTrue(shadowActivity.isFinishing());
     }
 }

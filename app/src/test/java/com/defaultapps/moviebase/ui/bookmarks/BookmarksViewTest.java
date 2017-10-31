@@ -1,16 +1,12 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
 import android.content.ComponentName;
-import android.content.Intent;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseViewTest;
-import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.KickoffActivity;
@@ -24,7 +20,7 @@ import org.robolectric.shadows.ShadowActivity;
 
 import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -41,18 +37,6 @@ public class BookmarksViewTest extends BaseViewTest {
 
     private BookmarksViewImpl bookmarksView;
     @IdRes private static final int container = R.id.contentFrame;
-
-    @NonNull
-    @Override
-    protected Class provideActivityClass() {
-        return BaseActivity.class;
-    }
-
-    @Nullable
-    @Override
-    protected Intent provideActivityIntent() {
-        return null;
-    }
 
     @Override
     protected Integer provideLayoutId() {
@@ -91,7 +75,8 @@ public class BookmarksViewTest extends BaseViewTest {
         assert bookmarksView.getView() != null;
         bookmarksView.getView().findViewById(R.id.bookmarks_login_btn).performClick();
 
-        assertThat(shadowActivity.peekNextStartedActivityForResult().intent.getComponent()).isEqualTo(new ComponentName(activity, KickoffActivity.class));
+        assertEquals(shadowActivity.peekNextStartedActivityForResult().intent.getComponent(),
+                new ComponentName(activity, KickoffActivity.class));
     }
 
     @Test
@@ -100,7 +85,8 @@ public class BookmarksViewTest extends BaseViewTest {
         ShadowActivity shadowActivity = shadowOf(activity);
         bookmarksView.onMovieClick(FAKE_MOVIE_ID);
 
-        assertThat(shadowActivity.peekNextStartedActivity().getComponent()).isEqualTo(new ComponentName(activity, MovieActivity.class));
+        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
+                new ComponentName(activity, MovieActivity.class));
     }
 
     @Test

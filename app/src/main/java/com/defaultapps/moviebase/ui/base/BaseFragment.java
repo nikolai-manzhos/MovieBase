@@ -2,7 +2,6 @@ package com.defaultapps.moviebase.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,18 +21,16 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     private ComponentActivity componentActivity;
     private FragmentComponent fragmentComponent;
 
-    @CallSuper
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof ComponentActivity) {
             componentActivity = (ComponentActivity) context;
         } else {
-            throw new IllegalStateException("This activity need to be inherited from BaseActivity");
+            throw new IllegalStateException("Host activity must implement ComponentActivity interface.");
         }
     }
 
-    @CallSuper
     @Override
     public void onDetach() {
         super.onDetach();
@@ -64,7 +61,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     @Override
     public void hideLoading() {}
 
-    protected FragmentComponent getFragmentComponent() {
+    protected final FragmentComponent getFragmentComponent() {
         return fragmentComponent;
     }
 }

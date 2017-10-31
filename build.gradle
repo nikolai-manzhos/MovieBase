@@ -1,10 +1,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
         classpath 'com.google.gms:google-services:3.1.0'
     }
@@ -13,8 +13,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
         maven { url 'https://maven.fabric.io/public' }
-        maven { url 'https://maven.google.com' }
         maven { url 'https://jitpack.io' }
     }
 }
@@ -24,10 +24,10 @@ task clean(type: Delete) {
 }
 
 ext {
-    support = '26.0.1' //25.3.0 previous stable working
+    support = '26.1.0' //25.3.0 previous stable working
     constraintLayout = '1.0.2'
     bottomBar = '2.3.1'
-    butterKnife = '8.5.1'
+    butterKnife = '8.8.1'
     dagger = '2.9'
     rxjava = '2.0.7'
     retrofit = '2.3.0'
@@ -50,5 +50,6 @@ ext {
     random_beans = '3.7.0'
     espresso = '3.0.0'
     mockito = '2.8.47'
-    robolectric = '3.3.2'
+    robolectric = '3.5'
+    robolectric_shadow = '3.4-rc2'
 }

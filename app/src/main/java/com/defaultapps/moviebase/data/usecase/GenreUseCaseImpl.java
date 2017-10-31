@@ -66,6 +66,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
                 })
                 .subscribe(moviesResponse -> {
                     publishSubject.onNext(moviesResponse);
+                    genreBehaviorSubject = BehaviorSubject.create();
                     genreBehaviorSubject.onNext(moviesResponse);
                 }, publishSubject::onError);
         return publishSubject;
