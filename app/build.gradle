@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'jacoco'
-apply from: "$rootDir/jacoco.gradle"
+apply from: "$rootDir/tools/jacoco.gradle"
+apply from: "$rootDir/tools/signing.gradle"
 
 def keystoreProperties = new Properties()
 def keyFile = rootProject.file("keystore.properties")
@@ -13,32 +13,12 @@ if (!keyFile.exists()) {
 }
 
 def isDebug = false
-def isSigned = false
 
 afterEvaluate {
     if (isDebug)  {
         assembleDebug.dependsOn 'testDebugUnitTest'
-    } else  {
+    } else {
         assembleRelease.dependsOn 'testDebugUnitTest', 'lintRelease'
-    }
-
-    /*
-        Verifies if sign.properties is exists
-        If it does then set's signingConfig properties
-     */
-    def name = 'release'
-    def signProperties = new Properties()
-    def signFile = rootProject.file("sign.properties")
-    def signingConfig = android.signingConfigs[name]
-    if (signFile.exists()) {
-        isSigned = true
-        signProperties.load(new FileInputStream(signFile))
-        signingConfig.keyAlias = signProperties['KeyAlias']
-        signingConfig.keyPassword = signProperties['KeyPassword']
-        signingConfig.storeFile = file(signProperties['StoreFile'])
-        signingConfig.storePassword = signProperties['StorePassword']
-
-        android.buildTypes.release.signingConfig = signingConfig
     }
 }
 
@@ -85,7 +65,6 @@ android {
             testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
     }
     buildTypes.each {
         it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']

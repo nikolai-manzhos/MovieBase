@@ -85,8 +85,6 @@ public class HomeViewImpl extends BaseFragment
     @Override
     public void receiveResults(List<MoviesResponse> results) {
         adapter.setData(results);
-        adapter.setMovieClickListener(this);
-        upcomingAdapter.setMovieClickListener(this);
     }
 
     @Override
@@ -123,5 +121,7 @@ public class HomeViewImpl extends BaseFragment
     private void initRecyclerView() {
         homeRecycler.setAdapter(adapter);
         homeRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter.setMovieClickListener(this);
+        upcomingAdapter.setMovieClickListener(this);
     }
 }

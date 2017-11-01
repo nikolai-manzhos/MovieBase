@@ -1,12 +1,14 @@
 buildscript {
+    apply from: "tools/dependencies.gradle"
+
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
-        classpath 'com.google.gms:google-services:3.1.0'
+        classpath "com.android.tools.build:gradle:$androidPlugin"
+        classpath "com.dicedmelon.gradle:jacoco-android:$jacocoGradle"
+        classpath "com.google.gms:google-services:$gmsServices"
     }
 }
 
@@ -21,35 +23,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-    support = '26.1.0' //25.3.0 previous stable working
-    constraintLayout = '1.0.2'
-    bottomBar = '2.3.1'
-    butterKnife = '8.8.1'
-    dagger = '2.9'
-    rxjava = '2.0.7'
-    retrofit = '2.3.0'
-    rxandroid ='2.0.1'
-    firebase = '10.2.0'
-    firebaseUi = '1.2.0'
-    leakcanary = '1.5.1'
-    okhttpVersion = '3.6.0'
-    picasso = '2.5.2'
-    iconify = '2.2.2'
-    circle = '2.1.0'
-    youtube = '1.2.1'
-    materialPref = '1.0.5'
-    materialSearch = '1.4.0'
-    prefs = "2.0"
-    expTextView = '0.1.4'
-    timber = '4.5.1'
-
-    junit = '4.12'
-    random_beans = '3.7.0'
-    espresso = '3.0.0'
-    mockito = '2.8.47'
-    robolectric = '3.5'
-    robolectric_shadow = '3.4-rc2'
 }
