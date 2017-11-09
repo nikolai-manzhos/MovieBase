@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
@@ -26,10 +27,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.*;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
 
-public class BookmarksViewImpl extends BaseFragment implements BookmarksContract.BookmarksView, OnMovieClickListener {
+public class BookmarksViewImpl extends BaseFragment implements BookmarksView, OnMovieClickListener {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
@@ -44,7 +46,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     ConstraintLayout noUserView;
 
     @Inject
-    BookmarksPresenterImpl presenter;
+    BookmarksPresenter presenter;
 
     @Inject
     ViewUtils viewUtils;
@@ -59,16 +61,24 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksContract
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected MvpPresenter providePresenter() {
+        return presenter;
+    }
+
+    @Override
+    protected void inject() {
         getFragmentComponent().inject(this);
-        presenter.onAttach(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        presenter.onDetach();
         if (favoritesAdapter != null) {
             favoritesAdapter.setOnMovieClickListener(null);
             favoritesAdapter.cleanup();

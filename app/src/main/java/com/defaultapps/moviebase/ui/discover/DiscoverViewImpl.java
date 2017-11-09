@@ -10,6 +10,8 @@ import android.view.View;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.discover.DiscoverContract.DiscoverPresenter;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 
@@ -27,7 +29,7 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
     DiscoverAdapter adapter;
 
     @Inject
-    DiscoverPresenterImpl presenter;
+    DiscoverPresenter presenter;
 
     @Override
     protected int provideLayout() {
@@ -35,18 +37,21 @@ public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.D
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        getFragmentComponent().inject(this);
-        adapter.setListener(this);
-        presenter.onAttach(this);
-        initRecyclerView();
-        presenter.requestData();
+    protected MvpPresenter providePresenter() {
+        return presenter;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDetach();
+    protected void inject() {
+        getFragmentComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        adapter.setListener(this);
+        initRecyclerView();
+        presenter.requestData();
     }
 
     @Override

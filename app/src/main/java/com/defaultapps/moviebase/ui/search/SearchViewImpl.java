@@ -22,8 +22,10 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
+import com.defaultapps.moviebase.ui.search.SearchContract.SearchPresenter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.ViewUtils;
@@ -71,7 +73,7 @@ public class SearchViewImpl extends BaseFragment implements
     LinearLayout searchViewEmpty;
 
     @Inject
-    SearchPresenterImpl presenter;
+    SearchPresenter presenter;
 
     @Inject
     SearchAdapter searchAdapter;
@@ -102,10 +104,19 @@ public class SearchViewImpl extends BaseFragment implements
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
+    protected MvpPresenter providePresenter() {
+        return presenter;
+    }
+
+    @Override
+    protected void inject() {
         getFragmentComponent().inject(this);
-        presenter.onAttach(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
         activity.setOnBackPressedListener(this);
         isRestored = savedInstanceState != null;
 
@@ -132,7 +143,6 @@ public class SearchViewImpl extends BaseFragment implements
         super.onDestroyView();
         activity.setSupportActionBar(null);
         activity.setOnBackPressedListener(null);
-        presenter.onDetach();
     }
 
     @Override

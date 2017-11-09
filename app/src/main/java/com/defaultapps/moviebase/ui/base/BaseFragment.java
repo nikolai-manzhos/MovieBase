@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends Fragment implements MvpView {
 
     private Unbinder unbinder;
+    private MvpPresenter<MvpView> presenter;
     private ComponentActivity componentActivity;
     private FragmentComponent fragmentComponent;
 
@@ -39,21 +41,35 @@ public abstract class BaseFragment extends Fragment implements MvpView {
 
     @Nullable
     @Override
+    @SuppressWarnings("unchecked")
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(provideLayout(), container, false);
         fragmentComponent = componentActivity.getActivityComponent().plusFragmentComponent();
+        inject();
         unbinder = ButterKnife.bind(this, v);
+        presenter = providePresenter();
         return v;
+    }
+
+    @CallSuper
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (presenter != null) presenter.onAttach(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        if (presenter != null) presenter.onDetach();
     }
 
     @LayoutRes
     protected abstract int provideLayout();
+
+    protected MvpPresenter providePresenter() {
+        return null;
+    }
 
     @Override
     public void showLoading() {}
@@ -64,4 +80,6 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     protected final FragmentComponent getFragmentComponent() {
         return fragmentComponent;
     }
+
+    protected void inject() {}
 }

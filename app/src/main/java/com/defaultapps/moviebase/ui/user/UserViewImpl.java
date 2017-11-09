@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.user.UserContract.UserPresenter;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,7 +42,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     CircleImageView userAvatar;
 
     @Inject
-    UserPresenterImpl presenter;
+    UserPresenter presenter;
 
     @Inject
     ViewUtils viewUtils;
@@ -51,16 +53,19 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        getFragmentComponent().inject(this);
-        presenter.onAttach(this);
-        presenter.checkUserStatus();
+    protected MvpPresenter providePresenter() {
+        return presenter;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDetach();
+    protected void inject() {
+        getFragmentComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.checkUserStatus();
     }
 
     @OnClick(R.id.accountBtn)

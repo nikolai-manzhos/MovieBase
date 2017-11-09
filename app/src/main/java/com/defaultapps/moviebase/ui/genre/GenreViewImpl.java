@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.genre.GenreContract.GenrePresenter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
@@ -44,7 +46,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     Button errorButton;
 
     @Inject
-    GenrePresenterImpl presenter;
+    GenrePresenter presenter;
 
     @Inject
     GenreAdapter adapter;
@@ -60,9 +62,19 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected MvpPresenter providePresenter() {
+        return presenter;
+    }
+
+    @Override
+    protected void inject() {
         getFragmentComponent().inject(this);
-        presenter.onAttach(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getFragmentComponent().inject(this);
         Bundle bundle = getArguments();
         genreId = bundle.getString(AppConstants.GENRE_ID);
         toolbarText.setText(bundle.getString(AppConstants.GENRE_NAME));
@@ -77,7 +89,6 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        presenter.onDetach();
         adapter.setOnMovieSelectedListener(null);
     }
 

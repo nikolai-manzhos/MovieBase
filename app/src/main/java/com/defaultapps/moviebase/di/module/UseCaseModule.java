@@ -20,20 +20,20 @@ import dagger.Module;
 public abstract class UseCaseModule {
 
     @Binds
-    abstract HomeUseCase provideHomeUseCase(HomeUseCaseImpl homeUseCase);
+    abstract HomeUseCase bindHomeUseCase(HomeUseCaseImpl homeUseCase);
 
     @Binds
-    abstract DiscoverUseCase provideDiscoverUseCase(DiscoverUseCaseImpl discoverUseCase);
+    abstract DiscoverUseCase bindDiscoverUseCase(DiscoverUseCaseImpl discoverUseCase);
 
     @Binds
-    abstract GenreUseCase provideGenreUseCase(GenreUseCaseImpl genreUseCase);
+    abstract GenreUseCase bindGenreUseCase(GenreUseCaseImpl genreUseCase);
 
     @Binds
-    abstract MovieUseCase provideMovieUseCase(MovieUseCaseImpl movieUseCase);
+    abstract MovieUseCase bindMovieUseCase(MovieUseCaseImpl movieUseCase);
 
     @Binds
-    abstract SearchUseCase provideSearchUseCase(SearchUseCaseImpl searchUseCase);
+    abstract SearchUseCase bindSearchUseCase(SearchUseCaseImpl searchUseCase);
 
     @Binds
-    abstract PersonUseCase providePersonUseCase(PersonUseCaseImpl personUseCase);
+    abstract PersonUseCase bindPersonUseCase(PersonUseCaseImpl personUseCase);
 }

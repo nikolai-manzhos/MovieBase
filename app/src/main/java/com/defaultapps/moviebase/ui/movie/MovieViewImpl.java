@@ -20,7 +20,9 @@ import android.widget.TextView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.common.NavigationView;
+import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
@@ -105,7 +107,7 @@ public class MovieViewImpl extends BaseFragment
     RecyclerView similarRecyclerView;
 
     @Inject
-    MoviePresenterImpl presenter;
+    MoviePresenter presenter;
 
     @Inject
     VideosAdapter videosAdapter;
@@ -131,13 +133,22 @@ public class MovieViewImpl extends BaseFragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected MvpPresenter providePresenter() {
+        return presenter;
+    }
+
+    @Override
+    protected void inject() {
         getFragmentComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initFAB();
         initRecyclerViews();
 
-        presenter.onAttach(this);
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
         presenter.requestMovieInfo(movieId, false);
         presenter.requestFavoriteStatus(movieId);
@@ -146,7 +157,6 @@ public class MovieViewImpl extends BaseFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        presenter.onDetach();
         similarAdapter.setOnMovieClickListener(null);
         videosAdapter.setOnVideoClickListener(null);
     }
