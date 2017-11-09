@@ -74,7 +74,6 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getFragmentComponent().inject(this);
         Bundle bundle = getArguments();
         genreId = bundle.getString(AppConstants.GENRE_ID);
         toolbarText.setText(bundle.getString(AppConstants.GENRE_NAME));
