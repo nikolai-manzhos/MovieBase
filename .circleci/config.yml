@@ -25,7 +25,7 @@ jobs:
           command: ./gradlew --no-daemon clean assembleDebug testDebugUnitTest
       - run:
           name: Run tests on Release
-          command: ./gradlew --no-daemon clean assembleRelease testReleaseUnitTest lintRelease
+          command: ./gradlew --no-daemon assembleRelease testReleaseUnitTest lintRelease
       - run:
           name: Run Coverage
           command: |
