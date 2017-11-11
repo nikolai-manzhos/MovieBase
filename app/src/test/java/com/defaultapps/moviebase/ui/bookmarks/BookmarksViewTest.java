@@ -23,6 +23,7 @@ import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentM
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -113,7 +114,35 @@ public class BookmarksViewTest extends BaseViewTest {
 
         verify(presenter).onDetach();
         verify(favoritesAdapter).setOnMovieClickListener(null);
-        verify(favoritesAdapter).cleanup();
+    }
+
+    @Test
+    public void shouldStopListeningOnStop() {
+        bookmarksView.onStop();
+
+        verify(favoritesAdapter).stopListening();
+    }
+
+    @Test
+    public void shouldStartListeningOnStart() {
+        verify(favoritesAdapter).startListening();
+    }
+
+    @Test
+    public void shouldNotStopListeningOnNullReference() {
+        bookmarksView.favoritesAdapter = null;
+        bookmarksView.onStop();
+
+        verify(favoritesAdapter, never()).stopListening();
+    }
+
+    @Test
+    public void shouldNotStartListeningOnNullReference() {
+        reset(favoritesAdapter);
+        bookmarksView.favoritesAdapter = null;
+        bookmarksView.onStart();
+
+        verify(favoritesAdapter, never()).startListening();
     }
 
     @Test
@@ -123,7 +152,6 @@ public class BookmarksViewTest extends BaseViewTest {
 
         verify(presenter).onDetach();
         verify(favoritesAdapter, never()).setOnMovieClickListener(null);
-        verify(favoritesAdapter, never()).cleanup();
     }
 
     @Test

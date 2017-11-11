@@ -80,22 +80,25 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @Override
     public void onStart() {
         super.onStart();
-        assert favoritesAdapter != null;
-        favoritesAdapter.startListening();
+        if (favoritesAdapter != null) {
+            favoritesAdapter.startListening();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        assert favoritesAdapter != null;
-        favoritesAdapter.stopListening();
+        if (favoritesAdapter != null) {
+            favoritesAdapter.stopListening();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        assert favoritesAdapter != null;
-        favoritesAdapter.setOnMovieClickListener(null);
+        if (favoritesAdapter != null) {
+            favoritesAdapter.setOnMovieClickListener(null);
+        }
     }
 
     @OnClick(R.id.bookmarks_login_btn)
