@@ -12,16 +12,6 @@ if (!keyFile.exists()) {
     keystoreProperties.load(new FileInputStream(keyFile))
 }
 
-def isDebug = false
-
-afterEvaluate {
-    if (isDebug)  {
-        assembleDebug.dependsOn 'testDebugUnitTest'
-    } else {
-        assembleRelease.dependsOn 'testDebugUnitTest', 'lintRelease'
-    }
-}
-
 configurations.getByName("androidTestCompile") {
     resolutionStrategy {
         force "com.android.support:appcompat-v7:$support"
@@ -57,7 +47,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            isDebug = true
             debuggable true
             minifyEnabled false
             shrinkResources false
@@ -99,13 +88,6 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
-    }
-    testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
-        }
     }
 }
 
@@ -149,23 +131,17 @@ dependencies {
             "com.miguelcatalan:materialsearchview:$materialSearch",
             "com.ms-square:expandableTextView:$expTextView"
     )
-}
 
-dependencies {
     annotationProcessor(
             "com.jakewharton:butterknife-compiler:$butterKnife",
             "com.google.dagger:dagger-compiler:$dagger"
     )
-}
 
-dependencies {
     debugImplementation (
             //LeakCanary
             "com.squareup.leakcanary:leakcanary-android:$leakcanary"
     )
-}
 
-dependencies {
     testImplementation (
             "junit:junit:$junit",
             "org.mockito:mockito-core:$mockito",
@@ -174,9 +150,7 @@ dependencies {
             "org.robolectric:shadows-support-v4:$robolectric_shadow",
             "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary"
     )
-}
 
-dependencies {
     androidTestImplementation (
             "com.android.support.test.espresso:espresso-contrib:$espresso",
             "org.mockito:mockito-core:$mockito"

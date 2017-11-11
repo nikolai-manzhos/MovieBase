@@ -21,8 +21,11 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Run Tests
-          command: ./gradlew --no-daemon clean assembleDebug assembleRelease
+          name: Run tests on Debug
+          command: ./gradlew --no-daemon clean assembleDebug testDebugUnitTest
+      - run:
+          name: Run tests on Release
+          command: ./gradlew --no-daemon clean assembleRelease testReleaseUnitTest lintRelease
       - run:
           name: Run Coverage
           command: |

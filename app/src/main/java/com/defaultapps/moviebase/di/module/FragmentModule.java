@@ -3,9 +3,12 @@ package com.defaultapps.moviebase.di.module;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.defaultapps.moviebase.data.models.firebase.Favorite;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.bookmarks.FavoritesAdapter;
+import com.defaultapps.moviebase.utils.ViewUtils;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 
 import dagger.Module;
@@ -25,10 +28,15 @@ public class FragmentModule {
     @Provides
     @Nullable
     FavoritesAdapter provideFavoritesAdapter(@Nullable DatabaseReference dbReference,
-                                             @ActivityContext Context context) {
+                                             @ActivityContext Context context,
+                                             ViewUtils viewUtils) {
         if (dbReference == null) {
             return null;
         }
-        return new FavoritesAdapter(dbReference, context);
+        FirebaseRecyclerOptions<Favorite> options =
+                new FirebaseRecyclerOptions.Builder<Favorite>()
+                        .setQuery(dbReference, Favorite.class)
+                        .build();
+        return new FavoritesAdapter(options, context, viewUtils);
     }
 }

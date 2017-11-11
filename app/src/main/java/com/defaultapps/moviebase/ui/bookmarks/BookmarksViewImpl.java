@@ -27,7 +27,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.*;
+import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksPresenter;
+import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksView;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
 
@@ -77,12 +78,24 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        assert favoritesAdapter != null;
+        favoritesAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        assert favoritesAdapter != null;
+        favoritesAdapter.stopListening();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (favoritesAdapter != null) {
-            favoritesAdapter.setOnMovieClickListener(null);
-            favoritesAdapter.cleanup();
-        }
+        assert favoritesAdapter != null;
+        favoritesAdapter.setOnMovieClickListener(null);
     }
 
     @OnClick(R.id.bookmarks_login_btn)
@@ -92,7 +105,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
                         .createSignInIntentBuilder()
                         .setTheme(R.style.DarkTheme)
                         .setLogo(R.mipmap.ic_launcher_round)
-                        .setProviders(Utils.getProvidersList())
+                        .setAvailableProviders(Utils.getProvidersList())
                         .build(),
                 RC_SIGN_IN);
     }

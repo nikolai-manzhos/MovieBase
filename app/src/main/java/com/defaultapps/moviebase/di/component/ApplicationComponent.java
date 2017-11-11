@@ -37,7 +37,6 @@ public interface ApplicationComponent {
     RxBus rxBus();
     FavoritesManager favoritesManager();
     NetworkUtil networkUtil();
-    ViewUtils viewUtils();
 
     //Null in case of no user
     @Nullable FirebaseUser firebaseUser();

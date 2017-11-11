@@ -1,17 +1,16 @@
 package com.defaultapps.moviebase.ui.search;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.ui.base.BaseViewHolder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class SearchViewHolder extends RecyclerView.ViewHolder {
+public class SearchViewHolder extends BaseViewHolder {
     @BindView(R.id.searchContainer)
     public RelativeLayout searchContainer;
 
@@ -26,6 +25,5 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
 
     public SearchViewHolder(View v) {
         super(v);
-        ButterKnife.bind(this, v);
     }
 }

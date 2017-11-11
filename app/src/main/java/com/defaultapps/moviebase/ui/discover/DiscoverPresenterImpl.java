@@ -5,8 +5,6 @@ import com.defaultapps.moviebase.data.usecase.DiscoverUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
-import java.util.Timer;
-
 import javax.inject.Inject;
 
 import timber.log.Timber;
