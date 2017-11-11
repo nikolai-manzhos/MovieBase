@@ -1,3 +1,5 @@
+apply plugin: 'jacoco'
+
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     reports {
         xml.enabled = true
@@ -36,4 +38,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     // Always regenerate report
     outputs.upToDateWhen { false }
+
+    android {
+        testOptions {
+            unitTests.all {
+                jacoco {
+                    includeNoLocationClasses = true
+                }
+            }
+        }
+    }
 }

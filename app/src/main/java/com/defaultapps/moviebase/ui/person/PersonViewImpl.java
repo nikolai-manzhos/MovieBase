@@ -15,6 +15,8 @@ import com.defaultapps.moviebase.data.models.responses.person.Cast;
 import com.defaultapps.moviebase.data.models.responses.person.Crew;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.person.PersonContract.PersonPresenter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCastAdapter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCrewAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
@@ -66,7 +68,7 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     TextView crewSubtitle;
 
     @Inject
-    PersonPresenterImpl presenter;
+    PersonPresenter presenter;
 
     @Inject
     CreditsCastAdapter castAdapter;
@@ -89,10 +91,19 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected MvpPresenter providePresenter() {
+        return presenter;
+    }
+
+    @Override
+    protected void inject() {
         getFragmentComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initRecyclerViews();
-        presenter.onAttach(this);
 
         int personId = getArguments().getInt(AppConstants.PERSON_ID);
         if (savedInstanceState == null) {
@@ -100,12 +111,6 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
         } else {
             presenter.requestPersonInfo(personId, false);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDetach();
     }
 
     @OnClick(R.id.backButton)

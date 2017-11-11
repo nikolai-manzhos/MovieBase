@@ -10,19 +10,21 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.ApplicationContext;
+import com.defaultapps.moviebase.di.scope.PerActivity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
+@PerActivity
 public class ViewUtils {
 
     private final Context context;
     private final Resources resources;
 
     @Inject
-    public ViewUtils(@ApplicationContext Context context) {
+    public ViewUtils(@ActivityContext Context context) {
         this.context = context;
         resources = context.getResources();
     }

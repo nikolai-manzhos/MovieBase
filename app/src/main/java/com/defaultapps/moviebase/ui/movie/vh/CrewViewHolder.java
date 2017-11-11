@@ -1,17 +1,16 @@
 package com.defaultapps.moviebase.ui.movie.vh;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.ui.base.BaseViewHolder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class CrewViewHolder extends RecyclerView.ViewHolder {
+public class CrewViewHolder extends BaseViewHolder {
 
     @BindView(R.id.crewPortrait)
     public CircleImageView crewPortrait;
@@ -24,6 +23,5 @@ public class CrewViewHolder extends RecyclerView.ViewHolder {
 
     public CrewViewHolder(View v) {
         super(v);
-        ButterKnife.bind(this, v);
     }
 }

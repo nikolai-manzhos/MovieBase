@@ -14,12 +14,12 @@ import com.defaultapps.moviebase.data.models.responses.genres.Genre;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
+import com.defaultapps.moviebase.ui.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 @PerFragment
 public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.DiscoverViewHolder> {
@@ -38,7 +38,7 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
         this.context = context;
     }
 
-    static class DiscoverViewHolder extends RecyclerView.ViewHolder {
+    static class DiscoverViewHolder extends BaseViewHolder {
 
         @BindView(R.id.discoverContainer)
         CardView container;
@@ -51,7 +51,6 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
 
         DiscoverViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
         }
     }
 

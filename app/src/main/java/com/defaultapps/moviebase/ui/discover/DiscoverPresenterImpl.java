@@ -7,6 +7,8 @@ import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 
 @PerFragment
 public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.DiscoverView> implements DiscoverContract.DiscoverPresenter {
@@ -24,7 +26,7 @@ public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.Discov
                 discoverUseCase.provideGenresList()
                 .subscribe(
                         genres -> getView().showData(genres),
-                        err -> {}
+                        Timber::e
                 )
         );
     }

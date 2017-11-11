@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.ui.common.NavigationView;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.login.LoginActivity;
+import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity implements NavigationView {
     BottomBar bottomBar;
 
     @Inject
-    MainPresenterImpl presenter;
+    MainPresenter presenter;
 
     private OnBackPressedListener onBackPressedListener;
 

@@ -7,7 +7,7 @@ import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.MvpView;
 import com.google.firebase.auth.FirebaseUser;
 
-interface UserContract {
+public interface UserContract {
     interface UserPresenter extends MvpPresenter<UserView> {
         void performActionWithAccount();
         void checkUserStatus();

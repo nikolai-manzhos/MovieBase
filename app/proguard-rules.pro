@@ -28,6 +28,8 @@
 
 -dontwarn com.roughike.bottombar.**
 
+-dontwarn com.squareup.okhttp.**
+
 -keepattributes Signature
 -keepattributes *Annotation*
 

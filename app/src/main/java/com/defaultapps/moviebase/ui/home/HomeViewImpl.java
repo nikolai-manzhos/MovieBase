@@ -11,6 +11,8 @@ import android.view.View;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.home.HomeContract.HomePresenter;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
@@ -39,7 +41,7 @@ public class HomeViewImpl extends BaseFragment
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Inject
-    HomePresenterImpl presenter;
+    HomePresenter presenter;
 
     @Inject
     HomeMainAdapter adapter;
@@ -56,18 +58,21 @@ public class HomeViewImpl extends BaseFragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        getFragmentComponent().inject(this);
-        presenter.onAttach(this);
-        initRecyclerView();
-        swipeRefreshLayout.setOnRefreshListener(this);
-        presenter.requestMoviesData(false);
+    protected MvpPresenter providePresenter() {
+        return presenter;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDetach();
+    protected void inject() {
+        getFragmentComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initRecyclerView();
+        swipeRefreshLayout.setOnRefreshListener(this);
+        presenter.requestMoviesData(false);
     }
 
     @Override
@@ -85,8 +90,6 @@ public class HomeViewImpl extends BaseFragment
     @Override
     public void receiveResults(List<MoviesResponse> results) {
         adapter.setData(results);
-        adapter.setMovieClickListener(this);
-        upcomingAdapter.setMovieClickListener(this);
     }
 
     @Override
@@ -123,5 +126,7 @@ public class HomeViewImpl extends BaseFragment
     private void initRecyclerView() {
         homeRecycler.setAdapter(adapter);
         homeRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter.setMovieClickListener(this);
+        upcomingAdapter.setMovieClickListener(this);
     }
 }
