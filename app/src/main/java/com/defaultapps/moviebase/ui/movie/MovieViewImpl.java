@@ -82,6 +82,15 @@ public class MovieViewImpl extends BaseFragment
     @BindView(R.id.releaseDate)
     IconTextView releaseDate;
 
+    @BindView(R.id.runtime)
+    IconTextView runtime;
+
+    @BindView(R.id.budget)
+    TextView budget;
+
+    @BindView(R.id.revenue)
+    TextView revenue;
+
     @BindView(R.id.movieOverview)
     ExpandableTextView movieOverview;
 
@@ -205,6 +214,15 @@ public class MovieViewImpl extends BaseFragment
         loadImage(movieInfo.getPosterPath(), imagePoster);
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
+        runtime.append(" " + Utils.formatMinutes(getContext(), movieInfo.getRuntime()));
+        String budgetString = movieInfo.getBudget() == 0 ?
+                getString(R.string.movie_budget_unknown, AppConstants.UNKNOWN) :
+                getString(R.string.movie_budget, Utils.formatNumber(movieInfo.getBudget()));
+        budget.setText(budgetString);
+        String revenueString = movieInfo.getRevenue() == 0 ?
+                getString(R.string.movie_revenue_unknown, AppConstants.UNKNOWN) :
+                getString(R.string.movie_revenue, Utils.formatNumber(movieInfo.getRevenue()));
+        revenue.setText(revenueString);
         movieOverview.setText(movieInfo.getOverview());
         videosAdapter.setData(movieInfo.getVideos().getVideoResults());
         castAdapter.setData(movieInfo.getCredits().getCast());
@@ -268,14 +286,12 @@ public class MovieViewImpl extends BaseFragment
         favoriteFab.setImageDrawable(
                 new IconDrawable(getContext(), MaterialIcons.md_favorite_border)
                 .colorRes(R.color.colorAccent));
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    favoriteFab.hide();
-                } else {
-                    favoriteFab.show();
-                }
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
+                (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY) {
+                favoriteFab.hide();
+            } else {
+                favoriteFab.show();
             }
         });
     }
@@ -292,7 +308,6 @@ public class MovieViewImpl extends BaseFragment
 
     private void initRecyclerViews() {
         SimpleItemDecorator horizontalDivider = new SimpleItemDecorator(30, true);
-        //noinspection deprecation
         videosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         videosRecyclerView.setAdapter(videosAdapter);
         videosRecyclerView.addItemDecoration(horizontalDivider);

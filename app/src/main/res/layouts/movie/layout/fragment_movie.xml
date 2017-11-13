@@ -68,15 +68,43 @@
                         android:layout_marginStart="10dp"/>
 
                     <com.joanzapata.iconify.widget.IconTextView
-                        style="@style/MovieTitle"
+                        style="@style/MovieInfo"
                         android:id="@+id/releaseDate"
-                        android:text="{md-today}"
+                        android:text="{md-today 22dp}"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/movieTitle"
                         android:layout_toEndOf="@+id/imagePoster"
                         android:layout_marginStart="10dp"
                         tools:ignore="HardcodedText" />
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        style="@style/MovieInfo"
+                        android:id="@+id/runtime"
+                        android:text="{md-access-time 22dp}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/releaseDate"
+                        android:layout_alignStart="@+id/releaseDate"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        style="@style/MovieInfo"
+                        android:id="@+id/budget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/runtime"
+                        android:layout_alignStart="@+id/runtime"
+                        tools:text="200,000,000$"/>
+
+                    <TextView
+                        style="@style/MovieInfo"
+                        android:id="@+id/revenue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/budget"
+                        android:layout_alignStart="@+id/budget"
+                        tools:text="200,000,000$"/>
 
                     <TextView
                         style="@style/Subtitle"

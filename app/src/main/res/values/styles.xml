@@ -80,6 +80,12 @@
     </style>
 
     <style name="MovieTitle">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
+    <style name="MovieInfo">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:maxLines">2</item>

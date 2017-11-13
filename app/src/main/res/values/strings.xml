@@ -38,6 +38,11 @@
     <string name="movie_similar">Similar</string>
     <string name="movie_favorite_success">Added to favorites</string>
     <string name="movie_favorite_failure">Error while adding to favorites :(</string>
+    <string name="movie_budget">Budget: %s$</string>
+    <string name="movie_budget_unknown">Budget: %s</string>
+    <string name="movie_revenue">Revenue: %s$</string>
+    <string name="movie_revenue_unknown">Revenue: %s</string>
+    <string name="movie_runtime">%1$dh %2$dm</string>
 
     <!--User strings-->
     <string name="user_toolbar">Settings</string>

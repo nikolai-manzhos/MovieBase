@@ -2,9 +2,13 @@ package com.defaultapps.moviebase.utils;
 
 
 
+import android.content.Context;
+
+import com.defaultapps.moviebase.R;
 import com.firebase.ui.auth.AuthUI;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,5 +41,19 @@ public class Utils {
         providers.add(new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
         providers.add(new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build());
         return providers;
+    }
+
+    public static String formatNumber(int number) {
+        return formatNumber((long) number);
+    }
+
+    public static String formatNumber(long number) {
+        return NumberFormat.getInstance().format(number);
+    }
+
+    public static String formatMinutes(Context context, int minutes) {
+        int hours = minutes / 60;
+        minutes = minutes % 60;
+        return context.getString(R.string.movie_runtime, hours, minutes);
     }
 }
