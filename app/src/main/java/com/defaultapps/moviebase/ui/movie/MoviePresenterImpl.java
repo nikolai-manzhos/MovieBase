@@ -15,6 +15,7 @@ public class MoviePresenterImpl extends BasePresenter<MovieContract.MovieView> i
 
     @Inject
     MoviePresenterImpl(MovieUseCase movieUseCase) {
+        super(movieUseCase);
         this.movieUseCase = movieUseCase;
     }
 

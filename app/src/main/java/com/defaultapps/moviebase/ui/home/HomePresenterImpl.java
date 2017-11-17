@@ -20,6 +20,7 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView>
 
     @Inject
     HomePresenterImpl(HomeUseCase homeUseCase, RxBus rxBus) {
+        super(homeUseCase);
         this.homeUseCase = homeUseCase;
         this.rxBus = rxBus;
     }

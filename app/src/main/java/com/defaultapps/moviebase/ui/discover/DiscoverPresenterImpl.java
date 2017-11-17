@@ -17,6 +17,7 @@ public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.Discov
 
     @Inject
     DiscoverPresenterImpl(DiscoverUseCase discoverUseCase) {
+        super(discoverUseCase);
         this.discoverUseCase = discoverUseCase;
     }
 

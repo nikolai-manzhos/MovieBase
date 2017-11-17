@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
@@ -19,7 +20,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
-public class MovieUseCaseImpl implements MovieUseCase {
+public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
 
     private final NetworkService networkService;
     private final FavoritesManager favoritesManager;
@@ -59,6 +60,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
             movieInfoDisposable = network(movieId)
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
+            getCompositeDisposable().add(movieInfoDisposable);
         }
         return movieInfoReplaySubject;
     }

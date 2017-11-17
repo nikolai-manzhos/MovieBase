@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
@@ -16,7 +17,7 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 
 @Singleton
-public class SearchUseCaseImpl implements SearchUseCase {
+public class SearchUseCaseImpl extends BaseUseCase implements SearchUseCase {
 
     private final NetworkService networkService;
     private final AppPreferencesManager preferencesManager;
@@ -44,6 +45,7 @@ public class SearchUseCaseImpl implements SearchUseCase {
             disposable = network(query, 1)
                     .compose(schedulerProvider.applyIoSchedulers())
                     .subscribe(behaviorSubject::onNext, behaviorSubject::onError);
+            getCompositeDisposable().add(disposable);
         }
         return behaviorSubject;
     }
@@ -70,6 +72,7 @@ public class SearchUseCaseImpl implements SearchUseCase {
                         },
                         paginationResult::onError
                 );
+        getCompositeDisposable().add(paginationDisposable);
         return paginationResult;
     }
 
