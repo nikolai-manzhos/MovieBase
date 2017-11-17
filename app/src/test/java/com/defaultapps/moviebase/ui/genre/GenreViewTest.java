@@ -37,12 +37,7 @@ public class GenreViewTest extends BaseViewTest {
     private GenreAdapter adapter;
 
     @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_genre;
-    }
-
-    @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         genreView = new GenreViewImpl();
@@ -54,7 +49,7 @@ public class GenreViewTest extends BaseViewTest {
         bundle.putString(AppConstants.GENRE_NAME, FAKE_GENRE_NAME);
         genreView.setArguments(bundle);
 
-        addFragmentToFragmentManager(genreView, activity, R.id.contentFrame);
+        addFragmentToFragmentManager(genreView, activity);
     }
 
     @Test

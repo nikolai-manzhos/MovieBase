@@ -12,9 +12,13 @@ import com.defaultapps.moviebase.utils.AppConstants;
 public class GenreActivity extends BaseActivity{
 
     @Override
+    protected int provideLayout() {
+        return R.layout.activity_genre;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_genre);
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             Bundle bundle = new Bundle();

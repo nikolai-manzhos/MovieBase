@@ -86,7 +86,7 @@
     </style>
 
     <style name="MovieInfo">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:maxLines">2</item>
     </style>

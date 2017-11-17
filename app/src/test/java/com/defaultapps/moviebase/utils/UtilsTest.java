@@ -34,4 +34,13 @@ public class UtilsTest {
         assertEquals(Utils.getProvidersList().size(), 2);
     }
 
+    @Test
+    public void shouldFormatIntNumber() {
+        assertEquals(Utils.formatNumber(10000), "10,000");
+    }
+
+    @Test
+    public void shouldFormatLongNumber() {
+        assertEquals(Utils.formatNumber(100000L), "100,000");
+    }
 }

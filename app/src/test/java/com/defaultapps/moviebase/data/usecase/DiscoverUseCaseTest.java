@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class DiscoverUseCaseTest {
 
     @Mock
-    LocalService localService;
+    private LocalService localService;
 
     private DiscoverUseCase discoverUseCase;
     private TestScheduler testScheduler;

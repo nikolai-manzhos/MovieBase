@@ -2,7 +2,6 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.data.TestSchedulerProvider;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
-import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.Api;
 import com.defaultapps.moviebase.data.network.NetworkService;
@@ -32,16 +31,13 @@ import static org.mockito.Mockito.when;
 public class GenreUseCaseTest {
 
     @Mock
-    NetworkService networkService;
+    private NetworkService networkService;
 
     @Mock
-    LocalService localService;
+    private Api api;
 
     @Mock
-    Api api;
-
-    @Mock
-    AppPreferencesManager preferencesManager;
+    private AppPreferencesManager preferencesManager;
 
     private GenreUseCase genreUseCase;
     private TestScheduler testScheduler;

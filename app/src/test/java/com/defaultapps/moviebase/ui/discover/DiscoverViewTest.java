@@ -2,7 +2,6 @@ package com.defaultapps.moviebase.ui.discover;
 
 import android.content.ComponentName;
 
-import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.BaseViewTest;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
@@ -29,19 +28,14 @@ public class DiscoverViewTest extends BaseViewTest {
     private DiscoverViewImpl discoverView;
 
     @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         discoverView = new DiscoverViewImpl();
         discoverView.adapter = adapter;
         discoverView.presenter = discoverPresenter;
 
-        addFragmentToFragmentManager(discoverView, activity, R.id.contentFrame);
+        addFragmentToFragmentManager(discoverView, activity);
     }
 
     @Test

@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
 import android.content.ComponentName;
-import android.support.annotation.IdRes;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
@@ -37,22 +36,16 @@ public class BookmarksViewTest extends BaseViewTest {
     private FavoritesAdapter favoritesAdapter;
 
     private BookmarksViewImpl bookmarksView;
-    @IdRes private static final int container = R.id.contentFrame;
-
-    @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
-    }
 
     @Before
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         bookmarksView = new BookmarksViewImpl();
         bookmarksView.presenter = presenter;
         bookmarksView.favoritesAdapter = favoritesAdapter;
 
-        addFragmentToFragmentManager(bookmarksView, activity, container);
+        addFragmentToFragmentManager(bookmarksView, activity);
     }
 
     @Test

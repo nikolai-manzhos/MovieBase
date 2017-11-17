@@ -74,7 +74,9 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case NOW_PLAYING:
                 MainViewHolder mainViewHolder = (MainViewHolder) holder;
-                ((MainViewHolder) holder).nowPlayingContainer.setOnClickListener(view -> listener.onMovieClick(nowPlaying.getResults().get(adapterPosition -1).getId()));
+                int id = nowPlaying.getResults().get(adapterPosition - 1).getId();
+                ((MainViewHolder) holder).nowPlayingContainer
+                        .setOnClickListener(view -> listener.onMovieClick(id));
                 configureNowPlayingVH(mainViewHolder, adapterPosition);
                 break;
             default:
@@ -98,7 +100,8 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @SuppressWarnings("unused")
     private void configureUpcomingVH(UpcomingViewHolder vh, int position) {
         vh.upcomingList.setAdapter(upcomingAdapter);
-        vh.upcomingList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        vh.upcomingList.setLayoutManager(new LinearLayoutManager(
+                context, LinearLayoutManager.HORIZONTAL, false));
         vh.upcomingList.setNestedScrollingEnabled(false);
         upcomingAdapter.setData(upcoming);
     }
@@ -106,9 +109,10 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private void configureNowPlayingVH(MainViewHolder vh, int position) {
         vh.rating.setText(String.valueOf(nowPlaying.getResults().get(position - 1).getVoteAverage()));
         vh.title.setText(nowPlaying.getResults().get(position - 1).getTitle());
+        final String backdropPath = nowPlaying.getResults().get(position - 1).getBackdropPath();
         Picasso
                 .with(context)
-                .load("https://image.tmdb.org/t/p/w1000/" + nowPlaying.getResults().get(position -1).getBackdropPath())
+                .load("https://image.tmdb.org/t/p/w1000/" + backdropPath)
                 .fit()
                 .centerCrop()
                 .into(vh.backdrop);

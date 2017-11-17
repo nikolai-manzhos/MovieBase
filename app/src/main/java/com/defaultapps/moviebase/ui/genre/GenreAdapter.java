@@ -179,9 +179,9 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private String resolveRatingIcon(double rating) {
         if (rating <= 5.0) {
-            return "{md-thumbs-up-down 24dp #17BD52}";
+            return "{md-thumbs-up-down 16dp #17BD52}";
         } else {
-            return "{md-thumb-up 24dp #17BD52}";
+            return "{md-thumb-up 16dp #17BD52}";
         }
     }
 }

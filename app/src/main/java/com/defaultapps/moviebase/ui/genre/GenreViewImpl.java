@@ -112,6 +112,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     public void showMovies(MoviesResponse movies) {
         adapter.setData(movies.getResults());
         TOTAL_PAGES = movies.getTotalPages();
+        adapter.removeLoadingFooter();
         isLastPage = false;
 
         if (movies.getPage() < TOTAL_PAGES) adapter.addLoadingFooter();

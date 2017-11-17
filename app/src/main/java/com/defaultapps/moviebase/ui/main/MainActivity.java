@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
+import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.common.NavigationView;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
@@ -14,14 +15,12 @@ import com.defaultapps.moviebase.ui.login.LoginActivity;
 import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.defaultapps.moviebase.utils.Utils;
-import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.firebase.ui.auth.AuthUI;
 import com.roughike.bottombar.BottomBar;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
@@ -34,15 +33,25 @@ public class MainActivity extends BaseActivity implements NavigationView {
     @Inject
     MainPresenter presenter;
 
-    private OnBackPressedListener onBackPressedListener;
+
+    @Override
+    protected int provideLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    protected MvpPresenter providePresenter() {
+        return presenter;
+    }
+
+    @Override
+    public void inject() {
+        getActivityComponent().inject(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getActivityComponent().inject(this);
-        ButterKnife.bind(this);
-        presenter.onAttach(this);
         presenter.checkFirstTimeUser();
         if (savedInstanceState == null) {
             selectItem(R.id.tab_home);
@@ -65,20 +74,11 @@ public class MainActivity extends BaseActivity implements NavigationView {
                                 .createSignInIntentBuilder()
                                 .setTheme(R.style.DarkTheme)
                                 .setLogo(R.mipmap.ic_launcher_round)
-                                .setProviders(Utils.getProvidersList())
+                                .setAvailableProviders(Utils.getProvidersList())
                                 .build(),
                         RC_SIGN_IN);
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-       if (onBackPressedListener != null && onBackPressedListener.onBackPressed()) {
-           super.onBackPressed();
-       } else if (onBackPressedListener == null) {
-           super.onBackPressed();
-       }
     }
 
     @Override
@@ -91,10 +91,6 @@ public class MainActivity extends BaseActivity implements NavigationView {
     protected void onPause() {
         super.onPause();
         bottomBar.removeOnTabSelectListener();
-    }
-
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.onBackPressedListener = onBackPressedListener;
     }
 
     @Override

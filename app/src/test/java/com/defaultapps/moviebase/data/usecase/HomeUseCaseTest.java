@@ -1,13 +1,11 @@
 package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.data.TestSchedulerProvider;
-import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.Api;
 import com.defaultapps.moviebase.data.network.NetworkService;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.rx.RxBus;
-import com.google.firebase.auth.FirebaseUser;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +33,6 @@ import static org.mockito.Mockito.when;
 public class HomeUseCaseTest {
 
     @Mock
-    private LocalService localService;
-
-    @Mock
     private NetworkService networkService;
 
     @Mock
@@ -45,9 +40,6 @@ public class HomeUseCaseTest {
 
     @Mock
     private RxBus rxBus;
-
-    @Mock
-    private FirebaseUser firebaseUser;
 
     private HomeUseCase homeUseCase;
     private TestScheduler testScheduler;

@@ -38,7 +38,7 @@ public class HomeViewTest extends BaseViewTest {
     private HomeViewImpl homeView;
 
     @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         homeView = new HomeViewImpl();
@@ -47,7 +47,7 @@ public class HomeViewTest extends BaseViewTest {
         homeView.upcomingAdapter = upcomingAdapter;
         homeView.viewUtils = viewUtils;
 
-        TestUtils.addFragmentToFragmentManager(homeView, activity, R.id.contentFrame);
+        TestUtils.addFragmentToFragmentManager(homeView, activity);
     }
 
     @Test
@@ -94,10 +94,5 @@ public class HomeViewTest extends BaseViewTest {
         final String ERROR_MESSAGE = "Error";
         homeView.displayErrorMessage();
         verify(viewUtils).showSnackbar(homeView.swipeRefreshLayout, ERROR_MESSAGE);
-    }
-
-    @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
     }
 }

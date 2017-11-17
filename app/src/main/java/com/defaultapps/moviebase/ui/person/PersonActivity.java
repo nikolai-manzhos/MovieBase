@@ -11,10 +11,13 @@ import com.defaultapps.moviebase.utils.AppConstants;
 public class PersonActivity extends BaseActivity {
 
     @Override
+    protected int provideLayout() {
+        return R.layout.activity_person;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person);
-
         if (savedInstanceState == null) {
             int staffId = getIntent().getIntExtra(AppConstants.PERSON_ID, -1);
             PersonViewImpl staffView = PersonViewImpl.createInstance(staffId);

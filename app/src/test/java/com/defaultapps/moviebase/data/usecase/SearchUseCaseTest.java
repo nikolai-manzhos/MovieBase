@@ -31,13 +31,13 @@ import static org.mockito.Mockito.when;
 public class SearchUseCaseTest {
 
     @Mock
-    NetworkService networkService;
+    private NetworkService networkService;
 
     @Mock
-    Api api;
+    private Api api;
 
     @Mock
-    AppPreferencesManager preferencesManager;
+    private AppPreferencesManager preferencesManager;
 
     private SearchUseCase searchUseCase;
 

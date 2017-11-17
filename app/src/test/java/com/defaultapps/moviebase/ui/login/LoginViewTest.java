@@ -18,16 +18,11 @@ public class LoginViewTest extends BaseViewTest {
     private LoginViewImpl loginView;
 
     @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         loginView = new LoginViewImpl();
 
-        addFragmentToFragmentManager(loginView, activity, R.id.contentFrame);
+        addFragmentToFragmentManager(loginView, activity);
     }
 
     @Test

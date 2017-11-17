@@ -10,9 +10,13 @@ import com.defaultapps.moviebase.ui.base.BaseActivity;
 public class UserActivity extends BaseActivity {
 
     @Override
+    protected int provideLayout() {
+        return R.layout.activity_user;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.contentFrame, new UserViewImpl())

@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.ui;
 
 import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.di.component.ActivityComponent;
@@ -26,25 +25,20 @@ import static org.mockito.Mockito.when;
 @Config(constants = BuildConfig.class, sdk = 22, application = FakeApplication.class)
 public abstract class BaseViewTest {
 
-    protected BaseActivity activity;
+    protected FakeActivity activity;
     protected ActivityComponent activityComponent;
     protected FragmentComponent fragmentComponent;
 
     @CallSuper
     @Before
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
-        @SuppressWarnings("unchecked")
-        ActivityController<BaseActivity> controller = Robolectric.buildActivity(
-                BaseActivity.class,
+    public void setup() throws Exception {
+        ActivityController<FakeActivity> controller = Robolectric.buildActivity(
+                FakeActivity.class,
                 null);
         activity = controller.get();
+
         activityComponent = mock(ActivityComponent.class);
         fragmentComponent = mock(FragmentComponent.class);
-
-        Integer layout = provideLayoutId();
-        if (layout != null) {
-            activity.setContentView(layout);
-        }
 
         controller.setup();
 
@@ -53,7 +47,4 @@ public abstract class BaseViewTest {
         activityComponentField.set(activity, activityComponent);
         when(activityComponent.plusFragmentComponent()).thenReturn(fragmentComponent);
     }
-
-    @LayoutRes
-    protected abstract Integer provideLayoutId();
 }

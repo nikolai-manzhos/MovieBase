@@ -1,18 +1,18 @@
 package com.defaultapps.moviebase.ui;
 
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+
+import com.defaultapps.moviebase.R;
 
 
 public class TestUtils {
 
     public static void addFragmentToFragmentManager(Fragment fragment,
-                                                    AppCompatActivity activity,
-                                                    @IdRes int containerId) {
+                                                    AppCompatActivity activity) {
         activity.getSupportFragmentManager()
                 .beginTransaction()
-                .add(containerId, fragment)
+                .add(R.id.contentFrame, fragment)
                 .commit();
     }
 

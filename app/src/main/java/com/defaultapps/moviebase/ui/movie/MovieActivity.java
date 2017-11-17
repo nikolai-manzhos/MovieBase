@@ -18,14 +18,17 @@ import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
 
 public class MovieActivity extends BaseActivity implements NavigationView {
+
+    @Override
+    protected int provideLayout() {
+        return R.layout.activity_movie;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie);
-
         if (savedInstanceState == null) {
             int movieId = getIntent().getIntExtra(MOVIE_ID, 0);
-
             replaceMovieFragment(movieId);
         }
     }

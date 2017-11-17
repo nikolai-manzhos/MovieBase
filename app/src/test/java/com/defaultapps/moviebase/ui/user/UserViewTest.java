@@ -26,18 +26,13 @@ public class UserViewTest extends BaseViewTest {
     private UserViewImpl userView;
 
     @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         userView = new UserViewImpl();
         userView.presenter = presenter;
 
-        addFragmentToFragmentManager(userView, activity, R.id.contentFrame);
-    }
-
-    @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
+        addFragmentToFragmentManager(userView, activity);
     }
 
     @Test

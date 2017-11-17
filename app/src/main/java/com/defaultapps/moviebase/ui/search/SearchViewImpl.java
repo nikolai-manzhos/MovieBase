@@ -21,9 +21,9 @@ import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
-import com.defaultapps.moviebase.ui.main.MainActivity;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.search.SearchContract.SearchPresenter;
 import com.defaultapps.moviebase.utils.AppConstants;
@@ -81,7 +81,7 @@ public class SearchViewImpl extends BaseFragment implements
     @Inject
     ViewUtils viewUtils;
 
-    private MainActivity activity;
+    private BaseActivity activity;
 
     private int TOTAL_PAGES = 1;
     private boolean isLoading;
@@ -93,8 +93,8 @@ public class SearchViewImpl extends BaseFragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MainActivity) {
-            activity = (MainActivity) context;
+        if (context instanceof BaseActivity) {
+            activity = (BaseActivity) context;
         }
     }
 
@@ -171,6 +171,7 @@ public class SearchViewImpl extends BaseFragment implements
     public void displaySearchResults(MoviesResponse moviesResponse) {
         searchAdapter.setData(moviesResponse.getResults());
         TOTAL_PAGES = moviesResponse.getTotalPages();
+        searchAdapter.removeLoadingFooter();
         isLastPage = false;
 
         if (moviesResponse.getPage() < TOTAL_PAGES) searchAdapter.addLoadingFooter();
