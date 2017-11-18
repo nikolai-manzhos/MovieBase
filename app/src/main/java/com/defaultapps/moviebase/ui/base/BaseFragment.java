@@ -67,7 +67,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (getActivity().isFinishing()) {
+        if (getActivity().isFinishing() || !getActivity().isChangingConfigurations()) {
             if (presenter != null) presenter.disposeUseCaseCalls();
         }
     }
