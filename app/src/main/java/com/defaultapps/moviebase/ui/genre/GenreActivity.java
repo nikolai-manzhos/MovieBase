@@ -21,12 +21,9 @@ public class GenreActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            Bundle bundle = new Bundle();
-            bundle.putString(AppConstants.GENRE_ID, intent.getStringExtra(AppConstants.GENRE_ID));
-            bundle.putString(AppConstants.GENRE_NAME, intent.getStringExtra(AppConstants.GENRE_NAME));
-
-            GenreViewImpl genreView = new GenreViewImpl();
-            genreView.setArguments(bundle);
+            GenreViewImpl genreView = GenreViewImpl.newInstance(
+                    intent.getStringExtra(AppConstants.GENRE_ID),
+                    intent.getStringExtra(AppConstants.GENRE_NAME));
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.contentFrame, genreView)
                     .commit();

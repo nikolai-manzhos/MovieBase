@@ -40,14 +40,9 @@ public class GenreViewTest extends BaseViewTest {
     public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
-        genreView = new GenreViewImpl();
+        genreView = GenreViewImpl.newInstance(FAKE_GENRE_ID, FAKE_GENRE_NAME);
         genreView.presenter = presenter;
         genreView.adapter = adapter;
-
-        Bundle bundle = new Bundle();
-        bundle.putString(AppConstants.GENRE_ID, FAKE_GENRE_ID);
-        bundle.putString(AppConstants.GENRE_NAME, FAKE_GENRE_NAME);
-        genreView.setArguments(bundle);
 
         addFragmentToFragmentManager(genreView, activity);
     }

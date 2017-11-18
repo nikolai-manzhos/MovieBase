@@ -56,6 +56,16 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     private boolean isLoading;
     private boolean isLastPage;
 
+    public static GenreViewImpl newInstance(String id, String name) {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstants.GENRE_ID, id);
+        bundle.putString(AppConstants.GENRE_NAME, name);
+
+        GenreViewImpl genreView = new GenreViewImpl();
+        genreView.setArguments(bundle);
+        return genreView;
+    }
+
     @Override
     protected int provideLayout() {
         return R.layout.fragment_genre;
