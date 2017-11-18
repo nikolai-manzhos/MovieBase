@@ -3,7 +3,7 @@ ext {
     jacocoGradle = '0.1.2'
     gmsServices = '3.1.0'
 
-    support = '26.1.0' //25.3.0 previous stable working
+    support = '27.0.1'
     constraintLayout = '1.0.2'
     bottomBar = '2.3.1'
     butterKnife = '8.8.1'
