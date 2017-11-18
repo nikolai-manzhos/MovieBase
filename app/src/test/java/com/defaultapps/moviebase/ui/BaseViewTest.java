@@ -9,6 +9,7 @@ import com.defaultapps.moviebase.ui.base.BaseActivity;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
@@ -46,5 +47,7 @@ public abstract class BaseViewTest {
         activityComponentField.setAccessible(true);
         activityComponentField.set(activity, activityComponent);
         when(activityComponent.plusFragmentComponent()).thenReturn(fragmentComponent);
+
+        MockitoAnnotations.initMocks(this);
     }
 }

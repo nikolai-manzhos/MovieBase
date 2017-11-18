@@ -65,10 +65,7 @@ public class MovieActivity extends BaseActivity implements NavigationView {
     }
 
     private void replaceMovieFragment(int movieId) {
-        Bundle bundle = new Bundle();
-        bundle.putInt(MOVIE_ID, movieId);
-        MovieViewImpl fragment = new MovieViewImpl();
-        fragment.setArguments(bundle);
+        MovieViewImpl fragment = MovieViewImpl.newInstance(movieId);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.contentFrame, fragment)
