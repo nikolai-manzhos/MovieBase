@@ -2,7 +2,6 @@ package com.defaultapps.moviebase;
 
 import android.support.annotation.NonNull;
 
-import com.defaultapps.moviebase.App;
 import com.defaultapps.moviebase.di.component.ApplicationComponent;
 
 import static org.mockito.Mockito.mock;

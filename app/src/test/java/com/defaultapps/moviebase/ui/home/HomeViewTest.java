@@ -3,8 +3,8 @@ package com.defaultapps.moviebase.ui.home;
 import android.content.ComponentName;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.ui.BaseViewTest;
 import com.defaultapps.moviebase.TestUtils;
+import com.defaultapps.moviebase.ui.BaseViewTest;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;

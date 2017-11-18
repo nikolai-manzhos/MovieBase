@@ -3,8 +3,6 @@ package com.defaultapps.moviebase;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.defaultapps.moviebase.R;
-
 
 public class TestUtils {
 

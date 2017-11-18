@@ -1,6 +1,5 @@
 package com.defaultapps.moviebase.ui.genre;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -20,10 +19,9 @@ public class GenreActivity extends BaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            Intent intent = getIntent();
             GenreViewImpl genreView = GenreViewImpl.newInstance(
-                    intent.getStringExtra(AppConstants.GENRE_ID),
-                    intent.getStringExtra(AppConstants.GENRE_NAME));
+                    getIntent().getStringExtra(AppConstants.GENRE_ID),
+                    getIntent().getStringExtra(AppConstants.GENRE_NAME));
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.contentFrame, genreView)
                     .commit();
