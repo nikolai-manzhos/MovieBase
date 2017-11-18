@@ -3,7 +3,7 @@ package com.defaultapps.moviebase.ui.search;
 import android.content.ComponentName;
 
 import com.defaultapps.moviebase.ui.BaseViewTest;
-import com.defaultapps.moviebase.ui.TestUtils;
+import com.defaultapps.moviebase.TestUtils;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.ViewUtils;
 

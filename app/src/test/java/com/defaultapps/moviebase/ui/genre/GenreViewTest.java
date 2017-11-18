@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowActivity;
 
-import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManager;
-import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.never;

@@ -8,7 +8,7 @@ import com.defaultapps.moviebase.ui.BaseViewTest;
 import org.junit.Test;
 import org.robolectric.shadows.ShadowActivity;
 
-import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;

@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.ui;
 import android.support.annotation.CallSuper;
 
 import com.defaultapps.moviebase.BuildConfig;
+import com.defaultapps.moviebase.FakeApplication;
 import com.defaultapps.moviebase.di.component.ActivityComponent;
 import com.defaultapps.moviebase.di.component.FragmentComponent;
 import com.defaultapps.moviebase.ui.base.BaseActivity;

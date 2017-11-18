@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.ui;
+package com.defaultapps.moviebase;
 
 import android.support.annotation.NonNull;
 
