@@ -85,6 +85,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
+        assert bundle != null;
         genreId = bundle.getString(AppConstants.GENRE_ID);
         toolbarText.setText(bundle.getString(AppConstants.GENRE_NAME));
         initRecyclerView();
@@ -103,6 +104,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @OnClick(R.id.backButton)
     void onBackIconClick() {
+        assert getActivity() != null;
         getActivity().finish();
     }
 

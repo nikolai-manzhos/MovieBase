@@ -110,6 +110,7 @@ public class HomeViewImpl extends BaseFragment
     @Override
     public void displayProfileScreen() {
         Intent intent = new Intent(getActivity(), UserActivity.class);
+        assert getActivity() != null;
         getActivity().startActivityForResult(intent, RC_LOGIN);
     }
 

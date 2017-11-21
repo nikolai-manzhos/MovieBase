@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.ui.genre;
 
 import android.content.ComponentName;
 import android.os.Bundle;
+import android.view.View;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseViewTest;
@@ -18,6 +19,7 @@ import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentMana
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
@@ -90,5 +92,15 @@ public class GenreViewTest extends BaseViewTest {
         genreView.onViewCreated(genreView.getView(), new Bundle());
 
         verify(presenter).requestMovies(FAKE_GENRE_ID, false);
+    }
+
+    @Test
+    public void shouldResendRequestOnErrorButtonClick() {
+        reset(presenter);
+        View view = genreView.getView();
+        assert view != null;
+        view.findViewById(R.id.errorButton).performClick();
+
+        verify(presenter).requestMovies(FAKE_GENRE_ID, true);
     }
 }

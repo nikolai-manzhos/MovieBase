@@ -30,10 +30,10 @@ import static org.mockito.Mockito.when;
 public class HomePresenterTest {
 
     @Mock
-    HomeUseCaseImpl homeUseCase;
+    private HomeUseCaseImpl homeUseCase;
 
     @Mock
-    HomeContract.HomeView view;
+    private HomeContract.HomeView view;
 
     private HomeContract.HomePresenter presenter;
     private TestScheduler testScheduler;

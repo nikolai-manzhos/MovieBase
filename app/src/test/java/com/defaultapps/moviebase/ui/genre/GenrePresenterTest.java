@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 public class GenrePresenterTest {
 
     @Mock
-    GenreUseCaseImpl useCase;
+    private GenreUseCaseImpl useCase;
 
     @Mock
-    GenreContract.GenreView view;
+    private GenreContract.GenreView view;
 
     private GenreContract.GenrePresenter presenter;
     private TestScheduler testScheduler;

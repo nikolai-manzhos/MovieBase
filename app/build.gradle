@@ -119,11 +119,11 @@ dependencies {
             //Timber
             "com.jakewharton.timber:timber:$timber",
             //Prefs
-            "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs",
+            "com.nikolaymanzhos:preferenceshelper:$prefs",
             //Picasso
-            "com.squareup.picasso:picasso:$rootProject.picasso",
+            "com.squareup.picasso:picasso:$picasso",
             //Iconify
-            "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify",
+            "com.joanzapata.iconify:android-iconify-material:$iconify",
             //Custom UI libraries
             "de.hdodenhof:circleimageview:$circle",
             "com.thefinestartist:ytpa:$youtube",

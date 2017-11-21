@@ -1,5 +1,5 @@
 ext {
-    androidPlugin = '3.0.0'
+    androidPlugin = '3.0.1'
     jacocoGradle = '0.1.2'
     gmsServices = '3.1.0'
 
@@ -21,7 +21,7 @@ ext {
     youtube = '1.2.1'
     materialPref = '1.0.5'
     materialSearch = '1.4.0'
-    prefs = "2.0"
+    prefs = "2.3"
     expTextView = '0.1.4'
     timber = '4.6.0'
 
