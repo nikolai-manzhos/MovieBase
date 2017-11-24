@@ -4,11 +4,13 @@ buildscript {
     repositories {
         jcenter()
         google()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$androidPlugin"
         classpath "com.dicedmelon.gradle:jacoco-android:$jacocoGradle"
         classpath "com.google.gms:google-services:$gmsServices"
+        classpath "io.fabric.tools:gradle:$fabric"
     }
 }
 

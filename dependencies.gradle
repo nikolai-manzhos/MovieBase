@@ -2,6 +2,7 @@ ext {
     androidPlugin = '3.0.1'
     jacocoGradle = '0.1.2'
     gmsServices = '3.1.0'
+    fabric = '1.24.4'
 
     support = '27.0.1'
     constraintLayout = '1.0.2'
@@ -24,6 +25,8 @@ ext {
     prefs = "2.3"
     expTextView = '0.1.4'
     timber = '4.6.0'
+
+    crashlyticsSdk = '2.7.1@aar'
 
     junit = '4.12'
     random_beans = '3.7.0'
