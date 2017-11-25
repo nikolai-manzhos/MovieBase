@@ -1,7 +1,9 @@
 package com.defaultapps.moviebase;
 
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.squareup.leakcanary.LeakCanary;
 
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 /**
@@ -15,6 +17,7 @@ public class DebugApp extends App {
         super.onCreate();
 //        initStetho();
         initLeakCanary();
+        initCrashlytics();
         Timber.plant(new Timber.DebugTree());
     }
 
@@ -31,5 +34,12 @@ public class DebugApp extends App {
             return;
         }
         LeakCanary.install(this);
+    }
+
+    private void initCrashlytics() {
+        final CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
+                .disabled(BuildConfig.DEBUG)
+                .build();
+        Fabric.with(this, crashlyticsCore);
     }
 }
