@@ -169,6 +169,7 @@ public class MovieViewImpl extends BaseFragment
         initFAB();
         initRecyclerViews();
 
+        assert getArguments() != null;
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
         presenter.requestMovieInfo(movieId, false);
         presenter.requestFavoriteStatus(movieId);
@@ -282,7 +283,7 @@ public class MovieViewImpl extends BaseFragment
     @Override
     public void displayLoginScreen() {
         if (!(getActivity() instanceof NavigationView)) {
-            throw new AssertionError("Activity must implement MainView interface");
+            throw new IllegalArgumentException("Activity must implement MainView interface");
         }
         ((NavigationView) getActivity()).displayLoginActivity();
     }
@@ -344,7 +345,7 @@ public class MovieViewImpl extends BaseFragment
 
     private void loadImage(String uri, ImageView iv) {
         Picasso
-                .with(getContext().getApplicationContext())
+                .with(getContext())
                 .load("http://image.tmdb.org/t/p//w1280" + uri)
                 .fit()
                 .centerCrop()
