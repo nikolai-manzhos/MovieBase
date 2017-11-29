@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.when;
 @Config(constants = BuildConfig.class, sdk = 22, application = FakeApplication.class)
 public abstract class BaseViewTest {
 
+    protected FakeApplication application;
     protected FakeActivity activity;
     protected ActivityComponent activityComponent;
     protected FragmentComponent fragmentComponent;
@@ -34,6 +36,7 @@ public abstract class BaseViewTest {
     @CallSuper
     @Before
     public void setup() throws Exception {
+        application = (FakeApplication) RuntimeEnvironment.application;
         ActivityController<FakeActivity> controller = Robolectric.buildActivity(
                 FakeActivity.class,
                 null);

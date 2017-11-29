@@ -1,12 +1,14 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseViewTest;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
+import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.KickoffActivity;
 
@@ -16,6 +18,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowActivity;
+
+import java.lang.reflect.Constructor;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
@@ -41,7 +45,15 @@ public class BookmarksViewTest extends BaseViewTest {
     public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
+        Constructor<ResUtils> resUtilsConstructor = ResUtils.class.getDeclaredConstructor(Context.class);
+        Constructor<ViewUtils> viewUtilsConstructor = ViewUtils.class.getDeclaredConstructor(Context.class);
+        resUtilsConstructor.setAccessible(true);
+        viewUtilsConstructor.setAccessible(true);
+        ResUtils resUtils = resUtilsConstructor.newInstance(application);
+        ViewUtils viewUtils = viewUtilsConstructor.newInstance(application);
         bookmarksView = new BookmarksViewImpl();
+        bookmarksView.resUtils = resUtils;
+        bookmarksView.viewUtils = viewUtils;
         bookmarksView.presenter = presenter;
         bookmarksView.favoritesAdapter = favoritesAdapter;
 
