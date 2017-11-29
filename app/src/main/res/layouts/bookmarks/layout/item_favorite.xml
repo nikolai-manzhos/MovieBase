@@ -6,7 +6,7 @@
     <ImageView
         android:id="@+id/favoritePoster"
         android:contentDescription="@string/bookmarks_movie_poster"
-        android:layout_width="120dp"
-        android:layout_height="175dp"
+        android:layout_width="@dimen/favorite_image_width"
+        android:layout_height="@dimen/favorite_image_height"
         android:foreground="@drawable/custom_selector" />
 </FrameLayout>

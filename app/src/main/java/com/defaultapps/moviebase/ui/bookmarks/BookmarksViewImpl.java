@@ -16,6 +16,7 @@ import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.ViewUtils;
@@ -24,6 +25,7 @@ import com.firebase.ui.auth.AuthUI;
 
 import javax.inject.Inject;
 
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -46,11 +48,17 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @BindView(R.id.no_user_container)
     ConstraintLayout noUserView;
 
+    @BindDimen(R.dimen.favorite_image_width)
+    int columnWidthPx;
+
     @Inject
     BookmarksPresenter presenter;
 
     @Inject
     ViewUtils viewUtils;
+
+    @Inject
+    ResUtils resUtils;
 
     @Inject
     @Nullable
@@ -103,7 +111,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @OnClick(R.id.bookmarks_login_btn)
     void onLoginClick() {
-        getActivity().startActivityForResult(
+        startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.DarkTheme)
@@ -140,7 +148,9 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
             presenter.displayNoUserView();
             return;
         }
-        favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        int columnSizeDp = resUtils.convertPxToDp(columnWidthPx);
+        favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),
+                viewUtils.calculateNoOfColumns(columnSizeDp)));
         favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(2,true));
         favoriteRecyclerView.setAdapter(favoritesAdapter);
         favoritesAdapter.setOnMovieClickListener(this);

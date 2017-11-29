@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="view_padding_default">16dp</dimen>
+
+    <!--Movie view-->
+    <dimen name="movie_header_subtitle_margin">5dp</dimen>
+
+    <!--Favorite item-->
+    <dimen name="favorite_image_width">120dp</dimen>
+    <dimen name="favorite_image_height">175dp</dimen>
 </resources>

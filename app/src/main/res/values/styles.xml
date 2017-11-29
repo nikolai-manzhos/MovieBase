@@ -109,6 +109,13 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <style name="DefaultCardView">
+        <item name="android:foreground">@drawable/custom_selector</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/colorPrimary</item>
+    </style>
+
     <style name="DarkTheme" parent="FirebaseUI">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

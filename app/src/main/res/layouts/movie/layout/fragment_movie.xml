@@ -76,6 +76,7 @@
                         android:layout_below="@+id/movieTitle"
                         android:layout_toEndOf="@+id/imagePoster"
                         android:layout_marginStart="10dp"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
                         tools:ignore="HardcodedText" />
 
                     <com.joanzapata.iconify.widget.IconTextView
@@ -86,6 +87,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/releaseDate"
                         android:layout_alignStart="@+id/releaseDate"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
                         tools:ignore="HardcodedText" />
 
                     <TextView
@@ -95,6 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/runtime"
                         android:layout_alignStart="@+id/runtime"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
                         tools:text="200,000,000$"/>
 
                     <TextView
@@ -104,6 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/budget"
                         android:layout_alignStart="@+id/budget"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
                         tools:text="200,000,000$"/>
 
                     <TextView
@@ -137,7 +141,7 @@
                             android:id="@id/expand_collapse"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="16dp"
+                            android:padding="@dimen/view_padding_default"
                             android:layout_gravity="center_horizontal"
                             android:background="@android:color/transparent"/>
                     </com.ms.square.android.expandabletextview.ExpandableTextView>
@@ -197,7 +201,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:clickable="true"
         app:backgroundTint="@color/colorPrimaryDark"
         app:rippleColor="@color/colorDisabledText"
         app:layout_anchorGravity="bottom|right|end"

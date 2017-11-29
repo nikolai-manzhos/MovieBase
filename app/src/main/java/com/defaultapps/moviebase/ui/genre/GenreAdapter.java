@@ -139,7 +139,7 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void bindGenreViewHolder(GenreViewHolder vh, int aPosition) {
-        final String ICON = "{md-today 24dp}";
+        final String ICON = "{md-today 18dp}";
         final String ICON_VOTE = resolveRatingIcon(items.get(aPosition).getVoteAverage());
         String posterPath = items.get(aPosition).getPosterPath();
         vh.title.setText(items.get(aPosition).getTitle());
