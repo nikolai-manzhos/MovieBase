@@ -168,4 +168,19 @@ public class MovieViewTest extends BaseViewTest {
 
         verify(navView).displayLoginActivity();
     }
+
+    @Test
+    public void shouldPerformShareAction() throws Exception {
+        MovieInfoResponse movieDataFake = random(MovieInfoResponse.class);
+        Field movieInfoField = movieView.getClass().getDeclaredField("movieInfo");
+        movieInfoField.setAccessible(true);
+        movieInfoField.set(movieView, movieDataFake);
+
+        ShadowActivity shadowActivity = shadowOf(activity);
+        assert movieView.getView() != null;
+        movieView.getView().findViewById(R.id.shareButton).performClick();
+
+        assertEquals(shadowActivity.peekNextStartedActivity().getAction(),
+                Intent.ACTION_SEND);
+    }
 }
