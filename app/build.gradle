@@ -47,6 +47,7 @@ android {
             multiDexEnabled true
             testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ext.enableCrashlytics = false
         }
     }
     buildTypes.each {
