@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "879733247194-mpuo8fn545gaif728d3h72rsup0tdi2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.defaultapps.moviebase",
+            "certificate_hash": "636e3ca84d78b5814e17e0020e88eedbbd0fdb08"
+          }
+        },
+        {
           "client_id": "879733247194-40m2p114skvkr2frfjts34eailduu3rn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

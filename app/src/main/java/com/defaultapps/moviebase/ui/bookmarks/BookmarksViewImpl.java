@@ -111,7 +111,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @OnClick(R.id.bookmarks_login_btn)
     void onLoginClick() {
-        startActivityForResult(
+        getActivity().startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.DarkTheme)

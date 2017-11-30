@@ -185,6 +185,15 @@ public class MovieViewImpl extends BaseFragment
         presenter.addOrRemoveFromFavorites(movieInfo.getId(), movieInfo.getPosterPath());
     }
 
+    @OnClick(R.id.shareButton)
+    void onShareClick() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND)
+                .putExtra(Intent.EXTRA_TEXT, movieInfo.getHomepage())
+                .setType("text/plain")
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(shareIntent);
+    }
+
     @Override
     public void onMovieClick(int movieId) {
         Intent intent = new Intent(getActivity(), MovieActivity.class)
