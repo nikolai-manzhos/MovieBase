@@ -1,7 +1,9 @@
 package com.defaultapps.moviebase.ui.base;
 
 import android.support.annotation.CallSuper;
+
 import com.defaultapps.moviebase.data.base.UseCase;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 

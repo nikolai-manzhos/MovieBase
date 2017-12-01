@@ -8,7 +8,6 @@ import com.defaultapps.moviebase.ui.genre.GenreContract.GenrePresenter;
 import com.defaultapps.moviebase.ui.genre.GenrePresenterImpl;
 import com.defaultapps.moviebase.ui.home.HomeContract.HomePresenter;
 import com.defaultapps.moviebase.ui.home.HomePresenterImpl;
-import com.defaultapps.moviebase.ui.main.MainContract;
 import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
 import com.defaultapps.moviebase.ui.main.MainPresenterImpl;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;

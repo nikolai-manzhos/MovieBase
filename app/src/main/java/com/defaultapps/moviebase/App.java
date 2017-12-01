@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
@@ -13,6 +14,7 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.MaterialModule;
 
 
+@SuppressLint("Registered")
 public class App extends Application {
 
     private ApplicationComponent appComponent;

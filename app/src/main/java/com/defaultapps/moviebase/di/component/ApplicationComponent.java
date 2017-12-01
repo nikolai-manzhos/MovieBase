@@ -15,7 +15,6 @@ import com.defaultapps.moviebase.di.module.SchedulersModule;
 import com.defaultapps.moviebase.di.module.UseCaseModule;
 import com.defaultapps.moviebase.utils.NetworkUtil;
 import com.defaultapps.moviebase.utils.ResUtils;
-import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.rx.RxBus;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
