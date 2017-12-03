@@ -3,10 +3,13 @@ package com.defaultapps.moviebase.utils;
 
 
 import android.content.Context;
+import android.view.View;
 
 import com.defaultapps.moviebase.R;
 import com.firebase.ui.auth.AuthUI;
+import com.roughike.bottombar.BottomBar;
 
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -55,5 +58,27 @@ public class Utils {
         int hours = minutes / 60;
         minutes = minutes % 60;
         return context.getString(R.string.movie_runtime, hours, minutes);
+    }
+
+    /**
+     * Nasty hack to remove white line from bottom bar on landscape orientation
+     * @param bottomBar BottomBar view
+     */
+    public static void removeShadowViewFromBottomBar(BottomBar bottomBar) {
+        Field shadowViewField = null;
+        try {
+            shadowViewField = BottomBar.class.getDeclaredField("shadowView");
+            shadowViewField.setAccessible(true);
+            View view = (View) shadowViewField.get(bottomBar);
+            if (view == null) return;
+            view.setVisibility(View.GONE);
+            shadowViewField.set(bottomBar, view);
+        } catch (NoSuchFieldException e) {
+            Timber.e(e);
+        } catch (IllegalAccessException e) {
+            Timber.e(e);
+        } finally {
+            if (shadowViewField != null) shadowViewField.setAccessible(false);
+        }
     }
 }

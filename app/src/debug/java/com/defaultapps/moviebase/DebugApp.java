@@ -48,8 +48,8 @@ public class DebugApp extends App {
     }
 
     private void initCrashlytics() {
-        final CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
-                .disabled(BuildConfig.DEBUG)
+        CrashlyticsCore crashlyticsCore = new CrashlyticsCore.Builder()
+                .disabled(true)
                 .build();
         Fabric.with(this, new Crashlytics.Builder().core(crashlyticsCore).build());
     }

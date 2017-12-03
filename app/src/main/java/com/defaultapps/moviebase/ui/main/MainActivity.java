@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
         if (savedInstanceState == null) {
             selectItem(R.id.tab_home);
         }
+        Utils.removeShadowViewFromBottomBar(bottomBar);
     }
 
     @Override
