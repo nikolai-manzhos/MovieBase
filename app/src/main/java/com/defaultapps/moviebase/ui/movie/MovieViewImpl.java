@@ -22,7 +22,7 @@ import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
-import com.defaultapps.moviebase.ui.common.NavigationView;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
@@ -136,6 +136,9 @@ public class MovieViewImpl extends BaseFragment
     @Inject
     ViewUtils viewUtils;
 
+    @Inject
+    MovieNavigatorImpl movieNavigator;
+
     private int movieId;
     private MovieInfoResponse movieInfo;
 
@@ -155,6 +158,11 @@ public class MovieViewImpl extends BaseFragment
     @Override
     protected MvpPresenter providePresenter() {
         return presenter;
+    }
+
+    @Override
+    protected Navigator provideNavigator() {
+        return movieNavigator;
     }
 
     @Override
@@ -291,10 +299,7 @@ public class MovieViewImpl extends BaseFragment
 
     @Override
     public void displayLoginScreen() {
-        if (!(getActivity() instanceof NavigationView)) {
-            throw new IllegalArgumentException("Activity must implement MainView interface");
-        }
-        ((NavigationView) getActivity()).displayLoginActivity();
+        movieNavigator.toLoginActivity();
     }
 
     private void initFAB() {

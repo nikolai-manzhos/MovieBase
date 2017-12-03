@@ -12,16 +12,17 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
-import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
-import com.firebase.ui.auth.AuthUI;
 
 import javax.inject.Inject;
 
@@ -31,7 +32,6 @@ import butterknife.OnClick;
 
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksPresenter;
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksView;
-import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
 
 public class BookmarksViewImpl extends BaseFragment implements BookmarksView, OnMovieClickListener {
@@ -54,6 +54,10 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @Inject
     BookmarksPresenter presenter;
 
+    @FragmentContext
+    @Inject
+    DefaultNavigator bookmarksNavigator;
+
     @Inject
     ViewUtils viewUtils;
 
@@ -72,6 +76,11 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @Override
     protected MvpPresenter providePresenter() {
         return presenter;
+    }
+
+    @Override
+    protected Navigator provideNavigator() {
+        return bookmarksNavigator;
     }
 
     @Override
@@ -111,14 +120,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @OnClick(R.id.bookmarks_login_btn)
     void onLoginClick() {
-        getActivity().startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setTheme(R.style.DarkTheme)
-                        .setLogo(R.mipmap.ic_launcher_round)
-                        .setAvailableProviders(Utils.getProvidersList())
-                        .build(),
-                RC_SIGN_IN);
+        bookmarksNavigator.toSignInActivity();
     }
 
     @Override

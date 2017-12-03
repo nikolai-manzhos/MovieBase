@@ -25,7 +25,7 @@ public class CreditsCrewAdapter extends RecyclerView.Adapter<CastCrewViewHolder>
     private List<Crew> crewCredits;
 
     @Inject
-    public CreditsCrewAdapter(@ActivityContext Context context) {
+    CreditsCrewAdapter(@ActivityContext Context context) {
         this.context = context;
         crewCredits = new ArrayList<>();
     }

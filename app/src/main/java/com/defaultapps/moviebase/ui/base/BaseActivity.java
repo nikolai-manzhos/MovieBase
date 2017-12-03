@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -18,6 +19,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Componen
 
     protected ActivityComponent activityComponent;
     private MvpPresenter<MvpView> presenter;
+    private Navigator<MvpView> navigator;
     private OnBackPressedListener onBackPressedListener;
 
     @SuppressWarnings("unchecked")
@@ -32,13 +34,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Componen
         setContentView(provideLayout());
         ButterKnife.bind(this);
         presenter = providePresenter();
+        navigator = provideNavigator();
         if (presenter != null) presenter.onAttach(this);
+        if (navigator != null) navigator.onAttach(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (presenter != null) presenter.onDetach();
+        if (navigator != null) navigator.onDetach();
     }
 
     @Override
@@ -64,7 +69,17 @@ public abstract class BaseActivity extends AppCompatActivity implements Componen
     @Override
     public void showLoading() {}
 
+    @NonNull
+    @Override
+    public BaseActivity provideActivity() {
+        return this;
+    }
+
     protected MvpPresenter providePresenter() {
+        return null;
+    }
+
+    protected Navigator provideNavigator() {
         return null;
     }
 

@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
-import com.defaultapps.moviebase.ui.common.NavigationView;
-import com.defaultapps.moviebase.ui.login.LoginActivity;
 import com.defaultapps.moviebase.utils.Utils;
 import com.firebase.ui.auth.AuthUI;
 
@@ -17,7 +15,7 @@ import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
 
-public class MovieActivity extends BaseActivity implements NavigationView {
+public class MovieActivity extends BaseActivity {
 
     @Override
     protected int provideLayout() {
@@ -56,12 +54,6 @@ public class MovieActivity extends BaseActivity implements NavigationView {
                         RC_SIGN_IN);
             }
         }
-    }
-
-    @Override
-    public void displayLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RC_LOGIN);
     }
 
     private void replaceMovieFragment(int movieId) {

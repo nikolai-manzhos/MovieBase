@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
 
     private Unbinder unbinder;
     private MvpPresenter<MvpView> presenter;
+    private Navigator<MvpView> navigator;
     private ComponentActivity componentActivity;
     private FragmentComponent fragmentComponent;
 
@@ -48,6 +50,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
         inject();
         unbinder = ButterKnife.bind(this, v);
         presenter = providePresenter();
+        navigator = provideNavigator();
         return v;
     }
 
@@ -55,6 +58,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         if (presenter != null) presenter.onAttach(this);
+        if (navigator != null) navigator.onAttach(this);
     }
 
     @Override
@@ -62,6 +66,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
         super.onDestroyView();
         unbinder.unbind();
         if (presenter != null) presenter.onDetach();
+        if (navigator != null) navigator.onDetach();
     }
 
     @Override
@@ -79,11 +84,21 @@ public abstract class BaseFragment extends Fragment implements MvpView {
         return null;
     }
 
+    protected Navigator provideNavigator() {
+        return null;
+    }
+
     @Override
     public void showLoading() {}
 
     @Override
     public void hideLoading() {}
+
+    @NonNull
+    @Override
+    public BaseActivity provideActivity() {
+        return (BaseActivity) componentActivity;
+    }
 
     protected final FragmentComponent getFragmentComponent() {
         return fragmentComponent;

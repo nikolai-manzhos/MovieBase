@@ -5,7 +5,7 @@ import com.defaultapps.moviebase.data.base.UseCase;
 import io.reactivex.disposables.CompositeDisposable;
 
 
-public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
+public abstract class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
 
     private V view;
     private UseCase[] useCases;

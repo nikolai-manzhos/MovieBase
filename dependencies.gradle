@@ -14,7 +14,7 @@ ext {
     rxandroid ='2.0.1'
     firebase = '11.4.2'
     firebaseUi = '3.1.0'
-    leakcanary = '1.5.1'
+    leakcanary = '1.5.4'
     okhttpVersion = '3.6.0'
     picasso = '2.5.2'
     iconify = '2.2.2'

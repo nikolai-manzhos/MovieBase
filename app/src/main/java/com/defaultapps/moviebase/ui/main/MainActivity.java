@@ -5,17 +5,16 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
-import com.defaultapps.moviebase.ui.common.NavigationView;
+import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
-import com.defaultapps.moviebase.ui.login.LoginActivity;
 import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
-import com.defaultapps.moviebase.utils.Utils;
-import com.firebase.ui.auth.AuthUI;
 import com.roughike.bottombar.BottomBar;
 
 import javax.inject.Inject;
@@ -25,7 +24,7 @@ import butterknife.BindView;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
-public class MainActivity extends BaseActivity implements NavigationView {
+public class MainActivity extends BaseActivity implements MainContract.MainView {
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
@@ -33,6 +32,9 @@ public class MainActivity extends BaseActivity implements NavigationView {
     @Inject
     MainPresenter presenter;
 
+    @ActivityContext
+    @Inject
+    DefaultNavigator defaultNavigator;
 
     @Override
     protected int provideLayout() {
@@ -42,6 +44,11 @@ public class MainActivity extends BaseActivity implements NavigationView {
     @Override
     protected MvpPresenter providePresenter() {
         return presenter;
+    }
+
+    @Override
+    protected Navigator provideNavigator() {
+        return defaultNavigator;
     }
 
     @Override
@@ -69,14 +76,7 @@ public class MainActivity extends BaseActivity implements NavigationView {
             }
         } else if (requestCode == RC_LOGIN) {
             if (resultCode == RESULT_OK) {
-                startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setTheme(R.style.DarkTheme)
-                                .setLogo(R.mipmap.ic_launcher_round)
-                                .setAvailableProviders(Utils.getProvidersList())
-                                .build(),
-                        RC_SIGN_IN);
+                defaultNavigator.toSignInActivity();
             }
         }
     }
@@ -95,8 +95,7 @@ public class MainActivity extends BaseActivity implements NavigationView {
 
     @Override
     public void displayLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RC_LOGIN);
+        defaultNavigator.toLoginActivity();
     }
 
     private void selectItem(int tabId) {
