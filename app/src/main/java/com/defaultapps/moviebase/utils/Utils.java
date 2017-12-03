@@ -1,7 +1,5 @@
 package com.defaultapps.moviebase.utils;
 
-
-
 import android.content.Context;
 import android.view.View;
 

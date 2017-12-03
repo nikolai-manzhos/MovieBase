@@ -19,10 +19,12 @@ import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
@@ -136,8 +138,9 @@ public class MovieViewImpl extends BaseFragment
     @Inject
     ViewUtils viewUtils;
 
+    @FragmentContext
     @Inject
-    MovieNavigatorImpl movieNavigator;
+    DefaultNavigator navigator;
 
     private int movieId;
     private MovieInfoResponse movieInfo;
@@ -162,7 +165,7 @@ public class MovieViewImpl extends BaseFragment
 
     @Override
     protected Navigator provideNavigator() {
-        return movieNavigator;
+        return navigator;
     }
 
     @Override
@@ -299,7 +302,7 @@ public class MovieViewImpl extends BaseFragment
 
     @Override
     public void displayLoginScreen() {
-        movieNavigator.toLoginActivity();
+        navigator.toLoginActivity();
     }
 
     private void initFAB() {

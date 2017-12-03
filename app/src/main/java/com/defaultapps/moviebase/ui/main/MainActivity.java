@@ -15,6 +15,7 @@ import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
+import com.defaultapps.moviebase.utils.Utils;
 import com.roughike.bottombar.BottomBar;
 
 import javax.inject.Inject;

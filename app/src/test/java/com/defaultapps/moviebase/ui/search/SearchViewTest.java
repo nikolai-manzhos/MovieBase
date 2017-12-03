@@ -3,7 +3,7 @@ package com.defaultapps.moviebase.ui.search;
 import android.content.ComponentName;
 
 import com.defaultapps.moviebase.TestUtils;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.ViewUtils;
 
@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
-public class SearchViewTest extends BaseViewTest {
+public class SearchViewTest extends BaseRobolectricTest {
 
     @Mock
     private SearchContract.SearchPresenter presenter;

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
 
-public class GenreViewTest extends BaseViewTest {
+public class GenreViewTest extends BaseRobolectricTest {
 
     private static final String FAKE_GENRE_ID = "213542";
     private static final String FAKE_GENRE_NAME = "Action";

@@ -3,7 +3,7 @@ package com.defaultapps.moviebase.ui.login;
 import android.app.Activity;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 
 import org.junit.Test;
 import org.robolectric.shadows.ShadowActivity;
@@ -13,7 +13,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
-public class LoginViewTest extends BaseViewTest {
+public class LoginViewTest extends BaseRobolectricTest {
 
     private LoginViewImpl loginView;
 

@@ -6,8 +6,8 @@ import android.content.Intent;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.TestUtils;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
-import com.defaultapps.moviebase.ui.BaseViewTest;
-import com.defaultapps.moviebase.ui.main.MainActivity;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
+import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
@@ -25,13 +25,10 @@ import java.lang.reflect.Field;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.robolectric.Shadows.shadowOf;
 
-public class MovieViewTest extends BaseViewTest {
+public class MovieViewTest extends BaseRobolectricTest {
 
     @Mock
     private MovieContract.MoviePresenter presenter;
@@ -51,6 +48,9 @@ public class MovieViewTest extends BaseViewTest {
     @Mock
     private ViewUtils viewUtils;
 
+    @Mock
+    private DefaultNavigator defaultNavigator;
+
     private MovieViewImpl movieView;
 
     private static final int ANY_MOVIE_ID = 21344;
@@ -65,6 +65,7 @@ public class MovieViewTest extends BaseViewTest {
         movieView.crewAdapter = crewAdapter;
         movieView.similarAdapter = similarAdapter;
         movieView.viewUtils = viewUtils;
+        movieView.navigator = defaultNavigator;
 
         TestUtils.addFragmentToFragmentManager(movieView, activity);
     }
@@ -153,20 +154,11 @@ public class MovieViewTest extends BaseViewTest {
         verify(viewUtils).showSnackbar(movieView.nestedScrollView, movieView.getString(R.string.movie_favorite_failure));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void displayLoginActivityShouldThrowExceptionOnWrongActivity() {
-        movieView.displayLoginScreen();
-    }
-
     @Test
     public void displayLoginActivity() {
-        MovieViewImpl movieViewSpy = spy(movieView);
-        MainActivity navView = mock(MainActivity.class);
-        when(movieViewSpy.getActivity()).thenReturn(navView);
+        movieView.displayLoginScreen();
 
-        movieViewSpy.displayLoginScreen();
-
-        verify(navView).displayLoginActivity();
+        verify(defaultNavigator).toLoginActivity();
     }
 
     @Test

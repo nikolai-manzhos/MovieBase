@@ -4,7 +4,7 @@ import android.content.ComponentName;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.TestUtils;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
-public class HomeViewTest extends BaseViewTest {
+public class HomeViewTest extends BaseRobolectricTest {
 
     @Mock
     private HomePresenterImpl presenter;

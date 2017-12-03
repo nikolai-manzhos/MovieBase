@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("WeakerAccess")
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 22, application = FakeApplication.class)
-public abstract class BaseViewTest {
+public abstract class BaseRobolectricTest {
 
     protected FakeApplication application;
     protected FakeActivity activity;

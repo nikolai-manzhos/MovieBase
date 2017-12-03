@@ -6,11 +6,11 @@ import android.support.constraint.ConstraintLayout;
 import android.view.View;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
+import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.ViewUtils;
-import com.firebase.ui.auth.KickoffActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,13 +31,16 @@ import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
 
-public class BookmarksViewTest extends BaseViewTest {
+public class BookmarksViewTest extends BaseRobolectricTest {
 
     @Mock
     private BookmarksPresenterImpl presenter;
 
     @Mock
     private FavoritesAdapter favoritesAdapter;
+
+    @Mock
+    private DefaultNavigator defaultNavigator;
 
     private BookmarksViewImpl bookmarksView;
 
@@ -56,6 +59,7 @@ public class BookmarksViewTest extends BaseViewTest {
         bookmarksView.viewUtils = viewUtils;
         bookmarksView.presenter = presenter;
         bookmarksView.favoritesAdapter = favoritesAdapter;
+        bookmarksView.bookmarksNavigator = defaultNavigator;
 
         addFragmentToFragmentManager(bookmarksView, activity);
     }
@@ -77,12 +81,9 @@ public class BookmarksViewTest extends BaseViewTest {
 
     @Test
     public void shouldOpenActivityOnLoginBtnClick() {
-        ShadowActivity shadowActivity = shadowOf(activity);
         assert bookmarksView.getView() != null;
         bookmarksView.getView().findViewById(R.id.bookmarks_login_btn).performClick();
-
-        assertEquals(shadowActivity.peekNextStartedActivityForResult().intent.getComponent(),
-                new ComponentName(activity, KickoffActivity.class));
+        verify(defaultNavigator).toSignInActivity();
     }
 
     @Test

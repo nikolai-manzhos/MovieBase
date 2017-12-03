@@ -3,7 +3,7 @@ package com.defaultapps.moviebase.ui.discover;
 import android.content.ComponentName;
 
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
 
 import org.junit.Test;
@@ -17,7 +17,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
-public class DiscoverViewTest extends BaseViewTest {
+public class DiscoverViewTest extends BaseRobolectricTest {
 
     @Mock
     private DiscoverAdapter adapter;
