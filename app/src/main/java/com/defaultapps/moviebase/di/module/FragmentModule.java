@@ -39,7 +39,7 @@ public class FragmentModule {
                 new FirebaseRecyclerOptions.Builder<Favorite>()
                         .setQuery(dbReference, Favorite.class)
                         .build();
-        return new FavoritesAdapter(options, context, defaultNavigator, viewUtils);
+        return new FavoritesAdapter(options, context, viewUtils);
     }
 
     /**
