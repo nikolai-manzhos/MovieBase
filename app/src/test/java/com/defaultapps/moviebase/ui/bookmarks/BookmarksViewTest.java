@@ -1,6 +1,5 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.View;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.common.DefaultNavigator;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.ViewUtils;
 
@@ -17,18 +15,15 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.shadows.ShadowActivity;
 
 import java.lang.reflect.Constructor;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Shadows.shadowOf;
 
 
 public class BookmarksViewTest extends BaseRobolectricTest {
@@ -69,7 +64,6 @@ public class BookmarksViewTest extends BaseRobolectricTest {
         bookmarksView.favoritesAdapter = favoritesAdapter;
         verify(fragmentComponent).inject(bookmarksView);
         verify(presenter).onAttach(bookmarksView);
-        verify(favoritesAdapter).setOnMovieClickListener(bookmarksView);
     }
 
     @Test
@@ -84,16 +78,6 @@ public class BookmarksViewTest extends BaseRobolectricTest {
         assert bookmarksView.getView() != null;
         bookmarksView.getView().findViewById(R.id.bookmarks_login_btn).performClick();
         verify(defaultNavigator).toSignInActivity();
-    }
-
-    @Test
-    public void shouldOpenMovieActivityOnFavoriteClick() {
-        final int FAKE_MOVIE_ID = 1337;
-        ShadowActivity shadowActivity = shadowOf(activity);
-        bookmarksView.onMovieClick(FAKE_MOVIE_ID);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
-                new ComponentName(activity, MovieActivity.class));
     }
 
     @Test
@@ -119,7 +103,6 @@ public class BookmarksViewTest extends BaseRobolectricTest {
         removeFragmentFromFragmentManager(bookmarksView, activity);
 
         verify(presenter).onDetach();
-        verify(favoritesAdapter).setOnMovieClickListener(null);
     }
 
     @Test
@@ -149,15 +132,6 @@ public class BookmarksViewTest extends BaseRobolectricTest {
         bookmarksView.onStart();
 
         verify(favoritesAdapter, never()).startListening();
-    }
-
-    @Test
-    public void shouldNotCleanAdapterOnNullReference() {
-        bookmarksView.favoritesAdapter = null;
-        removeFragmentFromFragmentManager(bookmarksView, activity);
-
-        verify(presenter).onDetach();
-        verify(favoritesAdapter, never()).setOnMovieClickListener(null);
     }
 
     @Test

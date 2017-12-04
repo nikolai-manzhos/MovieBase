@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.person.Cast;
 import com.defaultapps.moviebase.di.ActivityContext;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
+import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.person.CastCrewViewHolder;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.squareup.picasso.Picasso;
@@ -21,12 +23,15 @@ import javax.inject.Inject;
 @PerFragment
 public class CreditsCastAdapter extends RecyclerView.Adapter<CastCrewViewHolder> {
 
-    private Context context;
+    private final Context context;
+    private final DefaultNavigator defaultNavigator;
     private List<Cast> castCredits;
 
     @Inject
-    CreditsCastAdapter(@ActivityContext Context context) {
+    CreditsCastAdapter(@ActivityContext Context context,
+                       @FragmentContext DefaultNavigator defaultNavigator) {
         this.context = context;
+        this.defaultNavigator = defaultNavigator;
         castCredits = new ArrayList<>();
     }
 
@@ -39,10 +44,12 @@ public class CreditsCastAdapter extends RecyclerView.Adapter<CastCrewViewHolder>
     @Override
     public void onBindViewHolder(CastCrewViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
-        holder.personJob.setText(castCredits.get(adapterPosition).getCharacter());
+        Cast cast = castCredits.get(adapterPosition);
+        holder.personJob.setText(cast.getCharacter());
+        holder.itemView.setOnClickListener(view -> defaultNavigator.toMovieActivity(cast.getId()));
         Picasso
                 .with(context)
-                .load(AppConstants.POSTER_BASE_URL + castCredits.get(adapterPosition).getPosterPath())
+                .load(AppConstants.POSTER_BASE_URL + cast.getPosterPath())
                 .into(holder.moviePoster);
     }
 

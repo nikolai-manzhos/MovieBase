@@ -24,7 +24,7 @@ import javax.inject.Inject;
 @PerFragment
 public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
+    private final Context context;
     private List<Result> items;
     private OnMovieClickListener listener;
 

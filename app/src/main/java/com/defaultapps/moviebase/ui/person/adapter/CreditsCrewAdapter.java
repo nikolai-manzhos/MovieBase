@@ -21,7 +21,8 @@ import javax.inject.Inject;
 @PerFragment
 public class CreditsCrewAdapter extends RecyclerView.Adapter<CastCrewViewHolder> {
 
-    private Context context;
+    private final Context context;
+//    private final DefaultNavigator defaultNavigator;
     private List<Crew> crewCredits;
 
     @Inject

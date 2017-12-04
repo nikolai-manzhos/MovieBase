@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
-import com.defaultapps.moviebase.ui.base.MvpView;
 import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 
 import dagger.Module;

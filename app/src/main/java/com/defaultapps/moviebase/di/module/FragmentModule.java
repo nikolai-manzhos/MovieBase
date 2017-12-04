@@ -7,7 +7,6 @@ import com.defaultapps.moviebase.data.models.firebase.Favorite;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
-import com.defaultapps.moviebase.ui.base.MvpView;
 import com.defaultapps.moviebase.ui.bookmarks.FavoritesAdapter;
 import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.utils.ViewUtils;
@@ -31,6 +30,7 @@ public class FragmentModule {
     @Nullable
     FavoritesAdapter provideFavoritesAdapter(@Nullable DatabaseReference dbReference,
                                              @ActivityContext Context context,
+                                             @FragmentContext DefaultNavigator defaultNavigator,
                                              ViewUtils viewUtils) {
         if (dbReference == null) {
             return null;
@@ -39,7 +39,7 @@ public class FragmentModule {
                 new FirebaseRecyclerOptions.Builder<Favorite>()
                         .setQuery(dbReference, Favorite.class)
                         .build();
-        return new FavoritesAdapter(options, context, viewUtils);
+        return new FavoritesAdapter(options, context, defaultNavigator, viewUtils);
     }
 
     /**
@@ -52,5 +52,4 @@ public class FragmentModule {
     DefaultNavigator provideDefaultNavigator() {
         return new DefaultNavigator<>();
     }
-
 }

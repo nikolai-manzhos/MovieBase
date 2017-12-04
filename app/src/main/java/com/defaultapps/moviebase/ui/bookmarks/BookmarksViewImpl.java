@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -14,11 +13,9 @@ import android.widget.LinearLayout;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.Navigator;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
-import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.ViewUtils;
@@ -125,9 +122,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra(AppConstants.MOVIE_ID, movieId);
-        startActivity(intent);
+        bookmarksNavigator.toMovieActivity(movieId);
     }
 
     @Override
