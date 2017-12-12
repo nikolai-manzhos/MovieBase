@@ -180,7 +180,7 @@ public class MovieViewImpl extends BaseFragment
         initFAB();
         initRecyclerViews();
 
-        assert getArguments() != null;
+        Utils.checkNotNull(getArguments());
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
         presenter.requestMovieInfo(movieId, false);
         presenter.requestFavoriteStatus(movieId);

@@ -24,6 +24,12 @@ public class Utils {
         throw new AssertionError("This class cannot be instantiated.");
     }
 
+    public static <T> void checkNotNull(T t) {
+        if (t == null) {
+            throw new NullPointerException();
+        }
+    }
+
     public static String convertDate(String dateString) {
         String finalString = "NaN";
         try {

@@ -28,6 +28,7 @@ import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.search.SearchContract.SearchPresenter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
@@ -121,7 +122,7 @@ public class SearchViewImpl extends BaseFragment implements
         isRestored = savedInstanceState != null;
 
         activity.setSupportActionBar(toolbar);
-        assert activity.getSupportActionBar() != null;
+        Utils.checkNotNull(activity.getSupportActionBar());
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         initSearchView();
         initRecyclerView();
