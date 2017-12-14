@@ -59,4 +59,9 @@ public class DefaultNavigator<V extends MvpView> implements Navigator<V> {
                 .putExtra(AppConstants.MOVIE_ID, movieId);
         castToBase().startActivity(intent);
     }
+
+    @Override
+    public void finishActivity() {
+        castToBase().finish();
+    }
 }

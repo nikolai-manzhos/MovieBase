@@ -140,7 +140,7 @@ public class MovieViewImpl extends BaseFragment
 
     @FragmentContext
     @Inject
-    DefaultNavigator navigator;
+    Navigator navigator;
 
     private int movieId;
     private MovieInfoResponse movieInfo;

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 
 import dagger.Module;
@@ -27,12 +28,11 @@ public class ActivityModule {
 
     /**
      * Provide DefaultNavigator which is tied to Activity lifecycle
-     * @return instance of {#com.}
      */
     @ActivityContext
     @PerActivity
     @Provides
-    DefaultNavigator provideDefaultNavigator() {
+    Navigator provideDefaultNavigator() {
         return new DefaultNavigator<>();
     }
 }

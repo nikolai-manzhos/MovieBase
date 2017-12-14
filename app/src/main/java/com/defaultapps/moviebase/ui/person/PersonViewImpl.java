@@ -14,13 +14,16 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.person.Cast;
 import com.defaultapps.moviebase.data.models.responses.person.Crew;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.person.PersonContract.PersonPresenter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCastAdapter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCrewAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +35,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView {
+public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView, OnMovieClickListener {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -76,6 +79,10 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @Inject
     CreditsCrewAdapter crewAdapter;
 
+    @FragmentContext
+    @Inject
+    Navigator navigator;
+
 
     public static PersonViewImpl createInstance(int staffId) {
         PersonViewImpl staffView = new PersonViewImpl();
@@ -93,6 +100,11 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @Override
     protected MvpPresenter providePresenter() {
         return presenter;
+    }
+
+    @Override
+    protected Navigator provideNavigator() {
+        return navigator;
     }
 
     @Override
@@ -116,6 +128,11 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @OnClick(R.id.backButton)
     void onBackClick() {
         getActivity().onBackPressed();
+    }
+
+    @Override
+    public void onMovieClick(int movieId) {
+        navigator.toMovieActivity(movieId);
     }
 
     @Override
@@ -178,10 +195,12 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
         castRecyclerView.setAdapter(castAdapter);
         castRecyclerView.setNestedScrollingEnabled(false);
         castRecyclerView.addItemDecoration(simpleItemDecorator);
+        castAdapter.setOnMovieClickListener(this);
 
         crewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         crewRecyclerView.setAdapter(crewAdapter);
         crewRecyclerView.setNestedScrollingEnabled(false);
         crewRecyclerView.addItemDecoration(simpleItemDecorator);
+        crewAdapter.setOnMovieClickListener(this);
     }
 }

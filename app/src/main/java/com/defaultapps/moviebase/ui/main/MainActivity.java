@@ -10,7 +10,6 @@ import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
-import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
 import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
@@ -35,7 +34,7 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
 
     @ActivityContext
     @Inject
-    DefaultNavigator defaultNavigator;
+    Navigator navigator;
 
     @Override
     protected int provideLayout() {
@@ -49,7 +48,7 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
 
     @Override
     protected Navigator provideNavigator() {
-        return defaultNavigator;
+        return navigator;
     }
 
     @Override
@@ -78,7 +77,7 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
             }
         } else if (requestCode == RC_LOGIN) {
             if (resultCode == RESULT_OK) {
-                defaultNavigator.toSignInActivity();
+                navigator.toSignInActivity();
             }
         }
     }
@@ -97,7 +96,7 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
 
     @Override
     public void displayLoginActivity() {
-        defaultNavigator.toLoginActivity();
+        navigator.toLoginActivity();
     }
 
     private void selectItem(int tabId) {

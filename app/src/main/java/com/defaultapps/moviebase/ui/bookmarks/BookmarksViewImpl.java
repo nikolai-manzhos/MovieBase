@@ -15,7 +15,6 @@ import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.Navigator;
-import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.ViewUtils;
@@ -53,7 +52,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @FragmentContext
     @Inject
-    DefaultNavigator bookmarksNavigator;
+    Navigator navigator;
 
     @Inject
     ViewUtils viewUtils;
@@ -77,7 +76,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @Override
     protected Navigator provideNavigator() {
-        return bookmarksNavigator;
+        return navigator;
     }
 
     @Override
@@ -117,12 +116,12 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @OnClick(R.id.bookmarks_login_btn)
     void onLoginClick() {
-        bookmarksNavigator.toSignInActivity();
+        navigator.toSignInActivity();
     }
 
     @Override
     public void onMovieClick(int movieId) {
-        bookmarksNavigator.toMovieActivity(movieId);
+        navigator.toMovieActivity(movieId);
     }
 
     @Override

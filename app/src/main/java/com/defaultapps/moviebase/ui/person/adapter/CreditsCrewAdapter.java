@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.person.CastCrewViewHolder;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ import javax.inject.Inject;
 public class CreditsCrewAdapter extends RecyclerView.Adapter<CastCrewViewHolder> {
 
     private final Context context;
-//    private final DefaultNavigator defaultNavigator;
     private List<Crew> crewCredits;
+    private OnMovieClickListener listener;
 
     @Inject
     CreditsCrewAdapter(@ActivityContext Context context) {
@@ -39,7 +40,9 @@ public class CreditsCrewAdapter extends RecyclerView.Adapter<CastCrewViewHolder>
     @Override
     public void onBindViewHolder(CastCrewViewHolder holder, int position) {
         int aPosition = holder.getAdapterPosition();
-        holder.personJob.setText(crewCredits.get(aPosition).getJob());
+        Crew crew = crewCredits.get(aPosition);
+        holder.personJob.setText(crew.getJob());
+        holder.itemView.setOnClickListener(view -> listener.onMovieClick(crew.getId()));
         Picasso
                 .with(context)
                 .load(AppConstants.POSTER_BASE_URL + crewCredits.get(aPosition).getPosterPath())
@@ -55,5 +58,9 @@ public class CreditsCrewAdapter extends RecyclerView.Adapter<CastCrewViewHolder>
         this.crewCredits.clear();
         this.crewCredits.addAll(crewCredits);
         notifyDataSetChanged();
+    }
+
+    public void setOnMovieClickListener(OnMovieClickListener listener) {
+        this.listener = listener;
     }
 }

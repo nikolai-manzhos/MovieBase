@@ -7,4 +7,6 @@ public interface Navigator<View extends MvpView> {
     void toLoginActivity();
     void toSignInActivity();
     void toMovieActivity(int movieId);
+
+    void finishActivity();
 }

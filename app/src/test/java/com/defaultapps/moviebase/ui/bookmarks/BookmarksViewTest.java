@@ -54,7 +54,7 @@ public class BookmarksViewTest extends BaseRobolectricTest {
         bookmarksView.viewUtils = viewUtils;
         bookmarksView.presenter = presenter;
         bookmarksView.favoritesAdapter = favoritesAdapter;
-        bookmarksView.bookmarksNavigator = defaultNavigator;
+        bookmarksView.navigator = defaultNavigator;
 
         addFragmentToFragmentManager(bookmarksView, activity);
     }

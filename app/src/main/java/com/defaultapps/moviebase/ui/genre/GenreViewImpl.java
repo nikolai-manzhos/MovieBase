@@ -1,6 +1,5 @@
 package com.defaultapps.moviebase.ui.genre;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +11,11 @@ import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.genre.GenreContract.GenrePresenter;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
@@ -52,6 +52,10 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Inject
     GenreAdapter adapter;
 
+    @FragmentContext
+    @Inject
+    Navigator navigator;
+
     private String genreId;
     private int TOTAL_PAGES = 1;
     private boolean isLoading;
@@ -75,6 +79,11 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Override
     protected MvpPresenter providePresenter() {
         return presenter;
+    }
+
+    @Override
+    protected Navigator provideNavigator() {
+        return navigator;
     }
 
     @Override
@@ -105,8 +114,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @OnClick(R.id.backButton)
     void onBackIconClick() {
-        assert getActivity() != null;
-        getActivity().finish();
+        navigator.finishActivity();
     }
 
     @OnClick(R.id.errorButton)
@@ -116,9 +124,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra(AppConstants.MOVIE_ID, movieId);
-        startActivity(intent);
+        navigator.toMovieActivity(movieId);
     }
 
     @Override

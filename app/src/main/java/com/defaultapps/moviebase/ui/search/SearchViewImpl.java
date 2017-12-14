@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.ui.search;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,12 +20,12 @@ import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.search.SearchContract.SearchPresenter;
-import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.ViewUtils;
@@ -82,6 +81,10 @@ public class SearchViewImpl extends BaseFragment implements
     @Inject
     ViewUtils viewUtils;
 
+    @FragmentContext
+    @Inject
+    Navigator navigator;
+
     private BaseActivity activity;
 
     private int TOTAL_PAGES = 1;
@@ -107,6 +110,11 @@ public class SearchViewImpl extends BaseFragment implements
     @Override
     protected MvpPresenter providePresenter() {
         return presenter;
+    }
+
+    @Override
+    protected Navigator provideNavigator() {
+        return navigator;
     }
 
     @Override
@@ -163,9 +171,7 @@ public class SearchViewImpl extends BaseFragment implements
 
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra(AppConstants.MOVIE_ID, movieId);
-        startActivity(intent);
+        navigator.toMovieActivity(movieId);
     }
 
     @Override
