@@ -1,20 +1,15 @@
 package com.defaultapps.moviebase.ui.search;
 
-import android.content.ComponentName;
-
 import com.defaultapps.moviebase.TestUtils;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.utils.ViewUtils;
 
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.shadows.ShadowActivity;
 
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Shadows.shadowOf;
 
 public class SearchViewTest extends BaseRobolectricTest {
 
@@ -27,6 +22,9 @@ public class SearchViewTest extends BaseRobolectricTest {
     @Mock
     private ViewUtils viewUtils;
 
+    @Mock
+    private Navigator navigator;
+
     private SearchViewImpl searchView;
 
     @Override
@@ -37,6 +35,7 @@ public class SearchViewTest extends BaseRobolectricTest {
         searchView.presenter = presenter;
         searchView.searchAdapter = adapter;
         searchView.viewUtils = viewUtils;
+        searchView.navigator = navigator;
 
         TestUtils.addFragmentToFragmentManager(searchView, activity);
     }
@@ -49,12 +48,7 @@ public class SearchViewTest extends BaseRobolectricTest {
     @Test
     public void shouldOpenMovieActivityOnItemClick() {
         final int ANY_MOVIE_ID = 231321;
-        ShadowActivity shadowActivity = shadowOf(activity);
         searchView.onMovieClick(ANY_MOVIE_ID);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
-                new ComponentName(activity, MovieActivity.class));
+        verify(navigator).toMovieActivity(ANY_MOVIE_ID);
     }
-
-
 }

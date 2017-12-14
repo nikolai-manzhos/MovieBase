@@ -1,27 +1,21 @@
 package com.defaultapps.moviebase.ui.genre;
 
-import android.content.ComponentName;
 import android.os.Bundle;
 import android.view.View;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
-import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.ui.base.Navigator;
 
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.shadows.ShadowActivity;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Shadows.shadowOf;
 
 
 public class GenreViewTest extends BaseRobolectricTest {
@@ -38,6 +32,9 @@ public class GenreViewTest extends BaseRobolectricTest {
     @Mock
     private GenreAdapter adapter;
 
+    @Mock
+    private Navigator navigator;
+
     @Override
     public void setup() throws Exception {
         super.setup();
@@ -45,6 +42,7 @@ public class GenreViewTest extends BaseRobolectricTest {
         genreView = GenreViewImpl.newInstance(FAKE_GENRE_ID, FAKE_GENRE_NAME);
         genreView.presenter = presenter;
         genreView.adapter = adapter;
+        genreView.navigator = navigator;
 
         addFragmentToFragmentManager(genreView, activity);
     }
@@ -68,23 +66,14 @@ public class GenreViewTest extends BaseRobolectricTest {
 
     @Test
     public void shouldStartMovieActivityOnMovieClick() {
-        ShadowActivity shadowActivity = shadowOf(activity);
         genreView.onMovieClick(FAKE_MOVIE_ID);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().getIntExtra(AppConstants.MOVIE_ID, 0),
-                FAKE_MOVIE_ID);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
-                new ComponentName(activity, MovieActivity.class));
+        verify(navigator).toMovieActivity(FAKE_MOVIE_ID);
     }
 
     @Test
     public void shouldFinishActivityOnBackBtnClick() {
-        ShadowActivity shadowActivity = shadowOf(activity);
-        assert genreView.getView() != null;
-        genreView.getView().findViewById(R.id.backButton).performClick();
-
-        assertTrue(shadowActivity.isFinishing());
+        genreView.onBackIconClick();
+        verify(navigator).finishActivity();
     }
 
     @Test

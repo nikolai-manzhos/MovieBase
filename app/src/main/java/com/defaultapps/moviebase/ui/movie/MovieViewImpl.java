@@ -24,7 +24,6 @@ import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.Navigator;
-import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;

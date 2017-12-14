@@ -5,11 +5,10 @@ import android.content.ComponentName;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.TestUtils;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.user.UserActivity;
-import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.ViewUtils;
 
 import org.junit.Test;
@@ -35,6 +34,9 @@ public class HomeViewTest extends BaseRobolectricTest {
     @Mock
     private ViewUtils viewUtils;
 
+    @Mock
+    private Navigator navigator;
+
     private HomeViewImpl homeView;
 
     @Override
@@ -46,6 +48,7 @@ public class HomeViewTest extends BaseRobolectricTest {
         homeView.adapter = homeMainAdapter;
         homeView.upcomingAdapter = upcomingAdapter;
         homeView.viewUtils = viewUtils;
+        homeView.navigator = navigator;
 
         TestUtils.addFragmentToFragmentManager(homeView, activity);
     }
@@ -55,14 +58,7 @@ public class HomeViewTest extends BaseRobolectricTest {
         final int FAKE_MOVIE_ID = 123;
         homeView.onMovieClick(FAKE_MOVIE_ID);
 
-        ShadowActivity shadowActivity = shadowOf(activity);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().
-                        getIntExtra(AppConstants.MOVIE_ID, 0),
-                FAKE_MOVIE_ID);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
-                new ComponentName(activity, MovieActivity.class));
+        navigator.toMovieActivity(FAKE_MOVIE_ID);
     }
 
     @Test
