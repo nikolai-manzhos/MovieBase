@@ -44,7 +44,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     @Nullable
     @Override
     @SuppressWarnings("unchecked")
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(provideLayout(), container, false);
         fragmentComponent = componentActivity.getActivityComponent().plusFragmentComponent();
         inject();
@@ -56,7 +56,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
 
     @CallSuper
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (presenter != null) presenter.onAttach(this);
         if (navigator != null) navigator.onAttach(this);
     }

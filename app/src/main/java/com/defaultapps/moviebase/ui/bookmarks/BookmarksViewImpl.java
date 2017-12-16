@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.ui.bookmarks;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -85,7 +86,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
     }
