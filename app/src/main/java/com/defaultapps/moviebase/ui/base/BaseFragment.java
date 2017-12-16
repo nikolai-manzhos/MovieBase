@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.defaultapps.moviebase.di.component.FragmentComponent;
+import com.defaultapps.moviebase.utils.analytics.Analytics;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,6 +27,9 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     private Navigator<MvpView> navigator;
     private ComponentActivity componentActivity;
     private FragmentComponent fragmentComponent;
+
+    @Inject
+    public Analytics analytics;
 
     @Override
     public void onAttach(Context context) {
@@ -59,6 +65,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (presenter != null) presenter.onAttach(this);
         if (navigator != null) navigator.onAttach(this);
+        analytics.sendScreenSelect("Base Fragment");
     }
 
     @Override
