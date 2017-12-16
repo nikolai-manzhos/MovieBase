@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.defaultapps.easybind.Layout;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.utils.Utils;
@@ -14,13 +15,8 @@ import static com.defaultapps.moviebase.utils.AppConstants.MOVIE_ID;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
-
+@Layout(id = R.layout.activity_movie)
 public class MovieActivity extends BaseActivity {
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.activity_movie;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

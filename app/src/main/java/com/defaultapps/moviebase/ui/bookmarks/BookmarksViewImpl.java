@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
@@ -30,7 +33,7 @@ import butterknife.OnClick;
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksPresenter;
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksView;
 
-
+@Layout(id = R.layout.fragment_bookmarks, name = "Bookmarks")
 public class BookmarksViewImpl extends BaseFragment implements BookmarksView, OnMovieClickListener {
 
     @BindView(R.id.contentContainer)
@@ -48,9 +51,11 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @BindDimen(R.dimen.favorite_image_width)
     int columnWidthPx;
 
+    @BindPresenter
     @Inject
     BookmarksPresenter presenter;
 
+    @BindNavigator
     @FragmentContext
     @Inject
     Navigator navigator;
@@ -64,21 +69,6 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @Inject
     @Nullable
     FavoritesAdapter favoritesAdapter;
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_bookmarks;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected Navigator provideNavigator() {
-        return navigator;
-    }
 
     @Override
     protected void inject() {

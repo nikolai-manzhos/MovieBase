@@ -18,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
@@ -52,7 +55,7 @@ import butterknife.OnClick;
 
 import static com.defaultapps.moviebase.utils.AppConstants.MOVIE_ID;
 
-
+@Layout(id = R.layout.fragment_movie, name = "Movie")
 public class MovieViewImpl extends BaseFragment
         implements MovieContract.MovieView, OnMovieClickListener,
         VideosAdapter.OnVideoClickListener, OnPersonClickListener {
@@ -120,6 +123,7 @@ public class MovieViewImpl extends BaseFragment
     @BindView(R.id.similarRecyclerView)
     RecyclerView similarRecyclerView;
 
+    @BindPresenter
     @Inject
     MoviePresenter presenter;
 
@@ -138,6 +142,7 @@ public class MovieViewImpl extends BaseFragment
     @Inject
     ViewUtils viewUtils;
 
+    @BindNavigator
     @FragmentContext
     @Inject
     Navigator navigator;
@@ -151,21 +156,6 @@ public class MovieViewImpl extends BaseFragment
         MovieViewImpl fragment = new MovieViewImpl();
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_movie;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected Navigator provideNavigator() {
-        return navigator;
     }
 
     @Override

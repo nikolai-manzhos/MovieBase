@@ -117,6 +117,8 @@ dependencies {
             "com.jakewharton.timber:timber:$timber",
             //Prefs
             "com.nikolaymanzhos:preferenceshelper:$prefs",
+            //EasyBind
+            "com.nikolaymanzhos:easybind:$easybind",
             //Picasso
             "com.squareup.picasso:picasso:$picasso",
             //Iconify
@@ -133,7 +135,8 @@ dependencies {
 
     annotationProcessor(
             "com.jakewharton:butterknife-compiler:$butterKnife",
-            "com.google.dagger:dagger-compiler:$dagger"
+            "com.google.dagger:dagger-compiler:$dagger",
+            "com.nikolaymanzhos:easybind-compiler:$easybind"
     )
 
     debugImplementation (

@@ -11,6 +11,8 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
@@ -28,6 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@Layout(id = R.layout.fragment_user, name = "User")
 public class UserViewImpl extends BaseFragment implements UserContract.UserView {
 
     @BindView(R.id.contentContainer)
@@ -42,21 +45,12 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @BindView(R.id.userAvatar)
     CircleImageView userAvatar;
 
+    @BindPresenter
     @Inject
     UserPresenter presenter;
 
     @Inject
     ViewUtils viewUtils;
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_user;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
 
     @Override
     protected void inject() {

@@ -9,6 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
@@ -31,7 +34,7 @@ import butterknife.OnClick;
 
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 
-
+@Layout(id = R.layout.fragment_home, name = "Home")
 public class HomeViewImpl extends BaseFragment
         implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
 
@@ -41,6 +44,7 @@ public class HomeViewImpl extends BaseFragment
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindPresenter
     @Inject
     HomePresenter presenter;
 
@@ -53,24 +57,10 @@ public class HomeViewImpl extends BaseFragment
     @Inject
     ViewUtils viewUtils;
 
+    @BindNavigator
     @FragmentContext
     @Inject
     Navigator navigator;
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_home;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected Navigator provideNavigator() {
-        return navigator;
-    }
 
     @Override
     protected void inject() {

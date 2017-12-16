@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
-import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
@@ -24,32 +26,20 @@ import butterknife.BindView;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
+@Layout(id = R.layout.activity_main)
 public class MainActivity extends BaseActivity implements MainContract.MainView {
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
 
+    @BindPresenter
     @Inject
     MainPresenter presenter;
 
+    @BindNavigator
     @ActivityContext
     @Inject
     Navigator navigator;
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected Navigator provideNavigator() {
-        return navigator;
-    }
 
     @Override
     public void inject() {

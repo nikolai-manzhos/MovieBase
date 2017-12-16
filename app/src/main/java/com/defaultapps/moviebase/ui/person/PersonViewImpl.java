@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.person.Cast;
 import com.defaultapps.moviebase.data.models.responses.person.Crew;
@@ -36,6 +39,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@Layout(id = R.layout.fragment_person, name = "Person")
 public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView, OnMovieClickListener {
 
     @BindView(R.id.progressBar)
@@ -71,6 +75,7 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @BindView(R.id.crewSubtitle)
     TextView crewSubtitle;
 
+    @BindPresenter
     @Inject
     PersonPresenter presenter;
 
@@ -80,6 +85,7 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @Inject
     CreditsCrewAdapter crewAdapter;
 
+    @BindNavigator
     @FragmentContext
     @Inject
     Navigator navigator;
@@ -91,21 +97,6 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
         bundle.putInt(AppConstants.PERSON_ID, staffId);
         staffView.setArguments(bundle);
         return staffView;
-    }
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_person;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected Navigator provideNavigator() {
-        return navigator;
     }
 
     @Override

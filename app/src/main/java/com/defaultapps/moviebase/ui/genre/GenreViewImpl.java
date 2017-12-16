@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
@@ -28,7 +31,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-
+@Layout(id = R.layout.fragment_genre, name = "Genre")
 public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView,
         OnMovieClickListener, PaginationAdapterCallback {
 
@@ -47,12 +50,14 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @BindView(R.id.errorButton)
     Button errorButton;
 
+    @BindPresenter
     @Inject
     GenrePresenter presenter;
 
     @Inject
     GenreAdapter adapter;
 
+    @BindNavigator
     @FragmentContext
     @Inject
     Navigator navigator;
@@ -70,21 +75,6 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         GenreViewImpl genreView = new GenreViewImpl();
         genreView.setArguments(bundle);
         return genreView;
-    }
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_genre;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected Navigator provideNavigator() {
-        return navigator;
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.defaultapps.moviebase.ui.common;
 
 import android.content.Intent;
+import android.support.annotation.CallSuper;
 
+import com.defaultapps.easybind.NavigatorClass;
+import com.defaultapps.easybind.calls.OnAttach;
+import com.defaultapps.easybind.calls.OnDetach;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.MvpView;
@@ -14,18 +18,22 @@ import com.firebase.ui.auth.AuthUI;
 
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
-
+@NavigatorClass
 public class DefaultNavigator<V extends MvpView> implements Navigator<V> {
 
     public DefaultNavigator() {}
 
     private V view;
 
+    @OnAttach
+    @CallSuper
     @Override
     public void onAttach(V view) {
         this.view = view;
     }
 
+    @OnDetach
+    @CallSuper
     @Override
     public void onDetach() {
         view = null;

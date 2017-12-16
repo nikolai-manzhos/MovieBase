@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.defaultapps.easybind.Layout;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
@@ -42,6 +43,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+@Layout(id = R.layout.fragment_search, name = "Search")
 public class SearchViewImpl extends BaseFragment implements
         SearchContract.SearchView, OnBackPressedListener,
         OnMovieClickListener, PaginationAdapterCallback {
@@ -101,21 +103,6 @@ public class SearchViewImpl extends BaseFragment implements
         if (context instanceof BaseActivity) {
             activity = (BaseActivity) context;
         }
-    }
-
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_search;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
-    protected Navigator provideNavigator() {
-        return navigator;
     }
 
     @Override
