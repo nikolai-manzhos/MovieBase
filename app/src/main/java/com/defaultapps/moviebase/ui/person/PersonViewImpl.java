@@ -20,7 +20,6 @@ import com.defaultapps.moviebase.data.models.responses.person.Crew;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.person.PersonContract.PersonPresenter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCastAdapter;

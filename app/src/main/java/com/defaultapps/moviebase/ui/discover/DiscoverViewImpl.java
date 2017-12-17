@@ -13,7 +13,6 @@ import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.discover.DiscoverContract.DiscoverPresenter;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
 import com.defaultapps.moviebase.utils.AppConstants;

@@ -39,16 +39,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Componen
                 .build();
         inject();
         easyBinder = EasyBind.bind(this);
-        easyBinder.onAttach();
         setContentView(layoutId);
         unbinder = ButterKnife.bind(this);
+        easyBinder.onAttach();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (isFinishing() || !isChangingConfigurations()) {
-            easyBinder.onStop();
+            easyBinder.onDispose();
         }
         unbinder.unbind();
         easyBinder.onDetach();

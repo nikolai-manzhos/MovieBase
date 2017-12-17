@@ -31,7 +31,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     private FragmentComponent fragmentComponent;
 
     @Inject
-    protected Analytics analytics;
+    public Analytics analytics;
 
     @BindName
     public String screenName;
@@ -62,7 +62,6 @@ public abstract class BaseFragment extends Fragment implements MvpView {
         fragmentComponent = componentActivity.getActivityComponent().plusFragmentComponent();
         inject();
         easyBinder = EasyBind.bind(this);
-        easyBinder.onAttach();
         View v = inflater.inflate(layoutId, container, false);
         unbinder = ButterKnife.bind(this, v);
         return v;
@@ -71,6 +70,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     @CallSuper
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        easyBinder.onAttach();
         analytics.sendScreenSelect(screenName);
     }
 
@@ -85,7 +85,7 @@ public abstract class BaseFragment extends Fragment implements MvpView {
     public void onDestroy() {
         super.onDestroy();
         if (getActivity().isFinishing() || !getActivity().isChangingConfigurations()) {
-            easyBinder.onStop();
+            easyBinder.onDispose();
         }
     }
 

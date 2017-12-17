@@ -5,7 +5,7 @@ import android.support.annotation.CallSuper;
 import com.defaultapps.easybind.PresenterClass;
 import com.defaultapps.easybind.calls.OnAttach;
 import com.defaultapps.easybind.calls.OnDetach;
-import com.defaultapps.easybind.calls.OnStop;
+import com.defaultapps.easybind.calls.OnDispose;
 import com.defaultapps.moviebase.data.base.UseCase;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -36,7 +36,7 @@ public abstract class BasePresenter<V extends MvpView> implements MvpPresenter<V
         view = null;
     }
 
-    @OnStop
+    @OnDispose
     @Override
     public void disposeUseCaseCalls() {
         for (UseCase useCase: useCases) {

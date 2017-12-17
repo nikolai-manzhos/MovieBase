@@ -1,7 +1,6 @@
 package com.defaultapps.moviebase.ui.user;
 
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import com.defaultapps.easybind.Layout;
 import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.user.UserContract.UserPresenter;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.AuthUI;
