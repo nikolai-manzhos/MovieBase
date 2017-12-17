@@ -12,6 +12,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*_*Factory*.*',
             '**/*_Module*.*',
             '**/*_ViewBinding*.*',
+            '**/*Binder*.*',
             '**/*_MembersInjector*.*',
             '**/*_Provide*.*',
             '**/Dagger*.*',
