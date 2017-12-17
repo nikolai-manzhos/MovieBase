@@ -20,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
+import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
@@ -74,6 +76,7 @@ public class SearchViewImpl extends BaseFragment implements
     @BindView(R.id.searchEmptyView)
     LinearLayout searchViewEmpty;
 
+    @BindPresenter
     @Inject
     SearchPresenter presenter;
 
@@ -83,6 +86,7 @@ public class SearchViewImpl extends BaseFragment implements
     @Inject
     ViewUtils viewUtils;
 
+    @BindNavigator
     @FragmentContext
     @Inject
     Navigator navigator;
