@@ -2,16 +2,16 @@ package com.defaultapps.moviebase.utils.listener;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+@SuppressWarnings("unused")
 public abstract class PaginationScrollListener extends RecyclerView.OnScrollListener {
 
-    LinearLayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
 
     /**
      * Supporting only LinearLayoutManager for now.
-     *
-     * @param layoutManager
      */
-    public PaginationScrollListener(LinearLayoutManager layoutManager) {
+    protected PaginationScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
     }
 

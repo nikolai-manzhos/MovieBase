@@ -2,22 +2,25 @@ package com.defaultapps.moviebase.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.base.MvpPresenter;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.home.HomeContract.HomePresenter;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.user.UserActivity;
-import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 
@@ -30,7 +33,7 @@ import butterknife.OnClick;
 
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 
-
+@Layout(id = R.layout.fragment_home, name = "Home")
 public class HomeViewImpl extends BaseFragment
         implements HomeContract.HomeView, SwipeRefreshLayout.OnRefreshListener, OnMovieClickListener {
 
@@ -40,6 +43,7 @@ public class HomeViewImpl extends BaseFragment
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindPresenter
     @Inject
     HomePresenter presenter;
 
@@ -52,15 +56,10 @@ public class HomeViewImpl extends BaseFragment
     @Inject
     ViewUtils viewUtils;
 
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_home;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
+    @BindNavigator
+    @FragmentContext
+    @Inject
+    Navigator navigator;
 
     @Override
     protected void inject() {
@@ -68,7 +67,7 @@ public class HomeViewImpl extends BaseFragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -82,9 +81,7 @@ public class HomeViewImpl extends BaseFragment
 
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra(AppConstants.MOVIE_ID, movieId);
-        startActivity(intent);
+        navigator.toMovieActivity(movieId);
     }
 
     @Override
@@ -110,6 +107,7 @@ public class HomeViewImpl extends BaseFragment
     @Override
     public void displayProfileScreen() {
         Intent intent = new Intent(getActivity(), UserActivity.class);
+        assert getActivity() != null;
         getActivity().startActivityForResult(intent, RC_LOGIN);
     }
 

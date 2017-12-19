@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
@@ -18,7 +19,7 @@ import io.reactivex.subjects.PublishSubject;
 
 
 @Singleton
-public class GenreUseCaseImpl implements GenreUseCase {
+public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
 
     private final NetworkService networkService;
     private final AppPreferencesManager preferencesManager;
@@ -47,6 +48,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
 
             genreDisposable = network(genreId, 1)
                     .subscribe(genreBehaviorSubject::onNext, genreBehaviorSubject::onError);
+            getCompositeDisposable().add(genreDisposable);
         }
         return genreBehaviorSubject;
     }
@@ -69,6 +71,7 @@ public class GenreUseCaseImpl implements GenreUseCase {
                     genreBehaviorSubject = BehaviorSubject.create();
                     genreBehaviorSubject.onNext(moviesResponse);
                 }, publishSubject::onError);
+        getCompositeDisposable().add(genrePaginationDisposable);
         return publishSubject;
     }
 

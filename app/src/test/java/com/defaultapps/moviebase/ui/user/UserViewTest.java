@@ -3,22 +3,22 @@ package com.defaultapps.moviebase.ui.user;
 import android.app.Activity;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowActivity;
 
-import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManager;
-import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
 
-public class UserViewTest extends BaseViewTest {
+public class UserViewTest extends BaseRobolectricTest {
 
     @Mock
     private UserPresenterImpl presenter;
@@ -26,18 +26,13 @@ public class UserViewTest extends BaseViewTest {
     private UserViewImpl userView;
 
     @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         userView = new UserViewImpl();
         userView.presenter = presenter;
 
-        addFragmentToFragmentManager(userView, activity, R.id.contentFrame);
-    }
-
-    @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
+        addFragmentToFragmentManager(userView, activity);
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
@@ -14,7 +15,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
-public class PersonUseCaseImpl implements PersonUseCase {
+public class PersonUseCaseImpl extends BaseUseCase implements PersonUseCase {
 
     private final NetworkService networkService;
     private final SchedulerProvider schedulerProvider;

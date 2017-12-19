@@ -1,17 +1,19 @@
 package com.defaultapps.moviebase.ui;
 
 import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
 
 import com.defaultapps.moviebase.BuildConfig;
+import com.defaultapps.moviebase.FakeApplication;
 import com.defaultapps.moviebase.di.component.ActivityComponent;
 import com.defaultapps.moviebase.di.component.FragmentComponent;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
@@ -24,27 +26,24 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("WeakerAccess")
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 22, application = FakeApplication.class)
-public abstract class BaseViewTest {
+public abstract class BaseRobolectricTest {
 
-    protected BaseActivity activity;
+    protected FakeApplication application;
+    protected FakeActivity activity;
     protected ActivityComponent activityComponent;
     protected FragmentComponent fragmentComponent;
 
     @CallSuper
     @Before
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
-        @SuppressWarnings("unchecked")
-        ActivityController<BaseActivity> controller = Robolectric.buildActivity(
-                BaseActivity.class,
+    public void setup() throws Exception {
+        application = (FakeApplication) RuntimeEnvironment.application;
+        ActivityController<FakeActivity> controller = Robolectric.buildActivity(
+                FakeActivity.class,
                 null);
         activity = controller.get();
+
         activityComponent = mock(ActivityComponent.class);
         fragmentComponent = mock(FragmentComponent.class);
-
-        Integer layout = provideLayoutId();
-        if (layout != null) {
-            activity.setContentView(layout);
-        }
 
         controller.setup();
 
@@ -52,8 +51,7 @@ public abstract class BaseViewTest {
         activityComponentField.setAccessible(true);
         activityComponentField.set(activity, activityComponent);
         when(activityComponent.plusFragmentComponent()).thenReturn(fragmentComponent);
-    }
 
-    @LayoutRes
-    protected abstract Integer provideLayoutId();
+        MockitoAnnotations.initMocks(this);
+    }
 }

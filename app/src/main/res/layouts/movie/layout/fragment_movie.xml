@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -35,6 +36,19 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark"
                 app:layout_collapseMode="pin" >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.joanzapata.iconify.widget.IconButton
+                        android:id="@+id/shareButton"
+                        android:text="{md-share 24dp}"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_gravity="center_vertical|end"
+                        tools:ignore="HardcodedText" />
+                </FrameLayout>
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -68,15 +82,47 @@
                         android:layout_marginStart="10dp"/>
 
                     <com.joanzapata.iconify.widget.IconTextView
-                        style="@style/MovieTitle"
+                        style="@style/MovieInfo"
                         android:id="@+id/releaseDate"
-                        android:text="{md-today}"
+                        android:text="{md-today 22dp}"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/movieTitle"
                         android:layout_toEndOf="@+id/imagePoster"
                         android:layout_marginStart="10dp"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
                         tools:ignore="HardcodedText" />
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        style="@style/MovieInfo"
+                        android:id="@+id/runtime"
+                        android:text="{md-access-time 22dp}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/releaseDate"
+                        android:layout_alignStart="@+id/releaseDate"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        style="@style/MovieInfo"
+                        android:id="@+id/budget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/runtime"
+                        android:layout_alignStart="@+id/runtime"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
+                        tools:text="200,000,000$"/>
+
+                    <TextView
+                        style="@style/MovieInfo"
+                        android:id="@+id/revenue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/budget"
+                        android:layout_alignStart="@+id/budget"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
+                        tools:text="200,000,000$"/>
 
                     <TextView
                         style="@style/Subtitle"
@@ -109,7 +155,7 @@
                             android:id="@id/expand_collapse"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="16dp"
+                            android:padding="@dimen/view_padding_default"
                             android:layout_gravity="center_horizontal"
                             android:background="@android:color/transparent"/>
                     </com.ms.square.android.expandabletextview.ExpandableTextView>
@@ -169,7 +215,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:clickable="true"
         app:backgroundTint="@color/colorPrimaryDark"
         app:rippleColor="@color/colorDisabledText"
         app:layout_anchorGravity="bottom|right|end"

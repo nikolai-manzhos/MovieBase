@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 apply from: "$rootDir/tools/jacoco.gradle"
-apply from: "$rootDir/tools/signing.gradle"
 
 def keystoreProperties = new Properties()
 def keyFile = rootProject.file("keystore.properties")
@@ -20,39 +20,37 @@ configurations.getByName("androidTestCompile") {
 
 android {
     signingConfigs {
-        def mock = "mb" //fake property, will be replaced at runtime
-        release {
-            storeFile file(mock)
-            keyAlias mock
-            storePassword mock
-            keyPassword mock
-        }
+        release
     }
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.1"
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
+        vectorDrawables.useSupportLibrary = true
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.1"
     }
     buildTypes {
         release {
             debuggable false
             minifyEnabled true
             shrinkResources true
-            signingConfig null // will produce unsigned apk if no sign.properties present
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
             debuggable true
             minifyEnabled false
             shrinkResources false
             multiDexEnabled true
             testCoverageEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ext.enableCrashlytics = false
         }
     }
     buildTypes.each {
@@ -119,11 +117,13 @@ dependencies {
             //Timber
             "com.jakewharton.timber:timber:$timber",
             //Prefs
-            "com.github.nikolaymanzhos:preferenceshelper:$rootProject.prefs",
+            "com.nikolaymanzhos:preferenceshelper:$prefs",
+            //EasyBind
+            "com.nikolaymanzhos:easybind:$easybind",
             //Picasso
-            "com.squareup.picasso:picasso:$rootProject.picasso",
+            "com.squareup.picasso:picasso:$picasso",
             //Iconify
-            "com.joanzapata.iconify:android-iconify-material:$rootProject.iconify",
+            "com.joanzapata.iconify:android-iconify-material:$iconify",
             //Custom UI libraries
             "de.hdodenhof:circleimageview:$circle",
             "com.thefinestartist:ytpa:$youtube",
@@ -132,9 +132,12 @@ dependencies {
             "com.ms-square:expandableTextView:$expTextView"
     )
 
+    implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsSdk").transitive true
+
     annotationProcessor(
             "com.jakewharton:butterknife-compiler:$butterKnife",
-            "com.google.dagger:dagger-compiler:$dagger"
+            "com.google.dagger:dagger-compiler:$dagger",
+            "com.nikolaymanzhos:easybind-compiler:$easybind"
     )
 
     debugImplementation (
@@ -160,3 +163,4 @@ dependencies {
     })
 }
 apply plugin: 'com.google.gms.google-services'
+apply from: "$rootDir/tools/signing.gradle"

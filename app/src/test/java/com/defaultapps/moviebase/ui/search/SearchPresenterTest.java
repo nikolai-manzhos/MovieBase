@@ -24,10 +24,10 @@ import static org.mockito.Mockito.when;
 public class SearchPresenterTest {
 
     @Mock
-    SearchContract.SearchView view;
+    private SearchContract.SearchView view;
 
     @Mock
-    SearchUseCaseImpl useCase;
+    private SearchUseCaseImpl useCase;
 
 
     private SearchPresenterImpl presenter;

@@ -15,6 +15,8 @@ public class AppConstants {
     public static final int RC_SIGN_IN = 1;
     public static final int RC_LOGIN = 2;
 
+    public static final String UNKNOWN = "Unknown";
+
     private AppConstants() {
         throw new AssertionError("This class cannot be instantiated.");
     }

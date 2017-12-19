@@ -3,12 +3,11 @@ package com.defaultapps.moviebase.ui.main;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
-import com.defaultapps.moviebase.ui.common.NavigationView;
 
 import javax.inject.Inject;
 
 @PerActivity
-public class MainPresenterImpl extends BasePresenter<NavigationView>
+public class MainPresenterImpl extends BasePresenter<MainContract.MainView>
         implements MainContract.MainPresenter {
 
     private final AppPreferencesManager preferencesManager;

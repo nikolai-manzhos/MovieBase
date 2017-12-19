@@ -2,9 +2,8 @@ package com.defaultapps.moviebase.ui.discover;
 
 import android.content.ComponentName;
 
-import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
-import com.defaultapps.moviebase.ui.BaseViewTest;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.genre.GenreActivity;
 
 import org.junit.Test;
@@ -12,13 +11,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowActivity;
 
-import static com.defaultapps.moviebase.ui.TestUtils.addFragmentToFragmentManager;
-import static com.defaultapps.moviebase.ui.TestUtils.removeFragmentFromFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
-public class DiscoverViewTest extends BaseViewTest {
+public class DiscoverViewTest extends BaseRobolectricTest {
 
     @Mock
     private DiscoverAdapter adapter;
@@ -29,19 +28,14 @@ public class DiscoverViewTest extends BaseViewTest {
     private DiscoverViewImpl discoverView;
 
     @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         discoverView = new DiscoverViewImpl();
         discoverView.adapter = adapter;
         discoverView.presenter = discoverPresenter;
 
-        addFragmentToFragmentManager(discoverView, activity, R.id.contentFrame);
+        addFragmentToFragmentManager(discoverView, activity);
     }
 
     @Test

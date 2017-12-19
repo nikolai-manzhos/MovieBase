@@ -1,33 +1,33 @@
 package com.defaultapps.moviebase.ui.login;
 
-import android.app.Activity;
-import android.content.Intent;
-
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 
+import javax.inject.Inject;
+
 import butterknife.OnClick;
 
+@Layout(id = R.layout.fragment_login, name = "Login")
+public class LoginViewImpl extends BaseFragment implements LoginContract.LoginView {
 
-public class LoginViewImpl extends BaseFragment {
-
+    @BindNavigator
+    @Inject
+    LoginContract.LoginNavigator loginNavigator;
 
     @Override
-    protected int provideLayout() {
-        return R.layout.fragment_login;
+    protected void inject() {
+        getFragmentComponent().inject(this);
     }
 
     @OnClick(R.id.login_sign)
     void onSignClick() {
-        Intent returnIntent = new Intent();
-        getActivity().setResult(Activity.RESULT_OK, returnIntent);
-        getActivity().finish();
+        loginNavigator.continueLogin();
     }
 
     @OnClick(R.id.login_skip)
     void onSkipClick() {
-        Intent returnIntent = new Intent();
-        getActivity().setResult(Activity.RESULT_CANCELED, returnIntent);
-        getActivity().finish();
+        loginNavigator.skipLogin();
     }
 }

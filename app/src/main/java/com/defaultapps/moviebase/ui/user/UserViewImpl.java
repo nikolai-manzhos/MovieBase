@@ -1,18 +1,19 @@
 package com.defaultapps.moviebase.ui.user;
 
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import easybind.Layout;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.user.UserContract.UserPresenter;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.AuthUI;
@@ -27,6 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@Layout(id = R.layout.fragment_user, name = "User")
 public class UserViewImpl extends BaseFragment implements UserContract.UserView {
 
     @BindView(R.id.contentContainer)
@@ -41,6 +43,7 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @BindView(R.id.userAvatar)
     CircleImageView userAvatar;
 
+    @BindPresenter
     @Inject
     UserPresenter presenter;
 
@@ -48,22 +51,12 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     ViewUtils viewUtils;
 
     @Override
-    protected int provideLayout() {
-        return R.layout.fragment_user;
-    }
-
-    @Override
-    protected MvpPresenter providePresenter() {
-        return presenter;
-    }
-
-    @Override
     protected void inject() {
         getFragmentComponent().inject(this);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.checkUserStatus();
     }

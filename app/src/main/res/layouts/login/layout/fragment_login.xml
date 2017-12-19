@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,20 +10,32 @@
 
     <ImageView
         android:id="@+id/login_icon"
+        app:srcCompat="@drawable/ic_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_icon_margin_top"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_icon"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="cursive"
+        android:text="@string/app_name"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/login_app_name_size" />
 
     <Button
         android:id="@+id/login_sign"
-        android:text="Login With google"
+        android:text="@string/login_enter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/login_skip"/>
 
     <Button
         android:id="@+id/login_skip"
-        android:text="SKIP"
+        android:text="@string/login_skip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"

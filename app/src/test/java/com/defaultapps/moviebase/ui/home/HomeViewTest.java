@@ -3,13 +3,12 @@ package com.defaultapps.moviebase.ui.home;
 import android.content.ComponentName;
 
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.ui.BaseViewTest;
-import com.defaultapps.moviebase.ui.TestUtils;
+import com.defaultapps.moviebase.TestUtils;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.home.adapter.HomeMainAdapter;
 import com.defaultapps.moviebase.ui.home.adapter.UpcomingAdapter;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.ui.user.UserActivity;
-import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.ViewUtils;
 
 import org.junit.Test;
@@ -21,7 +20,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
-public class HomeViewTest extends BaseViewTest {
+public class HomeViewTest extends BaseRobolectricTest {
 
     @Mock
     private HomePresenterImpl presenter;
@@ -35,10 +34,13 @@ public class HomeViewTest extends BaseViewTest {
     @Mock
     private ViewUtils viewUtils;
 
+    @Mock
+    private Navigator navigator;
+
     private HomeViewImpl homeView;
 
     @Override
-    public void setup() throws NoSuchFieldException, IllegalAccessException {
+    public void setup() throws Exception {
         super.setup();
         MockitoAnnotations.initMocks(this);
         homeView = new HomeViewImpl();
@@ -46,8 +48,9 @@ public class HomeViewTest extends BaseViewTest {
         homeView.adapter = homeMainAdapter;
         homeView.upcomingAdapter = upcomingAdapter;
         homeView.viewUtils = viewUtils;
+        homeView.navigator = navigator;
 
-        TestUtils.addFragmentToFragmentManager(homeView, activity, R.id.contentFrame);
+        TestUtils.addFragmentToFragmentManager(homeView, activity);
     }
 
     @Test
@@ -55,14 +58,7 @@ public class HomeViewTest extends BaseViewTest {
         final int FAKE_MOVIE_ID = 123;
         homeView.onMovieClick(FAKE_MOVIE_ID);
 
-        ShadowActivity shadowActivity = shadowOf(activity);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().
-                        getIntExtra(AppConstants.MOVIE_ID, 0),
-                FAKE_MOVIE_ID);
-
-        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
-                new ComponentName(activity, MovieActivity.class));
+        navigator.toMovieActivity(FAKE_MOVIE_ID);
     }
 
     @Test
@@ -94,10 +90,5 @@ public class HomeViewTest extends BaseViewTest {
         final String ERROR_MESSAGE = "Error";
         homeView.displayErrorMessage();
         verify(viewUtils).showSnackbar(homeView.swipeRefreshLayout, ERROR_MESSAGE);
-    }
-
-    @Override
-    protected Integer provideLayoutId() {
-        return R.layout.activity_main;
     }
 }

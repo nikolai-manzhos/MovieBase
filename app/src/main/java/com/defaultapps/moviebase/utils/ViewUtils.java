@@ -6,18 +6,18 @@ import android.content.res.Resources;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.ActivityContext;
-import com.defaultapps.moviebase.di.ApplicationContext;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 @PerActivity
+@SuppressWarnings("unused")
 public class ViewUtils {
 
     private final Context context;
@@ -57,5 +57,11 @@ public class ViewUtils {
                 inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         }
+    }
+
+    public int calculateNoOfColumns(int columnWidth) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        return (int) (dpWidth / columnWidth);
     }
 }

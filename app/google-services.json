@@ -15,11 +15,87 @@
       },
       "oauth_client": [
         {
+          "client_id": "879733247194-mpuo8fn545gaif728d3h72rsup0tdi2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.defaultapps.moviebase",
+            "certificate_hash": "636e3ca84d78b5814e17e0020e88eedbbd0fdb08"
+          }
+        },
+        {
+          "client_id": "879733247194-40m2p114skvkr2frfjts34eailduu3rn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.defaultapps.moviebase",
+            "certificate_hash": "d593aec67360e0803fd8b3e72ef7fe7843545399"
+          }
+        },
+        {
           "client_id": "879733247194-scn1b4l92q5sej5q3192mt72jn6clvt6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.defaultapps.moviebase",
             "certificate_hash": "8eef9627884408618ea61195a04e3839c608b82b"
+          }
+        },
+        {
+          "client_id": "879733247194-m5u8ofpbhnh6tc5ikm79a70i1sa1rjqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSUIgXSHPv1wIHEIp7KjYmPjm9OT_iPQk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879733247194-m5u8ofpbhnh6tc5ikm79a70i1sa1rjqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879733247194:android:ef02657d029a73fa",
+        "android_client_info": {
+          "package_name": "com.defaultapps.moviebase.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879733247194-c5hq4k3r4j79h1bdtfe303bto33a905t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.defaultapps.moviebase.debug",
+            "certificate_hash": "8eef9627884408618ea61195a04e3839c608b82b"
+          }
+        },
+        {
+          "client_id": "879733247194-5hdklqjom72ed0313rd7han8df5cqj1s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.defaultapps.moviebase.debug",
+            "certificate_hash": "d593aec67360e0803fd8b3e72ef7fe7843545399"
+          }
+        },
+        {
+          "client_id": "879733247194-tc162a9u51n035iedpvvo066ks3kiocu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.defaultapps.moviebase.debug",
+            "certificate_hash": "636e3ca84d78b5814e17e0020e88eedbbd0fdb08"
           }
         },
         {

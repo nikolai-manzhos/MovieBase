@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 import com.defaultapps.moviebase.utils.AppConstants;
@@ -21,7 +22,7 @@ import io.reactivex.subjects.BehaviorSubject;
 
 
 @Singleton
-public class HomeUseCaseImpl implements HomeUseCase {
+public class HomeUseCaseImpl extends BaseUseCase implements HomeUseCase {
 
     private final NetworkService networkService;
     private final RxBus rxBus;
@@ -65,6 +66,7 @@ public class HomeUseCaseImpl implements HomeUseCase {
             moviesDisposable = network()
                     .doOnSuccess(moviesList -> cache = moviesList)
                     .subscribe(moviesBehaviorSubject::onNext, moviesBehaviorSubject::onError);
+            getCompositeDisposable().add(moviesDisposable);
         }
         return moviesBehaviorSubject;
     }

@@ -4,49 +4,57 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
-import com.defaultapps.moviebase.ui.common.NavigationView;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
-import com.defaultapps.moviebase.ui.login.LoginActivity;
 import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
 import com.defaultapps.moviebase.utils.Utils;
-import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
-import com.firebase.ui.auth.AuthUI;
 import com.roughike.bottombar.BottomBar;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
-public class MainActivity extends BaseActivity implements NavigationView {
+@Layout(id = R.layout.activity_main)
+public class MainActivity extends BaseActivity implements MainContract.MainView {
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
 
+    @BindPresenter
     @Inject
     MainPresenter presenter;
 
-    private OnBackPressedListener onBackPressedListener;
+    @BindNavigator
+    @ActivityContext
+    @Inject
+    Navigator navigator;
+
+    @Override
+    public void inject() {
+        getActivityComponent().inject(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getActivityComponent().inject(this);
-        ButterKnife.bind(this);
-        presenter.onAttach(this);
         presenter.checkFirstTimeUser();
         if (savedInstanceState == null) {
             selectItem(R.id.tab_home);
         }
+        Utils.removeShadowViewFromBottomBar(bottomBar);
     }
 
     @Override
@@ -60,25 +68,9 @@ public class MainActivity extends BaseActivity implements NavigationView {
             }
         } else if (requestCode == RC_LOGIN) {
             if (resultCode == RESULT_OK) {
-                startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setTheme(R.style.DarkTheme)
-                                .setLogo(R.mipmap.ic_launcher_round)
-                                .setProviders(Utils.getProvidersList())
-                                .build(),
-                        RC_SIGN_IN);
+                navigator.toSignInActivity();
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-       if (onBackPressedListener != null && onBackPressedListener.onBackPressed()) {
-           super.onBackPressed();
-       } else if (onBackPressedListener == null) {
-           super.onBackPressed();
-       }
     }
 
     @Override
@@ -93,14 +85,9 @@ public class MainActivity extends BaseActivity implements NavigationView {
         bottomBar.removeOnTabSelectListener();
     }
 
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.onBackPressedListener = onBackPressedListener;
-    }
-
     @Override
     public void displayLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivityForResult(intent, RC_LOGIN);
+        navigator.toLoginActivity();
     }
 
     private void selectItem(int tabId) {

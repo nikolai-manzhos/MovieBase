@@ -80,7 +80,13 @@
     </style>
 
     <style name="MovieTitle">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
+    <style name="MovieInfo">
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:maxLines">2</item>
     </style>
@@ -101,6 +107,13 @@
         <item name="android:layout_marginStart">-10dp</item>
         <item name="android:layout_marginEnd">-10dp</item>
         <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="DefaultCardView">
+        <item name="android:foreground">@drawable/custom_selector</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardBackgroundColor">@color/colorPrimary</item>
     </style>
 
     <style name="DarkTheme" parent="FirebaseUI">

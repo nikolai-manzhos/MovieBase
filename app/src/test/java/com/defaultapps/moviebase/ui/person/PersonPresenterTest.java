@@ -22,10 +22,10 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 public class PersonPresenterTest {
 
     @Mock
-    PersonContract.PersonView view;
+    private PersonContract.PersonView view;
 
     @Mock
-    PersonUseCaseImpl useCase;
+    private PersonUseCaseImpl useCase;
 
     private PersonContract.PersonPresenter presenter;
     private TestScheduler testScheduler;

@@ -25,10 +25,10 @@ import static org.mockito.Mockito.when;
 public class MoviePresenterTest {
 
     @Mock
-    MovieContract.MovieView view;
+    private MovieContract.MovieView view;
 
     @Mock
-    MovieUseCaseImpl movieUseCase;
+    private MovieUseCaseImpl movieUseCase;
 
     private MovieContract.MoviePresenter presenter;
     private TestScheduler testScheduler;

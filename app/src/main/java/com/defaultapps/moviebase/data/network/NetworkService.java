@@ -43,7 +43,7 @@ public class NetworkService {
         } else {
             logging.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
-        final int TIMEOUT = 20;
+        final int TIMEOUT = 10;
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
