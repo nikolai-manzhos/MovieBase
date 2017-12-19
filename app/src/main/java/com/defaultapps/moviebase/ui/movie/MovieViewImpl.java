@@ -1,6 +1,5 @@
 package com.defaultapps.moviebase.ui.movie;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,16 +22,13 @@ import com.defaultapps.easybind.bindings.BindNavigator;
 import com.defaultapps.easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
-import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
-import com.defaultapps.moviebase.ui.person.PersonActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
@@ -44,8 +40,6 @@ import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
-import com.thefinestartist.ytpa.YouTubePlayerActivity;
-import com.thefinestartist.ytpa.enums.Orientation;
 
 import javax.inject.Inject;
 
@@ -142,9 +136,8 @@ public class MovieViewImpl extends BaseFragment
     ViewUtils viewUtils;
 
     @BindNavigator
-    @FragmentContext
     @Inject
-    Navigator navigator;
+    MovieContract.MovieNavigator navigator;
 
     private int movieId;
     private MovieInfoResponse movieInfo;
@@ -187,34 +180,22 @@ public class MovieViewImpl extends BaseFragment
 
     @OnClick(R.id.shareButton)
     void onShareClick() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND)
-                .putExtra(Intent.EXTRA_TEXT, movieInfo.getHomepage())
-                .setType("text/plain")
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(shareIntent);
+        navigator.shareAction(movieInfo.getHomepage());
     }
 
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieActivity.class)
-                .putExtra(AppConstants.MOVIE_ID, movieId);
-        startActivity(intent);
+        navigator.toMovieActivity(movieId);
     }
 
     @Override
     public void onVideoClick(String videoPath) {
-        Intent intent = new Intent(getActivity(), YouTubePlayerActivity.class);
-        intent.putExtra(YouTubePlayerActivity.EXTRA_VIDEO_ID, videoPath);
-        intent.putExtra(YouTubePlayerActivity.EXTRA_ORIENTATION, Orientation.ONLY_LANDSCAPE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        navigator.toFullScreenVideoActivity(videoPath);
     }
 
     @Override
     public void onPersonClick(int personId) {
-        Intent intent = new Intent(getContext(), PersonActivity.class)
-                .putExtra(AppConstants.PERSON_ID, personId);
-        startActivity(intent);
+        navigator.toPersonActivity(personId);
     }
 
     @Override

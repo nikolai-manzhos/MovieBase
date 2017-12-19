@@ -6,10 +6,13 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.defaultapps.easybind.Layout;
+import com.defaultapps.easybind.bindings.BindNavigator;
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
-import com.defaultapps.moviebase.utils.Utils;
-import com.firebase.ui.auth.AuthUI;
+import com.defaultapps.moviebase.ui.base.Navigator;
+
+import javax.inject.Inject;
 
 import static com.defaultapps.moviebase.utils.AppConstants.MOVIE_ID;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
@@ -17,6 +20,16 @@ import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
 @Layout(id = R.layout.activity_movie)
 public class MovieActivity extends BaseActivity {
+
+    @BindNavigator
+    @ActivityContext
+    @Inject
+    Navigator navigator;
+
+    @Override
+    public void inject() {
+        getActivityComponent().inject(this);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,15 +52,7 @@ public class MovieActivity extends BaseActivity {
             }
         } else if (requestCode == RC_LOGIN) {
             if (resultCode == RESULT_OK) {
-                //redirect to login activity
-                startActivityForResult(
-                        AuthUI.getInstance()
-                                .createSignInIntentBuilder()
-                                .setTheme(R.style.DarkTheme)
-                                .setLogo(R.mipmap.ic_launcher_round)
-                                .setProviders(Utils.getProvidersList())
-                                .build(),
-                        RC_SIGN_IN);
+                navigator.toSignInActivity();
             }
         }
     }

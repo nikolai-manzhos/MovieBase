@@ -4,6 +4,7 @@ import com.defaultapps.moviebase.di.module.NavigatorModule;
 import com.defaultapps.moviebase.di.module.PresenterModule;
 import com.defaultapps.moviebase.di.scope.PerActivity;
 import com.defaultapps.moviebase.ui.main.MainActivity;
+import com.defaultapps.moviebase.ui.movie.MovieActivity;
 
 import dagger.Component;
 
@@ -14,4 +15,5 @@ public interface ActivityComponent {
     FragmentComponent plusFragmentComponent();
 
     void inject(MainActivity mainActivity);
+    void inject(MovieActivity movieActivity);
 }

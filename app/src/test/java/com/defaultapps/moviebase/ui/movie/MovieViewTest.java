@@ -1,21 +1,16 @@
 package com.defaultapps.moviebase.ui.movie;
 
-import android.content.ComponentName;
 import android.content.Intent;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.TestUtils;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
-import com.defaultapps.moviebase.ui.common.DefaultNavigator;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
-import com.defaultapps.moviebase.ui.person.PersonActivity;
 import com.defaultapps.moviebase.utils.ViewUtils;
-import com.thefinestartist.ytpa.YouTubePlayerActivity;
-import com.thefinestartist.ytpa.enums.Orientation;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -49,7 +44,7 @@ public class MovieViewTest extends BaseRobolectricTest {
     private ViewUtils viewUtils;
 
     @Mock
-    private DefaultNavigator defaultNavigator;
+    private MovieContract.MovieNavigator movieNavigator;
 
     private MovieViewImpl movieView;
 
@@ -65,7 +60,7 @@ public class MovieViewTest extends BaseRobolectricTest {
         movieView.crewAdapter = crewAdapter;
         movieView.similarAdapter = similarAdapter;
         movieView.viewUtils = viewUtils;
-        movieView.navigator = defaultNavigator;
+        movieView.navigator = movieNavigator;
 
         TestUtils.addFragmentToFragmentManager(movieView, activity);
     }
@@ -94,30 +89,19 @@ public class MovieViewTest extends BaseRobolectricTest {
     @Test
     public void shouldOpenMovieActivityOnSimilarClick() {
         final int ANY_SIMILAR_MOVIE = 2313333;
-        ShadowActivity shadowActivity = shadowOf(activity);
 
         movieView.onMovieClick(ANY_SIMILAR_MOVIE);
 
-        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
-                new ComponentName(activity, MovieActivity.class));
+        movieNavigator.toMovieActivity(ANY_SIMILAR_MOVIE);
     }
 
     @Test
     public void shouldOpenYouTubeActivityOnVideoClick() {
         final String ANY_VIDEO_PATH = "/sajd21b134";
-        ShadowActivity shadowActivity = shadowOf(activity);
 
         movieView.onVideoClick(ANY_VIDEO_PATH);
 
-        Intent intent = shadowActivity.peekNextStartedActivity();
-        assertEquals(ANY_VIDEO_PATH,
-                intent.getStringExtra(YouTubePlayerActivity.EXTRA_VIDEO_ID));
-        assertEquals(Orientation.ONLY_LANDSCAPE,
-                intent.getSerializableExtra(YouTubePlayerActivity.EXTRA_ORIENTATION));
-        assertEquals(Intent.FLAG_ACTIVITY_NEW_TASK,
-                intent.getFlags());
-        assertEquals(intent.getComponent(),
-                new ComponentName(activity, YouTubePlayerActivity.class));
+        verify(movieNavigator).toFullScreenVideoActivity(ANY_VIDEO_PATH);
     }
 
     @Test
@@ -131,12 +115,10 @@ public class MovieViewTest extends BaseRobolectricTest {
     @Test
     public void shouldOpenPersonActivityOnPersonClick() {
         final int ANY_PERSON_ID = 2141444;
-        ShadowActivity shadowActivity = shadowOf(activity);
 
         movieView.onPersonClick(ANY_PERSON_ID);
 
-        assertEquals(shadowActivity.peekNextStartedActivity().getComponent(),
-                new ComponentName(activity, PersonActivity.class));
+        movieNavigator.toPersonActivity(ANY_PERSON_ID);
     }
 
     @Test
@@ -158,7 +140,7 @@ public class MovieViewTest extends BaseRobolectricTest {
     public void displayLoginActivity() {
         movieView.displayLoginScreen();
 
-        verify(defaultNavigator).toLoginActivity();
+        verify(movieNavigator).toLoginActivity();
     }
 
     @Test
@@ -168,11 +150,9 @@ public class MovieViewTest extends BaseRobolectricTest {
         movieInfoField.setAccessible(true);
         movieInfoField.set(movieView, movieDataFake);
 
-        ShadowActivity shadowActivity = shadowOf(activity);
         assert movieView.getView() != null;
         movieView.getView().findViewById(R.id.shareButton).performClick();
 
-        assertEquals(shadowActivity.peekNextStartedActivity().getAction(),
-                Intent.ACTION_SEND);
+        movieNavigator.shareAction(movieDataFake.getHomepage());
     }
 }
