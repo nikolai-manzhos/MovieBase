@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowActivity;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
 
@@ -56,6 +57,13 @@ public class DefaultNavigatorTest extends BaseRobolectricTest {
                 new ComponentName(activity, MovieActivity.class));
         assertEquals(shadowActivity.peekNextStartedActivity().getIntExtra(AppConstants.MOVIE_ID, 0),
                 ANY_MOVIE_ID);
+    }
+
+    @Test
+    public void shouldFinishActivity() {
+        defaultNavigator.finishActivity();
+
+        assertTrue(shadowActivity.isFinishing());
     }
 
     @Test(expected = NullPointerException.class)
