@@ -28,14 +28,14 @@
 
     <Button
         android:id="@+id/login_sign"
-        android:text="Login"
+        android:text="@string/login_enter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/login_skip"/>
 
     <Button
         android:id="@+id/login_skip"
-        android:text="Skip"
+        android:text="@string/login_skip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
