@@ -25,10 +25,10 @@ import static org.mockito.Mockito.when;
 public class MoviePresenterTest {
 
     @Mock
-    MovieContract.MovieView view;
+    private MovieContract.MovieView view;
 
     @Mock
-    MovieUseCaseImpl movieUseCase;
+    private MovieUseCaseImpl movieUseCase;
 
     private MovieContract.MoviePresenter presenter;
     private TestScheduler testScheduler;
@@ -81,6 +81,7 @@ public class MoviePresenterTest {
     public void addToFavSuccess() throws Exception {
         Observable<ResponseOrError<Boolean>> observable = Observable.just(ResponseOrError.fromData(true)).subscribeOn(testScheduler);
         when(movieUseCase.addOrRemoveFromDatabase(anyInt(), anyString())).thenReturn(observable);
+        when(movieUseCase.getUserState()).thenReturn(true);
 
         presenter.addOrRemoveFromFavorites(MOCK_MOVIE_ID, POSTER_PATH);
         testScheduler.triggerActions();
@@ -92,10 +93,20 @@ public class MoviePresenterTest {
     public void addToFavFailure() throws Exception {
         Observable<ResponseOrError<Boolean>> single = Observable.just(ResponseOrError.fromError("Network error."));
         when(movieUseCase.addOrRemoveFromDatabase(anyInt(), anyString())).thenReturn(single);
+        when(movieUseCase.getUserState()).thenReturn(true);
 
         presenter.addOrRemoveFromFavorites(MOCK_MOVIE_ID, POSTER_PATH);
 
         verify(view).displayTransactionError();
+    }
+
+    @Test
+    public void shouldDisplayLoginActivityOnNoUser() {
+        when(movieUseCase.getUserState()).thenReturn(false);
+
+        presenter.addOrRemoveFromFavorites(MOCK_MOVIE_ID, POSTER_PATH);
+
+        verify(view).displayLoginScreen();
     }
 
     @Test

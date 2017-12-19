@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
 import com.defaultapps.moviebase.data.network.NetworkService;
 
@@ -14,18 +15,16 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
-public class PersonUseCaseImpl implements PersonUseCase {
+public class PersonUseCaseImpl extends BaseUseCase implements PersonUseCase {
 
-    private NetworkService networkService;
-    private SchedulerProvider schedulerProvider;
+    private final NetworkService networkService;
+    private final SchedulerProvider schedulerProvider;
 
     private ReplaySubject<PersonInfo> personReplaySubject;
     private Disposable personDisposable;
 
-    private final String API_KEY = BuildConfig.MDB_API_KEY;
-
     @Inject
-    public PersonUseCaseImpl(NetworkService networkService,
+    PersonUseCaseImpl(NetworkService networkService,
                              SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
         this.schedulerProvider = schedulerProvider;
@@ -46,6 +45,7 @@ public class PersonUseCaseImpl implements PersonUseCase {
     }
 
     private Single<PersonInfo> network(int personId) {
+        String API_KEY = BuildConfig.MDB_API_KEY;
         return networkService.getNetworkCall().getPersonInfo(personId, API_KEY, "en-Us", "movie_credits")
                 .compose(schedulerProvider.applyIoSchedulers());
     }

@@ -21,20 +21,20 @@
         android:textSize="14sp"
         android:textColor="@color/colorPrimaryText"
         android:textStyle="bold"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="16"
         android:maxLines="1"
-        android:layout_gravity="center_horizontal"/>
+        android:ellipsize="end"
+        android:gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/castCharacter"
         android:textSize="12sp"
         android:textColor="@color/colorPrimaryText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:maxLength="18"
-        android:layout_gravity="center_horizontal"/>
+        android:ellipsize="end"
+        android:gravity="center_horizontal"/>
 
 </LinearLayout>

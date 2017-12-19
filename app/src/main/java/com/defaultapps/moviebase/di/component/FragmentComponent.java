@@ -6,6 +6,7 @@ import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
+import com.defaultapps.moviebase.ui.login.LoginViewImpl;
 import com.defaultapps.moviebase.ui.movie.MovieViewImpl;
 import com.defaultapps.moviebase.ui.person.PersonViewImpl;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
@@ -24,4 +25,5 @@ public interface FragmentComponent {
     void inject(UserViewImpl userView);
     void inject(SearchViewImpl searchView);
     void inject(PersonViewImpl staffView);
+    void inject(LoginViewImpl loginView);
 }

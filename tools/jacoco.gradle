@@ -1,3 +1,5 @@
+apply plugin: 'jacoco'
+
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     reports {
         xml.enabled = true
@@ -10,6 +12,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/*_*Factory*.*',
             '**/*_Module*.*',
             '**/*_ViewBinding*.*',
+            '**/*Binder*.*',
             '**/*_MembersInjector*.*',
             '**/*_Provide*.*',
             '**/Dagger*.*',
@@ -17,6 +20,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/di/*',
             '**/data/models/*',
             '**/dagger/*',
+            '**/utils/listener/*',
+            '**/utils/rx/*',
             '**/*AutoValue_*.*'
     ]
 
@@ -34,4 +39,14 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     // Always regenerate report
     outputs.upToDateWhen { false }
+
+    android {
+        testOptions {
+            unitTests.all {
+                jacoco {
+                    includeNoLocationClasses = true
+                }
+            }
+        }
+    }
 }

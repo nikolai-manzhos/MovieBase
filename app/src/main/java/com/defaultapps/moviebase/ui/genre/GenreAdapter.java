@@ -10,11 +10,10 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
-import com.defaultapps.moviebase.ui.genre.vh.GenreViewHolder;
-import com.defaultapps.moviebase.ui.genre.vh.LoadingViewHolder;
+import com.defaultapps.moviebase.ui.common.LoadingViewHolder;
+import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.listener.PaginationAdapterCallback;
-import com.defaultapps.moviebase.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ import javax.inject.Inject;
 @PerFragment
 public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
+    private final Context context;
     private List<Result> items;
     private OnMovieClickListener listener;
 
@@ -140,7 +139,7 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void bindGenreViewHolder(GenreViewHolder vh, int aPosition) {
-        final String ICON = "{md-today 24dp}";
+        final String ICON = "{md-today 18dp}";
         final String ICON_VOTE = resolveRatingIcon(items.get(aPosition).getVoteAverage());
         String posterPath = items.get(aPosition).getPosterPath();
         vh.title.setText(items.get(aPosition).getTitle());
@@ -180,9 +179,9 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private String resolveRatingIcon(double rating) {
         if (rating <= 5.0) {
-            return "{md-thumbs-up-down 24dp #17BD52}";
+            return "{md-thumbs-up-down 16dp #17BD52}";
         } else {
-            return "{md-thumb-up 24dp #17BD52}";
+            return "{md-thumb-up 16dp #17BD52}";
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.ui.person;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,15 +11,22 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.person.Cast;
 import com.defaultapps.moviebase.data.models.responses.person.Crew;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.person.PersonContract.PersonPresenter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCastAdapter;
 import com.defaultapps.moviebase.ui.person.adapter.CreditsCrewAdapter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +38,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView {
+@Layout(id = R.layout.fragment_person, name = "Person")
+public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView, OnMovieClickListener {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -65,8 +74,9 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @BindView(R.id.crewSubtitle)
     TextView crewSubtitle;
 
+    @BindPresenter
     @Inject
-    PersonPresenterImpl presenter;
+    PersonPresenter presenter;
 
     @Inject
     CreditsCastAdapter castAdapter;
@@ -74,6 +84,10 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     @Inject
     CreditsCrewAdapter crewAdapter;
 
+    @BindNavigator
+    @FragmentContext
+    @Inject
+    Navigator navigator;
 
 
     public static PersonViewImpl createInstance(int staffId) {
@@ -85,15 +99,14 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     }
 
     @Override
-    protected int provideLayout() {
-        return R.layout.fragment_person;
+    protected void inject() {
+        getFragmentComponent().inject(this);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        getFragmentComponent().inject(this);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initRecyclerViews();
-        presenter.onAttach(this);
 
         int personId = getArguments().getInt(AppConstants.PERSON_ID);
         if (savedInstanceState == null) {
@@ -103,15 +116,14 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDetach();
-    }
-
     @OnClick(R.id.backButton)
     void onBackClick() {
         getActivity().onBackPressed();
+    }
+
+    @Override
+    public void onMovieClick(int movieId) {
+        navigator.toMovieActivity(movieId);
     }
 
     @Override
@@ -174,10 +186,12 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
         castRecyclerView.setAdapter(castAdapter);
         castRecyclerView.setNestedScrollingEnabled(false);
         castRecyclerView.addItemDecoration(simpleItemDecorator);
+        castAdapter.setOnMovieClickListener(this);
 
         crewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         crewRecyclerView.setAdapter(crewAdapter);
         crewRecyclerView.setNestedScrollingEnabled(false);
         crewRecyclerView.addItemDecoration(simpleItemDecorator);
+        crewAdapter.setOnMovieClickListener(this);
     }
 }

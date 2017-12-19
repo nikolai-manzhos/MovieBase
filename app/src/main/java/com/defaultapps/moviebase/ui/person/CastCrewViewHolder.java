@@ -1,16 +1,15 @@
 package com.defaultapps.moviebase.ui.person;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.ui.base.BaseViewHolder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class CastCrewViewHolder extends RecyclerView.ViewHolder {
+public class CastCrewViewHolder extends BaseViewHolder {
 
     @BindView(R.id.moviePoster)
     public ImageView moviePoster;
@@ -20,6 +19,5 @@ public class CastCrewViewHolder extends RecyclerView.ViewHolder {
 
     public CastCrewViewHolder(View v) {
         super(v);
-        ButterKnife.bind(this, v);
     }
 }

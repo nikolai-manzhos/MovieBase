@@ -59,7 +59,7 @@ public class MovieInfoResponse {
     private String releaseDate;
     @SerializedName("revenue")
     @Expose
-    private Integer revenue;
+    private Long revenue;
     @SerializedName("runtime")
     @Expose
     private Integer runtime;
@@ -219,11 +219,11 @@ public class MovieInfoResponse {
         this.releaseDate = releaseDate;
     }
 
-    public Integer getRevenue() {
+    public Long getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(Integer revenue) {
+    public void setRevenue(Long revenue) {
         this.revenue = revenue;
     }
 

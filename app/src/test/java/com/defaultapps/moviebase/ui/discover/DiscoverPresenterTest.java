@@ -20,10 +20,10 @@ import static org.mockito.Mockito.when;
 public class DiscoverPresenterTest {
 
     @Mock
-    DiscoverUseCaseImpl useCase;
+    private DiscoverUseCaseImpl useCase;
 
     @Mock
-    DiscoverContract.DiscoverView view;
+    private DiscoverContract.DiscoverView view;
 
     private DiscoverPresenterImpl discoverPresenter;
     private TestScheduler testScheduler;

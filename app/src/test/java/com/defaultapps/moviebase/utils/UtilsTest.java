@@ -1,29 +1,16 @@
 package com.defaultapps.moviebase.utils;
 
-import android.util.Log;
-
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static junit.framework.Assert.assertEquals;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class})
 public class UtilsTest {
 
-    @Before
-    public void setUp() throws Exception {
-        PowerMockito.mockStatic(Log.class);
-    }
-
     @SuppressWarnings("unchecked")
-    @Test(expected = AssertionError.class )
+    @Test(expected = InvocationTargetException.class)
     public void privateConstructorTest() throws Exception {
         Constructor<Utils> constructor= (Constructor<Utils>) Utils.class.getDeclaredConstructors()[0];
         constructor.setAccessible(true);
@@ -34,12 +21,26 @@ public class UtilsTest {
     public void convertDateTestSuccess() throws Exception {
         final String RAW_DATE = "2017-01-21";
         final String EXPECTED_RESULT = " January-21, 2017";
-        assertThat(Utils.convertDate(RAW_DATE)).isEqualTo(EXPECTED_RESULT);
+        assertEquals(Utils.convertDate(RAW_DATE), EXPECTED_RESULT);
     }
 
     @Test
     public void convertDateFailure() throws Exception {
-        assertThat(Utils.convertDate("March 2017")).isEqualTo("NaN");
+        assertEquals(Utils.convertDate("March 2017"), "NaN");
     }
 
+    @Test
+    public void shouldSupplyProvidersList() {
+        assertEquals(Utils.getProvidersList().size(), 2);
+    }
+
+    @Test
+    public void shouldFormatIntNumber() {
+        assertEquals(Utils.formatNumber(10000), "10,000");
+    }
+
+    @Test
+    public void shouldFormatLongNumber() {
+        assertEquals(Utils.formatNumber(100000L), "100,000");
+    }
 }

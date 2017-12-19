@@ -2,6 +2,7 @@
 .gradle
 /local.properties
 /keystore.properties
+/sign.properties
 /.idea
 .DS_Store
 /build

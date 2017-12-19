@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 
@@ -14,9 +15,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
-public class DiscoverUseCaseImpl implements DiscoverUseCase {
-    private LocalService localService;
-    private SchedulerProvider schedulerProvider;
+public class DiscoverUseCaseImpl extends BaseUseCase implements DiscoverUseCase {
+    private final LocalService localService;
+    private final SchedulerProvider schedulerProvider;
 
     private Disposable genresDisposable;
     private ReplaySubject<Genres> genresReplaySubject;

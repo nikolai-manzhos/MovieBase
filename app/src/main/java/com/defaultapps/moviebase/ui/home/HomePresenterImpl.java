@@ -12,26 +12,26 @@ import java.util.List;
 import javax.inject.Inject;
 
 @PerFragment
-public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> implements HomeContract.HomePresenter {
+public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView>
+        implements HomeContract.HomePresenter {
 
-    private HomeUseCase homeUseCase;
-    private RxBus rxBus;
+    private final HomeUseCase homeUseCase;
+    private final RxBus rxBus;
 
     @Inject
-    public HomePresenterImpl(HomeUseCase homeUseCase, RxBus rxBus) {
+    HomePresenterImpl(HomeUseCase homeUseCase, RxBus rxBus) {
+        super(homeUseCase);
         this.homeUseCase = homeUseCase;
         this.rxBus = rxBus;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onAttach(HomeContract.HomeView view) {
         super.onAttach(view);
         rxBus.subscribe(AppConstants.HOME_INSTANT_CACHE,
                 this,
-                response -> {
-                    //noinspection unchecked
-                    getView().receiveResults((List<MoviesResponse>) response);
-                });
+                response -> getView().receiveResults((List<MoviesResponse>) response));
     }
 
     @Override
@@ -49,13 +49,22 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView> impl
                         moviesResponses -> {
                             getView().hideLoading();
                             getView().receiveResults(moviesResponses);
-
                         },
                         err -> {
                             getView().hideLoading();
-                            //TODO: Show error message
+                            getView().displayErrorMessage();
+                        },
+                        () -> {
+                            if (getView().isRefreshing()) {
+                                getView().hideLoading();
+                            }
                         }
                 )
         );
+    }
+
+    @Override
+    public void openProfileScreen() {
+        getView().displayProfileScreen();
     }
 }

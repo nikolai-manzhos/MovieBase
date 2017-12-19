@@ -11,7 +11,7 @@ import javax.inject.Inject;
 @PerFragment
 public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView> implements SearchContract.SearchPresenter {
 
-    private SearchUseCase searchUseCase;
+    private final SearchUseCase searchUseCase;
 
     @Inject
     SearchPresenterImpl(SearchUseCase searchUseCase) {
@@ -41,5 +41,30 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
                         }
                 )
         );
+    }
+
+    @Override
+    public void requestMoreSearchResults(String query) {
+        getCompositeDisposable().add(
+                searchUseCase.requestMoreSearchResults(query)
+                .subscribe(
+                        moviesResponse -> getView().displayMoreSearchResults(moviesResponse),
+                        err -> getView().showLoadMoreError()
+                )
+        );
+    }
+
+    @Override
+    public void onSearchViewClose() {
+        getView().showSearchStart();
+        getView().hideLoading();
+        getView().hideError();
+        getView().hideData();
+        getView().hideEmpty();
+    }
+
+    @Override
+    public void onSearchViewOpen() {
+        getView().hideSearchStart();
     }
 }

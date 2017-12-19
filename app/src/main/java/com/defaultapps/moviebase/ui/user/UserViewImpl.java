@@ -1,16 +1,23 @@
 package com.defaultapps.moviebase.ui.user;
 
 
-
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import easybind.Layout;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.firebase.LoggedUser;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.user.UserContract.UserPresenter;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.mp.MaterialStandardPreference;
 import com.yarolegovich.mp.MaterialSwitchPreference;
@@ -21,13 +28,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+@Layout(id = R.layout.fragment_user, name = "User")
 public class UserViewImpl extends BaseFragment implements UserContract.UserView {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
 
-    @BindView(R.id.logout)
-    MaterialStandardPreference logoutButton;
+    @BindView(R.id.accountBtn)
+    MaterialStandardPreference accountButton;
 
     @BindView(R.id.adultSwitch)
     MaterialSwitchPreference adultSwitch;
@@ -35,53 +43,69 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @BindView(R.id.userAvatar)
     CircleImageView userAvatar;
 
+    @BindPresenter
     @Inject
-    LoggedUser loggedUser;
+    UserPresenter presenter;
+
+    @Inject
+    ViewUtils viewUtils;
 
     @Override
-    protected int provideLayout() {
-        return R.layout.fragment_user;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected void inject() {
         getFragmentComponent().inject(this);
-        setupViews();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        presenter.checkUserStatus();
     }
 
-    @OnClick(R.id.logout)
+    @OnClick(R.id.accountBtn)
     void onLogoutClick() {
-        if (((UserActivity) getActivity()).checkNetworkConnection()) {
-            AuthUI.getInstance().signOut(getActivity());
-            getActivity().finish();
-        } else {
-            showSnackbar(contentContainer, getString(R.string.user_logout_error));
-        }
+        presenter.performActionWithAccount();
     }
 
     @OnClick(R.id.backButton)
     void onBackIconClick() {
-        getActivity().onBackPressed();
+        getActivity().finish();
     }
 
     @Override
-    public void hideLoading() {}
+    public void logoutFromAccount() {
+        AuthUI.getInstance().signOut(getActivity());
+        getActivity().finish();
+    }
 
     @Override
-    public void showLoading() {}
+    public void displayError(@StringRes int stringId) {
+        viewUtils.showSnackbar(contentContainer, getString(stringId));
+    }
 
-    private void setupViews() {
-        logoutButton.setSummary(getString(R.string.user_logged_as) + " "
-                + loggedUser.getFirebaseuser().getDisplayName());
+    @Override
+    public void displayNoUserView() {
+        accountButton.setTitle(getString(R.string.user_login));
         Picasso
                 .with(getContext())
-                .load(loggedUser.getFirebaseuser().getPhotoUrl())
+                .load(R.drawable.placeholder_human)
+                .into(userAvatar);
+    }
+
+    @Override
+    public void displayUserInfoView(FirebaseUser firebaseUser) {
+        accountButton.setSummary(getString(R.string.user_logged_as) + " "
+                + firebaseUser.getDisplayName());
+        Picasso
+                .with(getContext())
+                .load(firebaseUser.getPhotoUrl())
                 .placeholder(R.drawable.placeholder_human)
                 .into(userAvatar);
+    }
+
+    @Override
+    public void redirectToAuth() {
+        Intent returnIntent = new Intent();
+        getActivity().setResult(Activity.RESULT_OK, returnIntent);
+        getActivity().finish();
     }
 }

@@ -1,0 +1,19 @@
+/*
+    Verifies if sign.properties is exists
+    If it does then set's signingConfig properties
+ */
+def name = 'release'
+def signProperties = new Properties()
+def signFile = rootProject.file("sign.properties")
+def signingConfig = android.signingConfigs[name]
+if (signFile.exists()) {
+    signProperties.load(new FileInputStream(signFile))
+    signingConfig.keyAlias = signProperties['KeyAlias']
+    signingConfig.keyPassword = signProperties['KeyPassword']
+    signingConfig.storeFile = file(signProperties['StoreFile'])
+    signingConfig.storePassword = signProperties['StorePassword']
+
+    android.buildTypes.release.signingConfig = signingConfig
+} else {
+    android.buildTypes.release.signingConfig = null
+}

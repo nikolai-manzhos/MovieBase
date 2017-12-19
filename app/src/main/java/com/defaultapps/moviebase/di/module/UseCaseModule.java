@@ -13,8 +13,6 @@ import com.defaultapps.moviebase.data.usecase.PersonUseCaseImpl;
 import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
 
-import javax.inject.Singleton;
-
 import dagger.Binds;
 import dagger.Module;
 
@@ -22,26 +20,20 @@ import dagger.Module;
 public abstract class UseCaseModule {
 
     @Binds
-    @Singleton
-    abstract HomeUseCase provideHomeUseCase(HomeUseCaseImpl homeUseCase);
+    abstract HomeUseCase bindHomeUseCase(HomeUseCaseImpl homeUseCase);
 
     @Binds
-    @Singleton
-    abstract DiscoverUseCase provideDiscoverUseCase(DiscoverUseCaseImpl discoverUseCase);
+    abstract DiscoverUseCase bindDiscoverUseCase(DiscoverUseCaseImpl discoverUseCase);
 
     @Binds
-    @Singleton
-    abstract GenreUseCase provideGenreUseCase(GenreUseCaseImpl genreUseCase);
+    abstract GenreUseCase bindGenreUseCase(GenreUseCaseImpl genreUseCase);
 
     @Binds
-    @Singleton
-    abstract MovieUseCase provideMovieUseCase(MovieUseCaseImpl movieUseCase);
+    abstract MovieUseCase bindMovieUseCase(MovieUseCaseImpl movieUseCase);
 
     @Binds
-    @Singleton
-    abstract SearchUseCase provideSearchUseCase(SearchUseCaseImpl searchUseCase);
+    abstract SearchUseCase bindSearchUseCase(SearchUseCaseImpl searchUseCase);
 
     @Binds
-    @Singleton
-    abstract PersonUseCase providePersonUseCase(PersonUseCaseImpl personUseCase);
+    abstract PersonUseCase bindPersonUseCase(PersonUseCaseImpl personUseCase);
 }

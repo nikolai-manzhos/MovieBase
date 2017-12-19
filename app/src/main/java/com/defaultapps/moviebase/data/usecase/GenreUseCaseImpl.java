@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
@@ -18,17 +19,15 @@ import io.reactivex.subjects.PublishSubject;
 
 
 @Singleton
-public class GenreUseCaseImpl implements GenreUseCase {
+public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
 
-    private NetworkService networkService;
-    private AppPreferencesManager preferencesManager;
-    private SchedulerProvider schedulerProvider;
+    private final NetworkService networkService;
+    private final AppPreferencesManager preferencesManager;
+    private final SchedulerProvider schedulerProvider;
 
     private Disposable genreDisposable;
     private Disposable genrePaginationDisposable;
-    private BehaviorSubject<MoviesResponse> genreReplayProcessor;
-
-    private String API_KEY = BuildConfig.MDB_API_KEY;
+    private BehaviorSubject<MoviesResponse> genreBehaviorSubject;
 
     @Inject
     GenreUseCaseImpl(NetworkService networkService,
@@ -45,12 +44,13 @@ public class GenreUseCaseImpl implements GenreUseCase {
             genreDisposable.dispose();
         }
         if (genreDisposable == null || genreDisposable.isDisposed()) {
-            genreReplayProcessor = BehaviorSubject.create();
+            genreBehaviorSubject = BehaviorSubject.create();
 
             genreDisposable = network(genreId, 1)
-                    .subscribe(genreReplayProcessor::onNext, genreReplayProcessor::onError);
+                    .subscribe(genreBehaviorSubject::onNext, genreBehaviorSubject::onError);
+            getCompositeDisposable().add(genreDisposable);
         }
-        return genreReplayProcessor;
+        return genreBehaviorSubject;
     }
 
     @Override
@@ -58,9 +58,9 @@ public class GenreUseCaseImpl implements GenreUseCase {
         if (genrePaginationDisposable != null && !genrePaginationDisposable.isDisposed()) {
             genrePaginationDisposable.dispose();
         }
-        MoviesResponse previousResults = genreReplayProcessor.getValue();
+        MoviesResponse previousResults = genreBehaviorSubject.getValue();
         PublishSubject<MoviesResponse> publishSubject = PublishSubject.create();
-        genrePaginationDisposable = network(genreId, genreReplayProcessor.getValue().getPage() + 1)
+        genrePaginationDisposable = network(genreId, genreBehaviorSubject.getValue().getPage() + 1)
                 .map(moviesResponse -> {
                     previousResults.getResults().addAll(moviesResponse.getResults());
                     previousResults.setPage(moviesResponse.getPage());
@@ -68,12 +68,15 @@ public class GenreUseCaseImpl implements GenreUseCase {
                 })
                 .subscribe(moviesResponse -> {
                     publishSubject.onNext(moviesResponse);
-                    genreReplayProcessor.onNext(moviesResponse);
+                    genreBehaviorSubject = BehaviorSubject.create();
+                    genreBehaviorSubject.onNext(moviesResponse);
                 }, publishSubject::onError);
+        getCompositeDisposable().add(genrePaginationDisposable);
         return publishSubject;
     }
 
     private Single<MoviesResponse> network(String genreId, int page) {
+        String API_KEY = BuildConfig.MDB_API_KEY;
         return networkService.getNetworkCall().discoverMovies(API_KEY, "en-US", preferencesManager.getAdultStatus(), page, genreId)
                 .compose(schedulerProvider.applyIoSchedulers());
     }

@@ -7,14 +7,17 @@ import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 
 @PerFragment
 public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.DiscoverView> implements DiscoverContract.DiscoverPresenter {
 
-    private DiscoverUseCase discoverUseCase;
+    private final DiscoverUseCase discoverUseCase;
 
     @Inject
-    public DiscoverPresenterImpl(DiscoverUseCase discoverUseCase) {
+    DiscoverPresenterImpl(DiscoverUseCase discoverUseCase) {
+        super(discoverUseCase);
         this.discoverUseCase = discoverUseCase;
     }
 
@@ -24,7 +27,7 @@ public class DiscoverPresenterImpl extends BasePresenter<DiscoverContract.Discov
                 discoverUseCase.provideGenresList()
                 .subscribe(
                         genres -> getView().showData(genres),
-                        err -> {}
+                        Timber::e
                 )
         );
     }

@@ -1,11 +1,23 @@
 package com.defaultapps.moviebase.ui.user;
 
 
+import android.support.annotation.StringRes;
+
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.MvpView;
+import com.google.firebase.auth.FirebaseUser;
 
 public interface UserContract {
-    interface UserPresenter extends MvpPresenter<UserView> {}
+    interface UserPresenter extends MvpPresenter<UserView> {
+        void performActionWithAccount();
+        void checkUserStatus();
+    }
 
-    interface UserView extends MvpView {}
+    interface UserView extends MvpView {
+        void logoutFromAccount();
+        void displayError(@StringRes int stringId);
+        void displayNoUserView();
+        void displayUserInfoView(FirebaseUser firebaseUser);
+        void redirectToAuth();
+    }
 }

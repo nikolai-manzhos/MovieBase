@@ -3,12 +3,15 @@ package com.defaultapps.moviebase.data.usecase;
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 import com.defaultapps.moviebase.utils.ResponseOrError;
+import com.google.firebase.auth.FirebaseUser;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
@@ -17,31 +20,34 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
-public class MovieUseCaseImpl implements MovieUseCase {
+public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
 
-    private NetworkService networkService;
-    private FavoritesManager favoritesManager;
-    private SchedulerProvider schedulerProvider;
+    private final NetworkService networkService;
+    private final FavoritesManager favoritesManager;
+    private final Provider<FirebaseUser> firebaseUserProvider;
+    private final SchedulerProvider schedulerProvider;
 
     private Disposable movieInfoDisposable;
     private ReplaySubject<MovieInfoResponse> movieInfoReplaySubject;
     private int currentId = -1;
 
-    private final String API_KEY = BuildConfig.MDB_API_KEY;
-
     @Inject
     MovieUseCaseImpl(NetworkService networkService,
-                            SchedulerProvider schedulerProvider,
-                            FavoritesManager favoritesManager) {
+                     SchedulerProvider schedulerProvider,
+                     FavoritesManager favoritesManager,
+                     Provider<FirebaseUser> firebaseUserProvider) {
         this.networkService = networkService;
         this.schedulerProvider = schedulerProvider;
         this.favoritesManager = favoritesManager;
+        this.firebaseUserProvider = firebaseUserProvider;
     }
 
     @Override
     public Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force) {
-        favoritesManager.fetchAllFavs().subscribe(); // check for database changes
-        if (force) {
+        if (firebaseUserProvider.get() != null) {
+            favoritesManager.fetchAllFavs(); // check for database changes
+        }
+        if (force && movieInfoDisposable != null) {
             movieInfoDisposable.dispose();
         }
         if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {
@@ -54,6 +60,7 @@ public class MovieUseCaseImpl implements MovieUseCase {
 
             movieInfoDisposable = network(movieId)
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
+            getCompositeDisposable().add(movieInfoDisposable);
         }
         return movieInfoReplaySubject;
     }
@@ -68,7 +75,13 @@ public class MovieUseCaseImpl implements MovieUseCase {
         return favoritesManager.getIsFavoriteObservable(movieId);
     }
 
+    @Override
+    public boolean getUserState() {
+        return firebaseUserProvider.get() != null;
+    }
+
     private Single<MovieInfoResponse> network(int movieId) {
+        final String API_KEY = BuildConfig.MDB_API_KEY;
         return networkService.getNetworkCall().getMovieInfo(movieId, API_KEY, "en-Us", "videos,credits,similar")
                 .compose(schedulerProvider.applyIoSchedulers());
     }

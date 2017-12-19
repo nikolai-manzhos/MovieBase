@@ -68,7 +68,7 @@
             app:mp_summary="@string/user_adult_summary"/>
 
         <com.yarolegovich.mp.MaterialStandardPreference
-            android:id="@+id/logout"
+            android:id="@+id/accountBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:theme="@style/UserTheme"

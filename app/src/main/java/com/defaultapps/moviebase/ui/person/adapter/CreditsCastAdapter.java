@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.person.CastCrewViewHolder;
 import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,15 +22,15 @@ import javax.inject.Inject;
 @PerFragment
 public class CreditsCastAdapter extends RecyclerView.Adapter<CastCrewViewHolder> {
 
-    private Context context;
+    private final Context context;
     private List<Cast> castCredits;
+    private OnMovieClickListener listener;
 
     @Inject
-    public CreditsCastAdapter(@ActivityContext Context context) {
+    CreditsCastAdapter(@ActivityContext Context context) {
         this.context = context;
         castCredits = new ArrayList<>();
     }
-
 
     @Override
     public CastCrewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,10 +40,12 @@ public class CreditsCastAdapter extends RecyclerView.Adapter<CastCrewViewHolder>
     @Override
     public void onBindViewHolder(CastCrewViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
-        holder.personJob.setText(castCredits.get(adapterPosition).getCharacter());
+        Cast cast = castCredits.get(adapterPosition);
+        holder.personJob.setText(cast.getCharacter());
+        holder.itemView.setOnClickListener(view -> listener.onMovieClick(cast.getId()));
         Picasso
                 .with(context)
-                .load(AppConstants.POSTER_BASE_URL + castCredits.get(adapterPosition).getPosterPath())
+                .load(AppConstants.POSTER_BASE_URL + cast.getPosterPath())
                 .into(holder.moviePoster);
     }
 
@@ -57,5 +60,8 @@ public class CreditsCastAdapter extends RecyclerView.Adapter<CastCrewViewHolder>
         notifyDataSetChanged();
     }
 
+    public void setOnMovieClickListener(OnMovieClickListener listener) {
+        this.listener = listener;
+    }
 
 }

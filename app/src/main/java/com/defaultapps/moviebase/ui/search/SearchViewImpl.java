@@ -1,10 +1,10 @@
 package com.defaultapps.moviebase.ui.search;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,15 +19,23 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.di.FragmentContext;
+import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
-import com.defaultapps.moviebase.ui.main.MainActivity;
-import com.defaultapps.moviebase.ui.movie.MovieActivity;
-import com.defaultapps.moviebase.utils.AppConstants;
+import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.search.SearchContract.SearchPresenter;
+import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.Utils;
+import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
-import com.defaultapps.moviebase.utils.SimpleItemDecorator;
+import com.defaultapps.moviebase.utils.listener.PaginationAdapterCallback;
+import com.defaultapps.moviebase.utils.listener.PaginationScrollListener;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -36,8 +44,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-
-public class SearchViewImpl extends BaseFragment implements SearchContract.SearchView, OnBackPressedListener, OnMovieClickListener {
+@Layout(id = R.layout.fragment_search, name = "Search")
+public class SearchViewImpl extends BaseFragment implements
+        SearchContract.SearchView, OnBackPressedListener,
+        OnMovieClickListener, PaginationAdapterCallback {
 
     @BindView(R.id.contentContainer)
     LinearLayout contentContainer;
@@ -66,36 +76,52 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
     @BindView(R.id.searchEmptyView)
     LinearLayout searchViewEmpty;
 
+    @BindPresenter
     @Inject
-    SearchPresenterImpl presenter;
+    SearchPresenter presenter;
 
     @Inject
     SearchAdapter searchAdapter;
 
-    private MainActivity activity;
+    @Inject
+    ViewUtils viewUtils;
+
+    @BindNavigator
+    @FragmentContext
+    @Inject
+    Navigator navigator;
+
+    private BaseActivity activity;
+
+    private int TOTAL_PAGES = 1;
+    private boolean isLoading;
+    private boolean isLastPage;
+    private String currentQuery;
+
+    private boolean isRestored;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MainActivity) {
-            activity = (MainActivity) context;
+        if (context instanceof BaseActivity) {
+            activity = (BaseActivity) context;
         }
     }
 
     @Override
-    protected int provideLayout() {
-        return R.layout.fragment_search;
+    protected void inject() {
+        getFragmentComponent().inject(this);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        getFragmentComponent().inject(this);
-        presenter.onAttach(this);
         activity.setOnBackPressedListener(this);
+        isRestored = savedInstanceState != null;
 
         activity.setSupportActionBar(toolbar);
-        //noinspection ConstantConditions
+        Utils.checkNotNull(activity.getSupportActionBar());
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         initSearchView();
         initRecyclerView();
@@ -117,7 +143,6 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         super.onDestroyView();
         activity.setSupportActionBar(null);
         activity.setOnBackPressedListener(null);
-        presenter.onDetach();
     }
 
     @Override
@@ -137,19 +162,54 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
 
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieActivity.class);
-        intent.putExtra(AppConstants.MOVIE_ID, movieId);
-        startActivity(intent);
+        navigator.toMovieActivity(movieId);
     }
 
     @Override
     public void displaySearchResults(MoviesResponse moviesResponse) {
         searchAdapter.setData(moviesResponse.getResults());
+        TOTAL_PAGES = moviesResponse.getTotalPages();
+        searchAdapter.removeLoadingFooter();
+        isLastPage = false;
+
+        if (moviesResponse.getPage() < TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        else isLastPage = true;
+    }
+
+    @Override
+    public void displayMoreSearchResults(MoviesResponse moviesResponse) {
+        searchAdapter.addData(moviesResponse.getResults());
+        searchRecyclerView.post(() -> searchAdapter.notifyDataSetChanged());
+        searchAdapter.removeLoadingFooter();
+        isLoading = false;
+
+        if (moviesResponse.getPage() < TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        else isLastPage = true;
     }
 
     @Override
     public void showData() {
         contentContainer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadMoreError() {
+        searchAdapter.showRetry(true);
+    }
+
+    @Override
+    public void showLoadMoreError() {
+        searchAdapter.showRetry(false);
+    }
+
+    @Override
+    public void hideSearchStart() {
+        searchStartView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showSearchStart() {
+        searchStartView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -189,21 +249,22 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
         searchViewEmpty.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void retryPageLoad() {
+        presenter.requestMoreSearchResults(currentQuery);
+    }
+
     private void initSearchView() {
         searchView.setCursorDrawable(R.drawable.cursor);
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                searchStartView.setVisibility(View.GONE);
+                presenter.onSearchViewOpen();
             }
 
             @Override
             public void onSearchViewClosed() {
-                searchStartView.setVisibility(View.VISIBLE);
-                hideLoading();
-                hideError();
-                hideData();
-                hideEmpty();
+                presenter.onSearchViewClose();
             }
         });
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -211,29 +272,60 @@ public class SearchViewImpl extends BaseFragment implements SearchContract.Searc
             Runnable workRunnable;
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                viewUtils.hideSoftKeyboard(searchView);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 handler.removeCallbacks(workRunnable);
                 workRunnable = () -> sendQuery(newText);
+                currentQuery = newText;
                 if (TextUtils.getTrimmedLength(newText) > 0) {
                     handler.postDelayed(workRunnable, 500);
                 }
-                return false;
+                return true;
             }
 
             private void sendQuery(String newText) {
-                presenter.requestSearchResults(newText, true);
+                if (isRestored) {
+                    presenter.requestSearchResults(newText, false);
+                    isRestored = false;
+                } else {
+                    presenter.requestSearchResults(newText, true);
+                }
             }
         });
     }
 
     private void initRecyclerView() {
-        searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        searchRecyclerView.setLayoutManager(layoutManager);
         searchRecyclerView.addItemDecoration(new SimpleItemDecorator(10));
         searchRecyclerView.setAdapter(searchAdapter);
+        searchRecyclerView.addOnScrollListener(new PaginationScrollListener(layoutManager) {
+            @Override
+            protected void loadMoreItems() {
+                isLoading = true;
+                presenter.requestMoreSearchResults(currentQuery);
+            }
+
+            @Override
+            public int getTotalPageCount() {
+                return TOTAL_PAGES;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+        });
         searchAdapter.setOnMovieClickListener(this);
+        searchAdapter.setPaginationCallback(this);
     }
 }

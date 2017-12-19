@@ -41,7 +41,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosViewHolder> {
         int adapterPosition = holder.getAdapterPosition();
         Picasso
                 .with(context)
-                .load("http://img.youtube.com/vi/"+ videos.get(adapterPosition).getKey() + "/maxresdefault.jpg")
+                .load("http://img.youtube.com/vi/"+ videos.get(adapterPosition).getKey() + "/mqdefault.jpg")
                 .into(holder.thumbnail);
         holder.thumbnail.setOnClickListener(view -> listener.onVideoClick(videos.get(adapterPosition).getKey()));
     }

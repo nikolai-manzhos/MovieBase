@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.movie;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -17,34 +17,41 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
+import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.SimilarAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.VideosAdapter;
-import com.defaultapps.moviebase.ui.person.PersonActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
-import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
-import com.defaultapps.moviebase.utils.listener.OnPersonClickListener;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.Utils;
+import com.defaultapps.moviebase.utils.ViewUtils;
+import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
+import com.defaultapps.moviebase.utils.listener.OnPersonClickListener;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
-import com.thefinestartist.ytpa.YouTubePlayerActivity;
-import com.thefinestartist.ytpa.enums.Orientation;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.defaultapps.moviebase.utils.AppConstants.MOVIE_ID;
 
-public class MovieViewImpl extends BaseFragment implements MovieContract.MovieView, OnMovieClickListener, VideosAdapter.OnVideoClickListener, OnPersonClickListener {
+@Layout(id = R.layout.fragment_movie, name = "Movie")
+public class MovieViewImpl extends BaseFragment
+        implements MovieContract.MovieView, OnMovieClickListener,
+        VideosAdapter.OnVideoClickListener, OnPersonClickListener {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -76,6 +83,15 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @BindView(R.id.releaseDate)
     IconTextView releaseDate;
 
+    @BindView(R.id.runtime)
+    IconTextView runtime;
+
+    @BindView(R.id.budget)
+    TextView budget;
+
+    @BindView(R.id.revenue)
+    TextView revenue;
+
     @BindView(R.id.movieOverview)
     ExpandableTextView movieOverview;
 
@@ -100,8 +116,9 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @BindView(R.id.similarRecyclerView)
     RecyclerView similarRecyclerView;
 
+    @BindPresenter
     @Inject
-    MoviePresenterImpl presenter;
+    MoviePresenter presenter;
 
     @Inject
     VideosAdapter videosAdapter;
@@ -115,33 +132,40 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
     @Inject
     SimilarAdapter similarAdapter;
 
+    @Inject
+    ViewUtils viewUtils;
+
+    @BindNavigator
+    @Inject
+    MovieContract.MovieNavigator navigator;
+
     private int movieId;
     private MovieInfoResponse movieInfo;
 
-    @Override
-    protected int provideLayout() {
-        return R.layout.fragment_movie;
+    public static MovieViewImpl newInstance(int movieId) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(MOVIE_ID, movieId);
+        MovieViewImpl fragment = new MovieViewImpl();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected void inject() {
         getFragmentComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initToolbar();
         initFAB();
         initRecyclerViews();
 
-        presenter.onAttach(this);
+        Utils.checkNotNull(getArguments());
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
         presenter.requestMovieInfo(movieId, false);
         presenter.requestFavoriteStatus(movieId);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.onDetach();
-        similarAdapter.setOnMovieClickListener(null);
-        videosAdapter.setOnVideoClickListener(null);
     }
 
     @OnClick(R.id.errorButton)
@@ -154,50 +178,47 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         presenter.addOrRemoveFromFavorites(movieInfo.getId(), movieInfo.getPosterPath());
     }
 
+    @OnClick(R.id.shareButton)
+    void onShareClick() {
+        navigator.shareAction(movieInfo.getHomepage());
+    }
+
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent = new Intent(getActivity(), MovieActivity.class).putExtra(AppConstants.MOVIE_ID, movieId);
-        startActivity(intent);
+        navigator.toMovieActivity(movieId);
     }
 
     @Override
     public void onVideoClick(String videoPath) {
-        Intent intent = new Intent(getActivity(), YouTubePlayerActivity.class);
-        intent.putExtra(YouTubePlayerActivity.EXTRA_VIDEO_ID, videoPath);
-        intent.putExtra(YouTubePlayerActivity.EXTRA_ORIENTATION, Orientation.ONLY_LANDSCAPE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        navigator.toFullScreenVideoActivity(videoPath);
     }
 
     @Override
     public void onPersonClick(int personId) {
-        Intent intent = new Intent(getContext(), PersonActivity.class);
-        intent.putExtra(AppConstants.PERSON_ID, personId);
-        startActivity(intent);
+        navigator.toPersonActivity(personId);
     }
 
     @Override
     public void displayTransactionError() {
-        showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
+        viewUtils.showSnackbar(nestedScrollView, getString(R.string.movie_favorite_failure));
     }
 
     @Override
     public void displayMovieInfo(MovieInfoResponse movieInfo) {
         this.movieInfo = movieInfo;
-        Picasso
-                .with(getContext().getApplicationContext())
-                .load("http://image.tmdb.org/t/p//w1280" + movieInfo.getBackdropPath())
-                .fit()
-                .centerCrop()
-                .into(imageBackdrop);
-        Picasso
-                .with(getContext().getApplicationContext())
-                .load("https://image.tmdb.org/t/p/w300" + movieInfo.getPosterPath())
-                .fit()
-                .centerCrop()
-                .into(imagePoster);
+        loadImage(movieInfo.getBackdropPath(),imageBackdrop);
+        loadImage(movieInfo.getPosterPath(), imagePoster);
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
+        runtime.append(" " + Utils.formatMinutes(getContext(), movieInfo.getRuntime()));
+        String budgetString = movieInfo.getBudget() == 0 ?
+                getString(R.string.movie_budget_unknown, AppConstants.UNKNOWN) :
+                getString(R.string.movie_budget, Utils.formatNumber(movieInfo.getBudget()));
+        budget.setText(budgetString);
+        String revenueString = movieInfo.getRevenue() == 0 ?
+                getString(R.string.movie_revenue_unknown, AppConstants.UNKNOWN) :
+                getString(R.string.movie_revenue, Utils.formatNumber(movieInfo.getRevenue()));
+        revenue.setText(revenueString);
         movieOverview.setText(movieInfo.getOverview());
         videosAdapter.setData(movieInfo.getVideos().getVideoResults());
         castAdapter.setData(movieInfo.getCredits().getCast());
@@ -249,25 +270,28 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
         );
     }
 
+    @Override
+    public void displayLoginScreen() {
+        navigator.toLoginActivity();
+    }
+
     private void initFAB() {
         favoriteFab.setImageDrawable(
                 new IconDrawable(getContext(), MaterialIcons.md_favorite_border)
                 .colorRes(R.color.colorAccent));
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    favoriteFab.hide();
-                } else {
-                    favoriteFab.show();
-                }
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
+                (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY) {
+                favoriteFab.hide();
+            } else {
+                favoriteFab.show();
             }
         });
     }
 
     @SuppressWarnings("ConstantConditions")
     private void initToolbar() {
-        MovieActivity activity = (MovieActivity) getActivity();
+        BaseActivity activity = (BaseActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -277,29 +301,41 @@ public class MovieViewImpl extends BaseFragment implements MovieContract.MovieVi
 
     private void initRecyclerViews() {
         SimpleItemDecorator horizontalDivider = new SimpleItemDecorator(30, true);
-        //noinspection deprecation
-        videosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        videosRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         videosRecyclerView.setAdapter(videosAdapter);
         videosRecyclerView.addItemDecoration(horizontalDivider);
         videosRecyclerView.setNestedScrollingEnabled(false);
         videosAdapter.setOnVideoClickListener(this);
 
-        castRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        castRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         castRecyclerView.setAdapter(castAdapter);
         castRecyclerView.addItemDecoration(horizontalDivider);
         castRecyclerView.setNestedScrollingEnabled(false);
         castAdapter.setOnPersonClickListener(this);
 
-        crewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        crewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         crewRecyclerView.setAdapter(crewAdapter);
         crewRecyclerView.addItemDecoration(horizontalDivider);
         crewRecyclerView.setNestedScrollingEnabled(false);
         crewAdapter.setOnPersonClickListener(this);
 
-        similarRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        similarRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         similarRecyclerView.setAdapter(similarAdapter);
         similarRecyclerView.addItemDecoration(horizontalDivider);
         similarRecyclerView.setNestedScrollingEnabled(false);
         similarAdapter.setOnMovieClickListener(this);
+    }
+
+    private void loadImage(String uri, ImageView iv) {
+        Picasso
+                .with(getContext())
+                .load("http://image.tmdb.org/t/p//w1280" + uri)
+                .fit()
+                .centerCrop()
+                .into(iv);
     }
 }

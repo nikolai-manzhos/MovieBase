@@ -1,7 +1,9 @@
 package com.defaultapps.moviebase.data.usecase;
 
+
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.data.base.BaseUseCase;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
 import com.defaultapps.moviebase.utils.AppConstants;
@@ -16,26 +18,26 @@ import javax.inject.Singleton;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.ReplaySubject;
+import io.reactivex.subjects.BehaviorSubject;
 
 
 @Singleton
-public class HomeUseCaseImpl implements HomeUseCase {
+public class HomeUseCaseImpl extends BaseUseCase implements HomeUseCase {
 
-    private NetworkService networkService;
-    private RxBus rxBus;
-    private SchedulerProvider schedulerProvider;
+    private final NetworkService networkService;
+    private final RxBus rxBus;
+    private final SchedulerProvider schedulerProvider;
 
     private Disposable moviesDisposable;
-    private ReplaySubject<List<MoviesResponse>> moviesReplaySubject;
+    private BehaviorSubject<List<MoviesResponse>> moviesBehaviorSubject;
     private List<MoviesResponse> cache;
 
     private final String API_KEY = BuildConfig.MDB_API_KEY;
 
     @Inject
     HomeUseCaseImpl(NetworkService networkService,
-                           RxBus rxBus,
-                           SchedulerProvider schedulerProvider) {
+                    RxBus rxBus,
+                    SchedulerProvider schedulerProvider) {
         this.networkService = networkService;
         this.rxBus = rxBus;
         this.schedulerProvider = schedulerProvider;
@@ -44,28 +46,29 @@ public class HomeUseCaseImpl implements HomeUseCase {
     @Override
     public Observable<List<MoviesResponse>> requestHomeData(boolean force) {
         if (cache != null
-                && moviesReplaySubject != null
-                && !moviesReplaySubject.hasValue()
-                && !moviesReplaySubject.hasThrowable()) {
+                && moviesBehaviorSubject != null
+                && !moviesBehaviorSubject.hasValue()
+                && !moviesBehaviorSubject.hasThrowable()) {
             rxBus.publish(AppConstants.HOME_INSTANT_CACHE, cache);
         }
         if (force && moviesDisposable != null) {
             moviesDisposable.dispose();
         } else if (!force
                 && cache != null
-                && moviesReplaySubject != null
-                && moviesReplaySubject.hasThrowable()) {
+                && moviesBehaviorSubject != null
+                && moviesBehaviorSubject.hasThrowable()) {
             rxBus.publish(AppConstants.HOME_INSTANT_CACHE, cache);
-            moviesReplaySubject.onComplete();
+            return Observable.empty();
         }
         if (moviesDisposable == null || moviesDisposable.isDisposed()) {
-            moviesReplaySubject = ReplaySubject.create(1);
+            moviesBehaviorSubject = BehaviorSubject.create();
 
             moviesDisposable = network()
                     .doOnSuccess(moviesList -> cache = moviesList)
-                    .subscribe(moviesReplaySubject::onNext, moviesReplaySubject::onError);
+                    .subscribe(moviesBehaviorSubject::onNext, moviesBehaviorSubject::onError);
+            getCompositeDisposable().add(moviesDisposable);
         }
-        return moviesReplaySubject;
+        return moviesBehaviorSubject;
     }
 
     private Single<List<MoviesResponse>> network() {

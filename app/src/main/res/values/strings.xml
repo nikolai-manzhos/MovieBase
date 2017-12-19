@@ -17,6 +17,10 @@
     <string name="bookmarks_movie_poster">Movie poster</string>
     <string name="bookmarks_alert_title">Remove this movie?</string>
     <string name="bookmarks_favorites_empty">Seems like you don\'t have any favorite movies yet.</string>
+    <string name="bookmarks_no_user">Please login to synchronize and watch your bookmarks</string>
+    <string name="bookmarks_sign_in">Sign In</string>
+    <string name="bookmarks_delete_error">Error while deleting item. Please try again</string>
+
 
     <!--Search strings-->
     <string name="search_toolbar">Search</string>
@@ -34,12 +38,17 @@
     <string name="movie_similar">Similar</string>
     <string name="movie_favorite_success">Added to favorites</string>
     <string name="movie_favorite_failure">Error while adding to favorites :(</string>
+    <string name="movie_budget">Budget: %s$</string>
+    <string name="movie_budget_unknown">Budget: %s</string>
+    <string name="movie_revenue">Revenue: %s$</string>
+    <string name="movie_revenue_unknown">Revenue: %s</string>
+    <string name="movie_runtime">%1$dh %2$dm</string>
 
     <!--User strings-->
     <string name="user_toolbar">Settings</string>
     <string name="user_logged_as">You are logged in as</string>
-    <string name="user_delete_error">Error while deleting item. Please try again</string>
     <string name="user_logout">Logout</string>
+    <string name="user_login">Login</string>
     <string name="user_logout_error">Cannot establish internet connection :(</string>
     <string name="user_adult_title">Adult</string>
     <string name="user_adult_summary">Display adult content</string>
@@ -55,4 +64,8 @@
     <string name="error_message">Oops, something went wrong</string>
     <string name="error_button">Try again</string>
     <string name="error_load_more">Unable to load more items</string>
+    
+    <!--Login strings-->
+    <string name="login_enter">Login</string>
+    <string name="login_skip">Skip</string>
 </resources>

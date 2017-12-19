@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 public class PersonUseCaseTest {
 
     @Mock
-    NetworkService networkService;
+    private NetworkService networkService;
 
     @Mock
-    Api api;
+    private Api api;
 
 
     private PersonUseCase useCase;

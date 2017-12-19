@@ -2,122 +2,92 @@ package com.defaultapps.moviebase.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
+
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.firebase.LoggedUser;
+import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
+import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.home.HomeViewImpl;
+import com.defaultapps.moviebase.ui.main.MainContract.MainPresenter;
 import com.defaultapps.moviebase.ui.search.SearchViewImpl;
-import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.defaultapps.moviebase.utils.Utils;
 import com.roughike.bottombar.BottomBar;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
-public class MainActivity extends BaseActivity implements FirebaseAuth.AuthStateListener {
+import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
+import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 
-    private static final int RC_SIGN_IN = 1;
-    private boolean firstTimeLaunch;
+@Layout(id = R.layout.activity_main)
+public class MainActivity extends BaseActivity implements MainContract.MainView {
 
     @BindView(R.id.bottomBar)
     BottomBar bottomBar;
 
+    @BindPresenter
     @Inject
-    LoggedUser loggedUser;
+    MainPresenter presenter;
 
-    private FirebaseAuth firebaseAuth;
-    private OnBackPressedListener onBackPressedListener;
+    @BindNavigator
+    @ActivityContext
+    @Inject
+    Navigator navigator;
+
+    @Override
+    public void inject() {
+        getActivityComponent().inject(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        getActivityComponent().inject(this);
-        ButterKnife.bind(this);
-        firstTimeLaunch = savedInstanceState == null;
-
-        firebaseAuth = FirebaseAuth.getInstance();
-    }
-
-    @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            if (firstTimeLaunch) {
-                selectItem(R.id.tab_home);
-                firstTimeLaunch = false;
-            }
-            Log.d("MainActivity", user.getUid());
-            loggedUser.setFirebaseuser(user);
-            //Signed In Get User Details
-        } else {
-            //noinspection deprecation
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setIsSmartLockEnabled(false)
-                            .setTheme(R.style.DarkTheme)
-                            .setLogo(R.mipmap.ic_launcher_round)
-                            .setProviders(
-                                    AuthUI.GOOGLE_PROVIDER,
-                                    AuthUI.EMAIL_PROVIDER)
-                            .build(),
-                    RC_SIGN_IN);
+        presenter.checkFirstTimeUser();
+        if (savedInstanceState == null) {
+            selectItem(R.id.tab_home);
         }
+        Utils.removeShadowViewFromBottomBar(bottomBar);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
+                selectItem(bottomBar.getCurrentTabId());
                 Toast.makeText(getApplicationContext(), "You're signed in!", Toast.LENGTH_SHORT).show();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "Sign in canceled", Toast.LENGTH_SHORT).show();
-                finish();
+            }
+        } else if (requestCode == RC_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                navigator.toSignInActivity();
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-       if (onBackPressedListener != null && onBackPressedListener.onBackPressed()) {
-           super.onBackPressed();
-       } else if (onBackPressedListener == null) {
-           super.onBackPressed();
-       }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        firebaseAuth.addAuthStateListener(this);
-        initBottomBar();
+        bottomBar.setOnTabSelectListener(this::selectItem, false);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        firebaseAuth.removeAuthStateListener(this);
         bottomBar.removeOnTabSelectListener();
     }
 
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.onBackPressedListener = onBackPressedListener;
-    }
-
-    private void initBottomBar() {
-        bottomBar.setOnTabSelectListener(this::selectItem, false);
+    @Override
+    public void displayLoginActivity() {
+        navigator.toLoginActivity();
     }
 
     private void selectItem(int tabId) {

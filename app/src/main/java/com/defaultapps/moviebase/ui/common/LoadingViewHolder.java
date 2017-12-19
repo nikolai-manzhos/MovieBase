@@ -1,6 +1,5 @@
-package com.defaultapps.moviebase.ui.genre.vh;
+package com.defaultapps.moviebase.ui.common;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -8,12 +7,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.ui.base.BaseViewHolder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
-public class LoadingViewHolder extends RecyclerView.ViewHolder {
+public class LoadingViewHolder extends BaseViewHolder {
 
     @BindView(R.id.loadmore_progress)
     public ProgressBar progressBar;
@@ -29,7 +28,6 @@ public class LoadingViewHolder extends RecyclerView.ViewHolder {
 
     public LoadingViewHolder(View v) {
         super(v);
-        ButterKnife.bind(this, v);
     }
 
 }
