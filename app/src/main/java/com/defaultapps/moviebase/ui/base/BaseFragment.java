@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.deafaultapps.easybind.EasyBind;
-import com.deafaultapps.easybind.EasyBinder;
-import com.defaultapps.easybind.bindings.BindLayout;
-import com.defaultapps.easybind.bindings.BindName;
+import easybind.EasyBind;
+import easybind.EasyBinder;
+import easybind.bindings.BindLayout;
+import easybind.bindings.BindName;
 import com.defaultapps.moviebase.di.component.FragmentComponent;
 import com.defaultapps.moviebase.utils.analytics.Analytics;
 

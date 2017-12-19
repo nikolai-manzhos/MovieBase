@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.defaultapps.easybind.Layout;
-import com.defaultapps.easybind.bindings.BindNavigator;
-import com.defaultapps.easybind.bindings.BindPresenter;
+
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
@@ -22,6 +20,9 @@ import com.roughike.bottombar.BottomBar;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;

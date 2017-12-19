@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.login;
 
-import com.defaultapps.easybind.Layout;
-import com.defaultapps.easybind.bindings.BindNavigator;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 

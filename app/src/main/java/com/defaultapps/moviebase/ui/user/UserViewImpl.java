@@ -10,8 +10,8 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.defaultapps.easybind.Layout;
-import com.defaultapps.easybind.bindings.BindPresenter;
+import easybind.Layout;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.user.UserContract.UserPresenter;

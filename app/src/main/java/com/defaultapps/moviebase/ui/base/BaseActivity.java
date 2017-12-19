@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.deafaultapps.easybind.EasyBind;
-import com.deafaultapps.easybind.EasyBinder;
-import com.defaultapps.easybind.bindings.BindLayout;
+import easybind.EasyBind;
+import easybind.EasyBinder;
+import easybind.bindings.BindLayout;
 import com.defaultapps.moviebase.App;
 import com.defaultapps.moviebase.di.component.ActivityComponent;
 import com.defaultapps.moviebase.di.component.DaggerActivityComponent;

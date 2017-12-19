@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.defaultapps.easybind.Layout;
-import com.defaultapps.easybind.bindings.BindNavigator;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;

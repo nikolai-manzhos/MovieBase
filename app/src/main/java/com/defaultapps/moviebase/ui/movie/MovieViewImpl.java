@@ -17,9 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.defaultapps.easybind.Layout;
-import com.defaultapps.easybind.bindings.BindNavigator;
-import com.defaultapps.easybind.bindings.BindPresenter;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
 import com.defaultapps.moviebase.ui.base.BaseActivity;

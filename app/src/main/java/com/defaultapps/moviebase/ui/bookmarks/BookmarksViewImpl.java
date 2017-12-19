@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.defaultapps.easybind.Layout;
-import com.defaultapps.easybind.bindings.BindNavigator;
-import com.defaultapps.easybind.bindings.BindPresenter;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;

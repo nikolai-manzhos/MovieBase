@@ -25,7 +25,7 @@ ext {
     prefs = "2.3"
     expTextView = '0.1.4'
     timber = '4.6.0'
-    easybind = '1.0.6'
+    easybind = '1.1.4'
 
     crashlyticsSdk = '2.7.1@aar'
 
