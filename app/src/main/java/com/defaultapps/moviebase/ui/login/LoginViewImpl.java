@@ -12,6 +12,11 @@ import butterknife.OnClick;
 @Layout(id = R.layout.fragment_login, name = "Login")
 public class LoginViewImpl extends BaseFragment {
 
+    @Override
+    protected void inject() {
+        getFragmentComponent().inject(this);
+    }
+
     @OnClick(R.id.login_sign)
     void onSignClick() {
         Intent returnIntent = new Intent();
