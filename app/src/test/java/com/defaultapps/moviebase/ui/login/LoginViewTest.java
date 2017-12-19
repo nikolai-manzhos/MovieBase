@@ -6,14 +6,19 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 
 import org.junit.Test;
+import org.mockito.Mock;
 import org.robolectric.shadows.ShadowActivity;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.robolectric.Shadows.shadowOf;
 
 public class LoginViewTest extends BaseRobolectricTest {
+
+    @Mock
+    private LoginContract.LoginNavigator loginNavigator;
 
     private LoginViewImpl loginView;
 
@@ -21,27 +26,24 @@ public class LoginViewTest extends BaseRobolectricTest {
     public void setup() throws Exception {
         super.setup();
         loginView = new LoginViewImpl();
+        loginView.loginNavigator = loginNavigator;
 
         addFragmentToFragmentManager(loginView, activity);
     }
 
     @Test
-    public void shouldFinishWithResultOk() {
-        ShadowActivity shadowActivity = shadowOf(activity);
+    public void callNavigatorOnSignBtnPress() {
         assert loginView.getView() != null;
         loginView.getView().findViewById(R.id.login_sign).performClick();
 
-        assertEquals(Activity.RESULT_OK, shadowActivity.getResultCode());
-        assertTrue(shadowActivity.isFinishing());
+        verify(loginNavigator).continueLogin();
     }
 
     @Test
-    public void shouldFinishWithResultCancel() {
-        ShadowActivity shadowActivity = shadowOf(activity);
+    public void callNavigatorOnSkipBtnPress() {
         assert loginView.getView() != null;
         loginView.getView().findViewById(R.id.login_skip).performClick();
 
-        assertEquals(Activity.RESULT_CANCELED, shadowActivity.getResultCode());
-        assertTrue(shadowActivity.isFinishing());
+        verify(loginNavigator).skipLogin();
     }
 }

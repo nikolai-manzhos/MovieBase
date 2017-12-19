@@ -39,7 +39,7 @@ public class DefaultNavigator<V extends MvpView> implements Navigator<V> {
         view = null;
     }
 
-    private BaseActivity castToBase() {
+    protected BaseActivity castToBase() {
         return view.provideActivity();
     }
 
