@@ -24,6 +24,7 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:foreground="@drawable/gradient_shape_top"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 android:contentDescription="@string/movie_image_backdrop"
