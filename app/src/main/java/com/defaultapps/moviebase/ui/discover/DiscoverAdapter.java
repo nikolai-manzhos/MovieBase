@@ -15,6 +15,7 @@ import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BaseViewHolder;
+import com.defaultapps.moviebase.utils.ResUtils;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -24,7 +25,8 @@ import butterknife.BindView;
 @PerFragment
 public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.DiscoverViewHolder> {
 
-    private Context context;
+    private final Context context;
+    private final ResUtils resUtils;
     private Genres genres;
 
     private OnItemClickListener listener;
@@ -34,8 +36,10 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
     }
 
     @Inject
-    DiscoverAdapter(@ActivityContext Context context) {
+    DiscoverAdapter(@ActivityContext Context context,
+                    ResUtils resUtils) {
         this.context = context;
+        this.resUtils = resUtils;
     }
 
     static class DiscoverViewHolder extends BaseViewHolder {
@@ -67,13 +71,9 @@ public class DiscoverAdapter extends RecyclerView.Adapter<DiscoverAdapter.Discov
     @Override
     public void onBindViewHolder(DiscoverViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
-        holder.genreName.setText(genres.getGenres().get(adapterPosition).getName());
-        Picasso
-                .with(context)
-                .load(R.drawable.action)
-                .fit()
-                .centerCrop()
-                .into(holder.image);
+        Genre genre = genres.getGenres().get(adapterPosition);
+        holder.genreName.setText(genre.getName());
+        holder.image.setImageResource(resUtils.resolveGenreIconId(genre.getId()));
     }
 
     @Override
