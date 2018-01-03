@@ -59,14 +59,19 @@ public class HomeUseCaseImpl extends BaseUseCase implements HomeUseCase {
                 && moviesBehaviorSubject.hasThrowable()) {
             rxBus.publish(AppConstants.HOME_INSTANT_CACHE, cache);
             return Observable.empty();
+        } else if (!force
+                && cache == null
+                && moviesBehaviorSubject != null
+                && moviesBehaviorSubject.hasThrowable()) {
+            moviesDisposable.dispose();
         }
         if (moviesDisposable == null || moviesDisposable.isDisposed()) {
             moviesBehaviorSubject = BehaviorSubject.create();
 
             moviesDisposable = network()
+                    .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .doOnSuccess(moviesList -> cache = moviesList)
                     .subscribe(moviesBehaviorSubject::onNext, moviesBehaviorSubject::onError);
-            getCompositeDisposable().add(moviesDisposable);
         }
         return moviesBehaviorSubject;
     }

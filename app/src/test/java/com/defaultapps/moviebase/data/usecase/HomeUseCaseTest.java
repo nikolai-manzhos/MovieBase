@@ -23,6 +23,7 @@ import io.reactivex.subjects.BehaviorSubject;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -153,6 +154,32 @@ public class HomeUseCaseTest {
                 .assertComplete();
 
         verify(rxBus).publish(AppConstants.HOME_INSTANT_CACHE, fakeCache);
+    }
+
+    @Test
+    public void shouldDisposeOnEmptyCacheAndError() throws Exception {
+        Field cache = HomeUseCaseImpl.class.getDeclaredField("cache");
+        Field behaviorSubject = HomeUseCaseImpl.class.getDeclaredField("moviesBehaviorSubject");
+        Field movieDisposableField = HomeUseCaseImpl.class.getDeclaredField("moviesDisposable");
+        cache.setAccessible(true);
+        behaviorSubject.setAccessible(true);
+        movieDisposableField.setAccessible(true);
+
+        final Disposable movieDisposable = mock(Disposable.class);
+        final BehaviorSubject<List<MoviesResponse>> fakeReplaySubject = BehaviorSubject.create();
+        fakeReplaySubject.onError(new Throwable("Error"));
+
+        cache.set(homeUseCase, null);
+        behaviorSubject.set(homeUseCase, fakeReplaySubject);
+        movieDisposableField.set(homeUseCase, movieDisposable);
+
+        setupEmptyNetworkCalls();
+
+        homeUseCase.requestHomeData(false)
+                .test()
+                .assertError(Throwable.class);
+
+        verify(movieDisposable).dispose();
     }
 
     private void setupEmptyNetworkCalls() {

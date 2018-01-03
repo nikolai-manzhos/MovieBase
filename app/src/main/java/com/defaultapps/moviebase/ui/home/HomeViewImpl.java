@@ -101,7 +101,7 @@ public class HomeViewImpl extends BaseFragment
 
     @Override
     public void displayErrorMessage() {
-        viewUtils.showSnackbar(swipeRefreshLayout, "Error");
+        viewUtils.showSnackbar(swipeRefreshLayout, getString(R.string.snackbar_error));
     }
 
     @Override
