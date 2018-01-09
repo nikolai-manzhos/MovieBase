@@ -39,6 +39,7 @@ public class PersonUseCaseImpl extends BaseUseCase implements PersonUseCase {
             personReplaySubject = ReplaySubject.create();
 
             personDisposable = network(personId)
+                    .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(personReplaySubject::onNext, personReplaySubject::onError);
         }
         return personReplaySubject;

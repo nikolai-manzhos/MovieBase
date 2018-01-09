@@ -43,9 +43,9 @@ public class SearchUseCaseImpl extends BaseUseCase implements SearchUseCase {
             behaviorSubject = BehaviorSubject.create();
 
             disposable = network(query, 1)
+                    .doOnSubscribe(it -> getCompositeDisposable().add(it))
                     .compose(schedulerProvider.applyIoSchedulers())
                     .subscribe(behaviorSubject::onNext, behaviorSubject::onError);
-            getCompositeDisposable().add(disposable);
         }
         return behaviorSubject;
     }
@@ -58,6 +58,7 @@ public class SearchUseCaseImpl extends BaseUseCase implements SearchUseCase {
         MoviesResponse previousResult = behaviorSubject.getValue();
         PublishSubject<MoviesResponse> paginationResult = PublishSubject.create();
         paginationDisposable = network(query, previousResult.getPage() + 1)
+                .doOnSubscribe(it -> getCompositeDisposable().add(it))
                 .map(moviesResponse -> {
                     previousResult.getResults().addAll(moviesResponse.getResults());
                     previousResult.setPage(moviesResponse.getPage());
@@ -72,7 +73,6 @@ public class SearchUseCaseImpl extends BaseUseCase implements SearchUseCase {
                         },
                         paginationResult::onError
                 );
-        getCompositeDisposable().add(paginationDisposable);
         return paginationResult;
     }
 

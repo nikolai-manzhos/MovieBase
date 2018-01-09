@@ -35,6 +35,7 @@ public class DiscoverUseCaseImpl extends BaseUseCase implements DiscoverUseCase 
             genresReplaySubject = ReplaySubject.create();
 
             genresDisposable = local()
+                    .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(genresReplaySubject::onNext, genresReplaySubject::onError);
         }
         return genresReplaySubject;

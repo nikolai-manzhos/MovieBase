@@ -59,8 +59,8 @@ public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
             currentId = movieId;
 
             movieInfoDisposable = network(movieId)
+                    .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
-            getCompositeDisposable().add(movieInfoDisposable);
         }
         return movieInfoReplaySubject;
     }

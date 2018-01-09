@@ -47,8 +47,8 @@ public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
             genreBehaviorSubject = BehaviorSubject.create();
 
             genreDisposable = network(genreId, 1)
+                    .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(genreBehaviorSubject::onNext, genreBehaviorSubject::onError);
-            getCompositeDisposable().add(genreDisposable);
         }
         return genreBehaviorSubject;
     }
@@ -61,6 +61,7 @@ public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
         MoviesResponse previousResults = genreBehaviorSubject.getValue();
         PublishSubject<MoviesResponse> publishSubject = PublishSubject.create();
         genrePaginationDisposable = network(genreId, genreBehaviorSubject.getValue().getPage() + 1)
+                .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                 .map(moviesResponse -> {
                     previousResults.getResults().addAll(moviesResponse.getResults());
                     previousResults.setPage(moviesResponse.getPage());
@@ -71,7 +72,6 @@ public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
                     genreBehaviorSubject = BehaviorSubject.create();
                     genreBehaviorSubject.onNext(moviesResponse);
                 }, publishSubject::onError);
-        getCompositeDisposable().add(genrePaginationDisposable);
         return publishSubject;
     }
 
