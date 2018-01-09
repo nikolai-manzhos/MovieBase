@@ -22,16 +22,16 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    compileSdkVersion androidCompileSdk
+    buildToolsVersion androidBuildTools
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
         vectorDrawables.useSupportLibrary = true
-        minSdkVersion 17
-        targetSdkVersion 27
-        versionCode 1
-        versionName "0.0.1"
+        minSdkVersion androidMinSdk
+        targetSdkVersion androidTargetSdk
+        versionCode androidVersionCode
+        versionName androidVersionName
     }
     buildTypes {
         release {
