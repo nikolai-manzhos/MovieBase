@@ -76,7 +76,7 @@ public class BookmarksViewTest extends BaseRobolectricTest {
     @Test
     public void shouldOpenActivityOnLoginBtnClick() {
         assert bookmarksView.getView() != null;
-        bookmarksView.getView().findViewById(R.id.bookmarks_login_btn).performClick();
+        bookmarksView.getView().findViewById(R.id.no_user_container).performClick();
         verify(defaultNavigator).toSignInActivity();
     }
 
