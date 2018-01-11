@@ -112,8 +112,8 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
 
     private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.show_fragment, R.anim.hide_fragment)
                 .replace(R.id.contentFrame, fragment)
-                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                 .commit();
     }
 }
