@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,6 +50,9 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @BindView(R.id.no_user_container)
     ConstraintLayout noUserView;
 
+    @BindView(R.id.user_animation)
+    LottieAnimationView lottieAnimationView;
+
     @BindDimen(R.dimen.favorite_image_width)
     int columnWidthPx;
 
@@ -71,6 +75,8 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @Nullable
     FavoritesAdapter favoritesAdapter;
 
+    private ValueAnimator lottieValueAnimator;
+
     @Override
     protected void inject() {
         getFragmentComponent().inject(this);
@@ -80,6 +86,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
+        initLottie();
     }
 
     @Override
@@ -100,6 +107,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @Override
     public void onDestroyView() {
+        lottieValueAnimator.cancel();
         super.onDestroyView();
         if (favoritesAdapter != null) {
             favoritesAdapter.setOnMovieClickListener(null);
@@ -129,6 +137,13 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @Override
     public void hideNoUserMessage() {
         noUserView.setVisibility(View.GONE);
+    }
+
+    private void initLottie() {
+        lottieValueAnimator = ValueAnimator.ofFloat(0f, 1f)
+                .setDuration(600L);
+        lottieValueAnimator.addUpdateListener(valueAnimator -> lottieAnimationView.setProgress((Float) valueAnimator.getAnimatedValue()));
+        lottieValueAnimator.start();
     }
 
     private void initRecyclerView() {
