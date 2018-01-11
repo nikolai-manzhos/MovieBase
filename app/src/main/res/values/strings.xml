@@ -18,8 +18,8 @@
     <string name="bookmarks_movie_poster">Movie poster</string>
     <string name="bookmarks_alert_title">Remove this movie?</string>
     <string name="bookmarks_favorites_empty">Seems like you don\'t have any favorite movies yet.</string>
-    <string name="bookmarks_no_user">Please login to synchronize and watch your bookmarks</string>
-    <string name="bookmarks_sign_in">Sign In</string>
+    <string name="bookmarks_no_user">Login to watch your bookmarks</string>
+    <string name="bookmarks_log_in">Login</string>
     <string name="bookmarks_delete_error">Error while deleting item. Please try again</string>
 
 

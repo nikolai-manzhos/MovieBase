@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 
@@ -93,27 +94,26 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
     private void selectItem(int tabId) {
         switch (tabId) {
             case R.id.tab_home:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.contentFrame, new HomeViewImpl())
-                        .commit();
+                replaceFragment(new HomeViewImpl());
                 break;
             case R.id.tab_discover:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.contentFrame, new DiscoverViewImpl())
-                        .commit();
+                replaceFragment(new DiscoverViewImpl());
                 break;
             case R.id.tab_bookmarks:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.contentFrame, new BookmarksViewImpl())
-                        .commit();
+                replaceFragment(new BookmarksViewImpl());
                 break;
             case R.id.tab_search:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.contentFrame, new SearchViewImpl())
-                        .commit();
+                replaceFragment(new SearchViewImpl());
                 break;
             default:
                 break;
         }
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.contentFrame, fragment)
+                .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                .commit();
     }
 }

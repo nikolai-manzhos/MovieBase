@@ -195,12 +195,18 @@ public class SearchViewImpl extends BaseFragment implements
 
     @Override
     public void hideSearchStart() {
-        appearSearchStart = searchStartView.animate().alpha(0).withEndAction(() -> searchStartView.setVisibility(View.GONE));
+        appearSearchStart = searchStartView.animate()
+                .setDuration(100L)
+                .alpha(0)
+                .withEndAction(() -> searchStartView.setVisibility(View.GONE));
     }
 
     @Override
     public void showSearchStart() {
-        disappearSearchStart = searchStartView.animate().alpha(1).withStartAction(() -> searchStartView.setVisibility(View.VISIBLE));
+        disappearSearchStart = searchStartView.animate()
+                .setDuration(100L)
+                .alpha(1)
+                .withStartAction(() -> searchStartView.setVisibility(View.VISIBLE));
     }
 
     @Override

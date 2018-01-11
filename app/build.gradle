@@ -129,7 +129,8 @@ dependencies {
             "com.thefinestartist:ytpa:$youtube",
             "com.yarolegovich:mp:$materialPref",
             "com.miguelcatalan:materialsearchview:$materialSearch",
-            "com.ms-square:expandableTextView:$expTextView"
+            "com.ms-square:expandableTextView:$expTextView",
+            "com.airbnb.android:lottie:$lottie"
     )
 
     implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsSdk").transitive true

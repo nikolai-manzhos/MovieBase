@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import easybind.Layout;
 import easybind.bindings.BindNavigator;
 import easybind.bindings.BindPresenter;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
@@ -104,7 +106,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
         }
     }
 
-    @OnClick(R.id.bookmarks_login_btn)
+    @OnClick(R.id.no_user_container)
     void onLoginClick() {
         navigator.toSignInActivity();
     }

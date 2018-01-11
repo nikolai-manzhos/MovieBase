@@ -33,6 +33,7 @@ ext {
     expTextView = '0.1.4'
     timber = '4.6.0'
     easybind = '1.1.4'
+    lottie = "2.5.0-beta2"
 
     crashlyticsSdk = '2.7.1@aar'
 
