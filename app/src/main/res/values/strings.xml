@@ -25,7 +25,8 @@
 
     <!--Search strings-->
     <string name="search_toolbar">Search</string>
-    <string name="search_start_hint">Tap {md-search} and type movie</string>
+    <string name="search_start_title">Search MovieBase</string>
+    <string name="search_start_hint">Find your favorite movie</string>
     <string name="search_empty">No movies were found</string>
 
     <!--Movie strings-->

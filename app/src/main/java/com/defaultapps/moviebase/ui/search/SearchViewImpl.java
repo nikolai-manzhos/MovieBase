@@ -14,11 +14,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import butterknife.OnClick;
 import easybind.Layout;
 import easybind.bindings.BindNavigator;
 import easybind.bindings.BindPresenter;
@@ -100,6 +102,9 @@ public class SearchViewImpl extends BaseFragment implements
 
     private boolean isRestored;
 
+    private ViewPropertyAnimator appearSearchStart;
+    private ViewPropertyAnimator disappearSearchStart;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -116,32 +121,18 @@ public class SearchViewImpl extends BaseFragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setHasOptionsMenu(true);
         activity.setOnBackPressedListener(this);
         isRestored = savedInstanceState != null;
 
-        activity.setSupportActionBar(toolbar);
-        Utils.checkNotNull(activity.getSupportActionBar());
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         initSearchView();
         initRecyclerView();
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.search_menu, menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        menuItem.setIcon(new IconDrawable(getContext(), MaterialIcons.md_search)
-        .actionBarSize()
-        .colorRes(R.color.colorPrimaryText));
-        searchView.setMenuItem(menuItem);
-    }
-
-    @Override
     public void onDestroyView() {
+        if (appearSearchStart != null) appearSearchStart.cancel();
+        if (disappearSearchStart != null) disappearSearchStart.cancel();
         super.onDestroyView();
-        activity.setSupportActionBar(null);
         activity.setOnBackPressedListener(null);
     }
 
@@ -204,12 +195,12 @@ public class SearchViewImpl extends BaseFragment implements
 
     @Override
     public void hideSearchStart() {
-        searchStartView.setVisibility(View.GONE);
+        appearSearchStart = searchStartView.animate().alpha(0).withEndAction(() -> searchStartView.setVisibility(View.GONE));
     }
 
     @Override
     public void showSearchStart() {
-        searchStartView.setVisibility(View.VISIBLE);
+        disappearSearchStart = searchStartView.animate().alpha(1).withStartAction(() -> searchStartView.setVisibility(View.VISIBLE));
     }
 
     @Override
@@ -252,6 +243,11 @@ public class SearchViewImpl extends BaseFragment implements
     @Override
     public void retryPageLoad() {
         presenter.requestMoreSearchResults(currentQuery);
+    }
+
+    @OnClick(R.id.searchStartView)
+    void onSearchStartClick() {
+        searchView.showSearch();
     }
 
     private void initSearchView() {
