@@ -29,7 +29,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Componen
     @BindLayout
     public int layoutId;
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
