@@ -112,6 +112,7 @@ dependencies {
             "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
             //Firebase
             "com.google.firebase:firebase-core:$firebase",
+            "com.google.firebase:firebase-config:$firebase",
             "com.firebaseui:firebase-ui-auth:$firebaseUi",
             "com.firebaseui:firebase-ui-database:$firebaseUi",
             //Timber

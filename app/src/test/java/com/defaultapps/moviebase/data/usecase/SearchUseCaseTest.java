@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.data.usecase;
 
 
 import com.defaultapps.moviebase.data.TestSchedulerProvider;
+import com.defaultapps.moviebase.data.firebase.FirebaseService;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.Api;
@@ -21,6 +22,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
+import static io.github.benas.randombeans.api.EnhancedRandom.randomListOf;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.mockito.Matchers.anyBoolean;
@@ -39,6 +41,9 @@ public class SearchUseCaseTest {
     @Mock
     private AppPreferencesManager preferencesManager;
 
+    @Mock
+    private FirebaseService firebaseService;
+
     private SearchUseCase searchUseCase;
 
     private MoviesResponse actualResponse;
@@ -48,20 +53,25 @@ public class SearchUseCaseTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        searchUseCase = new SearchUseCaseImpl(networkService, new TestSchedulerProvider(Schedulers.trampoline()), preferencesManager);
+        searchUseCase = new SearchUseCaseImpl(networkService,
+                new TestSchedulerProvider(Schedulers.trampoline()),
+                preferencesManager,
+                firebaseService);
         when(preferencesManager.getAdultStatus()).thenReturn(false);
     }
 
     @Test
     public void requestSearchResultsSuccess() throws Exception {
-        MoviesResponse expectedResponse = new MoviesResponse();
+        MoviesResponse expectedResponse = random(MoviesResponse.class);
         Single<MoviesResponse> single = Single.just(expectedResponse);
+
         when(networkService.getNetworkCall()).thenReturn(api);
+        when(firebaseService.getBlockedMoviesId()).thenReturn(randomListOf(4, String.class));
         when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean())).thenReturn(single);
 
         searchUseCase.requestSearchResults(QUERY, false).subscribe(
                 actualResponse -> this.actualResponse = actualResponse,
-                err -> {}
+                System.out::print
         );
 
         assertNotNull(actualResponse);

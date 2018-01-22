@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import javax.inject.Singleton;
 
@@ -45,10 +46,16 @@ public class ApplicationModule {
 
     @Provides
     @Nullable
-    DatabaseReference provideFirebaseReference(@Nullable FirebaseUser loggedUser) {
+    DatabaseReference provideDatabaseReference(@Nullable FirebaseUser loggedUser) {
         if (loggedUser == null) {
             return null;
         }
         return FirebaseDatabase.getInstance().getReference().child("users").child(loggedUser.getUid());
+    }
+
+    @Provides
+    @Singleton
+    FirebaseRemoteConfig provideRemoteConfig() {
+        return FirebaseRemoteConfig.getInstance();
     }
 }

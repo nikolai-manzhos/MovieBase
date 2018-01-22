@@ -3,9 +3,12 @@ package com.defaultapps.moviebase.data.usecase;
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.base.BaseUseCase;
+import com.defaultapps.moviebase.data.firebase.FirebaseService;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -22,6 +25,7 @@ public class SearchUseCaseImpl extends BaseUseCase implements SearchUseCase {
     private final NetworkService networkService;
     private final AppPreferencesManager preferencesManager;
     private final SchedulerProvider schedulerProvider;
+    private final FirebaseService firebaseService;
 
     private Disposable disposable;
     private Disposable paginationDisposable;
@@ -29,11 +33,13 @@ public class SearchUseCaseImpl extends BaseUseCase implements SearchUseCase {
 
     @Inject
     SearchUseCaseImpl(NetworkService networkService,
-                             SchedulerProvider schedulerProvider,
-                             AppPreferencesManager preferencesManager) {
+                      SchedulerProvider schedulerProvider,
+                      AppPreferencesManager preferencesManager,
+                      FirebaseService firebaseService) {
         this.networkService = networkService;
         this.schedulerProvider = schedulerProvider;
         this.preferencesManager = preferencesManager;
+        this.firebaseService = firebaseService;
     }
 
     @Override
@@ -79,6 +85,16 @@ public class SearchUseCaseImpl extends BaseUseCase implements SearchUseCase {
     private Single<MoviesResponse> network(String query, int page) {
         final String API_KEY = BuildConfig.MDB_API_KEY;
         return networkService.getNetworkCall()
-                .getSearchQuery(API_KEY, "en-Us", query, page, preferencesManager.getAdultStatus());
+                .getSearchQuery(API_KEY, "en-Us", query, page, preferencesManager.getAdultStatus())
+                .flatMap(moviesResponse -> {
+                    List<String> bannedIds = firebaseService.getBlockedMoviesId();
+                    return Observable.fromIterable(moviesResponse.getResults())
+                            .filter(result -> !bannedIds.contains(result.getId().toString()))
+                            .toList()
+                            .map(results -> {
+                                moviesResponse.setResults(results);
+                                return moviesResponse;
+                            });
+                });
     }
 }

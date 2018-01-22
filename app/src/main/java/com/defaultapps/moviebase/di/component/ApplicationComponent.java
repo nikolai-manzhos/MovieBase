@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.di.component;
 
 import android.support.annotation.Nullable;
 
+import com.defaultapps.moviebase.App;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.usecase.DiscoverUseCase;
@@ -33,6 +34,8 @@ import dagger.Component;
         AnalyticsModule.class
 })
 public interface ApplicationComponent {
+    void inject(App app);
+
     HomeUseCase homeUseCaseImpl();
     DiscoverUseCase discoverUseCaseImpl();
     GenreUseCase genreUseCaseImpl();
