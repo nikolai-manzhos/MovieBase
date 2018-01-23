@@ -2,7 +2,7 @@ package com.defaultapps.moviebase.domain.usecase;
 
 
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.domain.base.BaseUseCase;
 import com.defaultapps.moviebase.domain.repository.ApiRepository;
 import com.defaultapps.moviebase.utils.ResponseOrError;
@@ -24,7 +24,7 @@ public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
     private final Provider<FirebaseUser> firebaseUserProvider;
 
     private Disposable movieInfoDisposable;
-    private ReplaySubject<MovieInfoResponse> movieInfoReplaySubject;
+    private ReplaySubject<MovieDetailResponse> movieInfoReplaySubject;
     private int currentId = -1;
 
     @Inject
@@ -37,7 +37,7 @@ public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
     }
 
     @Override
-    public Observable<MovieInfoResponse> requestMovieData(int movieId, boolean force) {
+    public Observable<MovieDetailResponse> requestMovieData(int movieId, boolean force) {
         if (firebaseUserProvider.get() != null) {
             favoritesManager.fetchAllFavs(); // check for database changes
         }
@@ -52,7 +52,7 @@ public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
             movieInfoReplaySubject = ReplaySubject.create();
             currentId = movieId;
 
-            movieInfoDisposable = apiRepository.requestMovieInfoResponse(movieId)
+            movieInfoDisposable = apiRepository.requestMovieDetails(movieId)
                     .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
         }

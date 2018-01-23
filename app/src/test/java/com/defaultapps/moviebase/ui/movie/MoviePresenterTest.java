@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.movie;
 
 
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.domain.usecase.MovieUseCaseImpl;
 import com.defaultapps.moviebase.utils.ResponseOrError;
 
@@ -45,8 +45,8 @@ public class MoviePresenterTest {
 
     @Test
     public void requestMovieDataSuccess() throws Exception {
-        MovieInfoResponse response = new MovieInfoResponse();
-        Observable<MovieInfoResponse> observable = Observable.just(response).subscribeOn(testScheduler);
+        MovieDetailResponse response = new MovieDetailResponse();
+        Observable<MovieDetailResponse> observable = Observable.just(response).subscribeOn(testScheduler);
         when(movieUseCase.requestMovieData(anyInt(), anyBoolean())).thenReturn(observable);
         presenter.onAttach(view);
 
@@ -63,7 +63,7 @@ public class MoviePresenterTest {
 
     @Test
     public void requestMovieDataFailure() throws Exception {
-        Observable<MovieInfoResponse> observable = Observable.error(new Exception("Some error"));
+        Observable<MovieDetailResponse> observable = Observable.error(new Exception("Some error"));
         when(movieUseCase.requestMovieData(anyInt(), anyBoolean())).thenReturn(observable);
 
         presenter.requestMovieInfo(MOCK_MOVIE_ID, false);
@@ -74,7 +74,7 @@ public class MoviePresenterTest {
         verify(view, times(2)).hideData(); // On requestMovieInfo() and onError
         verify(view).showError();
         verify(view, never()).showData();
-        verify(view, never()).displayMovieInfo(any(MovieInfoResponse.class));
+        verify(view, never()).displayMovieInfo(any(MovieDetailResponse.class));
     }
 
     @Test

@@ -17,7 +17,7 @@ import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.person.Cast;
 import com.defaultapps.moviebase.data.models.responses.person.Crew;
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.Navigator;
@@ -127,23 +127,23 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
     }
 
     @Override
-    public void displayStaffInfo(PersonInfo personInfo) {
+    public void displayStaffInfo(PersonResponse personResponse) {
         Picasso
                 .with(getContext())
-                .load("https://image.tmdb.org/t/p/w300" + personInfo.getProfilePath())
+                .load("https://image.tmdb.org/t/p/w300" + personResponse.getProfilePath())
                 .placeholder(R.drawable.placeholder_human)
                 .into(circleImageView);
-        String biography = personInfo.getBiography() != null ?
-                personInfo.getBiography() : getString(R.string.person_biography_empty);
+        String biography = personResponse.getBiography() != null ?
+                personResponse.getBiography() : getString(R.string.person_biography_empty);
         staffBiographyView.setText(biography);
-        toolbarTitleView.setText(personInfo.getName());
+        toolbarTitleView.setText(personResponse.getName());
 
-        List<Cast> castList = personInfo.getMovieCredits().getCast();
-        List<Crew> crewList = personInfo.getMovieCredits().getCrew();
+        List<Cast> castList = personResponse.getMovieCredits().getCast();
+        List<Crew> crewList = personResponse.getMovieCredits().getCrew();
         int castVisibility = castList.size() == 0 ? View.GONE : View.VISIBLE;
         int crewVisibility = crewList.size() == 0 ? View.GONE : View.VISIBLE;
-        castAdapter.setData(personInfo.getMovieCredits().getCast());
-        crewAdapter.setData(personInfo.getMovieCredits().getCrew());
+        castAdapter.setData(personResponse.getMovieCredits().getCast());
+        crewAdapter.setData(personResponse.getMovieCredits().getCrew());
         castSubtitle.setVisibility(castVisibility);
         crewSubtitle.setVisibility(crewVisibility);
     }

@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.person;
 
 
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.MvpView;
 
@@ -15,6 +15,6 @@ public interface PersonContract {
         void showError();
         void hideData();
         void showData();
-        void displayStaffInfo(PersonInfo personInfo);
+        void displayStaffInfo(PersonResponse personResponse);
     }
 }

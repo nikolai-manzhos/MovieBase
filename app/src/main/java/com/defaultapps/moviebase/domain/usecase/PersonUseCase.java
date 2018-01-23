@@ -1,10 +1,10 @@
 package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 
 import io.reactivex.Observable;
 
 public interface PersonUseCase {
 
-    Observable<PersonInfo> requestPersonData(int personId, boolean force);
+    Observable<PersonResponse> requestPersonData(int personId, boolean force);
 }

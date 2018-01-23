@@ -21,7 +21,7 @@ import easybind.Layout;
 import easybind.bindings.BindNavigator;
 import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
@@ -140,7 +140,7 @@ public class MovieViewImpl extends BaseFragment
     MovieContract.MovieNavigator navigator;
 
     private int movieId;
-    private MovieInfoResponse movieInfo;
+    private MovieDetailResponse movieInfo;
 
     public static MovieViewImpl newInstance(int movieId) {
         Bundle bundle = new Bundle();
@@ -204,7 +204,7 @@ public class MovieViewImpl extends BaseFragment
     }
 
     @Override
-    public void displayMovieInfo(MovieInfoResponse movieInfo) {
+    public void displayMovieInfo(MovieDetailResponse movieInfo) {
         this.movieInfo = movieInfo;
         loadImage(movieInfo.getBackdropPath(),imageBackdrop);
         loadImage(movieInfo.getPosterPath(), imagePoster);

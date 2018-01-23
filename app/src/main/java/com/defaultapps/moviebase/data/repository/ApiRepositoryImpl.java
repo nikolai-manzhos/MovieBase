@@ -4,9 +4,9 @@ package com.defaultapps.moviebase.data.repository;
 import com.defaultapps.moviebase.data.SchedulerProvider;
 import com.defaultapps.moviebase.data.firebase.FirebaseService;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 import com.defaultapps.moviebase.data.network.Api;
 import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
@@ -27,7 +27,8 @@ public class ApiRepositoryImpl implements ApiRepository {
     private static final String LANGUAGE = "en-Us";
     private static final int START_PAGE = 1;
 
-    private static final String APPEND_TO_RESPONSE_PERSON = "movie_credits";
+    private static final String PERSON_APPEND_TO_RESPONSE = "movie_credits";
+    private static final String MOVIE_DETAIL_APPEND_TO_RESPONSE = "videos,credits,similar";
 
     private final Api api;
     private final FirebaseService firebaseService;
@@ -69,13 +70,19 @@ public class ApiRepositoryImpl implements ApiRepository {
     }
 
     @Override
-    public Single<MovieInfoResponse> requestMovieInfoResponse(int movieId) {
-        return null;
+    public Single<MovieDetailResponse> requestMovieDetails(int movieId) {
+        return api.getMovieDetails(movieId, MDB_API_KEY, LANGUAGE, MOVIE_DETAIL_APPEND_TO_RESPONSE)
+                .flatMap(movieDetailResponse -> filterBannedMovies(movieDetailResponse.getSimilar())
+                        .map(moviesResponse -> {
+                            movieDetailResponse.setSimilar(moviesResponse);
+                            return movieDetailResponse;
+                        }))
+                .compose(schedulerProvider.applyIoSchedulers());
     }
 
     @Override
-    public Single<PersonInfo> requestPersonInfo(int personId) {
-        return api.getPersonInfo(personId, MDB_API_KEY, LANGUAGE, APPEND_TO_RESPONSE_PERSON)
+    public Single<PersonResponse> requestPersonDetails(int personId) {
+        return api.getPersonDetails(personId, MDB_API_KEY, LANGUAGE, PERSON_APPEND_TO_RESPONSE)
                 .compose(schedulerProvider.applyIoSchedulers());
     }
 

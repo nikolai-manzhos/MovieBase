@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 import com.defaultapps.moviebase.domain.base.BaseUseCase;
 import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
@@ -16,7 +16,7 @@ public class PersonUseCaseImpl extends BaseUseCase implements PersonUseCase {
 
     private final ApiRepository apiRepository;
 
-    private ReplaySubject<PersonInfo> personReplaySubject;
+    private ReplaySubject<PersonResponse> personReplaySubject;
     private Disposable personDisposable;
 
     @Inject
@@ -25,14 +25,14 @@ public class PersonUseCaseImpl extends BaseUseCase implements PersonUseCase {
     }
 
     @Override
-    public Observable<PersonInfo> requestPersonData(int personId, boolean force) {
+    public Observable<PersonResponse> requestPersonData(int personId, boolean force) {
         if (force && personDisposable != null) {
             personDisposable.dispose();
         }
         if (personDisposable == null || personDisposable.isDisposed()) {
             personReplaySubject = ReplaySubject.create();
 
-            personDisposable = apiRepository.requestPersonInfo(personId)
+            personDisposable = apiRepository.requestPersonDetails(personId)
                     .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(personReplaySubject::onNext, personReplaySubject::onError);
         }

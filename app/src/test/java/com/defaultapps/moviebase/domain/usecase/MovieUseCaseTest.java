@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.domain.usecase;
 
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.domain.repository.ApiRepository;
 import com.defaultapps.moviebase.utils.ResponseOrError;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,7 +45,7 @@ public class MovieUseCaseTest {
     private final int MOVIE_ID = 9876021;
 
 
-    private MovieInfoResponse actualResponse;
+    private MovieDetailResponse actualResponse;
     private Boolean actualFabState;
 
     @Before
@@ -59,12 +59,12 @@ public class MovieUseCaseTest {
 
     @Test
     public void requestMovieDataSuccess() throws Exception {
-        MovieInfoResponse expectedResponse = new MovieInfoResponse();
+        MovieDetailResponse expectedResponse = new MovieDetailResponse();
         FirebaseUser fakeUser = mock(FirebaseUser.class);
         expectedResponse.setId(MOVIE_ID);
-        Single<MovieInfoResponse> single = Single.just(expectedResponse).subscribeOn(testScheduler);
+        Single<MovieDetailResponse> single = Single.just(expectedResponse).subscribeOn(testScheduler);
 
-        when(apiRepository.requestMovieInfoResponse(MOVIE_ID))
+        when(apiRepository.requestMovieDetails(MOVIE_ID))
                 .thenReturn(single);
         when(firebaseUserProvider.get()).thenReturn(fakeUser);
 
@@ -148,8 +148,8 @@ public class MovieUseCaseTest {
     }
 
     private void setupEmptyResponse() {
-        Single<MovieInfoResponse> single = Single.just(new MovieInfoResponse());
-        when(apiRepository.requestMovieInfoResponse(MOVIE_ID))
+        Single<MovieDetailResponse> single = Single.just(new MovieDetailResponse());
+        when(apiRepository.requestMovieDetails(MOVIE_ID))
                 .thenReturn(single);
     }
 }

@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.ui.person;
 
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 import com.defaultapps.moviebase.domain.usecase.PersonUseCaseImpl;
 
 import org.junit.Before;
@@ -42,8 +42,8 @@ public class PersonPresenterTest {
 
     @Test
     public void requestPersonInfoSuccess() throws Exception {
-        PersonInfo result = new PersonInfo();
-        Observable<PersonInfo> observable = Observable.just(result).subscribeOn(testScheduler);
+        PersonResponse result = new PersonResponse();
+        Observable<PersonResponse> observable = Observable.just(result).subscribeOn(testScheduler);
         when(useCase.requestPersonData(anyInt(), anyBoolean())).thenReturn(observable);
 
         presenter.requestPersonInfo(PERSON_ID, false);
@@ -61,7 +61,7 @@ public class PersonPresenterTest {
 
     @Test
     public void requestPersonInfoFailure() throws Exception {
-        Observable<PersonInfo> observable = Observable.error(new Exception("Network error."));
+        Observable<PersonResponse> observable = Observable.error(new Exception("Network error."));
         when(useCase.requestPersonData(anyInt(), anyBoolean())).thenReturn(observable);
 
         presenter.requestPersonInfo(PERSON_ID, true);

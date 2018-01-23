@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class PersonUseCaseTest {
     private PersonUseCase useCase;
     private TestScheduler testScheduler;
 
-    private PersonInfo actualResult;
+    private PersonResponse actualResult;
     private Throwable actualError;
 
     private final int PERSON_ID = 28281;
@@ -37,10 +37,10 @@ public class PersonUseCaseTest {
 
     @Test
     public void requestPersonDataSuccess() throws Exception {
-        PersonInfo expectedResult = new PersonInfo();
-        Single<PersonInfo> single = Single.just(expectedResult).subscribeOn(testScheduler);
+        PersonResponse expectedResult = new PersonResponse();
+        Single<PersonResponse> single = Single.just(expectedResult).subscribeOn(testScheduler);
 
-        when(apiRepository.requestPersonInfo(PERSON_ID))
+        when(apiRepository.requestPersonDetails(PERSON_ID))
                 .thenReturn(single);
 
         useCase.requestPersonData(PERSON_ID, false).subscribe();
@@ -59,9 +59,9 @@ public class PersonUseCaseTest {
     @Test
     public void requestPersonDataFailure() throws Exception {
         Exception expectedError = new Exception("Network error.");
-        Single<PersonInfo> single = Single.error(expectedError);
+        Single<PersonResponse> single = Single.error(expectedError);
 
-        when(apiRepository.requestPersonInfo(PERSON_ID))
+        when(apiRepository.requestPersonDetails(PERSON_ID))
                 .thenReturn(single);
 
         useCase.requestPersonData(PERSON_ID, false).subscribe(
