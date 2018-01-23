@@ -8,6 +8,7 @@ import dagger.Binds;
 import dagger.Module;
 
 @Module
+@SuppressWarnings("unused")
 public abstract class RepositoryModule {
 
     @Binds
