@@ -1,10 +1,7 @@
 package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.data.TestSchedulerProvider;
-import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.network.Api;
-import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +18,8 @@ import io.reactivex.subjects.BehaviorSubject;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,13 +27,7 @@ import static org.mockito.Mockito.when;
 public class GenreUseCaseTest {
 
     @Mock
-    private NetworkService networkService;
-
-    @Mock
-    private Api api;
-
-    @Mock
-    private AppPreferencesManager preferencesManager;
+    private ApiRepository apiRepository;
 
     private GenreUseCase genreUseCase;
     private TestScheduler testScheduler;
@@ -50,17 +40,15 @@ public class GenreUseCaseTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        genreUseCase = new GenreUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler), preferencesManager);
-        when(preferencesManager.getAdultStatus()).thenReturn(false);
+        genreUseCase = new GenreUseCaseImpl(apiRepository);
     }
 
     @Test
     public void requestGenreDataSuccess() throws Exception {
-        MoviesResponse expectedResponse = new MoviesResponse();
+        MoviesResponse expectedResponse = random(MoviesResponse.class);
         Single<MoviesResponse> single = Single.just(expectedResponse);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+        when(apiRepository.requestGenreMovies(GENRE_ID, 1))
                 .thenReturn(single);
 
         genreUseCase.requestGenreData(GENRE_ID, true).subscribe(moviesResponse -> actualResponse = moviesResponse);
@@ -76,8 +64,7 @@ public class GenreUseCaseTest {
         Exception expectedException = new Exception("Network exception.");
         Single<MoviesResponse> single = Single.error(expectedException);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+        when(apiRepository.requestGenreMovies(GENRE_ID, 1))
                 .thenReturn(single);
 
         genreUseCase.requestGenreData(GENRE_ID, true).subscribe(
@@ -99,8 +86,7 @@ public class GenreUseCaseTest {
         MoviesResponse loadMoreResponse = provideRandomMoviesResponse();
         Single<MoviesResponse> single = Single.just(loadMoreResponse);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+        when(apiRepository.requestGenreMovies(eq(GENRE_ID), anyInt()))
                 .thenReturn(single);
 
         genreUseCase.requestMoreGenreData(GENRE_ID)
@@ -124,8 +110,7 @@ public class GenreUseCaseTest {
         Throwable throwable = new Throwable("Exception");
         Single<MoviesResponse> single = Single.error(throwable);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+        when(apiRepository.requestGenreMovies(eq(GENRE_ID), anyInt()))
                 .thenReturn(single);
 
         genreUseCase.requestMoreGenreData(GENRE_ID)
@@ -166,8 +151,7 @@ public class GenreUseCaseTest {
     private void setupEmptyResponse() {
         Single<MoviesResponse> single = Single.just(new MoviesResponse());
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.discoverMovies(anyString(), anyString(), anyBoolean(), anyInt(), anyString()))
+        when(apiRepository.requestGenreMovies(GENRE_ID, 1))
                 .thenReturn(single);
     }
 }

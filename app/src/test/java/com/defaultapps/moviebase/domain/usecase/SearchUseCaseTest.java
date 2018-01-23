@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.domain.usecase;
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.domain.repository.ApiRepository;
+
 import junit.framework.Assert;
 
 import org.junit.Before;

@@ -1,12 +1,10 @@
 package com.defaultapps.moviebase.domain.usecase;
 
 
-import com.defaultapps.moviebase.BuildConfig;
-import com.defaultapps.moviebase.data.SchedulerProvider;
-import com.defaultapps.moviebase.domain.base.BaseUseCase;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
-import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.domain.base.BaseUseCase;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 import com.defaultapps.moviebase.utils.ResponseOrError;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -15,29 +13,25 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.ReplaySubject;
 
 @Singleton
 public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
 
-    private final NetworkService networkService;
+    private final ApiRepository apiRepository;
     private final FavoritesManager favoritesManager;
     private final Provider<FirebaseUser> firebaseUserProvider;
-    private final SchedulerProvider schedulerProvider;
 
     private Disposable movieInfoDisposable;
     private ReplaySubject<MovieInfoResponse> movieInfoReplaySubject;
     private int currentId = -1;
 
     @Inject
-    MovieUseCaseImpl(NetworkService networkService,
-                     SchedulerProvider schedulerProvider,
+    MovieUseCaseImpl(ApiRepository apiRepository,
                      FavoritesManager favoritesManager,
                      Provider<FirebaseUser> firebaseUserProvider) {
-        this.networkService = networkService;
-        this.schedulerProvider = schedulerProvider;
+        this.apiRepository = apiRepository;
         this.favoritesManager = favoritesManager;
         this.firebaseUserProvider = firebaseUserProvider;
     }
@@ -58,7 +52,7 @@ public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
             movieInfoReplaySubject = ReplaySubject.create();
             currentId = movieId;
 
-            movieInfoDisposable = network(movieId)
+            movieInfoDisposable = apiRepository.requestMovieInfoResponse(movieId)
                     .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(movieInfoReplaySubject::onNext, movieInfoReplaySubject::onError);
         }
@@ -78,11 +72,5 @@ public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
     @Override
     public boolean getUserState() {
         return firebaseUserProvider.get() != null;
-    }
-
-    private Single<MovieInfoResponse> network(int movieId) {
-        final String API_KEY = BuildConfig.MDB_API_KEY;
-        return networkService.getNetworkCall().getMovieInfo(movieId, API_KEY, "en-Us", "videos,credits,similar")
-                .compose(schedulerProvider.applyIoSchedulers());
     }
 }

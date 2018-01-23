@@ -1,9 +1,7 @@
 package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.data.TestSchedulerProvider;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
-import com.defaultapps.moviebase.data.network.Api;
-import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,18 +13,12 @@ import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class PersonUseCaseTest {
 
     @Mock
-    private NetworkService networkService;
-
-    @Mock
-    private Api api;
-
+    private ApiRepository apiRepository;
 
     private PersonUseCase useCase;
     private TestScheduler testScheduler;
@@ -40,15 +32,16 @@ public class PersonUseCaseTest {
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        useCase = new PersonUseCaseImpl(networkService, new TestSchedulerProvider(testScheduler));
+        useCase = new PersonUseCaseImpl(apiRepository);
     }
 
     @Test
     public void requestPersonDataSuccess() throws Exception {
         PersonInfo expectedResult = new PersonInfo();
         Single<PersonInfo> single = Single.just(expectedResult).subscribeOn(testScheduler);
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getPersonInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
+
+        when(apiRepository.requestPersonInfo(PERSON_ID))
+                .thenReturn(single);
 
         useCase.requestPersonData(PERSON_ID, false).subscribe();
 
@@ -67,8 +60,9 @@ public class PersonUseCaseTest {
     public void requestPersonDataFailure() throws Exception {
         Exception expectedError = new Exception("Network error.");
         Single<PersonInfo> single = Single.error(expectedError);
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getPersonInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
+
+        when(apiRepository.requestPersonInfo(PERSON_ID))
+                .thenReturn(single);
 
         useCase.requestPersonData(PERSON_ID, false).subscribe(
                 personInfo -> {},

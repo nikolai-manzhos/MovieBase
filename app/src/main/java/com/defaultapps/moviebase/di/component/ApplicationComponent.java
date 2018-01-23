@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.defaultapps.moviebase.App;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
+import com.defaultapps.moviebase.data.network.NetworkModule;
 import com.defaultapps.moviebase.domain.usecase.DiscoverUseCase;
 import com.defaultapps.moviebase.domain.usecase.GenreUseCase;
 import com.defaultapps.moviebase.domain.usecase.HomeUseCase;
@@ -30,6 +31,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         ApplicationModule.class,
+        NetworkModule.class,
         RepositoryModule.class,
         UseCaseModule.class,
         SchedulersModule.class,

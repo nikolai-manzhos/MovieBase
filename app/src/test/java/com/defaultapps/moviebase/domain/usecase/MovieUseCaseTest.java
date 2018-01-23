@@ -1,10 +1,8 @@
 package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.data.TestSchedulerProvider;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
-import com.defaultapps.moviebase.data.network.Api;
-import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 import com.defaultapps.moviebase.utils.ResponseOrError;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -34,10 +32,7 @@ import static org.mockito.Mockito.when;
 public class MovieUseCaseTest {
 
     @Mock
-    private NetworkService networkService;
-
-    @Mock
-    private Api api;
+    private ApiRepository apiRepository;
 
     @Mock
     private Provider<FirebaseUser> firebaseUserProvider;
@@ -57,8 +52,7 @@ public class MovieUseCaseTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        movieUseCase = new MovieUseCaseImpl(networkService,
-                new TestSchedulerProvider(testScheduler),
+        movieUseCase = new MovieUseCaseImpl(apiRepository,
                 favoritesManager,
                 firebaseUserProvider);
     }
@@ -69,8 +63,9 @@ public class MovieUseCaseTest {
         FirebaseUser fakeUser = mock(FirebaseUser.class);
         expectedResponse.setId(MOVIE_ID);
         Single<MovieInfoResponse> single = Single.just(expectedResponse).subscribeOn(testScheduler);
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getMovieInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
+
+        when(apiRepository.requestMovieInfoResponse(MOVIE_ID))
+                .thenReturn(single);
         when(firebaseUserProvider.get()).thenReturn(fakeUser);
 
         movieUseCase.requestMovieData(MOVIE_ID, false).subscribe(
@@ -87,6 +82,7 @@ public class MovieUseCaseTest {
     @Test
     public void getCurrentStateSuccess() throws Exception {
         Observable<Boolean> observable = Observable.just(true).subscribeOn(testScheduler);
+
         when(favoritesManager.getIsFavoriteObservable(MOVIE_ID)).thenReturn(observable);
 
         movieUseCase.getCurrentState(MOVIE_ID).subscribe(
@@ -153,7 +149,7 @@ public class MovieUseCaseTest {
 
     private void setupEmptyResponse() {
         Single<MovieInfoResponse> single = Single.just(new MovieInfoResponse());
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getMovieInfo(anyInt(), anyString(), anyString(), anyString())).thenReturn(single);
+        when(apiRepository.requestMovieInfoResponse(MOVIE_ID))
+                .thenReturn(single);
     }
 }

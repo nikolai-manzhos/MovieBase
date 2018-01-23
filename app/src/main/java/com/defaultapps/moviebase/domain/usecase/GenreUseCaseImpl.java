@@ -1,18 +1,14 @@
 package com.defaultapps.moviebase.domain.usecase;
 
 
-import com.defaultapps.moviebase.BuildConfig;
-import com.defaultapps.moviebase.data.SchedulerProvider;
-import com.defaultapps.moviebase.domain.base.BaseUseCase;
-import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.domain.base.BaseUseCase;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
@@ -21,21 +17,15 @@ import io.reactivex.subjects.PublishSubject;
 @Singleton
 public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
 
-    private final NetworkService networkService;
-    private final AppPreferencesManager preferencesManager;
-    private final SchedulerProvider schedulerProvider;
+    private final ApiRepository apiRepository;
 
     private Disposable genreDisposable;
     private Disposable genrePaginationDisposable;
     private BehaviorSubject<MoviesResponse> genreBehaviorSubject;
 
     @Inject
-    GenreUseCaseImpl(NetworkService networkService,
-                     SchedulerProvider schedulerProvider,
-                     AppPreferencesManager preferencesManager) {
-        this.networkService = networkService;
-        this.schedulerProvider = schedulerProvider;
-        this.preferencesManager = preferencesManager;
+    GenreUseCaseImpl(ApiRepository apiRepository) {
+        this.apiRepository = apiRepository;
     }
 
     @Override
@@ -46,7 +36,7 @@ public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
         if (genreDisposable == null || genreDisposable.isDisposed()) {
             genreBehaviorSubject = BehaviorSubject.create();
 
-            genreDisposable = network(genreId, 1)
+            genreDisposable = apiRepository.requestGenreMovies(genreId, 1)
                     .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                     .subscribe(genreBehaviorSubject::onNext, genreBehaviorSubject::onError);
         }
@@ -60,7 +50,7 @@ public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
         }
         MoviesResponse previousResults = genreBehaviorSubject.getValue();
         PublishSubject<MoviesResponse> publishSubject = PublishSubject.create();
-        genrePaginationDisposable = network(genreId, genreBehaviorSubject.getValue().getPage() + 1)
+        genrePaginationDisposable = apiRepository.requestGenreMovies(genreId, genreBehaviorSubject.getValue().getPage() + 1)
                 .doOnSubscribe(disposable -> getCompositeDisposable().add(disposable))
                 .map(moviesResponse -> {
                     previousResults.getResults().addAll(moviesResponse.getResults());
@@ -73,11 +63,5 @@ public class GenreUseCaseImpl extends BaseUseCase implements GenreUseCase {
                     genreBehaviorSubject.onNext(moviesResponse);
                 }, publishSubject::onError);
         return publishSubject;
-    }
-
-    private Single<MoviesResponse> network(String genreId, int page) {
-        String API_KEY = BuildConfig.MDB_API_KEY;
-        return networkService.getNetworkCall().discoverMovies(API_KEY, "en-US", preferencesManager.getAdultStatus(), page, genreId)
-                .compose(schedulerProvider.applyIoSchedulers());
     }
 }
