@@ -6,6 +6,7 @@ import com.defaultapps.moviebase.data.firebase.FirebaseService;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.home;
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.usecase.HomeUseCase;
+import com.defaultapps.moviebase.domain.usecase.HomeUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 import com.defaultapps.moviebase.utils.AppConstants;

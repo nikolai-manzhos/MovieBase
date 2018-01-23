@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.search;
 
 
-import com.defaultapps.moviebase.data.usecase.SearchUseCase;
+import com.defaultapps.moviebase.domain.usecase.SearchUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 

@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.data.base;
+package com.defaultapps.moviebase.domain.base;
 
 import io.reactivex.disposables.CompositeDisposable;
 

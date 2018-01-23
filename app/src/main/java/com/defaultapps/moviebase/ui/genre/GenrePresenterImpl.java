@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.genre;
 
 
-import com.defaultapps.moviebase.data.usecase.GenreUseCase;
+import com.defaultapps.moviebase.domain.usecase.GenreUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 

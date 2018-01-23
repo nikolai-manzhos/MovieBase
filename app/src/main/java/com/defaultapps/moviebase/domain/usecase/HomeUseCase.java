@@ -1,6 +1,6 @@
-package com.defaultapps.moviebase.data.usecase;
+package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.data.base.UseCase;
+import com.defaultapps.moviebase.domain.base.UseCase;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 
 import java.util.List;

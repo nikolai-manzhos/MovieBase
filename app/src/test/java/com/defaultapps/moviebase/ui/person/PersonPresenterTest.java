@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.person;
 
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
-import com.defaultapps.moviebase.data.usecase.PersonUseCaseImpl;
+import com.defaultapps.moviebase.domain.usecase.PersonUseCaseImpl;
 
 import org.junit.Before;
 import org.junit.Test;

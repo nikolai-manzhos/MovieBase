@@ -17,7 +17,7 @@ public class LocalService {
     private AssetManager assetManager;
 
     @Inject
-    public LocalService(AssetManager assetManager) {
+    LocalService(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
 

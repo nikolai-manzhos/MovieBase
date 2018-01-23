@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.data.usecase;
+package com.defaultapps.moviebase.domain.usecase;
 
 import com.defaultapps.moviebase.data.TestSchedulerProvider;
 import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;

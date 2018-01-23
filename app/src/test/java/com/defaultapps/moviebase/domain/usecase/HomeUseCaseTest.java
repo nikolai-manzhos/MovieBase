@@ -1,7 +1,7 @@
-package com.defaultapps.moviebase.data.usecase;
+package com.defaultapps.moviebase.domain.usecase;
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.repository.ApiRepository;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.rx.RxBus;
 

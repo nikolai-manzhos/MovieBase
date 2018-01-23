@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.data.repository;
+package com.defaultapps.moviebase.domain.repository;
 
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;

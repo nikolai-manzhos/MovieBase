@@ -1,8 +1,8 @@
-package com.defaultapps.moviebase.data.usecase;
+package com.defaultapps.moviebase.domain.usecase;
 
 
 import com.defaultapps.moviebase.data.SchedulerProvider;
-import com.defaultapps.moviebase.data.base.BaseUseCase;
+import com.defaultapps.moviebase.domain.base.BaseUseCase;
 import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 

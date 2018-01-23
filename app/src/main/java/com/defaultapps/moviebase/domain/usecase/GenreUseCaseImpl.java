@@ -1,9 +1,9 @@
-package com.defaultapps.moviebase.data.usecase;
+package com.defaultapps.moviebase.domain.usecase;
 
 
 import com.defaultapps.moviebase.BuildConfig;
 import com.defaultapps.moviebase.data.SchedulerProvider;
-import com.defaultapps.moviebase.data.base.BaseUseCase;
+import com.defaultapps.moviebase.domain.base.BaseUseCase;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.network.NetworkService;

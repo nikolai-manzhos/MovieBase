@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.ui.movie;
 
-import com.defaultapps.moviebase.data.usecase.MovieUseCase;
+import com.defaultapps.moviebase.domain.usecase.MovieUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 

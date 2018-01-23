@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.discover;
 
 
-import com.defaultapps.moviebase.data.usecase.DiscoverUseCase;
+import com.defaultapps.moviebase.domain.usecase.DiscoverUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
