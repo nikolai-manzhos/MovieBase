@@ -1,9 +1,7 @@
 package com.defaultapps.moviebase.data.usecase;
 
-import com.defaultapps.moviebase.data.TestSchedulerProvider;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.network.Api;
-import com.defaultapps.moviebase.data.network.NetworkService;
+import com.defaultapps.moviebase.data.repository.ApiRepository;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.rx.RxBus;
 
@@ -16,6 +14,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.benas.randombeans.api.EnhancedRandom;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.TestScheduler;
@@ -23,9 +22,6 @@ import io.reactivex.subjects.BehaviorSubject;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.nullable;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,10 +30,7 @@ import static org.mockito.Mockito.when;
 public class HomeUseCaseTest {
 
     @Mock
-    private NetworkService networkService;
-
-    @Mock
-    private Api api;
+    private ApiRepository apiRepository;
 
     @Mock
     private RxBus rxBus;
@@ -45,52 +38,43 @@ public class HomeUseCaseTest {
     private HomeUseCase homeUseCase;
     private TestScheduler testScheduler;
 
-    private MoviesResponse actualResponse1;
-    private MoviesResponse actualResponse2;
+    private List<MoviesResponse> actualResponse;
     private Throwable expectedThrowable;
+
+    private static final int RESPONSE_LIST_SIZE = 4;
 
     @Before
     public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
         testScheduler = new TestScheduler();
-        homeUseCase = new HomeUseCaseImpl(networkService,
-                rxBus,
-                new TestSchedulerProvider(testScheduler));
+        homeUseCase = new HomeUseCaseImpl(apiRepository, rxBus);
     }
 
     @Test
     public void fetchHomePageDataSuccess() throws Exception {
-        MoviesResponse expectedResponse1 = new MoviesResponse();
-        MoviesResponse expectedResponse2 = new MoviesResponse();
+        List<MoviesResponse> response =
+                EnhancedRandom.randomListOf(RESPONSE_LIST_SIZE, MoviesResponse.class);
 
-        Single<MoviesResponse> single1 = Single.just(expectedResponse1);
-        Single<MoviesResponse> single2 = Single.just(expectedResponse2);
+        Single<List<MoviesResponse>> single = Single.just(response);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getUpcomingMovies(anyString(), anyString(), anyInt())).thenReturn(single1);
-        when(api.getNowPlaying(anyString(), anyString(), anyInt())).thenReturn(single2);
+        when(apiRepository.requestHomeData())
+                .thenReturn(single);
 
-        homeUseCase.requestHomeData(true).subscribe(moviesResponses -> {
-            actualResponse1 = moviesResponses.get(0);
-            actualResponse2 = moviesResponses.get(1);
-        });
+        homeUseCase.requestHomeData(true).subscribe(moviesResponses -> actualResponse = moviesResponses);
 
         testScheduler.triggerActions();
 
-        assertNotNull(actualResponse1);
-        assertNotNull(actualResponse2);
-        assertEquals(expectedResponse1, actualResponse1);
-        assertEquals(expectedResponse2, actualResponse2);
+        assertNotNull(actualResponse);
+        assertEquals(response, actualResponse);
     }
 
     @Test
     public void fetchHomePageDataFailure() throws Exception {
         Exception exception = new Exception("Network error.");
-        Single<MoviesResponse> single = Single.error(exception);
+        Single<List<MoviesResponse>> single = Single.error(exception);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getUpcomingMovies(anyString(), anyString(), anyInt())).thenReturn(single);
-        when(api.getNowPlaying(anyString(), anyString(), anyInt())).thenReturn(single);
+        when(apiRepository.requestHomeData())
+                .thenReturn(single);
 
         homeUseCase.requestHomeData(true).subscribe(moviesResponses -> {}, err -> expectedThrowable = err);
 
@@ -183,10 +167,7 @@ public class HomeUseCaseTest {
     }
 
     private void setupEmptyNetworkCalls() {
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getUpcomingMovies(anyString(), anyString(), anyInt()))
-                .thenReturn(Single.just(new MoviesResponse()));
-        when(api.getNowPlaying(anyString(), anyString(), anyInt()))
-                .thenReturn(Single.just(new MoviesResponse()));
+        when(apiRepository.requestHomeData())
+                .thenReturn(Single.just(new ArrayList<>()));
     }
 }

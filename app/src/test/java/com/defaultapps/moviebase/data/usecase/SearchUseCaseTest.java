@@ -1,13 +1,8 @@
 package com.defaultapps.moviebase.data.usecase;
 
 
-import com.defaultapps.moviebase.data.TestSchedulerProvider;
-import com.defaultapps.moviebase.data.firebase.FirebaseService;
-import com.defaultapps.moviebase.data.local.AppPreferencesManager;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.network.Api;
-import com.defaultapps.moviebase.data.network.NetworkService;
-
+import com.defaultapps.moviebase.data.repository.ApiRepository;
 import junit.framework.Assert;
 
 import org.junit.Before;
@@ -18,31 +13,19 @@ import org.mockito.MockitoAnnotations;
 import java.lang.reflect.Field;
 
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static io.github.benas.randombeans.api.EnhancedRandom.randomListOf;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
-import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class SearchUseCaseTest {
 
     @Mock
-    private NetworkService networkService;
-
-    @Mock
-    private Api api;
-
-    @Mock
-    private AppPreferencesManager preferencesManager;
-
-    @Mock
-    private FirebaseService firebaseService;
+    private ApiRepository apiRepository;
 
     private SearchUseCase searchUseCase;
 
@@ -53,11 +36,7 @@ public class SearchUseCaseTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        searchUseCase = new SearchUseCaseImpl(networkService,
-                new TestSchedulerProvider(Schedulers.trampoline()),
-                preferencesManager,
-                firebaseService);
-        when(preferencesManager.getAdultStatus()).thenReturn(false);
+        searchUseCase = new SearchUseCaseImpl(apiRepository);
     }
 
     @Test
@@ -65,9 +44,7 @@ public class SearchUseCaseTest {
         MoviesResponse expectedResponse = random(MoviesResponse.class);
         Single<MoviesResponse> single = Single.just(expectedResponse);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(firebaseService.getBlockedMoviesId()).thenReturn(randomListOf(4, String.class));
-        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean())).thenReturn(single);
+        when(apiRepository.requestSearchResults(QUERY, 1)).thenReturn(single);
 
         searchUseCase.requestSearchResults(QUERY, false).subscribe(
                 actualResponse -> this.actualResponse = actualResponse,
@@ -82,8 +59,8 @@ public class SearchUseCaseTest {
     public void requestSearchResultFailure() throws Exception {
         Throwable expectedException = new Throwable("Network error.");
         Single<MoviesResponse> single = Single.error(expectedException);
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean())).thenReturn(single);
+
+        when(apiRepository.requestSearchResults(QUERY, 1)).thenReturn(single);
 
         searchUseCase.requestSearchResults(QUERY, false).subscribe(
                 actualResponse -> {},
@@ -101,8 +78,7 @@ public class SearchUseCaseTest {
         MoviesResponse loadMoreResponse = random(MoviesResponse.class);
         Single<MoviesResponse> single = Single.just(loadMoreResponse);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean()))
+        when(apiRepository.requestSearchResults(eq(QUERY), anyInt()))
                 .thenReturn(single);
 
         searchUseCase.requestMoreSearchResults(QUERY)
@@ -120,8 +96,7 @@ public class SearchUseCaseTest {
         Throwable throwable = new Throwable("Exception");
         Single<MoviesResponse> single = Single.error(throwable);
 
-        when(networkService.getNetworkCall()).thenReturn(api);
-        when(api.getSearchQuery(anyString(), anyString(), anyString(), anyInt(), anyBoolean()))
+        when(apiRepository.requestSearchResults(eq(QUERY), anyInt()))
                 .thenReturn(single);
 
         searchUseCase.requestMoreSearchResults(QUERY)

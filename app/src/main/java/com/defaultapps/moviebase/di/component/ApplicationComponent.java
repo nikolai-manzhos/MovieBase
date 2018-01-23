@@ -13,6 +13,7 @@ import com.defaultapps.moviebase.data.usecase.PersonUseCase;
 import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.di.module.AnalyticsModule;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
+import com.defaultapps.moviebase.di.module.RepositoryModule;
 import com.defaultapps.moviebase.di.module.SchedulersModule;
 import com.defaultapps.moviebase.di.module.UseCaseModule;
 import com.defaultapps.moviebase.utils.NetworkUtil;
@@ -29,6 +30,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         ApplicationModule.class,
+        RepositoryModule.class,
         UseCaseModule.class,
         SchedulersModule.class,
         AnalyticsModule.class

@@ -31,7 +31,7 @@ public class App extends Application {
         initPrefs();
         initIconify();
         initFirebase();
-        appComponent = initDaggerAppComponent().build();
+        appComponent = initDaggerAppComponent();
         appComponent.inject(this);
         initRemoteConfig();
     }
@@ -41,9 +41,10 @@ public class App extends Application {
     }
 
     @NonNull
-    protected DaggerApplicationComponent.Builder initDaggerAppComponent() {
+    protected ApplicationComponent initDaggerAppComponent() {
         return DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this));
+                .applicationModule(new ApplicationModule(this))
+                .build();
     }
 
     private void initIconify() {

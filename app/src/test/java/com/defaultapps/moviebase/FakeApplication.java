@@ -2,6 +2,7 @@ package com.defaultapps.moviebase;
 
 import android.support.annotation.NonNull;
 
+import com.defaultapps.moviebase.data.firebase.FirebaseService;
 import com.defaultapps.moviebase.di.component.ApplicationComponent;
 
 import static org.mockito.Mockito.mock;
@@ -9,12 +10,18 @@ import static org.mockito.Mockito.mock;
 
 public class FakeApplication extends App {
 
-    @NonNull
-    private ApplicationComponent appComponent = mock(ApplicationComponent.class);
+    private ApplicationComponent appComponent;
 
     @Override
+    public void onCreate() {
+        appComponent = mock(ApplicationComponent.class);
+        firebaseService = mock(FirebaseService.class);
+        super.onCreate();
+    }
+
     @NonNull
-    public ApplicationComponent getAppComponent() {
+    @Override
+    protected ApplicationComponent initDaggerAppComponent() {
         return appComponent;
     }
 }
