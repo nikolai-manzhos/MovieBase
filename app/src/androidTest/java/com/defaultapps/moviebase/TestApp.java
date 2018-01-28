@@ -3,7 +3,9 @@ package com.defaultapps.moviebase;
 import android.support.annotation.NonNull;
 
 import com.defaultapps.moviebase.data.SchedulerProvider;
+import com.defaultapps.moviebase.di.component.ApplicationComponent;
 import com.defaultapps.moviebase.di.component.DaggerApplicationComponent;
+import com.defaultapps.moviebase.di.module.ApplicationModule;
 import com.defaultapps.moviebase.di.module.SchedulersModule;
 import com.defaultapps.moviebase.espresso.LogLevel;
 import com.defaultapps.moviebase.espresso.RxEspresso;
@@ -26,8 +28,9 @@ public class TestApp extends DebugApp {
 
     @NonNull
     @Override
-    protected DaggerApplicationComponent.Builder initDaggerAppComponent() {
-        return super.initDaggerAppComponent()
+    protected ApplicationComponent initDaggerAppComponent() {
+        return DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
                 .schedulersModule(new SchedulersModule() {
                     @Singleton
                     @Provides
@@ -44,10 +47,7 @@ public class TestApp extends DebugApp {
                         };
                     }
 
-//                    @Singleton
-//                    @Provides
-//                    ThreadScheduler provideThreadScheduler() {
-//                        return new MainThreadScheduler();
-//                    }
-                });}
+                })
+                .build();
+    }
 }

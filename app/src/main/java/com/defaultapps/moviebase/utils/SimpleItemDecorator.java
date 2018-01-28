@@ -21,8 +21,7 @@ public class SimpleItemDecorator extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        if(isHorizontalLayout)
-        {
+        if(isHorizontalLayout) {
             outRect.bottom=space;
             outRect.right=space;
             outRect.left=space;

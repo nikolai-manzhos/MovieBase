@@ -42,8 +42,7 @@ public class MovieUseCaseTest {
 
     private MovieUseCase movieUseCase;
     private TestScheduler testScheduler;
-    private final int MOVIE_ID = 9876021;
-
+    private static final int MOVIE_ID = 9876021;
 
     private MovieDetailResponse actualResponse;
     private Boolean actualFabState;

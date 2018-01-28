@@ -32,7 +32,7 @@ public class SearchUseCaseTest {
 
     private MoviesResponse actualResponse;
     private Throwable actualException;
-    private final String QUERY = "Titanic";
+    private static final String QUERY = "Titanic";
 
     @Before
     public void setUp() throws Exception {
@@ -109,6 +109,6 @@ public class SearchUseCaseTest {
         field.setAccessible(true);
         field.set(searchUseCase, BehaviorSubject.create());
         //noinspection unchecked
-        ((BehaviorSubject<MoviesResponse> ) field.get(searchUseCase)).onNext(response);
+        ((BehaviorSubject<MoviesResponse>) field.get(searchUseCase)).onNext(response);
     }
 }

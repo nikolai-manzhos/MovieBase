@@ -6,6 +6,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 
 import java.util.List;
+
 import io.reactivex.Single;
 
 public interface ApiRepository {

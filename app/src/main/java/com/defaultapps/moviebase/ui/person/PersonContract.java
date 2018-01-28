@@ -6,7 +6,7 @@ import com.defaultapps.moviebase.ui.base.MvpPresenter;
 import com.defaultapps.moviebase.ui.base.MvpView;
 
 public interface PersonContract {
-    interface PersonPresenter extends MvpPresenter<PersonView>{
+    interface PersonPresenter extends MvpPresenter<PersonView> {
         void requestPersonInfo(int personId, boolean force);
     }
 

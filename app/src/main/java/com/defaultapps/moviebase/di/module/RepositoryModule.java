@@ -1,8 +1,8 @@
 package com.defaultapps.moviebase.di.module;
 
 
-import com.defaultapps.moviebase.domain.repository.ApiRepository;
 import com.defaultapps.moviebase.data.repository.ApiRepositoryImpl;
+import com.defaultapps.moviebase.domain.repository.ApiRepository;
 
 import dagger.Binds;
 import dagger.Module;

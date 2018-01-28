@@ -20,6 +20,8 @@ import static org.mockito.Mockito.verify;
 @Config(manifest = Config.NONE)
 public class AnalyticsTest {
 
+    private static final String ANY_SCREEN_NAME = "Main";
+
     private Analytics analytics;
     private FirebaseAnalytics firebaseAnalytics;
 
@@ -31,7 +33,6 @@ public class AnalyticsTest {
 
     @Test
     public void shouldSendAnalyticsEvent() {
-        final String ANY_SCREEN_NAME = "Main";
         analytics.sendScreenSelect(ANY_SCREEN_NAME);
 
         verify(firebaseAnalytics).logEvent(eq(FirebaseAnalytics.Event.SELECT_CONTENT), any(Bundle.class));

@@ -31,7 +31,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private UpcomingAdapter upcomingAdapter;
     private OnMovieClickListener listener;
 
-    private final int UPCOMING = 0, NOW_PLAYING = 1;
+    private static final int UPCOMING = 0, NOW_PLAYING = 1;
 
 
     @Inject

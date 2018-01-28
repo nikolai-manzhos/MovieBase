@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 apply from: "$rootDir/tools/jacoco.gradle"
+apply from: "$rootDir/tools/quality.gradle"
 
 def keystoreProperties = new Properties()
 def keyFile = rootProject.file("keystore.properties")
@@ -55,6 +56,7 @@ android {
     }
     buildTypes.each {
         it.buildConfigField 'String', 'MDB_API_KEY', keystoreProperties['MovieDbSecretKey']
+        it.buildConfigField 'String', 'BASE_URL', "\"https://api.themoviedb.org/3/\""
         it.resValue 'string', 'YOUTUBE_API_KEY', keystoreProperties['YoutubeSecretKey']
         it.proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }

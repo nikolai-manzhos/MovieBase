@@ -10,10 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import easybind.EasyBind;
-import easybind.EasyBinder;
-import easybind.bindings.BindLayout;
-import easybind.bindings.BindName;
 import com.defaultapps.moviebase.di.component.FragmentComponent;
 import com.defaultapps.moviebase.utils.analytics.Analytics;
 
@@ -21,6 +17,10 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import easybind.EasyBind;
+import easybind.EasyBinder;
+import easybind.bindings.BindLayout;
+import easybind.bindings.BindName;
 
 
 public abstract class BaseFragment extends Fragment implements MvpView {

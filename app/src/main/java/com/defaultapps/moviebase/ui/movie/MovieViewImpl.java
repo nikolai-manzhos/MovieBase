@@ -17,9 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
-import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
@@ -45,6 +42,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 import static com.defaultapps.moviebase.utils.AppConstants.MOVIE_ID;
 
@@ -206,7 +206,7 @@ public class MovieViewImpl extends BaseFragment
     @Override
     public void displayMovieInfo(MovieDetailResponse movieInfo) {
         this.movieInfo = movieInfo;
-        loadImage(movieInfo.getBackdropPath(),imageBackdrop);
+        loadImage(movieInfo.getBackdropPath(), imageBackdrop);
         loadImage(movieInfo.getPosterPath(), imagePoster);
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));

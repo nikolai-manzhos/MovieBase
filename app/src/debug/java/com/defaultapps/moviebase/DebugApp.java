@@ -18,19 +18,10 @@ public class DebugApp extends App {
     @Override
     public void onCreate() {
         super.onCreate();
-//        initStetho();
         initLeakCanary();
         initCrashlytics();
         Timber.plant(new Timber.DebugTree());
     }
-
-//    private void initStetho() {
-//        Stetho.initialize(
-//                Stetho.newInitializerBuilder(this)
-//                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-//                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-//                        .build());
-//    }
 
     private void initLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {

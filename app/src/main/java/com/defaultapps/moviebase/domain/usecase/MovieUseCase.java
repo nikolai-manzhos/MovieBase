@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.domain.usecase;
 
-import com.defaultapps.moviebase.domain.base.UseCase;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
+import com.defaultapps.moviebase.domain.base.UseCase;
 import com.defaultapps.moviebase.utils.ResponseOrError;
 
 import io.reactivex.Observable;

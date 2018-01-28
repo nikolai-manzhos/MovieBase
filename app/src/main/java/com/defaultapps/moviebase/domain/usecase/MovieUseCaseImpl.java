@@ -19,13 +19,15 @@ import io.reactivex.subjects.ReplaySubject;
 @Singleton
 public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
 
+    private static final int INITIAL_ID = -1;
+
     private final ApiRepository apiRepository;
     private final FavoritesManager favoritesManager;
     private final Provider<FirebaseUser> firebaseUserProvider;
 
     private Disposable movieInfoDisposable;
     private ReplaySubject<MovieDetailResponse> movieInfoReplaySubject;
-    private int currentId = -1;
+    private int currentId = INITIAL_ID;
 
     @Inject
     MovieUseCaseImpl(ApiRepository apiRepository,
@@ -44,8 +46,8 @@ public class MovieUseCaseImpl extends BaseUseCase implements MovieUseCase {
         if (force && movieInfoDisposable != null) {
             movieInfoDisposable.dispose();
         }
-        if (currentId != -1 && movieId != currentId && movieInfoDisposable != null) {
-            currentId = -1;
+        if (currentId != INITIAL_ID && movieId != currentId && movieInfoDisposable != null) {
+            currentId = INITIAL_ID;
             movieInfoDisposable.dispose();
         }
         if (movieInfoDisposable == null || movieInfoDisposable.isDisposed()) {

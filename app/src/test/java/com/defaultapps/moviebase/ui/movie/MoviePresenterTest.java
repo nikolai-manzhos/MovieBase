@@ -32,8 +32,8 @@ public class MoviePresenterTest {
 
     private MovieContract.MoviePresenter presenter;
     private TestScheduler testScheduler;
-    private final int MOCK_MOVIE_ID = 283995;
-    private final String POSTER_PATH = "/aJn9XeesqsrSLKcHfHP4u5985hn.jpg";
+    private static final int MOCK_MOVIE_ID = 283995;
+    private static final String POSTER_PATH = "/aJn9XeesqsrSLKcHfHP4u5985hn.jpg";
 
     @Before
     public void setUp() throws Exception {

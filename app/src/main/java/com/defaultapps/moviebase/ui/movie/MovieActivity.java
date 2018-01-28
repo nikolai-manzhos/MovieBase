@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.Navigator;
 
 import javax.inject.Inject;
+
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
 
 import static com.defaultapps.moviebase.utils.AppConstants.MOVIE_ID;
 import static com.defaultapps.moviebase.utils.AppConstants.RC_LOGIN;

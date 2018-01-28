@@ -16,9 +16,7 @@ import org.mockito.Mock;
 import java.lang.reflect.Field;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Shadows.shadowOf;
 
 public class MovieViewTest extends BaseRobolectricTest {
 

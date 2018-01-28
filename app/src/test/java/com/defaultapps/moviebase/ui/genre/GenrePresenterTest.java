@@ -30,8 +30,8 @@ public class GenrePresenterTest {
     private GenreContract.GenrePresenter presenter;
     private TestScheduler testScheduler;
 
-    private final String FAKE_MOVIE_ID = "11321";
-    private final boolean FORCE = true;
+    private static final String FAKE_MOVIE_ID = "11321";
+    private static final boolean FORCE = true;
 
     @Before
     public void setUp() throws Exception {

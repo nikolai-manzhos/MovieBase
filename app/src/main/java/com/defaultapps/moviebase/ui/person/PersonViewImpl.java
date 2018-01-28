@@ -11,9 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
-import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.person.Cast;
 import com.defaultapps.moviebase.data.models.responses.person.Crew;
@@ -37,6 +34,9 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 @Layout(id = R.layout.fragment_person, name = "Person")
 public class PersonViewImpl extends BaseFragment implements PersonContract.PersonView, OnMovieClickListener {

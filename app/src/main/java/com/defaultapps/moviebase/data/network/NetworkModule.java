@@ -17,6 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
 
+    private static final int TIMEOUT = 10;
+
     @Singleton
     @Provides
     Api provideApi() {
@@ -25,12 +27,11 @@ public class NetworkModule {
     }
 
     private Retrofit buildRetrofit() {
-        final String BASE_URL = "https://api.themoviedb.org/3/";
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(buildOkHttpClient())
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BASE_URL)
                 .build();
     }
 
@@ -41,7 +42,6 @@ public class NetworkModule {
         } else {
             logging.setLevel(HttpLoggingInterceptor.Level.NONE);
         }
-        final int TIMEOUT = 10;
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)

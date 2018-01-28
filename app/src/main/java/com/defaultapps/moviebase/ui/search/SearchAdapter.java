@@ -24,7 +24,7 @@ import javax.inject.Inject;
 @PerFragment
 public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final int SEARCH = 0, LOADING = 1;
+    private static final int SEARCH = 0, LOADING = 1;
 
     private List<Result> movies;
     private Context context;

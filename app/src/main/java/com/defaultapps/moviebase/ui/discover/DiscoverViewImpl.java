@@ -8,8 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import easybind.Layout;
-import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
@@ -20,6 +18,8 @@ import com.defaultapps.moviebase.utils.AppConstants;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import easybind.Layout;
+import easybind.bindings.BindPresenter;
 
 @Layout(id = R.layout.fragment_discover, name = "Discover")
 public class DiscoverViewImpl extends BaseFragment implements DiscoverContract.DiscoverView, DiscoverAdapter.OnItemClickListener {

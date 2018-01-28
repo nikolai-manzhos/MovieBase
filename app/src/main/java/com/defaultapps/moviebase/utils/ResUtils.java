@@ -32,7 +32,7 @@ public class ResUtils {
     public int convertDpToPx(int dp) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        return (int)(dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return (int) (dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     @DrawableRes

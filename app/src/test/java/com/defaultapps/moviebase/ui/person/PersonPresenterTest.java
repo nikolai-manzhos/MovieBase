@@ -30,7 +30,7 @@ public class PersonPresenterTest {
     private PersonContract.PersonPresenter presenter;
     private TestScheduler testScheduler;
 
-    private final int PERSON_ID = 2838;
+    private static final int PERSON_ID = 2838;
 
     @Before
     public void setUp() throws Exception {

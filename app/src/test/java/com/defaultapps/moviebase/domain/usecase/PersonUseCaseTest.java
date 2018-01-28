@@ -26,7 +26,7 @@ public class PersonUseCaseTest {
     private PersonResponse actualResult;
     private Throwable actualError;
 
-    private final int PERSON_ID = 28281;
+    private static final int PERSON_ID = 28281;
 
     @Before
     public void setup() throws Exception {

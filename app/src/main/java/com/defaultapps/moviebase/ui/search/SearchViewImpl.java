@@ -10,9 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.widget.Button;
@@ -20,10 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import butterknife.OnClick;
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
-import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
@@ -32,19 +25,20 @@ import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.Navigator;
 import com.defaultapps.moviebase.ui.search.SearchContract.SearchPresenter;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
-import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.ViewUtils;
 import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.listener.PaginationAdapterCallback;
 import com.defaultapps.moviebase.utils.listener.PaginationScrollListener;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 @Layout(id = R.layout.fragment_search, name = "Search")
 public class SearchViewImpl extends BaseFragment implements
@@ -95,7 +89,7 @@ public class SearchViewImpl extends BaseFragment implements
 
     private BaseActivity activity;
 
-    private int TOTAL_PAGES = 1;
+    private int totalPages = 1;
     private boolean isLoading;
     private boolean isLastPage;
     private String currentQuery;
@@ -159,11 +153,11 @@ public class SearchViewImpl extends BaseFragment implements
     @Override
     public void displaySearchResults(MoviesResponse moviesResponse) {
         searchAdapter.setData(moviesResponse.getResults());
-        TOTAL_PAGES = moviesResponse.getTotalPages();
+        totalPages = moviesResponse.getTotalPages();
         searchAdapter.removeLoadingFooter();
         isLastPage = false;
 
-        if (moviesResponse.getPage() < TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        if (moviesResponse.getPage() < totalPages) searchAdapter.addLoadingFooter();
         else isLastPage = true;
     }
 
@@ -174,7 +168,7 @@ public class SearchViewImpl extends BaseFragment implements
         searchAdapter.removeLoadingFooter();
         isLoading = false;
 
-        if (moviesResponse.getPage() < TOTAL_PAGES) searchAdapter.addLoadingFooter();
+        if (moviesResponse.getPage() < totalPages) searchAdapter.addLoadingFooter();
         else isLastPage = true;
     }
 
@@ -314,7 +308,7 @@ public class SearchViewImpl extends BaseFragment implements
 
             @Override
             public int getTotalPageCount() {
-                return TOTAL_PAGES;
+                return totalPages;
             }
 
             @Override

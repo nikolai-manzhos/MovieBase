@@ -16,7 +16,6 @@ import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.base.BaseViewHolder;
 import com.defaultapps.moviebase.utils.ResUtils;
-import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 

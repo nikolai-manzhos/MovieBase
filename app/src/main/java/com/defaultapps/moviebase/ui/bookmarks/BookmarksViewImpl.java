@@ -12,10 +12,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
-import easybind.bindings.BindPresenter;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.FragmentContext;
@@ -31,6 +27,9 @@ import javax.inject.Inject;
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksPresenter;
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksView;
@@ -154,7 +153,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
         int columnSizeDp = resUtils.convertPxToDp(columnWidthPx);
         favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),
                 viewUtils.calculateNoOfColumns(columnSizeDp)));
-        favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(2,true));
+        favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(2, true));
         favoriteRecyclerView.setAdapter(favoritesAdapter);
         favoritesAdapter.setOnMovieClickListener(this);
     }

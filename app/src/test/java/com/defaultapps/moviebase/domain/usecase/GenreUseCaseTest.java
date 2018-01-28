@@ -34,7 +34,7 @@ public class GenreUseCaseTest {
 
     private MoviesResponse actualResponse;
     private Throwable actualException;
-    private final String GENRE_ID = "2979254";
+    private static final String GENRE_ID = "2979254";
 
     @Before
     public void setUp() throws Exception {
@@ -141,7 +141,7 @@ public class GenreUseCaseTest {
         field.setAccessible(true);
         field.set(genreUseCase, BehaviorSubject.create());
         //noinspection unchecked
-        ((BehaviorSubject<MoviesResponse>)field.get(genreUseCase)).onNext(response);
+        ((BehaviorSubject<MoviesResponse>) field.get(genreUseCase)).onNext(response);
     }
 
     private MoviesResponse provideRandomMoviesResponse() {

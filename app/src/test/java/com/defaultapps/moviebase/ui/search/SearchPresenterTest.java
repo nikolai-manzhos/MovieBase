@@ -35,7 +35,8 @@ public class SearchPresenterTest {
     private SearchPresenterImpl presenter;
     private TestScheduler testScheduler;
     private MoviesResponse response;
-    private final String QUERY = "Titanic";
+
+    private static final String QUERY = "Titanic";
 
     @Before
     public void setUp() throws Exception {

@@ -3,9 +3,6 @@ package com.defaultapps.moviebase.ui.common;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 
-import easybind.NavigatorClass;
-import easybind.calls.OnAttach;
-import easybind.calls.OnDetach;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.MvpView;
@@ -15,6 +12,10 @@ import com.defaultapps.moviebase.ui.movie.MovieActivity;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.Utils;
 import com.firebase.ui.auth.AuthUI;
+
+import easybind.NavigatorClass;
+import easybind.calls.OnAttach;
+import easybind.calls.OnDetach;
 
 import static com.defaultapps.moviebase.utils.AppConstants.RC_SIGN_IN;
 

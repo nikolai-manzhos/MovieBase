@@ -2,9 +2,9 @@ package com.defaultapps.moviebase.domain.usecase;
 
 
 import com.defaultapps.moviebase.data.SchedulerProvider;
-import com.defaultapps.moviebase.domain.base.BaseUseCase;
 import com.defaultapps.moviebase.data.local.LocalService;
 import com.defaultapps.moviebase.data.models.responses.genres.Genres;
+import com.defaultapps.moviebase.domain.base.BaseUseCase;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

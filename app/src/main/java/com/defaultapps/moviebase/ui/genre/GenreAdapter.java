@@ -28,7 +28,7 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<Result> items;
     private OnMovieClickListener listener;
 
-    private final int GENRE = 0, LOADING = 1;
+    private static final int GENRE = 0, LOADING = 1;
 
     private boolean isLoadingAdded = false;
     private boolean retryPageLoad = false;
@@ -139,12 +139,12 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private void bindGenreViewHolder(GenreViewHolder vh, int aPosition) {
-        final String ICON = "{md-today 18dp}";
-        final String ICON_VOTE = resolveRatingIcon(items.get(aPosition).getVoteAverage());
+        final String icon = "{md-today 18dp}";
+        final String iconVote = resolveRatingIcon(items.get(aPosition).getVoteAverage());
         String posterPath = items.get(aPosition).getPosterPath();
         vh.title.setText(items.get(aPosition).getTitle());
-        vh.movieDate.setText(String.format(("%1$s" + " " + Utils.convertDate(items.get(aPosition).getReleaseDate())), ICON));
-        vh.movieRating.setText(String.format(("%1$s" + " " + items.get(aPosition).getVoteAverage()), ICON_VOTE));
+        vh.movieDate.setText(String.format(("%1$s" + " " + Utils.convertDate(items.get(aPosition).getReleaseDate())), icon));
+        vh.movieRating.setText(String.format(("%1$s" + " " + items.get(aPosition).getVoteAverage()), iconVote));
         Picasso
                 .with(context)
                 .load("https://image.tmdb.org/t/p/w300" + posterPath)
