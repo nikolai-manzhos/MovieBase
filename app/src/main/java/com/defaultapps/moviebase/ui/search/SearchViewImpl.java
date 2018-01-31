@@ -23,6 +23,7 @@ import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.common.MoviesAdapter;
 import com.defaultapps.moviebase.ui.search.SearchContract.SearchPresenter;
 import com.defaultapps.moviebase.utils.SimpleItemDecorator;
 import com.defaultapps.moviebase.utils.ViewUtils;
@@ -77,7 +78,7 @@ public class SearchViewImpl extends BaseFragment implements
     SearchPresenter presenter;
 
     @Inject
-    SearchAdapter searchAdapter;
+    MoviesAdapter searchAdapter;
 
     @Inject
     ViewUtils viewUtils;

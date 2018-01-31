@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.ui.genre;
+package com.defaultapps.moviebase.ui.common;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +12,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import butterknife.BindView;
 
 
-public class GenreViewHolder extends BaseViewHolder {
+public class MovieItemViewHolder extends BaseViewHolder {
 
     @BindView(R.id.genreContainer)
     public RelativeLayout container;
@@ -29,7 +29,7 @@ public class GenreViewHolder extends BaseViewHolder {
     @BindView(R.id.movieRating)
     public IconTextView movieRating;
 
-    public GenreViewHolder(View v) {
+    public MovieItemViewHolder(View v) {
         super(v);
     }
 }

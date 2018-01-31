@@ -1,4 +1,4 @@
-package com.defaultapps.moviebase.ui.genre;
+package com.defaultapps.moviebase.ui.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,6 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
-import com.defaultapps.moviebase.ui.common.LoadingViewHolder;
 import com.defaultapps.moviebase.utils.Utils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.defaultapps.moviebase.utils.listener.PaginationAdapterCallback;
@@ -22,13 +21,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 @PerFragment
-public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int MOVIE = 0, LOADING = 1;
 
     private final Context context;
     private List<Result> items;
     private OnMovieClickListener listener;
-
-    private static final int GENRE = 0, LOADING = 1;
 
     private boolean isLoadingAdded = false;
     private boolean retryPageLoad = false;
@@ -36,7 +35,7 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private PaginationAdapterCallback callback;
 
     @Inject
-    GenreAdapter(@ActivityContext Context context) {
+    MoviesAdapter(@ActivityContext Context context) {
         this.context = context;
         items = new ArrayList<>();
     }
@@ -46,8 +45,8 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         RecyclerView.ViewHolder viewHolder = null;
         LayoutInflater inflater = LayoutInflater.from(context);
         switch (viewType) {
-            case GENRE:
-                View vGenre = inflater.inflate(R.layout.item_genre, parent, false);
+            case MOVIE:
+                View vGenre = inflater.inflate(R.layout.item_movie, parent, false);
                 viewHolder = createGenreViewHolder(vGenre);
                 break;
             case LOADING:
@@ -62,8 +61,8 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
         switch (holder.getItemViewType()) {
-            case GENRE:
-                bindGenreViewHolder((GenreViewHolder) holder, adapterPosition);
+            case MOVIE:
+                bindGenreViewHolder((MovieItemViewHolder) holder, adapterPosition);
                 break;
             case LOADING:
                 bindLoadingViewHolder((LoadingViewHolder) holder);
@@ -79,7 +78,7 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        return (position == items.size() - 1 && isLoadingAdded) ? LOADING : GENRE;
+        return (position == items.size() - 1 && isLoadingAdded) ? LOADING : MOVIE;
     }
 
     public void setData(List<Result> items) {
@@ -88,7 +87,7 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    void addData(List<Result> items) {
+    public void addData(List<Result> items) {
         this.items.clear();
         this.items.addAll(items);
     }
@@ -98,12 +97,12 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyItemInserted(items.size() - 1);
     }
 
-    void addLoadingFooter() {
+    public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new Result());
     }
 
-    void removeLoadingFooter() {
+    public void removeLoadingFooter() {
         isLoadingAdded = false;
 
         int position = items.size() - 1;
@@ -115,7 +114,7 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    void showRetry(boolean show) {
+    public void showRetry(boolean show) {
         retryPageLoad = show;
         notifyItemChanged(items.size() - 1);
     }
@@ -124,21 +123,21 @@ public class GenreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return items.get(position);
     }
 
-    void setOnMovieSelectedListener(OnMovieClickListener listener) {
+    public void setOnMovieClickListener(OnMovieClickListener listener) {
         this.listener = listener;
     }
 
-    void setPaginationCallback(PaginationAdapterCallback callback) {
+    public void setPaginationCallback(PaginationAdapterCallback callback) {
         this.callback = callback;
     }
 
-    private GenreViewHolder createGenreViewHolder(View view) {
-        GenreViewHolder vh = new GenreViewHolder(view);
+    private MovieItemViewHolder createGenreViewHolder(View view) {
+        MovieItemViewHolder vh = new MovieItemViewHolder(view);
         vh.container.setOnClickListener(it -> listener.onMovieClick(items.get(vh.getAdapterPosition()).getId()));
         return vh;
     }
 
-    private void bindGenreViewHolder(GenreViewHolder vh, int aPosition) {
+    private void bindGenreViewHolder(MovieItemViewHolder vh, int aPosition) {
         final String icon = "{md-today 18dp}";
         final String iconVote = resolveRatingIcon(items.get(aPosition).getVoteAverage());
         String posterPath = items.get(aPosition).getPosterPath();

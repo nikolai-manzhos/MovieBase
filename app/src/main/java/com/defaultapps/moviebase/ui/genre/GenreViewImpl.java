@@ -15,6 +15,7 @@ import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.common.MoviesAdapter;
 import com.defaultapps.moviebase.ui.genre.GenreContract.GenrePresenter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.Utils;
@@ -54,7 +55,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     GenrePresenter presenter;
 
     @Inject
-    GenreAdapter adapter;
+    MoviesAdapter adapter;
 
     @BindNavigator
     @FragmentContext
@@ -99,7 +100,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        adapter.setOnMovieSelectedListener(null);
+        adapter.setOnMovieClickListener(null);
     }
 
     @OnClick(R.id.backButton)
@@ -199,7 +200,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
             }
         };
         genreRecycler.addOnScrollListener(scrollListener);
-        adapter.setOnMovieSelectedListener(this);
+        adapter.setOnMovieClickListener(this);
         adapter.setPaginationCallback(this);
     }
 }

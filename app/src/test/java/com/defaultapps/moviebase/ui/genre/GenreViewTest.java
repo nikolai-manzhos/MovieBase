@@ -6,6 +6,7 @@ import android.view.View;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.common.MoviesAdapter;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -30,7 +31,7 @@ public class GenreViewTest extends BaseRobolectricTest {
     private GenrePresenterImpl presenter;
 
     @Mock
-    private GenreAdapter adapter;
+    private MoviesAdapter adapter;
 
     @Mock
     private Navigator navigator;
@@ -61,7 +62,7 @@ public class GenreViewTest extends BaseRobolectricTest {
         removeFragmentFromFragmentManager(genreView, activity);
 
         verify(presenter).onDetach();
-        verify(adapter).setOnMovieSelectedListener(null);
+        verify(adapter).setOnMovieClickListener(null);
     }
 
     @Test
