@@ -106,13 +106,24 @@
                         android:layout_marginTop="@dimen/movie_header_subtitle_margin"
                         tools:ignore="HardcodedText" />
 
+                    <com.joanzapata.iconify.widget.IconTextView
+                        style="@style/MovieInfo"
+                        android:id="@+id/rating"
+                        android:text="{md-star 22sp}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/runtime"
+                        android:layout_alignStart="@+id/runtime"
+                        android:layout_marginTop="@dimen/movie_header_subtitle_margin"
+                        tools:ignore="HardcodedText"/>
+
                     <TextView
                         style="@style/MovieInfo"
                         android:id="@+id/budget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/runtime"
-                        android:layout_alignStart="@+id/runtime"
+                        android:layout_below="@+id/rating"
+                        android:layout_alignStart="@+id/rating"
                         android:layout_marginTop="@dimen/movie_header_subtitle_margin"
                         tools:text="200,000,000$"/>
 

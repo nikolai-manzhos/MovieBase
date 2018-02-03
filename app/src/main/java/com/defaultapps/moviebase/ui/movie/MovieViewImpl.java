@@ -93,6 +93,9 @@ public class MovieViewImpl extends BaseFragment
     @BindView(R.id.runtime)
     IconTextView runtime;
 
+    @BindView(R.id.rating)
+    IconTextView rating;
+
     @BindView(R.id.budget)
     TextView budget;
 
@@ -235,6 +238,7 @@ public class MovieViewImpl extends BaseFragment
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
         runtime.append(" " + Utils.formatMinutes(getContext(), movieInfo.getRuntime()));
+        rating.append(" " + movieInfo.getVoteAverage());
         String budgetString = movieInfo.getBudget() == 0 ?
                 getString(R.string.movie_budget_unknown, AppConstants.UNKNOWN) :
                 getString(R.string.movie_budget, Utils.formatNumber(movieInfo.getBudget()));
