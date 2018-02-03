@@ -11,6 +11,7 @@ public interface SearchContract {
         void requestMoreSearchResults(String query);
         void onSearchViewClose();
         void onSearchViewOpen();
+        void hideSearchResults();
     }
 
     interface SearchView extends MvpView {

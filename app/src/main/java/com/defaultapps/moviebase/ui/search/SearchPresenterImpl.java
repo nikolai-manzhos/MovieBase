@@ -63,14 +63,19 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
     @Override
     public void onSearchViewClose() {
         getView().showSearchStart();
-        getView().hideLoading();
-        getView().hideError();
-        getView().hideData();
-        getView().hideEmpty();
+        hideSearchResults();
     }
 
     @Override
     public void onSearchViewOpen() {
         getView().hideSearchStart();
+    }
+
+    @Override
+    public void hideSearchResults() {
+        getView().hideLoading();
+        getView().hideError();
+        getView().hideData();
+        getView().hideEmpty();
     }
 }

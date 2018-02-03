@@ -280,6 +280,8 @@ public class SearchViewImpl extends BaseFragment implements
                 currentQuery = newText;
                 if (TextUtils.getTrimmedLength(newText) > 0) {
                     handler.postDelayed(workRunnable, 500);
+                } else if (TextUtils.getTrimmedLength(newText) == 0) {
+                    presenter.hideSearchResults();
                 }
                 return true;
             }

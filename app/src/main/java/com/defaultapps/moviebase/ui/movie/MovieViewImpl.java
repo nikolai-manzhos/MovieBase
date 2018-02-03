@@ -180,11 +180,16 @@ public class MovieViewImpl extends BaseFragment
         initToolbar();
         initFAB();
         initRecyclerViews();
+        initViews();
 
         Utils.checkNotNull(getArguments());
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
         presenter.requestMovieInfo(movieId, false);
         presenter.requestFavoriteStatus(movieId);
+    }
+
+    private void initViews() {
+        movieTitle.setSelected(true);
     }
 
     @OnClick(R.id.errorButton)

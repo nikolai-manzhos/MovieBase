@@ -72,7 +72,8 @@
                         android:id="@+id/imagePoster"
                         android:layout_width="120dp"
                         android:layout_height="175dp"
-                        android:contentDescription="@string/movie_image_poster"/>
+                        android:contentDescription="@string/movie_image_poster"
+                        android:background="@color/colorPrimary"/>
 
                     <TextView
                         style="@style/MovieTitle"
