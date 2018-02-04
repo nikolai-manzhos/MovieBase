@@ -1,7 +1,7 @@
 package com.defaultapps.moviebase.ui.genre;
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.usecase.GenreUseCaseImpl;
+import com.defaultapps.moviebase.domain.usecase.GenreUseCaseImpl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +30,8 @@ public class GenrePresenterTest {
     private GenreContract.GenrePresenter presenter;
     private TestScheduler testScheduler;
 
-    private final String FAKE_MOVIE_ID = "11321";
-    private final boolean FORCE = true;
+    private static final String FAKE_MOVIE_ID = "11321";
+    private static final boolean FORCE = true;
 
     @Before
     public void setUp() throws Exception {

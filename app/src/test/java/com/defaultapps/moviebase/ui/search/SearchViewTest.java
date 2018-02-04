@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.ui.search;
 import com.defaultapps.moviebase.TestUtils;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.common.MoviesAdapter;
 import com.defaultapps.moviebase.utils.ViewUtils;
 
 import org.junit.Test;
@@ -17,7 +18,7 @@ public class SearchViewTest extends BaseRobolectricTest {
     private SearchContract.SearchPresenter presenter;
 
     @Mock
-    private SearchAdapter adapter;
+    private MoviesAdapter adapter;
 
     @Mock
     private ViewUtils viewUtils;

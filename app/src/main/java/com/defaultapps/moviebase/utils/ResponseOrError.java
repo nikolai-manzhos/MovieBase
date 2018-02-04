@@ -7,7 +7,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 
 
-@SuppressWarnings({"unchecked","unused", "FieldCanBeLocal"})
+@SuppressWarnings({"unchecked", "unused", "FieldCanBeLocal"})
 public class ResponseOrError<T> {
     @Nullable
     private final T data;

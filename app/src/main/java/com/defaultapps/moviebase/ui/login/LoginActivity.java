@@ -3,9 +3,10 @@ package com.defaultapps.moviebase.ui.login;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import easybind.Layout;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
+
+import easybind.Layout;
 
 @Layout(id = R.layout.activity_login)
 public class LoginActivity extends BaseActivity {

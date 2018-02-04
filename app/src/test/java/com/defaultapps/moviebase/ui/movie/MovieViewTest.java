@@ -1,10 +1,8 @@
 package com.defaultapps.moviebase.ui.movie;
 
-import android.content.Intent;
-
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.TestUtils;
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
 import com.defaultapps.moviebase.ui.movie.adapter.CrewAdapter;
@@ -14,14 +12,11 @@ import com.defaultapps.moviebase.utils.ViewUtils;
 
 import org.junit.Test;
 import org.mockito.Mock;
-import org.robolectric.shadows.ShadowActivity;
 
 import java.lang.reflect.Field;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Shadows.shadowOf;
 
 public class MovieViewTest extends BaseRobolectricTest {
 
@@ -74,7 +69,7 @@ public class MovieViewTest extends BaseRobolectricTest {
 
     @Test
     public void shouldCallPresenterOnFABClick() throws Exception {
-        MovieInfoResponse response = random(MovieInfoResponse.class);
+        MovieDetailResponse response = random(MovieDetailResponse.class);
         Field responseField = MovieViewImpl.class.getDeclaredField("movieInfo");
         responseField.setAccessible(true);
         responseField.set(movieView, response);
@@ -145,7 +140,7 @@ public class MovieViewTest extends BaseRobolectricTest {
 
     @Test
     public void shouldPerformShareAction() throws Exception {
-        MovieInfoResponse movieDataFake = random(MovieInfoResponse.class);
+        MovieDetailResponse movieDataFake = random(MovieDetailResponse.class);
         Field movieInfoField = movieView.getClass().getDeclaredField("movieInfo");
         movieInfoField.setAccessible(true);
         movieInfoField.set(movieView, movieDataFake);

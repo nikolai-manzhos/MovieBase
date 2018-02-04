@@ -11,6 +11,8 @@ import static org.mockito.Mockito.mock;
 
 public class TestUtils {
 
+    private TestUtils() {}
+
     public static void addFragmentToFragmentManager(BaseFragment fragment,
                                                     AppCompatActivity activity) {
         fragment.analytics = mock(Analytics.class);

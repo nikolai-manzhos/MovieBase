@@ -3,14 +3,14 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryBackgroundDark">
 
     <ImageView
         android:id="@+id/moviePoster"
         android:contentDescription="@string/movie_image_poster"
         android:layout_width="120dp"
         android:layout_height="175dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:clickable="true"/>
+        android:foreground="?attr/selectableItemBackground"/>
 
 </FrameLayout>

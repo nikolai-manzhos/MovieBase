@@ -82,7 +82,12 @@
     <style name="MovieTitle">
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:maxLines">2</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
     </style>
 
     <style name="MovieInfo">

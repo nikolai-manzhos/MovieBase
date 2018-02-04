@@ -51,11 +51,10 @@ public class ViewUtils {
     }
 
     public void hideSoftKeyboard(View view) {
-        if (view != null) {
-            InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (inputManager != null) {
-                inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
+        Utils.checkNotNull(view);
+        InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputManager != null) {
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

@@ -1,13 +1,13 @@
 package com.defaultapps.moviebase.ui.login;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 
 import javax.inject.Inject;
 
 import butterknife.OnClick;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
 
 @Layout(id = R.layout.fragment_login, name = "Login")
 public class LoginViewImpl extends BaseFragment implements LoginContract.LoginView {

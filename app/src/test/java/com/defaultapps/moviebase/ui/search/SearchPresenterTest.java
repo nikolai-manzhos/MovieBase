@@ -2,12 +2,14 @@ package com.defaultapps.moviebase.ui.search;
 
 
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.usecase.SearchUseCaseImpl;
+import com.defaultapps.moviebase.domain.usecase.SearchUseCaseImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.LinkedList;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.TestScheduler;
@@ -33,7 +35,8 @@ public class SearchPresenterTest {
     private SearchPresenterImpl presenter;
     private TestScheduler testScheduler;
     private MoviesResponse response;
-    private final String QUERY = "Titanic";
+
+    private static final String QUERY = "Titanic";
 
     @Before
     public void setUp() throws Exception {
@@ -77,6 +80,25 @@ public class SearchPresenterTest {
         verify(view).hideLoading();
         verify(view, times(2)).hideData();
         verify(view).showError();
+        verify(view, never()).showData();
+        verify(view, never()).displaySearchResults(any(MoviesResponse.class));
+    }
+
+    @Test
+    public void requestSearchResultsEmpty() {
+        MoviesResponse response = random(MoviesResponse.class);
+        response.setResults(new LinkedList<>());
+
+        Observable<MoviesResponse> observable = Observable.just(response);
+        when(useCase.requestSearchResults(anyString(), anyBoolean())).thenReturn(observable);
+
+        presenter.requestSearchResults(QUERY, true);
+        verify(view).hideEmpty();
+        verify(view).showLoading();
+
+        verify(view).hideLoading();
+        verify(view, times(2)).hideError();
+        verify(view).showEmpty();
         verify(view, never()).showData();
         verify(view, never()).displaySearchResults(any(MoviesResponse.class));
     }

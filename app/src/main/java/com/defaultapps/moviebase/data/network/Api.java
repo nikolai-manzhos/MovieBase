@@ -1,8 +1,8 @@
 package com.defaultapps.moviebase.data.network;
 
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
-import com.defaultapps.moviebase.data.models.responses.person.PersonInfo;
+import com.defaultapps.moviebase.data.models.responses.person.PersonResponse;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;
@@ -56,14 +56,14 @@ public interface Api {
             @Query("include_adult") Boolean adult);
 
     @GET("movie/{movie_id}")
-    Single<MovieInfoResponse> getMovieInfo(
+    Single<MovieDetailResponse> getMovieDetails(
             @Path("movie_id") int movieId,
             @Query("api_key") String key,
             @Query("language") String language,
             @Query("append_to_response") String appendToResponse);
 
     @GET("person/{person_id}")
-    Single<PersonInfo> getPersonInfo(
+    Single<PersonResponse> getPersonDetails(
             @Path("person_id") int personId,
             @Query("api_key") String apiKey,
             @Query("language") String language,

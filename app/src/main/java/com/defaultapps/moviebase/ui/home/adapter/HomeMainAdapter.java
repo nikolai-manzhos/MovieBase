@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.ui.home.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
+import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.home.vh.MainViewHolder;
@@ -24,19 +26,19 @@ import javax.inject.Inject;
 @PerFragment
 public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int UPCOMING = 0, NOW_PLAYING = 1;
+    private static final String STAR_ICON = "{md-star 18dp}";
+
     private MoviesResponse upcoming;
     private MoviesResponse nowPlaying;
 
-    private Context context;
-    private UpcomingAdapter upcomingAdapter;
+    private final Context context;
+    private final UpcomingAdapter upcomingAdapter;
     private OnMovieClickListener listener;
-
-    private final int UPCOMING = 0, NOW_PLAYING = 1;
-
 
     @Inject
     HomeMainAdapter(@ActivityContext Context context,
-                           UpcomingAdapter upcomingAdapter) {
+                    UpcomingAdapter upcomingAdapter) {
         this.context = context;
         this.upcomingAdapter = upcomingAdapter;
     }
@@ -106,13 +108,15 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         upcomingAdapter.setData(upcoming);
     }
 
+    @SuppressLint("SetTextI18n")
     private void configureNowPlayingVH(MainViewHolder vh, int position) {
-        vh.rating.setText(String.valueOf(nowPlaying.getResults().get(position - 1).getVoteAverage()));
-        vh.title.setText(nowPlaying.getResults().get(position - 1).getTitle());
-        final String backdropPath = nowPlaying.getResults().get(position - 1).getBackdropPath();
+        Result result = nowPlaying.getResults().get(position - 1);
+        vh.rating.setText(result.getVoteAverage() + " " + STAR_ICON);
+        vh.title.setText(result.getTitle());
+        final String backdropPath = result.getBackdropPath();
         Picasso
                 .with(context)
-                .load("https://image.tmdb.org/t/p/w1000/" + backdropPath)
+                .load("http://image.tmdb.org/t/p//w1280" + backdropPath)
                 .fit()
                 .centerCrop()
                 .into(vh.backdrop);
