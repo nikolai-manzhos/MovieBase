@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/searchStartView"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
     android:gravity="center">
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:text="{md-search 150dp}"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_marginBottom="@dimen/search_start_bottom_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:text="@string/search_start_title"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="22sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"/>
 
     <com.joanzapata.iconify.widget.IconTextView
         android:text="@string/search_start_hint"

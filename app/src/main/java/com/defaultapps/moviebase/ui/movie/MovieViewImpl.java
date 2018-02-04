@@ -17,11 +17,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
-import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
-import com.defaultapps.moviebase.data.models.responses.movie.MovieInfoResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.Cast;
+import com.defaultapps.moviebase.data.models.responses.movie.Crew;
+import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
+import com.defaultapps.moviebase.data.models.responses.movie.VideoResult;
+import com.defaultapps.moviebase.data.models.responses.movies.Result;
 import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
@@ -41,11 +42,17 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
+import static com.defaultapps.moviebase.utils.AppConstants.EMPTY;
 import static com.defaultapps.moviebase.utils.AppConstants.MOVIE_ID;
 
 @Layout(id = R.layout.fragment_movie, name = "Movie")
@@ -86,6 +93,9 @@ public class MovieViewImpl extends BaseFragment
     @BindView(R.id.runtime)
     IconTextView runtime;
 
+    @BindView(R.id.rating)
+    IconTextView rating;
+
     @BindView(R.id.budget)
     TextView budget;
 
@@ -104,14 +114,26 @@ public class MovieViewImpl extends BaseFragment
     @BindView(R.id.favoriteFab)
     FloatingActionButton favoriteFab;
 
+    @BindView(R.id.videos)
+    TextView videosTitle;
+
     @BindView(R.id.videosRecyclerView)
     RecyclerView videosRecyclerView;
+
+    @BindView(R.id.cast)
+    TextView castTitle;
 
     @BindView(R.id.castRecyclerView)
     RecyclerView castRecyclerView;
 
+    @BindView(R.id.crew)
+    TextView crewTitle;
+
     @BindView(R.id.crewRecyclerView)
     RecyclerView crewRecyclerView;
+
+    @BindView(R.id.similar)
+    TextView similarTitle;
 
     @BindView(R.id.similarRecyclerView)
     RecyclerView similarRecyclerView;
@@ -140,7 +162,7 @@ public class MovieViewImpl extends BaseFragment
     MovieContract.MovieNavigator navigator;
 
     private int movieId;
-    private MovieInfoResponse movieInfo;
+    private MovieDetailResponse movieInfo;
 
     public static MovieViewImpl newInstance(int movieId) {
         Bundle bundle = new Bundle();
@@ -161,11 +183,16 @@ public class MovieViewImpl extends BaseFragment
         initToolbar();
         initFAB();
         initRecyclerViews();
+        initViews();
 
         Utils.checkNotNull(getArguments());
         movieId = getArguments().getInt(AppConstants.MOVIE_ID);
         presenter.requestMovieInfo(movieId, false);
         presenter.requestFavoriteStatus(movieId);
+    }
+
+    private void initViews() {
+        movieTitle.setSelected(true);
     }
 
     @OnClick(R.id.errorButton)
@@ -204,13 +231,14 @@ public class MovieViewImpl extends BaseFragment
     }
 
     @Override
-    public void displayMovieInfo(MovieInfoResponse movieInfo) {
+    public void displayMovieInfo(MovieDetailResponse movieInfo) {
         this.movieInfo = movieInfo;
-        loadImage(movieInfo.getBackdropPath(),imageBackdrop);
+        loadImage(movieInfo.getBackdropPath(), imageBackdrop);
         loadImage(movieInfo.getPosterPath(), imagePoster);
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
         runtime.append(" " + Utils.formatMinutes(getContext(), movieInfo.getRuntime()));
+        rating.append(" " + movieInfo.getVoteAverage());
         String budgetString = movieInfo.getBudget() == 0 ?
                 getString(R.string.movie_budget_unknown, AppConstants.UNKNOWN) :
                 getString(R.string.movie_budget, Utils.formatNumber(movieInfo.getBudget()));
@@ -220,10 +248,27 @@ public class MovieViewImpl extends BaseFragment
                 getString(R.string.movie_revenue, Utils.formatNumber(movieInfo.getRevenue()));
         revenue.setText(revenueString);
         movieOverview.setText(movieInfo.getOverview());
+        List<VideoResult> videos = movieInfo.getVideos().getVideoResults();
+        toggleTitleVisibility(videosTitle, videos.size() == EMPTY);
         videosAdapter.setData(movieInfo.getVideos().getVideoResults());
-        castAdapter.setData(movieInfo.getCredits().getCast());
-        crewAdapter.setData(movieInfo.getCredits().getCrew());
+
+        List<Cast> castPeople = movieInfo.getCredits().getCast();
+        toggleTitleVisibility(castTitle, castPeople.size() == EMPTY);
+        castAdapter.setData(castPeople);
+
+        List<Crew> crewPeople = movieInfo.getCredits().getCrew();
+        toggleTitleVisibility(crewTitle, crewPeople.size() == EMPTY);
+        crewAdapter.setData(crewPeople);
+
+        List<Result> similarMovies = movieInfo.getSimilar().getResults();
+        toggleTitleVisibility(similarTitle, similarMovies.size() == EMPTY);
         similarAdapter.setData(movieInfo.getSimilar().getResults());
+    }
+
+    private void toggleTitleVisibility(TextView title, boolean isEmpty) {
+        if (isEmpty) {
+            title.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -296,6 +341,7 @@ public class MovieViewImpl extends BaseFragment
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back_inverted);
         toolbar.setNavigationOnClickListener(view -> activity.finish());
     }
 

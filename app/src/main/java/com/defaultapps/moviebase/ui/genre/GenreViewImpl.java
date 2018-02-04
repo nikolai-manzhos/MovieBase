@@ -10,14 +10,12 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
-import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.base.Navigator;
+import com.defaultapps.moviebase.ui.common.MoviesAdapter;
 import com.defaultapps.moviebase.ui.genre.GenreContract.GenrePresenter;
 import com.defaultapps.moviebase.utils.AppConstants;
 import com.defaultapps.moviebase.utils.Utils;
@@ -29,6 +27,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 @Layout(id = R.layout.fragment_genre, name = "Genre")
 public class GenreViewImpl extends BaseFragment implements GenreContract.GenreView,
@@ -54,7 +55,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     GenrePresenter presenter;
 
     @Inject
-    GenreAdapter adapter;
+    MoviesAdapter adapter;
 
     @BindNavigator
     @FragmentContext
@@ -62,7 +63,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     Navigator navigator;
 
     private String genreId;
-    private int TOTAL_PAGES = 1;
+    private int totalPages = 1;
     private boolean isLoading;
     private boolean isLastPage;
 
@@ -99,7 +100,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        adapter.setOnMovieSelectedListener(null);
+        adapter.setOnMovieClickListener(null);
     }
 
     @OnClick(R.id.backButton)
@@ -120,11 +121,11 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
     @Override
     public void showMovies(MoviesResponse movies) {
         adapter.setData(movies.getResults());
-        TOTAL_PAGES = movies.getTotalPages();
+        totalPages = movies.getTotalPages();
         adapter.removeLoadingFooter();
         isLastPage = false;
 
-        if (movies.getPage() < TOTAL_PAGES) adapter.addLoadingFooter();
+        if (movies.getPage() < totalPages) adapter.addLoadingFooter();
         else isLastPage = true;
     }
 
@@ -135,7 +136,7 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
         adapter.removeLoadingFooter();
         isLoading = false;
 
-        if (movies.getPage() < TOTAL_PAGES) adapter.addLoadingFooter();
+        if (movies.getPage() < totalPages) adapter.addLoadingFooter();
         else isLastPage = true;
     }
 
@@ -195,11 +196,11 @@ public class GenreViewImpl extends BaseFragment implements GenreContract.GenreVi
 
             @Override
             public int getTotalPageCount() {
-                return TOTAL_PAGES;
+                return totalPages;
             }
         };
         genreRecycler.addOnScrollListener(scrollListener);
-        adapter.setOnMovieSelectedListener(this);
+        adapter.setOnMovieClickListener(this);
         adapter.setPaginationCallback(this);
     }
 }

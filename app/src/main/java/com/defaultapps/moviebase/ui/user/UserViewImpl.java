@@ -10,8 +10,6 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import easybind.Layout;
-import easybind.bindings.BindPresenter;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.user.UserContract.UserPresenter;
@@ -27,6 +25,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import easybind.Layout;
+import easybind.bindings.BindPresenter;
 
 @Layout(id = R.layout.fragment_user, name = "User")
 public class UserViewImpl extends BaseFragment implements UserContract.UserView {

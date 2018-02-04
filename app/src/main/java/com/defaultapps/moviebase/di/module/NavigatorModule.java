@@ -10,6 +10,7 @@ import dagger.Module;
 
 
 @Module
+@SuppressWarnings("unused")
 public abstract class NavigatorModule {
 
     @Binds

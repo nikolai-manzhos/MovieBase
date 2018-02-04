@@ -5,8 +5,6 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.defaultapps.moviebase.*;
-import com.defaultapps.moviebase.espresso.ViewAssertion;
 import com.defaultapps.moviebase.screen.HomeScreen;
 import com.defaultapps.moviebase.ui.main.MainActivity;
 

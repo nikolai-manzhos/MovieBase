@@ -8,9 +8,9 @@ import io.reactivex.subjects.BehaviorSubject;
 
 public class CacheTest {
 
-    private final int FAKE_ID = 1422;
-    private final boolean FAKE_FAVORITE_STATUS = true;
-    private final boolean FAKE_DEFAULT_VALUE = false;
+    private static final int FAKE_ID = 1422;
+    private static final boolean FAKE_FAVORITE_STATUS = true;
+    private static final boolean FAKE_DEFAULT_VALUE = false;
 
     private Cache<Integer, BehaviorSubject<Boolean>> cache;
 

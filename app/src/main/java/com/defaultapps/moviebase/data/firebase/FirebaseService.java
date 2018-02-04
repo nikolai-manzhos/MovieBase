@@ -1,6 +1,6 @@
 package com.defaultapps.moviebase.data.firebase;
 
-
+import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.firebase.Favorite;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -8,7 +8,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,11 +23,16 @@ import io.reactivex.Observable;
 @Singleton
 public class FirebaseService {
 
+    private final static String BANNED_MOVIES = "banned_movies";
+
     private final Provider<DatabaseReference> databaseProvider;
+    private final FirebaseRemoteConfig remoteConfig;
 
     @Inject
-    FirebaseService(Provider<DatabaseReference> databaseProvider) {
+    FirebaseService(Provider<DatabaseReference> databaseProvider,
+                    FirebaseRemoteConfig remoteConfig) {
         this.databaseProvider = databaseProvider;
+        this.remoteConfig = remoteConfig;
     }
 
     public Observable<Boolean> addToFavorites(int movieId, String posterPath) {
@@ -106,6 +113,23 @@ public class FirebaseService {
                 }
             });
         });
+    }
+
+    public void fetchRemoteConfig() {
+        remoteConfig.fetch().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                remoteConfig.activateFetched();
+            }
+        });
+    }
+
+    public List<String> getBlockedMoviesId() {
+        String[] blockedIds = remoteConfig.getString(BANNED_MOVIES).split(";");
+        return Arrays.asList(blockedIds);
+    }
+
+    public void setDefaultRemoteConfigValues() {
+        remoteConfig.setDefaults(R.xml.remote_config_defaults);
     }
 
     private DatabaseReference checkDbNotNull() {

@@ -1,19 +1,13 @@
 package com.defaultapps.moviebase.ui.login;
 
-import android.app.Activity;
-
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 
 import org.junit.Test;
 import org.mockito.Mock;
-import org.robolectric.shadows.ShadowActivity;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
-import static org.robolectric.Shadows.shadowOf;
 
 public class LoginViewTest extends BaseRobolectricTest {
 

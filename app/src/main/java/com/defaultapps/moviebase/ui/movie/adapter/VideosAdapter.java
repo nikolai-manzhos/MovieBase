@@ -11,6 +11,7 @@ import com.defaultapps.moviebase.data.models.responses.movie.VideoResult;
 import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.movie.vh.VideosViewHolder;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +43,15 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosViewHolder> {
         Picasso
                 .with(context)
                 .load("http://img.youtube.com/vi/"+ videos.get(adapterPosition).getKey() + "/mqdefault.jpg")
-                .into(holder.thumbnail);
+                .into(holder.thumbnail, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.thumbnail.setBackground(null);
+                    }
+
+                    @Override
+                    public void onError() {}
+                });
         holder.thumbnail.setOnClickListener(view -> listener.onVideoClick(videos.get(adapterPosition).getKey()));
     }
 

@@ -2,18 +2,21 @@ package com.defaultapps.moviebase.di.component;
 
 import android.support.annotation.Nullable;
 
+import com.defaultapps.moviebase.App;
 import com.defaultapps.moviebase.data.firebase.FavoritesManager;
 import com.defaultapps.moviebase.data.local.AppPreferencesManager;
-import com.defaultapps.moviebase.data.usecase.DiscoverUseCase;
-import com.defaultapps.moviebase.data.usecase.GenreUseCase;
-import com.defaultapps.moviebase.data.usecase.HomeUseCase;
-import com.defaultapps.moviebase.data.usecase.MovieUseCase;
-import com.defaultapps.moviebase.data.usecase.PersonUseCase;
-import com.defaultapps.moviebase.data.usecase.SearchUseCase;
+import com.defaultapps.moviebase.data.network.NetworkModule;
 import com.defaultapps.moviebase.di.module.AnalyticsModule;
 import com.defaultapps.moviebase.di.module.ApplicationModule;
+import com.defaultapps.moviebase.di.module.RepositoryModule;
 import com.defaultapps.moviebase.di.module.SchedulersModule;
 import com.defaultapps.moviebase.di.module.UseCaseModule;
+import com.defaultapps.moviebase.domain.usecase.DiscoverUseCase;
+import com.defaultapps.moviebase.domain.usecase.GenreUseCase;
+import com.defaultapps.moviebase.domain.usecase.HomeUseCase;
+import com.defaultapps.moviebase.domain.usecase.MovieUseCase;
+import com.defaultapps.moviebase.domain.usecase.PersonUseCase;
+import com.defaultapps.moviebase.domain.usecase.SearchUseCase;
 import com.defaultapps.moviebase.utils.NetworkUtil;
 import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.analytics.Analytics;
@@ -28,11 +31,15 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         ApplicationModule.class,
+        NetworkModule.class,
+        RepositoryModule.class,
         UseCaseModule.class,
         SchedulersModule.class,
         AnalyticsModule.class
 })
 public interface ApplicationComponent {
+    void inject(App app);
+
     HomeUseCase homeUseCaseImpl();
     DiscoverUseCase discoverUseCaseImpl();
     GenreUseCase genreUseCaseImpl();

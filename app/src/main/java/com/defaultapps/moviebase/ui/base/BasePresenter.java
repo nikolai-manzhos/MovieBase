@@ -2,12 +2,12 @@ package com.defaultapps.moviebase.ui.base;
 
 import android.support.annotation.CallSuper;
 
+import com.defaultapps.moviebase.domain.base.UseCase;
+
 import easybind.PresenterClass;
 import easybind.calls.OnAttach;
 import easybind.calls.OnDetach;
 import easybind.calls.OnDispose;
-import com.defaultapps.moviebase.data.base.UseCase;
-
 import io.reactivex.disposables.CompositeDisposable;
 
 @PresenterClass

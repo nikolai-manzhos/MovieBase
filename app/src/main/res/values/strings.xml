@@ -8,6 +8,7 @@
     <string name="home_popular">Popular</string>
     <string name="home_upcoming">Upcoming</string>
     <string name="home_in_theaters">In Theaters</string>
+    <string name="snackbar_error">Network error, please try again</string>
 
     <!--Discover strings-->
     <string name="discover_toolbar">Discover</string>
@@ -17,14 +18,15 @@
     <string name="bookmarks_movie_poster">Movie poster</string>
     <string name="bookmarks_alert_title">Remove this movie?</string>
     <string name="bookmarks_favorites_empty">Seems like you don\'t have any favorite movies yet.</string>
-    <string name="bookmarks_no_user">Please login to synchronize and watch your bookmarks</string>
-    <string name="bookmarks_sign_in">Sign In</string>
+    <string name="bookmarks_no_user">Login to watch your bookmarks</string>
+    <string name="bookmarks_log_in">Login</string>
     <string name="bookmarks_delete_error">Error while deleting item. Please try again</string>
 
 
     <!--Search strings-->
     <string name="search_toolbar">Search</string>
-    <string name="search_start_hint">Tap {md-search} and type movie</string>
+    <string name="search_start_title">Search MovieBase</string>
+    <string name="search_start_hint">Find your favorite movie</string>
     <string name="search_empty">No movies were found</string>
 
     <!--Movie strings-->

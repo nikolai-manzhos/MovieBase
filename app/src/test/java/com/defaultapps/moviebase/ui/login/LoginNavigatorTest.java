@@ -5,7 +5,6 @@ import android.app.Activity;
 
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.robolectric.shadows.ShadowActivity;

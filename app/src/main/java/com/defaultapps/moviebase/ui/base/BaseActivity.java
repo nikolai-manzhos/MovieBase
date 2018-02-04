@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import easybind.EasyBind;
-import easybind.EasyBinder;
-import easybind.bindings.BindLayout;
 import com.defaultapps.moviebase.App;
 import com.defaultapps.moviebase.di.component.ActivityComponent;
 import com.defaultapps.moviebase.di.component.DaggerActivityComponent;
@@ -16,6 +13,9 @@ import com.defaultapps.moviebase.utils.listener.OnBackPressedListener;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import easybind.EasyBind;
+import easybind.EasyBinder;
+import easybind.bindings.BindLayout;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements ComponentActivity, MvpView {
@@ -29,7 +29,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Componen
     @BindLayout
     public int layoutId;
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

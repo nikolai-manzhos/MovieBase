@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.ui.bookmarks;
 
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,9 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import easybind.Layout;
-import easybind.bindings.BindNavigator;
-import easybind.bindings.BindPresenter;
+import com.airbnb.lottie.LottieAnimationView;
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.di.FragmentContext;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
@@ -28,6 +27,9 @@ import javax.inject.Inject;
 import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
+import easybind.Layout;
+import easybind.bindings.BindNavigator;
+import easybind.bindings.BindPresenter;
 
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksPresenter;
 import static com.defaultapps.moviebase.ui.bookmarks.BookmarksContract.BookmarksView;
@@ -46,6 +48,9 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @BindView(R.id.no_user_container)
     ConstraintLayout noUserView;
+
+    @BindView(R.id.user_animation)
+    LottieAnimationView lottieAnimationView;
 
     @BindDimen(R.dimen.favorite_image_width)
     int columnWidthPx;
@@ -69,6 +74,8 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     @Nullable
     FavoritesAdapter favoritesAdapter;
 
+    private ValueAnimator lottieValueAnimator;
+
     @Override
     protected void inject() {
         getFragmentComponent().inject(this);
@@ -78,6 +85,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
+        initLottie();
     }
 
     @Override
@@ -98,13 +106,14 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
 
     @Override
     public void onDestroyView() {
+        lottieValueAnimator.cancel();
         super.onDestroyView();
         if (favoritesAdapter != null) {
             favoritesAdapter.setOnMovieClickListener(null);
         }
     }
 
-    @OnClick(R.id.bookmarks_login_btn)
+    @OnClick(R.id.no_user_container)
     void onLoginClick() {
         navigator.toSignInActivity();
     }
@@ -129,6 +138,13 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
         noUserView.setVisibility(View.GONE);
     }
 
+    private void initLottie() {
+        lottieValueAnimator = ValueAnimator.ofFloat(0f, 1f)
+                .setDuration(600L);
+        lottieValueAnimator.addUpdateListener(valueAnimator -> lottieAnimationView.setProgress((Float) valueAnimator.getAnimatedValue()));
+        lottieValueAnimator.start();
+    }
+
     private void initRecyclerView() {
         if (favoritesAdapter == null) {
             presenter.displayNoUserView();
@@ -137,7 +153,7 @@ public class BookmarksViewImpl extends BaseFragment implements BookmarksView, On
         int columnSizeDp = resUtils.convertPxToDp(columnWidthPx);
         favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),
                 viewUtils.calculateNoOfColumns(columnSizeDp)));
-        favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(2,true));
+        favoriteRecyclerView.addItemDecoration(new SimpleItemDecorator(2, true));
         favoriteRecyclerView.setAdapter(favoritesAdapter);
         favoritesAdapter.setOnMovieClickListener(this);
     }

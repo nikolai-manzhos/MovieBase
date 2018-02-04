@@ -87,7 +87,7 @@ public class HomeViewTest extends BaseRobolectricTest {
 
     @Test
     public void shouldDisplaySnackbarOnError() {
-        final String ERROR_MESSAGE = "Error";
+        final String ERROR_MESSAGE = application.getString(R.string.snackbar_error);
         homeView.displayErrorMessage();
         verify(viewUtils).showSnackbar(homeView.swipeRefreshLayout, ERROR_MESSAGE);
     }

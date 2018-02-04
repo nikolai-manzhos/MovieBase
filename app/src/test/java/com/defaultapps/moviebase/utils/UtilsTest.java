@@ -43,4 +43,14 @@ public class UtilsTest {
     public void shouldFormatLongNumber() {
         assertEquals(Utils.formatNumber(100000L), "100,000");
     }
+
+    @Test(expected = NullPointerException.class)
+    public void checkNotNullThrowOnNull() {
+        Utils.checkNotNull(null);
+    }
+
+    @Test
+    public void checkNotNullPass() {
+        Utils.checkNotNull(new Object());
+    }
 }

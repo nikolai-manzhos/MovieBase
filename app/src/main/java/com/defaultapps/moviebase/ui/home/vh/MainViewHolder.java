@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseViewHolder;
+import com.joanzapata.iconify.widget.IconTextView;
 
 import butterknife.BindView;
 
@@ -20,7 +21,7 @@ public class MainViewHolder extends BaseViewHolder {
     public ImageView backdrop;
 
     @BindView(R.id.movieRating)
-    public TextView rating;
+    public IconTextView rating;
 
     @BindView(R.id.movieTitle)
     public TextView title;

@@ -1,11 +1,13 @@
 package com.defaultapps.moviebase.ui.search;
 
 
-import com.defaultapps.moviebase.data.usecase.SearchUseCase;
 import com.defaultapps.moviebase.di.scope.PerFragment;
+import com.defaultapps.moviebase.domain.usecase.SearchUseCase;
 import com.defaultapps.moviebase.ui.base.BasePresenter;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 
 @PerFragment
@@ -29,8 +31,11 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
                         moviesResponse -> {
                             getView().hideLoading();
                             getView().hideError();
+                            if (moviesResponse.getResults().size() == 0) {
+                                getView().showEmpty();
+                                return;
+                            }
                             getView().showData();
-                            if (moviesResponse.getTotalResults() == 0) getView().showEmpty();
                             getView().displaySearchResults(moviesResponse);
                         },
                         err -> {
@@ -38,6 +43,7 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
                             getView().hideData();
                             getView().hideEmpty();
                             getView().showError();
+                            Timber.d(err);
                         }
                 )
         );
@@ -57,14 +63,19 @@ public class SearchPresenterImpl extends BasePresenter<SearchContract.SearchView
     @Override
     public void onSearchViewClose() {
         getView().showSearchStart();
-        getView().hideLoading();
-        getView().hideError();
-        getView().hideData();
-        getView().hideEmpty();
+        hideSearchResults();
     }
 
     @Override
     public void onSearchViewOpen() {
         getView().hideSearchStart();
+    }
+
+    @Override
+    public void hideSearchResults() {
+        getView().hideLoading();
+        getView().hideError();
+        getView().hideData();
+        getView().hideEmpty();
     }
 }
