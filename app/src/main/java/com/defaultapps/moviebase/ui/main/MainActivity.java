@@ -113,6 +113,6 @@ public class MainActivity extends BaseActivity implements MainContract.MainView 
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.show_fragment, R.anim.hide_fragment)
                 .replace(R.id.contentFrame, fragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 }
