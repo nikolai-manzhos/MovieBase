@@ -30,6 +30,12 @@
                 android:contentDescription="@string/movie_image_backdrop"
                 app:layout_collapseMode="parallax"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient_shape_bottom"/>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
