@@ -44,6 +44,7 @@
     <string name="movie_revenue">Revenue: %s$</string>
     <string name="movie_revenue_unknown">Revenue: %s</string>
     <string name="movie_runtime">%1$dh %2$dm</string>
+    <string name="movie_share">Share</string>
 
     <!--User strings-->
     <string name="user_toolbar">Settings</string>

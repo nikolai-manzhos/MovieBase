@@ -42,21 +42,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:layout_collapseMode="pin" >
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/shareButton"
-                        android:text="{md-share 24dp}"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_gravity="center_vertical|end"
-                        tools:ignore="HardcodedText" />
-                </FrameLayout>
-            </android.support.v7.widget.Toolbar>
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
