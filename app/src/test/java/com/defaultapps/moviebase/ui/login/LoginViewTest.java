@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.setupFakeAnalytics;
 import static org.mockito.Mockito.verify;
 
 public class LoginViewTest extends BaseRobolectricTest {
@@ -22,6 +23,7 @@ public class LoginViewTest extends BaseRobolectricTest {
         loginView = new LoginViewImpl();
         loginView.loginNavigator = loginNavigator;
 
+        setupFakeAnalytics(loginView);
         addFragmentToFragmentManager(loginView, activity);
     }
 

@@ -38,6 +38,7 @@ public class SearchViewTest extends BaseRobolectricTest {
         searchView.viewUtils = viewUtils;
         searchView.navigator = navigator;
 
+        TestUtils.setupFakeAnalytics(searchView);
         TestUtils.addFragmentToFragmentManager(searchView, activity);
     }
 

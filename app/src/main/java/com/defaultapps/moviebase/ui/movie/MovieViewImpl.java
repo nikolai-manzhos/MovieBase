@@ -161,7 +161,7 @@ public class MovieViewImpl extends BaseFragment
     @Inject
     MovieContract.MovieNavigator navigator;
 
-    private Menu toolbarMenu;
+    Menu toolbarMenu;
 
     private int movieId;
     private MovieDetailResponse movieInfo;
@@ -234,7 +234,7 @@ public class MovieViewImpl extends BaseFragment
         loadImage(movieInfo.getPosterPath(), imagePoster);
         toolbarMenu.findItem(R.id.share).setOnMenuItemClickListener(it -> {
             navigator.shareAction(movieInfo.getHomepage());
-            return false;
+            return true;
         });
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));

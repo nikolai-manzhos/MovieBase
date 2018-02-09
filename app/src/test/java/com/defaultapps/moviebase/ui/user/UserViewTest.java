@@ -12,6 +12,7 @@ import org.robolectric.shadows.ShadowActivity;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.setupFakeAnalytics;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
@@ -32,6 +33,7 @@ public class UserViewTest extends BaseRobolectricTest {
         userView = new UserViewImpl();
         userView.presenter = presenter;
 
+        setupFakeAnalytics(userView);
         addFragmentToFragmentManager(userView, activity);
     }
 

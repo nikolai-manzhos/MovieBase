@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.setupFakeAnalytics;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -45,6 +46,7 @@ public class GenreViewTest extends BaseRobolectricTest {
         genreView.adapter = adapter;
         genreView.navigator = navigator;
 
+        setupFakeAnalytics(genreView);
         addFragmentToFragmentManager(genreView, activity);
     }
 
