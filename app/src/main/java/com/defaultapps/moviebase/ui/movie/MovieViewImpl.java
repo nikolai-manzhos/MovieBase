@@ -10,6 +10,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,7 +24,6 @@ import com.defaultapps.moviebase.data.models.responses.movie.Crew;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
 import com.defaultapps.moviebase.data.models.responses.movie.VideoResult;
 import com.defaultapps.moviebase.data.models.responses.movies.Result;
-import com.defaultapps.moviebase.ui.base.BaseActivity;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.movie.MovieContract.MoviePresenter;
 import com.defaultapps.moviebase.ui.movie.adapter.CastAdapter;
@@ -161,6 +161,8 @@ public class MovieViewImpl extends BaseFragment
     @Inject
     MovieContract.MovieNavigator navigator;
 
+    Menu toolbarMenu;
+
     private int movieId;
     private MovieDetailResponse movieInfo;
 
@@ -205,11 +207,6 @@ public class MovieViewImpl extends BaseFragment
         presenter.addOrRemoveFromFavorites(movieInfo.getId(), movieInfo.getPosterPath());
     }
 
-    @OnClick(R.id.shareButton)
-    void onShareClick() {
-        navigator.shareAction(movieInfo.getHomepage());
-    }
-
     @Override
     public void onMovieClick(int movieId) {
         navigator.toMovieActivity(movieId);
@@ -235,6 +232,10 @@ public class MovieViewImpl extends BaseFragment
         this.movieInfo = movieInfo;
         loadImage(movieInfo.getBackdropPath(), imageBackdrop);
         loadImage(movieInfo.getPosterPath(), imagePoster);
+        toolbarMenu.findItem(R.id.share).setOnMenuItemClickListener(it -> {
+            navigator.shareAction(movieInfo.getHomepage());
+            return true;
+        });
         movieTitle.setText(movieInfo.getTitle());
         releaseDate.append(" " + Utils.convertDate(movieInfo.getReleaseDate()));
         runtime.append(" " + Utils.formatMinutes(getContext(), movieInfo.getRuntime()));
@@ -336,13 +337,28 @@ public class MovieViewImpl extends BaseFragment
 
     @SuppressWarnings("ConstantConditions")
     private void initToolbar() {
-        BaseActivity activity = (BaseActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_action_navigation_arrow_back_inverted);
-        toolbar.setNavigationOnClickListener(view -> activity.finish());
+        toolbar.setNavigationOnClickListener(view -> navigator.finishActivity());
+        toolbar.inflateMenu(R.menu.movie_toolbar);
+        toolbarMenu = toolbar.getMenu();
+        toolbarContainer.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbar.setTitle(movieInfo.getTitle());
+                    isShow = true;
+                } else if(isShow) {
+                    collapsingToolbar.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
     }
 
     private void initRecyclerViews() {

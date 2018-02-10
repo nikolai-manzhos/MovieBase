@@ -15,6 +15,7 @@ import com.defaultapps.moviebase.di.ActivityContext;
 import com.defaultapps.moviebase.di.scope.PerFragment;
 import com.defaultapps.moviebase.ui.home.vh.MainViewHolder;
 import com.defaultapps.moviebase.ui.home.vh.UpcomingViewHolder;
+import com.defaultapps.moviebase.utils.ResUtils;
 import com.defaultapps.moviebase.utils.listener.OnMovieClickListener;
 import com.squareup.picasso.Picasso;
 
@@ -27,20 +28,22 @@ import javax.inject.Inject;
 public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int UPCOMING = 0, NOW_PLAYING = 1;
-    private static final String STAR_ICON = "{md-star 18dp}";
 
     private MoviesResponse upcoming;
     private MoviesResponse nowPlaying;
 
     private final Context context;
     private final UpcomingAdapter upcomingAdapter;
+    private final ResUtils resUtils;
     private OnMovieClickListener listener;
 
     @Inject
     HomeMainAdapter(@ActivityContext Context context,
-                    UpcomingAdapter upcomingAdapter) {
+                    UpcomingAdapter upcomingAdapter,
+                    ResUtils resUtils) {
         this.context = context;
         this.upcomingAdapter = upcomingAdapter;
+        this.resUtils = resUtils;
     }
 
     @Override
@@ -111,7 +114,7 @@ public class HomeMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @SuppressLint("SetTextI18n")
     private void configureNowPlayingVH(MainViewHolder vh, int position) {
         Result result = nowPlaying.getResults().get(position - 1);
-        vh.rating.setText(result.getVoteAverage() + " " + STAR_ICON);
+        vh.rating.setText(result.getVoteAverage() + " " + resUtils.getString(R.string.star_icon));
         vh.title.setText(result.getTitle());
         final String backdropPath = result.getBackdropPath();
         Picasso

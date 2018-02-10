@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.ui.movie;
 
+
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.TestUtils;
 import com.defaultapps.moviebase.data.models.responses.movie.MovieDetailResponse;
@@ -57,6 +58,8 @@ public class MovieViewTest extends BaseRobolectricTest {
         movieView.viewUtils = viewUtils;
         movieView.navigator = movieNavigator;
 
+
+        TestUtils.setupFakeAnalytics(movieView);
         TestUtils.addFragmentToFragmentManager(movieView, activity);
     }
 
@@ -139,15 +142,14 @@ public class MovieViewTest extends BaseRobolectricTest {
     }
 
     @Test
-    public void shouldPerformShareAction() throws Exception {
-        MovieDetailResponse movieDataFake = random(MovieDetailResponse.class);
-        Field movieInfoField = movieView.getClass().getDeclaredField("movieInfo");
-        movieInfoField.setAccessible(true);
-        movieInfoField.set(movieView, movieDataFake);
+    public void displayMovieInfo() {
+        MovieDetailResponse response = random(MovieDetailResponse.class);
+        movieView.displayMovieInfo(response);
 
-        assert movieView.getView() != null;
-        movieView.getView().findViewById(R.id.shareButton).performClick();
-
-        movieNavigator.shareAction(movieDataFake.getHomepage());
+        verify(videosAdapter).setData(response.getVideos().getVideoResults());
+        verify(castAdapter).setData(response.getCredits().getCast());
+        verify(crewAdapter).setData(response.getCredits().getCrew());
+        verify(similarAdapter).setData(response.getSimilar().getResults());
     }
+    //TODO: find the way to test MenuItem
 }

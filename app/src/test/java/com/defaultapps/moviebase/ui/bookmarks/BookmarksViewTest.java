@@ -20,6 +20,7 @@ import java.lang.reflect.Constructor;
 
 import static com.defaultapps.moviebase.TestUtils.addFragmentToFragmentManager;
 import static com.defaultapps.moviebase.TestUtils.removeFragmentFromFragmentManager;
+import static com.defaultapps.moviebase.TestUtils.setupFakeAnalytics;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -56,6 +57,7 @@ public class BookmarksViewTest extends BaseRobolectricTest {
         bookmarksView.favoritesAdapter = favoritesAdapter;
         bookmarksView.navigator = defaultNavigator;
 
+        setupFakeAnalytics(bookmarksView);
         addFragmentToFragmentManager(bookmarksView, activity);
     }
 
