@@ -56,7 +56,7 @@ public class DefaultNavigator<V extends MvpView> implements Navigator<V> {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.DarkTheme)
-                        .setLogo(R.mipmap.ic_launcher_round)
+                        .setLogo(R.drawable.ic_main)
                         .setAvailableProviders(Utils.getProvidersList())
                         .build(),
                 RC_SIGN_IN);
