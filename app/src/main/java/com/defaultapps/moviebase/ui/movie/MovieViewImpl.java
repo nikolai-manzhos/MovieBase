@@ -341,6 +341,24 @@ public class MovieViewImpl extends BaseFragment
         toolbar.setNavigationOnClickListener(view -> navigator.finishActivity());
         toolbar.inflateMenu(R.menu.movie_toolbar);
         toolbarMenu = toolbar.getMenu();
+        toolbarContainer.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbar.setTitle(movieInfo.getTitle());
+                    isShow = true;
+                } else if(isShow) {
+                    collapsingToolbar.setTitle(" ");
+                    isShow = false;
+                }
+            }
+        });
     }
 
     private void initRecyclerViews() {
