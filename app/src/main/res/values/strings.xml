@@ -22,7 +22,6 @@
     <string name="bookmarks_log_in">Login</string>
     <string name="bookmarks_delete_error">Error while deleting item. Please try again</string>
 
-
     <!--Search strings-->
     <string name="search_toolbar">Search</string>
     <string name="search_start_title">Search MovieBase</string>
@@ -45,6 +44,7 @@
     <string name="movie_revenue">Revenue: %s$</string>
     <string name="movie_revenue_unknown">Revenue: %s</string>
     <string name="movie_runtime">%1$dh %2$dm</string>
+    <string name="movie_share">Share</string>
 
     <!--User strings-->
     <string name="user_toolbar">Settings</string>
@@ -70,4 +70,7 @@
     <!--Login strings-->
     <string name="login_enter">Login</string>
     <string name="login_skip">Skip</string>
+
+    <!--Icons-->
+    <string name="star_icon">{md-star 18dp}</string>
 </resources>

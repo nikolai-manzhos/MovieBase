@@ -3,6 +3,7 @@ package com.defaultapps.moviebase.utils;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
 
 import com.defaultapps.moviebase.R;
@@ -21,6 +22,10 @@ public class ResUtils {
     @Inject
     ResUtils(@ApplicationContext Context context) {
         this.context = context;
+    }
+
+    public String getString(@StringRes int id) {
+        return context.getString(id);
     }
 
     public int convertPxToDp(int px) {

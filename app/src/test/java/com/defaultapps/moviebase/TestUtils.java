@@ -13,6 +13,12 @@ public class TestUtils {
 
     private TestUtils() {}
 
+    public static Analytics setupFakeAnalytics(BaseFragment fragment) {
+        Analytics analytics = mock(Analytics.class);
+        fragment.analytics = analytics;
+        return analytics;
+    }
+
     public static void addFragmentToFragmentManager(BaseFragment fragment,
                                                     AppCompatActivity activity) {
         fragment.analytics = mock(Analytics.class);

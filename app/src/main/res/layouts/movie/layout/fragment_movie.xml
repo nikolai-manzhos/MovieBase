@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@style/CollapsingText"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -30,27 +31,19 @@
                 android:contentDescription="@string/movie_image_backdrop"
                 app:layout_collapseMode="parallax"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient_shape_bottom"/>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:layout_collapseMode="pin" >
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <com.joanzapata.iconify.widget.IconButton
-                        android:id="@+id/shareButton"
-                        android:text="{md-share 24dp}"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_gravity="center_vertical|end"
-                        tools:ignore="HardcodedText" />
-                </FrameLayout>
-            </android.support.v7.widget.Toolbar>
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
