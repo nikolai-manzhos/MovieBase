@@ -7,7 +7,7 @@
 # Building project
 In order to build project you need to supply correct API keys for ```MDB``` and ```YouTube```.  
 [Get MDB key.](https://www.themoviedb.org/settings/api)  
-[Get your YouTube key.](https://developers.google.com/youtube/v3/getting-started)
+[Get YouTube key.](https://developers.google.com/youtube/v3/getting-started)
 
 After you got your keys create ```keystore.properties``` file in root folder and put keys in it.
 ```gradle
