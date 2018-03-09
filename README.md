@@ -1,12 +1,7 @@
 # MovieBase
 [![CircleCI](https://circleci.com/gh/NikolayManzhos/MovieBase/tree/dev.svg?style=shield)](https://circleci.com/gh/NikolayManzhos/MovieBase/tree/dev)
-[![codecov](https://codecov.io/gh/NikolayManzhos/MovieBase/branch/dev/graph/badge.svg)](https://codecov.io/gh/NikolayManzhos/MovieBase)
-
-<p align="center">
-<a align="center" href='https://play.google.com/store/apps/details?id=com.defaultapps.moviebase&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' height ="30%" width="30%" align="center"
-src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
-</p>
-
+[![codecov](https://codecov.io/gh/NikolayManzhos/MovieBase/branch/dev/graph/badge.svg)](https://codecov.io/gh/NikolayManzhos/MovieBase)  
+[Get MovieBase on GooglePlay](https://play.google.com/store/apps/details?id=com.defaultapps.moviebase)  
 # Building project
 In order to build project you need to supply correct API keys for ```MDB``` and ```YouTube```.  
 [Get MDB key.](https://www.themoviedb.org/settings/api)  
