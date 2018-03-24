@@ -24,6 +24,9 @@ public class UserViewTest extends BaseRobolectricTest {
     @Mock
     private UserPresenterImpl presenter;
 
+    @Mock
+    private UserContract.UserNavigator navigator;
+
     private UserViewImpl userView;
 
     @Override
@@ -32,6 +35,7 @@ public class UserViewTest extends BaseRobolectricTest {
         MockitoAnnotations.initMocks(this);
         userView = new UserViewImpl();
         userView.presenter = presenter;
+        userView.userNavigator = navigator;
 
         setupFakeAnalytics(userView);
         addFragmentToFragmentManager(userView, activity);

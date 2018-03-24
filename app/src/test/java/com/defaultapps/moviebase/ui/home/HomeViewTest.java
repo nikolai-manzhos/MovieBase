@@ -1,6 +1,9 @@
 package com.defaultapps.moviebase.ui.home;
 
 import android.content.ComponentName;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.TestUtils;
@@ -17,7 +20,13 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowActivity;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.robolectric.Shadows.shadowOf;
 
 public class HomeViewTest extends BaseRobolectricTest {
@@ -86,9 +95,21 @@ public class HomeViewTest extends BaseRobolectricTest {
     }
 
     @Test
-    public void shouldDisplaySnackbarOnError() {
+    public void shouldDisplaySnackbarOnErrorWithCurrentData() {
         final String ERROR_MESSAGE = application.getString(R.string.snackbar_error);
+        when(homeView.adapter.getItemCount()).thenReturn(1);
+
         homeView.displayErrorMessage();
+
         verify(viewUtils).showSnackbar(homeView.swipeRefreshLayout, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void shouldDisplayErrorViewWithoutCurrentData() {
+        when(homeView.adapter.getItemCount()).thenReturn(0);
+
+        homeView.displayErrorMessage();
+
+        verify(viewUtils, never()).showSnackbar(any(View.class), anyString());
     }
 }
