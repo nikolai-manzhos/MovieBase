@@ -50,6 +50,7 @@
     <string name="user_toolbar">Settings</string>
     <string name="user_logged_as">You are logged in as</string>
     <string name="user_logout">Logout</string>
+    <string name="user_about">About MovieBase</string>
     <string name="user_login">Login</string>
     <string name="user_logout_error">Cannot establish internet connection :(</string>
     <string name="user_adult_title">Adult</string>

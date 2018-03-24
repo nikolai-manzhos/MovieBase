@@ -75,6 +75,7 @@ android {
                             "${resPath}/layouts/user",
                             "${resPath}/layouts/person",
                             "${resPath}/layouts/login",
+                            "${resPath}/layouts/about",
                             "${resPath}/layouts",
                             "${resPath}"
                     ]

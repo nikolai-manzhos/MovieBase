@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import easybind.Layout;
+import easybind.bindings.BindNavigator;
 import easybind.bindings.BindPresenter;
 
 @Layout(id = R.layout.fragment_user, name = "User")
@@ -46,6 +47,10 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
     @BindPresenter
     @Inject
     UserPresenter presenter;
+
+    @BindNavigator
+    @Inject
+    UserContract.UserNavigator userNavigator;
 
     @Inject
     ViewUtils viewUtils;
@@ -68,13 +73,17 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @OnClick(R.id.backButton)
     void onBackIconClick() {
-        getActivity().finish();
+        userNavigator.finishActivity();
+    }
+
+    @OnClick(R.id.aboutBtn)
+    void onAboutBtnClick() {
+        userNavigator.toAboutActivity();
     }
 
     @Override
     public void logoutFromAccount() {
-        AuthUI.getInstance().signOut(getActivity());
-        getActivity().finish();
+       userNavigator.logout();
     }
 
     @Override
@@ -104,8 +113,6 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @Override
     public void redirectToAuth() {
-        Intent returnIntent = new Intent();
-        getActivity().setResult(Activity.RESULT_OK, returnIntent);
-        getActivity().finish();
+
     }
 }
