@@ -43,6 +43,7 @@ public class HomePresenterImpl extends BasePresenter<HomeContract.HomeView>
     @Override
     public void requestMoviesData(boolean force) {
         getView().showLoading();
+        getView().hideErrorView();
         getCompositeDisposable().add(
             homeUseCase.requestHomeData(force)
                 .subscribe(

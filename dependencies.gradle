@@ -4,7 +4,6 @@ ext {
     androidTargetSdk = 27
     androidVersionCode = 7
     androidVersionName = "1.0.0"
-    androidBuildTools = "27.0.1"
 
     androidPlugin = '3.0.1'
     jacocoGradle = '0.1.2'

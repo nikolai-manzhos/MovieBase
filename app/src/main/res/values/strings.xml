@@ -57,7 +57,7 @@
 
     <!--Person strings-->
     <string name="person_biography">Biography</string>
-    <string name="person_biography_empty">NaN</string>
+    <string name="person_biography_empty">No biography available</string>
     <string name="person_cast_credits">Cast credits</string>
     <string name="person_crew_credits">Crew credits</string>
     <string name="person_poster_description">Poster image</string>

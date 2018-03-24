@@ -8,6 +8,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.data.models.responses.movies.MoviesResponse;
@@ -42,6 +44,12 @@ public class HomeViewImpl extends BaseFragment
 
     @BindView(R.id.swipeRefresh)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.errorTextView)
+    TextView errorTextView;
+
+    @BindView(R.id.errorButton)
+    Button errorButton;
 
     @BindPresenter
     @Inject
@@ -101,13 +109,23 @@ public class HomeViewImpl extends BaseFragment
 
     @Override
     public void displayErrorMessage() {
-        viewUtils.showSnackbar(swipeRefreshLayout, getString(R.string.snackbar_error));
+        if (adapter.getItemCount() == 0) {
+             errorButton.setVisibility(View.VISIBLE);
+             errorTextView.setVisibility(View.VISIBLE);
+        } else {
+            viewUtils.showSnackbar(swipeRefreshLayout, getString(R.string.snackbar_error));
+        }
+    }
+
+    @Override
+    public void hideErrorView() {
+        errorTextView.setVisibility(View.GONE);
+        errorButton.setVisibility(View.GONE);
     }
 
     @Override
     public void displayProfileScreen() {
         Intent intent = new Intent(getActivity(), UserActivity.class);
-        assert getActivity() != null;
         getActivity().startActivityForResult(intent, RC_LOGIN);
     }
 
@@ -119,6 +137,11 @@ public class HomeViewImpl extends BaseFragment
     @OnClick(R.id.profileButton)
     void onProfileClick() {
         presenter.openProfileScreen();
+    }
+
+    @OnClick(R.id.errorButton)
+    void onErrorClick() {
+        presenter.requestMoviesData(true);
     }
 
     private void initRecyclerView() {

@@ -24,7 +24,6 @@ android {
         release
     }
     compileSdkVersion androidCompileSdk
-    buildToolsVersion androidBuildTools
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
