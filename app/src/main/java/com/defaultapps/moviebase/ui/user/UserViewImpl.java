@@ -1,8 +1,6 @@
 package com.defaultapps.moviebase.ui.user;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +12,6 @@ import com.defaultapps.moviebase.R;
 import com.defaultapps.moviebase.ui.base.BaseFragment;
 import com.defaultapps.moviebase.ui.user.UserContract.UserPresenter;
 import com.defaultapps.moviebase.utils.ViewUtils;
-import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.yarolegovich.mp.MaterialStandardPreference;
@@ -113,6 +110,6 @@ public class UserViewImpl extends BaseFragment implements UserContract.UserView 
 
     @Override
     public void redirectToAuth() {
-
+        userNavigator.toAuth();
     }
 }
