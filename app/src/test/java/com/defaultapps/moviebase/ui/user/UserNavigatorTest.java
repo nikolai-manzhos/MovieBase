@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.ui.user;
 
+import android.app.Activity;
 import android.content.ComponentName;
 
 import com.defaultapps.moviebase.ui.BaseRobolectricTest;
@@ -44,6 +45,14 @@ public class UserNavigatorTest extends BaseRobolectricTest {
     public void closeActivityOnLogout() {
         userNavigator.logout();
 
+        assertTrue(shadowActivity.isFinishing());
+    }
+
+    @Test
+    public void closeActivityAndRedirectToAuth() {
+        userNavigator.toAuth();
+
+        assertEquals(Activity.RESULT_OK, shadowActivity.getResultCode());
         assertTrue(shadowActivity.isFinishing());
     }
 }
