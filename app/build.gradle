@@ -89,6 +89,11 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {

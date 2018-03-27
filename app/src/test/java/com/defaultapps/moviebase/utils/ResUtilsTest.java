@@ -1,20 +1,16 @@
 package com.defaultapps.moviebase.utils;
 
 import com.defaultapps.moviebase.R;
+import com.defaultapps.moviebase.ui.BaseRobolectricTest;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = Config.NONE)
-public class ResUtilsTest {
+public class ResUtilsTest extends BaseRobolectricTest {
 
     private static final int PX = 90;
     private static final int DP = 60;
