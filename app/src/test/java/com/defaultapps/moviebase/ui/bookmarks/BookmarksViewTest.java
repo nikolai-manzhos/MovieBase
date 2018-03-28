@@ -43,7 +43,6 @@ public class BookmarksViewTest extends BaseRobolectricTest {
     @Before
     public void setup() throws Exception {
         super.setup();
-        MockitoAnnotations.initMocks(this);
         Constructor<ResUtils> resUtilsConstructor = ResUtils.class.getDeclaredConstructor(Context.class);
         Constructor<ViewUtils> viewUtilsConstructor = ViewUtils.class.getDeclaredConstructor(Context.class);
         resUtilsConstructor.setAccessible(true);

@@ -1,5 +1,6 @@
 package com.defaultapps.moviebase.ui.about;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
 import easybind.Layout;
 import easybind.bindings.BindNavigator;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
@@ -58,6 +60,7 @@ public class AboutViewImpl extends BaseFragment {
         getFragmentComponent().inject(this);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,6 +68,7 @@ public class AboutViewImpl extends BaseFragment {
 
         Single.timer(100, TimeUnit.MILLISECONDS)
                 .doOnSubscribe(disposable -> animDisposable = disposable)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(__ -> performInAnimations(), Timber::d);
     }
 

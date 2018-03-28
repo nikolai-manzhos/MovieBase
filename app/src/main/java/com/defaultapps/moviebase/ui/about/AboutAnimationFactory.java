@@ -43,8 +43,8 @@ class AboutAnimationFactory {
                 0f, 1f,
                 Animation.RELATIVE_TO_SELF, .5f,
                 Animation.RELATIVE_TO_SELF, .5f);
-        scaleAnimation.setFillAfter(true);
         scaleAnimation.setDuration(500);
+        scaleAnimation.setFillAfter(true);
         scaleAnimation.setInterpolator(new DecelerateInterpolator());
         return scaleAnimation;
     }
