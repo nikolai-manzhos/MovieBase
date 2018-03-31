@@ -2,6 +2,7 @@ package com.defaultapps.moviebase.di.component;
 
 import com.defaultapps.moviebase.di.module.FragmentModule;
 import com.defaultapps.moviebase.di.scope.PerFragment;
+import com.defaultapps.moviebase.ui.about.AboutViewImpl;
 import com.defaultapps.moviebase.ui.bookmarks.BookmarksViewImpl;
 import com.defaultapps.moviebase.ui.discover.DiscoverViewImpl;
 import com.defaultapps.moviebase.ui.genre.GenreViewImpl;
@@ -26,4 +27,5 @@ public interface FragmentComponent {
     void inject(SearchViewImpl searchView);
     void inject(PersonViewImpl staffView);
     void inject(LoginViewImpl loginView);
+    void inject(AboutViewImpl aboutView);
 }

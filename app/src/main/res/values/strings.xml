@@ -50,6 +50,7 @@
     <string name="user_toolbar">Settings</string>
     <string name="user_logged_as">You are logged in as</string>
     <string name="user_logout">Logout</string>
+    <string name="user_about">About MovieBase</string>
     <string name="user_login">Login</string>
     <string name="user_logout_error">Cannot establish internet connection :(</string>
     <string name="user_adult_title">Adult</string>
@@ -57,7 +58,7 @@
 
     <!--Person strings-->
     <string name="person_biography">Biography</string>
-    <string name="person_biography_empty">NaN</string>
+    <string name="person_biography_empty">No biography available</string>
     <string name="person_cast_credits">Cast credits</string>
     <string name="person_crew_credits">Crew credits</string>
     <string name="person_poster_description">Poster image</string>

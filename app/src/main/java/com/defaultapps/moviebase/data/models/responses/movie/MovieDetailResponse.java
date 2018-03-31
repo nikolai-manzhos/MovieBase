@@ -62,7 +62,7 @@ public class MovieDetailResponse {
     private Long revenue;
     @SerializedName("runtime")
     @Expose
-    private Integer runtime;
+    private int runtime;
     @SerializedName("spoken_languages")
     @Expose
     private List<SpokenLanguage> spokenLanguages = null;
