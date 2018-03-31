@@ -78,6 +78,13 @@
                 app:theme="@style/UserTheme"
                 app:mp_title="@string/user_logout"/>
 
+            <com.yarolegovich.mp.MaterialStandardPreference
+                android:id="@+id/aboutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:theme="@style/UserTheme"
+                app:mp_title="@string/user_about"/>
+
         </LinearLayout>
     </ScrollView>
 

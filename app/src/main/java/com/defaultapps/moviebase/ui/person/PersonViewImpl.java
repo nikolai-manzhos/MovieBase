@@ -133,7 +133,7 @@ public class PersonViewImpl extends BaseFragment implements PersonContract.Perso
                 .load("https://image.tmdb.org/t/p/w300" + personResponse.getProfilePath())
                 .placeholder(R.drawable.placeholder_human)
                 .into(circleImageView);
-        String biography = personResponse.getBiography() != null ?
+        String biography = personResponse.getBiography() != null && !personResponse.getBiography().isEmpty() ?
                 personResponse.getBiography() : getString(R.string.person_biography_empty);
         staffBiographyView.setText(biography);
         toolbarTitleView.setText(personResponse.getName());

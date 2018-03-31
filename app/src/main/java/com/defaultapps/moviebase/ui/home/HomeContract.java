@@ -17,6 +17,7 @@ public interface HomeContract {
     interface HomeView extends MvpView {
         void receiveResults(List<MoviesResponse> results);
         void displayErrorMessage();
+        void hideErrorView();
         void displayProfileScreen();
         boolean isRefreshing();
     }

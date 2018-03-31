@@ -24,7 +24,6 @@ android {
         release
     }
     compileSdkVersion androidCompileSdk
-    buildToolsVersion androidBuildTools
     defaultConfig {
         applicationId "com.defaultapps.moviebase"
         testInstrumentationRunner 'com.defaultapps.moviebase.CustomTestRunner'
@@ -76,6 +75,7 @@ android {
                             "${resPath}/layouts/user",
                             "${resPath}/layouts/person",
                             "${resPath}/layouts/login",
+                            "${resPath}/layouts/about",
                             "${resPath}/layouts",
                             "${resPath}"
                     ]
@@ -88,6 +88,11 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 

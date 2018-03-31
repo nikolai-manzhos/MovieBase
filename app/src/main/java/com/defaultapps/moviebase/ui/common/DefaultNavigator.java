@@ -1,6 +1,7 @@
 package com.defaultapps.moviebase.ui.common;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.CallSuper;
 
 import com.defaultapps.moviebase.R;
@@ -66,6 +67,13 @@ public class DefaultNavigator<V extends MvpView> implements Navigator<V> {
     public void toMovieActivity(int movieId) {
         Intent intent = new Intent(castToBase(), MovieActivity.class)
                 .putExtra(AppConstants.MOVIE_ID, movieId);
+        castToBase().startActivity(intent);
+    }
+
+    @Override
+    public void openLink(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
         castToBase().startActivity(intent);
     }
 

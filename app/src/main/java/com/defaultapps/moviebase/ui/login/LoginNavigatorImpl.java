@@ -12,7 +12,7 @@ import javax.inject.Inject;
 public class LoginNavigatorImpl extends DefaultNavigator<LoginContract.LoginView> implements LoginContract.LoginNavigator {
 
     @Inject
-    LoginNavigatorImpl() {    }
+    LoginNavigatorImpl() {}
 
     @Override
     public void skipLogin() {
