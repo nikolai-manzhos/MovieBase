@@ -7,6 +7,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;

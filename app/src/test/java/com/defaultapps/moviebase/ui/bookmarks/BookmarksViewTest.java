@@ -13,7 +13,6 @@ import com.defaultapps.moviebase.utils.ViewUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.robolectric.RuntimeEnvironment;
 
 import java.lang.reflect.Constructor;
