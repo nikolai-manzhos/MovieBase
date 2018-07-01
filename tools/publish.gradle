@@ -1,7 +1,22 @@
 apply plugin: 'com.github.triplet.play'
 
+def publishKeyFile
+publishKeyFile = file('keys/publish-key.json')
+if (!publishKeyFile.exists()) {
+    publishKeyFile = writeToFile(System.getenv("PublishKey"))
+}
+
 play {
-    jsonFile = file('publish-key.json')
+    jsonFile = publishKeyFile
     track = 'production'
     userFraction = 1
+}
+
+static File writeToFile(String content) {
+    new File("publish-key.json").with { f ->
+        f.withWriter( 'UTF-8' ) { w ->
+            w.write( content )
+        }
+        f
+    }
 }
