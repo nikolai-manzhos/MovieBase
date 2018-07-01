@@ -13,8 +13,8 @@ play {
     userFraction = 1
 }
 
-static File writeToFile(String content) {
-    new File("app/keys/publish-key.json").with { f ->
+File writeToFile(String content) {
+    new File("$rootDir/app/keys/publish-key.json").with { f ->
         f.withWriter( 'UTF-8' ) { w ->
             w.write( content )
         }
