@@ -3,7 +3,6 @@ apply plugin: 'io.fabric'
 
 apply from: "$rootDir/tools/jacoco.gradle"
 apply from: "$rootDir/tools/quality.gradle"
-apply from: "$rootDir/tools/publish.gradle"
 
 def keystoreProperties = new Properties()
 def keyFile = rootProject.file("keystore.properties")
@@ -174,3 +173,4 @@ dependencies {
 }
 apply plugin: 'com.google.gms.google-services'
 apply from: "$rootDir/tools/signing.gradle"
+apply from: "$rootDir/tools/publish.gradle"
