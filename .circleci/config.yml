@@ -36,7 +36,7 @@ jobs:
                    bash <(curl -s https://codecov.io/bash)
       - run:
           name: Upload artifacts
-          comman: |
+          command: |
                   if [ "$CIRCLE_BRANCH" == "master" ];
                   then
                     echo "On master branch, starting upload now"
