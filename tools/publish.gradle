@@ -3,7 +3,8 @@ apply plugin: 'com.github.triplet.play'
 def publishKeyFile
 publishKeyFile = file('keys/publish-key.json')
 if (!publishKeyFile.exists()) {
-    publishKeyFile = writeToFile(System.getenv("PublishKey"))
+    def publishKeyJson = System.getenv("PublishKey")
+    publishKeyFile = writeToFile(publishKeyJson == null ? " " : publishKeyJson)
 }
 
 play {
@@ -13,7 +14,7 @@ play {
 }
 
 static File writeToFile(String content) {
-    new File("publish-key.json").with { f ->
+    new File("app/keys/publish-key.json").with { f ->
         f.withWriter( 'UTF-8' ) { w ->
             w.write( content )
         }
