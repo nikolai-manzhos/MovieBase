@@ -1,2 +1,6 @@
 /build
-/mb.jks
+/keys/*
+/src/main/play/*
+/src/main/play/en-US/listing
+!/src/main/play/en-US
+!/src/main/play/en-US/whatsnew

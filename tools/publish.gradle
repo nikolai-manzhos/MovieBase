@@ -1,0 +1,7 @@
+apply plugin: 'com.github.triplet.play'
+
+play {
+    jsonFile = file('publish-key.json')
+    track = 'production'
+    userFraction = 1
+}

@@ -3,6 +3,7 @@ apply plugin: 'io.fabric'
 
 apply from: "$rootDir/tools/jacoco.gradle"
 apply from: "$rootDir/tools/quality.gradle"
+apply from: "$rootDir/tools/publish.gradle"
 
 def keystoreProperties = new Properties()
 def keyFile = rootProject.file("keystore.properties")

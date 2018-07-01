@@ -8,6 +8,7 @@ ext {
     androidPlugin = '3.1.0'
     gmsServices = '3.1.1'
     fabric = '1.25.2'
+    googlePlayPublisher = '1.2.2'
 
     support = '27.0.2'
     constraintLayout = '1.0.2'
