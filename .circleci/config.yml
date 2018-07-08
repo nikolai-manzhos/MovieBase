@@ -37,11 +37,11 @@ jobs:
       - run:
           name: Upload artifacts
           command: |
-                  if [ "$CIRCLE_BRANCH" == "master" ];
-                  then
-                    echo "On master branch, starting upload now"
-                    ./gradlew publishApkRelease
-                  fi
+                   if [ "$CIRCLE_BRANCH" == "master" ];
+                   then
+                      echo "On master branch, starting upload now"
+                      ./gradlew publishApkRelease
+                   fi
       - store_artifacts:
           path: app/build/reports
           destination: reports
