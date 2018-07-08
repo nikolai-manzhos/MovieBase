@@ -1,0 +1,32 @@
+apply plugin: 'com.github.triplet.play'
+
+def PUBLISH_KEY_PATH = "$rootDir/app/keys/publish-key.json"
+
+
+task writePublishKey {
+    doLast {
+        def publishKeyJson = System.getenv("PUBLISH_KEY")
+        writeToFile(publishKeyJson == null ? " " : publishKeyJson, PUBLISH_KEY_PATH)
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'publishApkRelease') {
+        task.dependsOn writePublishKey
+    }
+}
+
+play {
+    jsonFile = file(PUBLISH_KEY_PATH)
+    track = 'production'
+    userFraction = 1
+}
+
+File writeToFile(String content, String path) {
+    new File(path).with { f ->
+        f.withWriter( 'UTF-8' ) { w ->
+            w.write( content )
+        }
+        f
+    }
+}

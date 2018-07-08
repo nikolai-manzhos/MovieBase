@@ -173,3 +173,4 @@ dependencies {
 }
 apply plugin: 'com.google.gms.google-services'
 apply from: "$rootDir/tools/signing.gradle"
+apply from: "$rootDir/tools/publish.gradle"
