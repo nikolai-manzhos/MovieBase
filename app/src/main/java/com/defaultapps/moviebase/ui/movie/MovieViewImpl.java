@@ -165,6 +165,7 @@ public class MovieViewImpl extends BaseFragment
 
     private int movieId;
     private MovieDetailResponse movieInfo;
+    private RecyclerView.RecycledViewPool personsPool = new RecyclerView.RecycledViewPool();
 
     public static MovieViewImpl newInstance(int movieId) {
         Bundle bundle = new Bundle();
@@ -370,11 +371,13 @@ public class MovieViewImpl extends BaseFragment
         videosRecyclerView.setNestedScrollingEnabled(false);
         videosAdapter.setOnVideoClickListener(this);
 
+        RecyclerView.RecycledViewPool personsPool = new RecyclerView.RecycledViewPool();
         castRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false));
         castRecyclerView.setAdapter(castAdapter);
         castRecyclerView.addItemDecoration(horizontalDivider);
         castRecyclerView.setNestedScrollingEnabled(false);
+        castRecyclerView.setRecycledViewPool(personsPool);
         castAdapter.setOnPersonClickListener(this);
 
         crewRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
@@ -382,6 +385,7 @@ public class MovieViewImpl extends BaseFragment
         crewRecyclerView.setAdapter(crewAdapter);
         crewRecyclerView.addItemDecoration(horizontalDivider);
         crewRecyclerView.setNestedScrollingEnabled(false);
+        crewRecyclerView.setRecycledViewPool(personsPool);
         crewAdapter.setOnPersonClickListener(this);
 
         similarRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
